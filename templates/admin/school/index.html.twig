@@ -1,0 +1,51 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}School index{% endblock %}
+
+{% block body %}
+    <h1>School index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Dernière modification</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for school in schools %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ school.name }}</td>
+                <td>
+                    {% if school.address is defined %}
+                        <a href="{{ path('admin_address_show', {'id': school.address.id}) }}">{{ school.address.fullAddress }}</a>
+                    {% else %}
+                        <b style="color: red">Aucune addresse</b>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if school.updatedAt != null %}
+                        {{ school.updatedAt|date('Y-m-d H:i:s') }}
+                    {% else %}
+                        crée le : {{ school.createdAt|date('Y-m-d H:i:s')}}
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ path('admin_school_show', {'id': school.id}) }}">show</a>
+                    <a href="{{ path('admin_school_edit', {'id': school.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_school_new') }}">Create new</a>
+{% endblock %}

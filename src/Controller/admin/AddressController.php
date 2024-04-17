@@ -34,7 +34,7 @@ class AddressController extends AbstractController
             $address->setCreatedAt(new \DateTimeImmutable());
             $entityManager->persist($address);
             $entityManager->flush();
-
+            $this->addFlash('success', 'Adresse '.$address->getFullAddress().' crée avec succes!');
             return $this->redirectToRoute('admin_address_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -61,7 +61,7 @@ class AddressController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $address->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->flush();
-
+            $this->addFlash('success', 'Adresse '.$address->getFullAddress().' modifié avec succes!');
             return $this->redirectToRoute('admin_address_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -78,7 +78,7 @@ class AddressController extends AbstractController
             $entityManager->remove($address);
             $entityManager->flush();
         }
-
+        $this->addFlash('success', 'Adresse '.$address->getFullAddress().' supprimé avec succes!');
         return $this->redirectToRoute('admin_address_index', [], Response::HTTP_SEE_OTHER);
     }
 }

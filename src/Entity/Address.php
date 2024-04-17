@@ -147,4 +147,9 @@ class Address
 
         return $this;
     }
+
+    public function getFullAddress(): string
+    {
+        return $this->nbStreet . ' ' . $this->street . ', ' . $this->zipCode . ' ' . $this->city;
+    }
 }

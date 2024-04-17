@@ -25,7 +25,8 @@
                 <td>{{ address.street }}</td>
                 <td>{{ address.zipCode }}</td>
                 <td>{{ address.city }}</td>
-                <td>{% if address.updatedAt != null %}
+                <td>
+                    {% if address.updatedAt != null %}
                         {{ address.updatedAt|date('Y-m-d H:i:s') }}
                     {% else %}
                         crée le : {{ address.createdAt|date('Y-m-d H:i:s')}}
