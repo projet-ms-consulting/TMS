@@ -13,8 +13,8 @@ class Address
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $nbStreet = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $nbStreet = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $street = null;
@@ -42,12 +42,12 @@ class Address
         return $this->id;
     }
 
-    public function getNbStreet(): ?int
+    public function getNbStreet(): ?string
     {
         return $this->nbStreet;
     }
 
-    public function setNbStreet(int $nbStreet): static
+    public function setNbStreet(string $nbStreet): static
     {
         $this->nbStreet = $nbStreet;
 

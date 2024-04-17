@@ -56,7 +56,7 @@ class Person
     private Collection $projects;
 
     #[ORM\OneToOne(inversedBy: 'person', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Address $address = null;
 
     #[ORM\ManyToOne(inversedBy: 'internshipSupervisor')]
@@ -68,6 +68,7 @@ class Person
     private ?User $schoolSupervisor = null;
 
     #[ORM\ManyToOne(inversedBy: 'manager')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $manager = null;
 
     public function __construct()
