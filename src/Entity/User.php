@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -36,6 +38,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Person $person = null;
+
+    /**
+     * @var Collection<int, Person>
+     */
+    #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'intershipSupervisor')]
+    private Collection $internshipSupervisor;
+
+    /**
+     * @var Collection<int, Person>
+     */
+    #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'schoolSupervisor')]
+    private Collection $schoolSupervisor;
+
+    /**
+     * @var Collection<int, Person>
+     */
+    #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'manager')]
+    private Collection $manager;
+
+    public function __construct()
+    {
+        $this->internshipSupervisor = new ArrayCollection();
+        $this->schoolSupervisor = new ArrayCollection();
+        $this->manager = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -132,6 +163,108 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getPerson(): ?Person
+    {
+        return $this->person;
+    }
+
+    public function setPerson(Person $person): static
+    {
+        $this->person = $person;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Person>
+     */
+    public function getInternshipSupervisor(): Collection
+    {
+        return $this->internshipSupervisor;
+    }
+
+    public function addInternshipSupervisor(Person $person): static
+    {
+        if (!$this->internshipSupervisor->contains($person)) {
+            $this->internshipSupervisor->add($person);
+            $person->setIntershipSupervisor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInternshipSupervisor(Person $person): static
+    {
+        if ($this->internshipSupervisor->removeElement($person)) {
+            // set the owning side to null (unless already changed)
+            if ($internshipSupervisor->getIntershipSupervisor() === $this) {
+                $person->setIntershipSupervisor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Person>
+     */
+    public function getSchoolSupervisor(): Collection
+    {
+        return $this->schoolSupervisor;
+    }
+
+    public function addSchoolSupervisor(Person $schoolSupervisor): static
+    {
+        if (!$this->schoolSupervisor->contains($schoolSupervisor)) {
+            $this->schoolSupervisor->add($schoolSupervisor);
+            $schoolSupervisor->setSchoolSupervisor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSchoolSupervisor(Person $schoolSupervisor): static
+    {
+        if ($this->schoolSupervisor->removeElement($schoolSupervisor)) {
+            // set the owning side to null (unless already changed)
+            if ($schoolSupervisor->getSchoolSupervisor() === $this) {
+                $schoolSupervisor->setSchoolSupervisor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Person>
+     */
+    public function getManager(): Collection
+    {
+        return $this->manager;
+    }
+
+    public function addManager(Person $manager): static
+    {
+        if (!$this->manager->contains($manager)) {
+            $this->manager->add($manager);
+            $manager->setManager($this);
+        }
+
+        return $this;
+    }
+
+    public function removeManager(Person $manager): static
+    {
+        if ($this->manager->removeElement($manager)) {
+            // set the owning side to null (unless already changed)
+            if ($manager->getManager() === $this) {
+                $manager->setManager(null);
+            }
+        }
 
         return $this;
     }
