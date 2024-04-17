@@ -71,6 +71,9 @@ class Person
     #[ORM\JoinColumn(nullable: true)]
     private ?User $manager = null;
 
+    #[ORM\ManyToOne(inversedBy: 'people')]
+    private ?School $school = null;
+
     public function __construct()
     {
         $this->socialNetworks = new ArrayCollection();
@@ -303,6 +306,18 @@ class Person
     public function setManager(?User $manager): static
     {
         $this->manager = $manager;
+
+        return $this;
+    }
+
+    public function getSchool(): ?School
+    {
+        return $this->school;
+    }
+
+    public function setSchool(?School $school): static
+    {
+        $this->school = $school;
 
         return $this;
     }
