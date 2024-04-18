@@ -15,11 +15,20 @@ use Symfony\Component\Routing\Attribute\Route;
 class AddressController extends AbstractController
 {
     #[Route('', name: 'index', methods: ['GET'])]
-    public function index(AddressRepository $addressRepository): Response
+    public function index(AddressRepository $addressRepository, Request $request): Response
     {
-        $addresses = $addressRepository->findAll();
+        $page = $request->query->getInt('page', 1);
+        $limit = $request->query->getInt('limit', 8);
+        $sort = $request->query->get('sort', 'a.id');
+        $direction = $request->query->get('direction', 'asc');
+        $addresses = $addressRepository->paginateAddresses($page, $limit);
+
         return $this->render('admin/address/index.html.twig', [
             'addresses' => $addresses,
+            'page' => $page,
+            'limit' => $limit,
+            'sort' => $sort,
+            'direction' => $direction,
         ]);
     }
 

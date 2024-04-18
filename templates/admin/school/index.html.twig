@@ -18,7 +18,7 @@
         <tbody>
         {% for school in schools %}
             <tr>
-                <td>{{ loop.index }}</td>
+                <td>{{ school.id }}</td>
                 <td>{{ school.name }}</td>
                 <td>
                     {% if school.address is defined %}

@@ -8,19 +8,19 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>NbStreet</th>
-                <th>Street</th>
-                <th>ZipCode</th>
-                <th>City</th>
-                <th>Dernière modification</th>
+                <th>{{ knp_pagination_sortable(addresses, 'id', 'a.id') }}</th>
+                <th>{{ knp_pagination_sortable(addresses, 'NbStreet', 'a.nbStreet') }}</th>
+                <th>{{ knp_pagination_sortable(addresses, 'Street', 'a.street') }}</th>
+                <th>{{ knp_pagination_sortable(addresses, 'ZipCode', 'a.zipCode') }}</th>
+                <th>{{ knp_pagination_sortable(addresses, 'City', 'a.city') }}</th>
+                <th>{{ knp_pagination_sortable(addresses, 'Dernière modification', 'a.updatedAt')?knp_pagination_sortable(addresses, 'Dernière modification', 'a.createdAt') }}</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for address in addresses %}
             <tr>
-                <td>{{ loop.index }}</td>
+                <td>{{ address.id }}</td>
                 <td>{{ address.nbStreet }}</td>
                 <td>{{ address.street }}</td>
                 <td>{{ address.zipCode }}</td>
@@ -44,6 +44,7 @@
         {% endfor %}
         </tbody>
     </table>
+    {{ knp_pagination_render(addresses) }}
 
     <a href="{{ path('admin_address_new') }}">Create new</a>
 {% endblock %}
