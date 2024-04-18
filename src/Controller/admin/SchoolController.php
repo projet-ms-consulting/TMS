@@ -15,11 +15,19 @@ use Symfony\Component\Routing\Attribute\Route;
 class SchoolController extends AbstractController
 {
     #[Route('', name: 'index', methods: ['GET'])]
-    public function index(SchoolRepository $schoolRepository): Response
+    public function index(SchoolRepository $schoolRepository, Request $request): Response
     {
-        $schools = $schoolRepository->findAll();
+        $page = $request->query->getInt('page', 1);
+        $limit = $request->query->getInt('limit', 8);
+        $sort = $request->query->get('sort', 's.id');
+        $direction = $request->query->get('direction', 'asc');
+        $schools = $schoolRepository->paginateSchools($page, $limit);
         return $this->render('admin/school/index.html.twig', [
             'schools' => $schools,
+            'page' => $page,
+            'limit' => $limit,
+            'sort' => $sort,
+            'direction' => $direction,
         ]);
     }
 
