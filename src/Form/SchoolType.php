@@ -19,7 +19,7 @@ class SchoolType extends AbstractType
             ->add('address', EntityType::class, [
                 'class' => Address::class,
                 'choice_label' => function(Address $address) {
-                    return $address->getNbStreet().' '.$address->getStreet().', '.$address->getZipCode().' '.$address->getCity();
+                    return $address->getFullAddress();
                 },
                 'placeholder' => 'Chosissez une adresse',
                 'query_builder' => function (EntityRepository $er) use ($options) {

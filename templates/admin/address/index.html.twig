@@ -27,9 +27,9 @@
                 <td>{{ address.city }}</td>
                 <td>
                     {% if address.updatedAt != null %}
-                        {{ address.updatedAt|date('Y-m-d H:i:s') }}
+                        {{ address.updatedAt|date('d-m-Y H:i') }}
                     {% else %}
-                        crée le : {{ address.createdAt|date('Y-m-d H:i:s')}}
+                        {{ address.createdAt|date('d-m-Y H:i')}}
                     {% endif %}
                 </td>
                 <td>
