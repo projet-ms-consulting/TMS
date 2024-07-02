@@ -201,7 +201,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->internshipSupervisor->removeElement($person)) {
             // set the owning side to null (unless already changed)
-            if ($internshipSupervisor->getIntershipSupervisor() === $this) {
+            if ($person->getIntershipSupervisor() === $this) {
                 $person->setIntershipSupervisor(null);
             }
         }

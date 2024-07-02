@@ -22,7 +22,7 @@ class Person
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $startInternship = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -73,6 +73,9 @@ class Person
 
     #[ORM\ManyToOne(inversedBy: 'people')]
     private ?School $school = null;
+
+    #[ORM\ManyToOne(inversedBy: 'person')]
+    private ?Company $company = null;
 
     public function __construct()
     {
@@ -318,6 +321,18 @@ class Person
     public function setSchool(?School $school): static
     {
         $this->school = $school;
+
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): static
+    {
+        $this->company = $company;
 
         return $this;
     }
