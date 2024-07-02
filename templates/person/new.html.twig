@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Créer un stagiaire {% endblock %}
+
+{% block body %}
+    <h1>Créer un stagiaire</h1>
+    <div>
+        {{ form_start(personForm) }}
+            {{ form_row(personForm.startInternship)}}
+            {{ form_row(personForm.endInternship)}}
+            {{ form_row(personForm.firstName)}}
+            {{ form_row(personForm.lastName)}}
+            {{ form_row(personForm.school)}}
+            {{ form_row(personForm.cv)}}
+            {{ form_row(personForm.coverLetter)}}
+            {{ form_row(personForm.internshipAgreement)}}
+            {{ form_row(personForm.createdAt)}}
+        <button type="submit">Créer</button>
+        {{ form_end(personForm) }}
+    </div>
+
+    <a href="{{ path('app_person_index') }}">Retour</a>
+{% endblock %}
