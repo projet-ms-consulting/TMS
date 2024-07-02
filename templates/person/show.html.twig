@@ -3,44 +3,40 @@
 {% block title %}Person{% endblock %}
 
 {% block body %}
-    <h1>Person</h1>
+    <h1>Stagiaires</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ person.id }}</td>
-            </tr>
-            <tr>
-                <th>LastName</th>
+                <th>Nom : </th>
                 <td>{{ person.lastName }}</td>
             </tr>
             <tr>
-                <th>FirstName</th>
+                <th>Prénom : </th>
                 <td>{{ person.firstName }}</td>
             </tr>
             <tr>
-                <th>StartInternship</th>
+                <th>Date de début de stage</th>
                 <td>{{ person.startInternship ? person.startInternship|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
-                <th>EndInternship</th>
+                <th>Date de fin de stage</th>
                 <td>{{ person.endInternship ? person.endInternship|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
-                <th>CreatedAt</th>
+                <th>Créé le :</th>
                 <td>{{ person.createdAt ? person.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>UpdatedAt</th>
+                <th>Mis à jour le : </th>
                 <td>{{ person.updatedAt ? person.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_person_index') }}">back to list</a>
+    <a href="{{ path('app_person_index') }}">Retour</a>
 
-    <a href="{{ path('app_person_edit', {'id': person.id}) }}">edit</a>
+    <a href="{{ path('app_person_edit', {'id': person.id}) }}">Modifier</a>
 
     {{ include('person/_delete_form.html.twig') }}
 {% endblock %}

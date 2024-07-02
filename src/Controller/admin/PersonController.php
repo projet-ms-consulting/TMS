@@ -36,10 +36,12 @@ class PersonController extends AbstractController
             $cvFile = $personForm->get('cv')->getData();
             if ($cvFile) {
                 $cvFilename ='CV.' . $person->getFirstName().'-'.$person->getLastName() . '.'.$cvFile->guessExtension();
+                $cvHash = hash('sha256', $cvFilename);
+                $cvHashFile =$cvHash . '.' . $cvFile->guessExtension();
                 $cvFile->move($this->getParameter('kernel.project_dir') . '/public/CV', $cvFilename );
 
                 $file = new Files();
-                $file->setLabel('CV')->setFile($cvFilename)->setCreatedAt(new \DateTimeImmutable())->setPerson($person);
+                $file->setLabel('CV')->setFile($cvHashFile)->setCreatedAt(new \DateTimeImmutable())->setPerson($person);
 
                 $entityManager->persist($file);
                 $entityManager->persist($file->getPerson());
@@ -50,16 +52,19 @@ class PersonController extends AbstractController
             $lmFile = $personForm->get('coverLetter')->getData();
             if ($lmFile) {
                 $lmFilename ='LM.' . $person->getFirstName().'-'.$person->getLastName() . '.'.$lmFile->guessExtension();
+                $lmHash = hash('sha256', $lmFilename);
+                $lmHashFile =$lmHash . '.' . $lmFile->guessExtension();
                 $lmFile->move($this->getParameter('kernel.project_dir') . '/public/LM', $lmFilename );
 
                 $file = new Files();
-                $file->setLabel('LM')->setFile($lmFilename)->setCreatedAt(new \DateTimeImmutable())->setPerson($person);
+                $file->setLabel('LM')->setFile($lmHashFile)->setCreatedAt(new \DateTimeImmutable())->setPerson($person);
 
                 $entityManager->persist($file);
                 $entityManager->persist($file->getPerson());
                 $entityManager->flush();
             }
 
+            // Upload convention de stage
             $csFile = $personForm->get('internshipAgreement')->getData();
             if ($csFile) {
                 $csFilename ='CS.' . $person->getFirstName().'-'.$person->getLastName() . '.'.$csFile->guessExtension();
@@ -76,7 +81,7 @@ class PersonController extends AbstractController
             }
 
             $entityManager->persist($person);
-            $entityManager->flush(); // Upload Convention de stage
+            $entityManager->flush();
 
 
             return $this->redirectToRoute('app_person_index', [], Response::HTTP_SEE_OTHER);

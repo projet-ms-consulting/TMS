@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class PersonType extends AbstractType
 {
@@ -39,44 +40,51 @@ class PersonType extends AbstractType
                 'label' => 'Ajouter un CV  : ',
                 'mapped'=> false,
                 'required' => false,
-//                'constraints'=> [
-//                    new File([
-//                        'mimeTypes' => [
-//                            'application/pdf',
-//                            'application/x-pdf',
-//                        ]
-//                    ])
-//                ]
+                'constraints'=> [
+                    new File([
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
+                    ])
+                ]
             ])
             ->add('coverLetter', FileType::class,[
                 'label' => 'Ajouter une lettre de motivation : ',
                 'mapped'=> false,
                 'required' => false,
-//                'constraints'=> [
-//                    new File([
-//                        'mimeTypes' => [
-//                            'application/pdf',
-//                            'application/x-pdf',
-//                        ]
-//                    ])
-//                ]
+                'constraints'=> [
+                    new File([
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
+                        ])
+                ]
             ])
             ->add('internshipAgreement', FileType::class,[
                 'label' => 'Ajouter une convention de stage : ',
                 'mapped'=> false,
                 'required' => false,
-//                'constraints'=> [
-//                    new File([
-//                        'mimeTypes' => [
-//                            'application/pdf',
-//                            'application/x-pdf',
-//                        ]
-//                    ])
-//                ]
+                'constraints'=> [
+                    new File([
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
+                    ])
+                ]
             ])
             ->add('createdAt', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'Créer le : ',
+                'data' => new \DateTime('now')
             ]);
     }
 
