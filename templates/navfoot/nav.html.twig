@@ -4,24 +4,24 @@
 <nav class="text20">
     <ul>
         {% block body %}
-{#            {% if is_granted('ROLE_SUPER_ADMIN') %}#}
+{#            {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') %}#}
 {#                <li>#}
-{#                    <a class="navigation-links" href="{{ path('super_admin_home') }}">#}
+{#                    <a class="navigation-links" href="{{ path('admin_home') }}">#}
 {#                        <button#}
 {#                                class="inline-flex items-center justify-center w-full h-12 gap-3 px-5 py-3 font-medium duration-200 bg-gray-100 md:w-auto rounded-xl hover:bg-gray-200 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"#}
 {#                                aria-label="Secondary action">#}
-{#                            Super Admin Panel#}
+{#                            Admin Panel#}
 {#                        </button>#}
 {#                    </a>#}
 {#                <li>#}
 {#            {% endif %}#}
-            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <li>
-                    <a class="navigation-links" href="{{ path('admin_home') }}">
+                    <a class="navigation-links" href="{{ path('super_admin_home') }}">
                         <button
                                 class="inline-flex items-center justify-center w-full h-12 gap-3 px-5 py-3 font-medium duration-200 bg-gray-100 md:w-auto rounded-xl hover:bg-gray-200 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                                 aria-label="Secondary action">
-                            Admin panel
+                            Super Admin panel
                         </button>
                     </a>
                 </li>
@@ -57,12 +57,12 @@
 {#            {% endif %}#}
 {#            {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_INTERNSHIP_SUPERVISOR')) AND user.person.company_id!=null%}#}
 {#                <li>#}
-{#                    <a class="navigation-links" href="{{ path('company/admin',{'id':user.person.company_id}) }}">L'Entreprise</a>#}
+{#                    <a class="navigation-links" href="{{ path('company/super_admin',{'id':user.person.company_id}) }}">L'Entreprise</a>#}
 {#                </li>#}
 {#            {% endif %}#}
 {#            {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_SCHOOL_SUPERVISOR')) AND user.person.school_id!=null %}#}
 {#                <li>#}
-{#                    <a class="navigation-links" href="{{ path('school/admin',{'id':user.person.school_id}) }}">L'école</a>#}
+{#                    <a class="navigation-links" href="{{ path('school/super_admin',{'id':user.person.school_id}) }}">L'école</a>#}
 {#                </li>#}
 {#            {% endif %}#}
 {#            {% if (is_granted('ROLE_SUPER_ADMIN') %}#}

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\admin;
+namespace App\Controller\super_admin;
 
 use App\Entity\School;
 use App\Form\SchoolType;
@@ -11,10 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/admin/school', name: 'admin_school_')]
+#[Route('/super_admin/school', name: 'super_admin_school_')]
 class SchoolController extends AbstractController
 {
-    #[Route('', name: 'index', methods: ['GET'])]
+    #[Route('super_admin/school/index', name: 'index', methods: ['GET'])]
     public function index(SchoolRepository $schoolRepository, Request $request): Response
     {
         $page = $request->query->getInt('page', 1);
@@ -22,7 +22,7 @@ class SchoolController extends AbstractController
         $sort = $request->query->get('sort', 's.id');
         $direction = $request->query->get('direction', 'asc');
         $schools = $schoolRepository->paginateSchools($page, $limit);
-        return $this->render('admin/school/index.html.twig', [
+        return $this->render('super_admin/school/index.html.twig', [
             'schools' => $schools,
             'page' => $page,
             'limit' => $limit,
@@ -31,7 +31,7 @@ class SchoolController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
+    #[Route('super_admin/school/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $school = new School();
@@ -44,24 +44,24 @@ class SchoolController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Ecole '.$school->getName().' crée avec succes!');
-            return $this->redirectToRoute('admin_school_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('super_admin_school_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin/school/new.html.twig', [
+        return $this->render('super_admin/school/new.html.twig', [
             'school' => $school,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'show', methods: ['GET'])]
+    #[Route('super_admin/school/show/{id}', name: 'show', methods: ['GET'])]
     public function show(School $school): Response
     {
-        return $this->render('admin/school/show.html.twig', [
+        return $this->render('super_admin/school/show.html.twig', [
             'school' => $school,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
+    #[Route('super_admin/school/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, School $school, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(SchoolType::class, $school);
@@ -72,16 +72,16 @@ class SchoolController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Ecole '.$school->getName().' modifié avec succes!');
-            return $this->redirectToRoute('admin_school_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('super_admin_school_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin/school/edit.html.twig', [
+        return $this->render('super_admin/school/edit.html.twig', [
             'school' => $school,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'delete', methods: ['POST'])]
+    #[Route('/super_admin/school/delete/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, School $school, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$school->getId(), $request->getPayload()->get('_token'))) {
@@ -89,6 +89,6 @@ class SchoolController extends AbstractController
             $entityManager->flush();
         }
         $this->addFlash('success', 'Ecole '.$school->getName().' supprimé avec succes!');
-        return $this->redirectToRoute('admin_school_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('super_admin_school_index', [], Response::HTTP_SEE_OTHER);
     }
 }

@@ -33,8 +33,8 @@ class AppFixtures extends Fixture
         $manager->persist($person);
 
         $user = new User();
-        $user->setEmail('admin@email.com');
-        $hash = $this->hasher->hashPassword($user, 'admin');
+        $user->setEmail('super_admin@email.com');
+        $hash = $this->hasher->hashPassword($user, 'super_admin');
         $user->setRoles(['ROLE_SUPER_ADMIN']);
         $user->setPassword($hash);
         $user->setCreatedAt($date);

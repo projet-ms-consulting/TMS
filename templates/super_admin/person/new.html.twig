@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'super_admin.html.twig' %}
 
 {% block title %} Créer un stagiaire {% endblock %}
 
@@ -12,6 +12,7 @@
             {{ form_row(personForm.lastName)}}
             {{ form_row(personForm.school)}}
             {{ form_row(personForm.cv)}}
+            personForm.cv.getName
             {{ form_row(personForm.coverLetter)}}
             {{ form_row(personForm.internshipAgreement)}}
             {{ form_row(personForm.createdAt)}}
@@ -19,5 +20,5 @@
         {{ form_end(personForm) }}
     </div>
 
-    <a href="{{ path('app_person_index') }}">Retour</a>
+    <a href="{{ path('super_admin_app_person_index') }}">Retour</a>
 {% endblock %}

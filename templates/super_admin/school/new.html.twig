@@ -1,4 +1,4 @@
-{% extends 'admin.html.twig' %}
+{% extends 'super_admin.html.twig' %}
 
 {% block title %}New School{% endblock %}
 
@@ -9,6 +9,6 @@
     {{ form_widget(form) }}
     <button class="btn">Create</button>
     {{ form_end(form) }}
-    <a href="{{ path('admin_address_new') }}">Créer une nouvelle addresse</a>
-    <a href="{{ path('admin_school_index') }}">back to list</a>
+    <a href="{{ path('super_admin_address_new') }}">Créer une nouvelle adresse</a>
+    <a href="{{ path('super_admin_school_index') }}">back to list</a>
 {% endblock %}

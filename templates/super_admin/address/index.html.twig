@@ -1,4 +1,4 @@
-{% extends 'admin.html.twig' %}
+{% extends 'super_admin.html.twig' %}
 
 {% block title %}Address index{% endblock %}
 
@@ -33,8 +33,8 @@
                     {% endif %}
                 </td>
                 <td>
-                    <a href="{{ path('admin_address_show', {'id': address.id}) }}">show</a>
-                    <a href="{{ path('admin_address_edit', {'id': address.id}) }}">edit</a>
+                    <a href="{{ path('super_admin_address_show', {'id': address.id}) }}">show</a>
+                    <a href="{{ path('super_admin_address_edit', {'id': address.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -46,5 +46,5 @@
     </table>
     {{ knp_pagination_render(addresses) }}
 
-    <a href="{{ path('admin_address_new') }}">Create new</a>
+    <a href="{{ path('super_admin_address_new') }}">Create new</a>
 {% endblock %}

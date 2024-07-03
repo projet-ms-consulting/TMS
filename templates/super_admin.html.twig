@@ -13,12 +13,17 @@
     </head>
     <body>
     <header>
-        <h1>Panel admin</h1>
+        <h1>Panel super admin</h1>
         <nav>
             <ul>
-                <li><a href="{{ path('admin_home') }}">Panel admin</a></li>
-                <li><a href="{{ path('admin_address_index') }}">Address</a></li>
-                <li><a href="{{ path('admin_school_index') }}">School</a></li>
+                <li><a href="{{ path('super_admin_home') }}">Panel super admin</a></li>
+                <li><a href="{{ path('super_admin_address_index') }}">Address</a></li>
+                <li>
+                    <a href="{{ path('super_admin_school_index') }}">School</a>
+                </li>
+                <li>
+                    <a href="{{ path('super_admin_app_person_index') }}">Personne</a>
+                </li>
                 <li><a href="{{ path('app_home') }}">Retour a la page d'accueil</a></li>
             </ul>
         </nav>

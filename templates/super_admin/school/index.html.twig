@@ -1,4 +1,4 @@
-{% extends 'admin.html.twig' %}
+{% extends 'super_admin.html.twig' %}
 
 {% block title %}School index{% endblock %}
 
@@ -22,7 +22,7 @@
                 <td>{{ school.name }}</td>
                 <td>
                     {% if school.address is defined %}
-                        <a href="{{ path('admin_address_show', {'id': school.address.id}) }}">{{ school.address.fullAddress }}</a>
+                        <a href="{{ path('super_admin_address_show', {'id': school.address.id}) }}">{{ school.address.fullAddress }}</a>
                     {% else %}
                         <b style="color: red">Aucune addresse</b>
                     {% endif %}
@@ -35,8 +35,8 @@
                     {% endif %}
                 </td>
                 <td>
-                    <a href="{{ path('admin_school_show', {'id': school.id}) }}">show</a>
-                    <a href="{{ path('admin_school_edit', {'id': school.id}) }}">edit</a>
+                    <a href="{{ path('super_admin_school_show', {'id': school.id}) }}">show</a>
+                    <a href="{{ path('super_admin_school_edit', {'id': school.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -48,5 +48,5 @@
     </table>
     {{ knp_pagination_render(schools) }}
 
-    <a href="{{ path('admin_school_new') }}">Create new</a>
+    <a href="{{ path('super_admin_school_new') }}">Create new</a>
 {% endblock %}
