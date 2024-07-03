@@ -32,6 +32,9 @@ class PersonController extends AbstractController
 
         if ($personForm->isSubmitted() && $personForm->isValid()) {
 
+            $entityManager->persist($person);
+            $entityManager->flush();
+
             // Upload CV
             $cvFile = $personForm->get('cv')->getData();
             if ($cvFile) {
@@ -41,7 +44,11 @@ class PersonController extends AbstractController
                 $cvFile->move($this->getParameter('kernel.project_dir') . '/public/CV', $cvFilename );
 
                 $file = new Files();
-                $file->setLabel('CV')->setFile($cvHashFile)->setCreatedAt(new \DateTimeImmutable())->setPerson($person);
+                $file->setLabel('CV')
+                    ->setFile($cvHashFile)
+                    ->setCreatedAt(new \DateTimeImmutable())
+                    ->setPerson($person)
+                    ->setRealFileName($cvFilename);
 
                 $entityManager->persist($file);
                 $entityManager->persist($file->getPerson());
@@ -57,10 +64,13 @@ class PersonController extends AbstractController
                 $lmFile->move($this->getParameter('kernel.project_dir') . '/public/LM', $lmFilename );
 
                 $file = new Files();
-                $file->setLabel('LM')->setFile($lmHashFile)->setCreatedAt(new \DateTimeImmutable())->setPerson($person);
+                $file->setLabel('LM')
+                    ->setFile($lmHashFile)
+                    ->setCreatedAt(new \DateTimeImmutable())
+                    ->setPerson($person)
+                    ->setRealFileName($lmFilename);
 
                 $entityManager->persist($file);
-                $entityManager->persist($file->getPerson());
                 $entityManager->flush();
             }
 
@@ -73,16 +83,16 @@ class PersonController extends AbstractController
                 $csFile->move($this->getParameter('kernel.project_dir') . '/public/CS', $csHashFile );
 
                 $file = new Files();
-                $file->setLabel('CS')->setFile($csHashFile)->setCreatedAt(new \DateTimeImmutable())->setPerson($person);
+                $file->setLabel('CS')
+                    ->setFile($csHashFile)
+                    ->setCreatedAt(new \DateTimeImmutable())
+                    ->setPerson($person)
+                    ->setRealFileName($csFilename);
 
                 $entityManager->persist($file);
-                $entityManager->persist($file->getPerson());
+//                $entityManager->persist($file->getPerson());
                 $entityManager->flush();
             }
-
-            $entityManager->persist($person);
-            $entityManager->flush();
-
 
             return $this->redirectToRoute('app_person_index', [], Response::HTTP_SEE_OTHER);
         }

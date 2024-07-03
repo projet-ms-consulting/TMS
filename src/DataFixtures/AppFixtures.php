@@ -7,6 +7,7 @@ use App\Entity\User;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Exception;
 use Faker\Factory;
 use Faker\Generator;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -21,6 +22,10 @@ class AppFixtures extends Fixture
         $this->faker = Factory::create('fr_FR');
         $this->hasher = $hasher;
     }
+
+    /**
+     * @throws Exception
+     */
     public function load(ObjectManager $manager): void
     {
         $date = new DateTimeImmutable($this->faker->dateTimeBetween('-1 week', 'now')->format('Y-m-d H:i:s'));
