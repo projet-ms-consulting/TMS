@@ -1,0 +1,86 @@
+<a href="{{ path('app_home') }}">Accueil</a>
+<h1 id="website-name"><a href="{{ path('app_home') }}">Trainee Management System</a></h1>
+
+<nav class="text20">
+    <ul>
+        {% block body %}
+{#            {% if is_granted('ROLE_SUPER_ADMIN') %}#}
+{#                <li>#}
+{#                    <a class="navigation-links" href="{{ path('super_admin_home') }}">#}
+{#                        <button#}
+{#                                class="inline-flex items-center justify-center w-full h-12 gap-3 px-5 py-3 font-medium duration-200 bg-gray-100 md:w-auto rounded-xl hover:bg-gray-200 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"#}
+{#                                aria-label="Secondary action">#}
+{#                            Super Admin Panel#}
+{#                        </button>#}
+{#                    </a>#}
+{#                <li>#}
+{#            {% endif %}#}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+                <li>
+                    <a class="navigation-links" href="{{ path('admin_home') }}">
+                        <button
+                                class="inline-flex items-center justify-center w-full h-12 gap-3 px-5 py-3 font-medium duration-200 bg-gray-100 md:w-auto rounded-xl hover:bg-gray-200 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                aria-label="Secondary action">
+                            Admin panel
+                        </button>
+                    </a>
+                </li>
+            {% endif %}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <li>
+                    <a class="navigation-links" href="{{ path('app_logout') }}">Se déconnecter</a>
+                </li>
+            {% else %}
+                <li>
+                    <a class="navigation-links" href="{{ path('app_login') }}">Se connecter</a>
+                </li>
+            {% endif %}
+{#            {% if is_granted('ROLE_TRAINEE') AND user.person.company_id!=null%}#}
+{#                <li>#}
+{#                    <a class="navigation-links" href="{{ path('company',{'id':user.person.company_id}) }}">Mon entreprise</a>#}
+{#                </li>#}
+{#            {% endif %}#}
+{#            {% if is_granted('ROLE_TRAINEE') AND user.person.school_id!=null %}#}
+{#                <li>#}
+{#                    <a class="navigation-links" href="{{ path('school',{'id':user.person.school_id}) }}">Mon école</a>#}
+{#                </li>#}
+{#            {% endif %}#}
+{#            {% if is_granted('ROLE_USER') %}#}
+{#                <li>#}
+{#                    <a class="navigation-links" href="{{ path('profile',{'id':user.person_id}) }}">Mon profil</a>#}
+{#                </li>#}
+{#            {% endif %}#}
+{#            {% if is_granted('ROLE_TRAINEE') %}#}
+{#                <li>#}
+{#                    <a class="navigation-links" href="{{ path('mission',{'id':user.person.personproject.id}) }}">Mes missions</a>#}
+{#                </li>#}
+{#            {% endif %}#}
+{#            {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_INTERNSHIP_SUPERVISOR')) AND user.person.company_id!=null%}#}
+{#                <li>#}
+{#                    <a class="navigation-links" href="{{ path('company/admin',{'id':user.person.company_id}) }}">L'Entreprise</a>#}
+{#                </li>#}
+{#            {% endif %}#}
+{#            {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_SCHOOL_SUPERVISOR')) AND user.person.school_id!=null %}#}
+{#                <li>#}
+{#                    <a class="navigation-links" href="{{ path('school/admin',{'id':user.person.school_id}) }}">L'école</a>#}
+{#                </li>#}
+{#            {% endif %}#}
+{#            {% if (is_granted('ROLE_SUPER_ADMIN') %}#}
+{#                <li>#}
+{#                    <a class="navigation-links" href="{{ path('school/super_admin') }}">Les écoles</a>#}
+{#                </li>#}
+{#            {% endif %}#}
+{#            {% if (is_granted('ROLE_SUPER_ADMIN') %}#}
+{#                <li>#}
+{#                    <a class="navigation-links" href="{{ path('company/super_admin') }}">Les entreprises</a>#}
+{#                </li>#}
+{#            {% endif %}#}
+{#            {% if (is_granted('ROLE_SUPER_ADMIN') %}#}
+{#                <li>#}
+{#                    <a class="navigation-links" href="{{ path('user/super_admin') }}">Les stagiaires</a>#}
+{#                </li>#}
+{#            {% endif %}#}
+
+        {% endblock %}
+    </ul>
+</nav>

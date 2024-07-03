@@ -19,6 +19,10 @@ class Files
     #[ORM\Column(length: 255)]
     private ?string $file = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $realFileName = null;
+
+
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -92,5 +96,15 @@ class Files
         $this->person = $person;
 
         return $this;
+    }
+
+    public function getRealFileName(): ?string
+    {
+        return $this->realFileName;
+    }
+
+    public function setRealFileName(?string $realFileName): void
+    {
+        $this->realFileName = $realFileName;
     }
 }
