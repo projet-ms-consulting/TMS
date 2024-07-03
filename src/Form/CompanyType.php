@@ -8,35 +8,30 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class CompanyType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', null, [
-                'label' => 'Nom'
+            ->add('name', TextType::class, [
+                'label' => 'Nom de l\'entreprise'
             ])
-            ->add('companyType', null, [
-                'label' => "Type d'entreprise"
+            ->add('companyType', TextType::class, [
+                'label' => 'Type d\'entreprise'
             ])
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
-                'label' => 'Date de création'
-            ])
-            ->add('updatedAt', null, [
-                'widget' => 'single_text',
-                'label' => 'Date de mise à jour'
-            ])
-            ->add('employeeNumber', null, [
-                'label' => "Nombre d'employés"
+            ->add('employeeNumber', TextType::class, [
+                'label' => 'Nombre d\'employés'
             ])
             ->add('address', EntityType::class, [
                 'class' => Address::class,
-                'choice_label' => 'id',
+                'choice_label' => function (Address $address) {
+                    return $address->getFullAddress();
+                },
                 'label' => 'Adresse'
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

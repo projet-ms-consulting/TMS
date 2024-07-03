@@ -1,4 +1,19 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div>
+    {{ form_label(form.name) }}
+    {{ form_widget(form.name) }}
+</div>
+<div>
+    {{ form_label(form.companyType) }}
+    {{ form_widget(form.companyType) }}
+</div>
+<div>
+    {{ form_label(form.employeeNumber) }}
+    {{ form_widget(form.employeeNumber) }}
+</div>
+<div>
+    {{ form_label(form.address) }}
+    {{ form_widget(form.address) }}
+</div>
+<button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

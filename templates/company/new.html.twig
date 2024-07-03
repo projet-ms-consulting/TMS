@@ -7,10 +7,8 @@
 {% block body %}
     <h1>Créer une nouvelle entreprise</h1>
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ 'Enregistrer'|trans }}</button>
-    {{ form_end(form) }}
+    {{ include('company/_form.html.twig', {'button_label': 'Créer'}) }}
 
     <a href="{{ path('app_company_index') }}">Retour à la liste</a>
 {% endblock %}
+
