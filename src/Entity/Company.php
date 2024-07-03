@@ -32,7 +32,7 @@ class Company
     private ?string $employeeNumber = null;
 
     #[ORM\ManyToOne(inversedBy: 'companies')]
-    private ?address $address = null;
+    private ?Address $address = null;
 
     /**
      * @var Collection<int, person>
@@ -110,12 +110,12 @@ class Company
         return $this;
     }
 
-    public function getAddress(): ?address
+    public function getAddress(): ?Address
     {
         return $this->address;
     }
 
-    public function setAddress(?address $address): static
+    public function setAddress(?Address $address): static
     {
         $this->address = $address;
 
