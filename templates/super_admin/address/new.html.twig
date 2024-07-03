@@ -1,4 +1,4 @@
-{% extends 'admin.html.twig' %}
+{% extends 'super_admin.html.twig' %}
 
 {% block title %}New Address{% endblock %}
 
@@ -10,5 +10,5 @@
     <button class="btn">Create</button>
     {{ form_end(form) }}
 
-    <a href="{{ path('admin_address_index') }}">back to list</a>
+    <a href="{{ path('super_admin_address_index') }}">back to list</a>
 {% endblock %}
