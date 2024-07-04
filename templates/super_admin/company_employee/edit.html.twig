@@ -1,0 +1,20 @@
+{% extends 'super_admin.html.twig' %}
+
+{% block title %}Modifier{% endblock %}
+
+{% block body %}
+    <h1>Modifier </h1>
+    <div>
+        {{ form_start(personForm) }}
+            {{ form_row(personForm.firstName)}}
+            {{ form_row(personForm.lastName)}}
+            {{ form_row(personForm.company) }}
+        <button type="submit">Enregistrer</button>
+        {{ form_end(personForm) }}
+    </div>
+
+    <a href="{{ path('super_admin_app_company_employee_index') }}">Retour</a>
+{#    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}#}
+        {{ include('super_admin/company_employee/_delete_form.html.twig') }}
+{#    {% endif %}#}
+{% endblock %}

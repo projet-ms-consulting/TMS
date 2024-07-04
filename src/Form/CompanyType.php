@@ -6,10 +6,9 @@ use App\Entity\Address;
 use App\Entity\Company;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class CompanyType extends AbstractType
 {
@@ -17,17 +16,17 @@ class CompanyType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom de l\'entreprise'
+                'label' => 'Nom de l\'entreprise',
             ])
             ->add('companyType', TextType::class, [
-                'label' => 'Type d\'entreprise'
+                'label' => 'Type d\'entreprise',
             ])
             ->add('address', EntityType::class, [
                 'class' => Address::class,
                 'choice_label' => function (Address $address) {
                     return $address->getFullAddress();
                 },
-                'label' => 'Adresse'
+                'label' => 'Adresse',
             ])
             ->add('employeeNumber', TextType::class, [
                 'label' => 'Nombre d\'employés'

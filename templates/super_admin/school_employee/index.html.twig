@@ -10,38 +10,34 @@
             <tr>
                 <th>Prénom</th>
                 <th>Nom</th>
-{#                <th>Date début de stage</th>#}
-{#                <th>Date fin de stage</th>#}
-                <th>Date de création</th>
+                <th>Ecole de référence</th>
+                <th>Adresse de l'école</th>
                 <th>Date de mise à jour</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for person in people %}
-            {% if people is not null) %}
+            {% if is_granted('ROLE_SCHOOL_INTERNSHIP',person.getUser) %}
             <tr>
                 <td>{{ person.lastName }}</td>
                 <td>{{ person.firstName }}</td>
-{#                <td>{{ person.startInternship ? person.startInternship|date('d/m/Y')}}</td>#}
-{#                <td>{{ person.endInternship ? person.endInternship|date('d/m/Y')}}</td>#}
-                <td>{{ person.createdAt ? person.createdAt|date('d/m/Y')}}</td>
+                <td>{{ person.school.name }}</td>
+                <td>{{ person.school.address.fullAddress }}</td>
                 <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y')}}</td>
                 <td>
-                    <a href="{{ path('super_admin_app_person_show', {'id': person.id}) }}">Voir</a>
-                    <a href="{{ path('super_admin_app_person_edit', {'id': person.id}) }}">Modifier</a>
+                    <a href="{{ path('super_admin_app_school_employee_show', {'id': person.id}) }}">Voir</a>
+                    <a href="{{ path('super_admin_app_school_employee_edit', {'id': person.id}) }}">Modifier</a>
                 </td>
             </tr>
-        {% else %}
+            {% else %}
             <tr>
                 <td colspan="8">Aucun enregistrement ! </td>
             </tr>
-        {% endif %}
+            {% endif %}
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('super_admin_app_person_new') }}">Créer</a>
 
 
 

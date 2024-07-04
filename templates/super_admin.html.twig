@@ -19,21 +19,30 @@
     </head>
     <body>
     <header>
-        <h1>Super admin</h1>
         <nav>
             <ul>
                 <li><a href="{{ path('super_admin_home') }}">Panel super admin</a></li>
-                <li><a href="{{ path('super_admin_address_index') }}">Adresse</a></li>
                 <li>
-                    <a href="{{ path('super_admin_school_index') }}">École</a>
+                    <a href="{{ path('super_admin_app_person_index') }}">Personnes</a>
                 </li>
                 <li>
-                    <a href="{{ path('super_admin_app_person_index') }}">Personne</a>
+                    <a href="{{ path('super_admin_app_company_employee_index') }}">Employés d'entreprise</a>
+                </li>
+                <li>
+                    <a href="{{ path('super_admin_app_school_employee_index') }}">Employés d'école</a>
+                </li>
+                <li>
+                    <a href="{{ path('super_admin_app_trainee_index') }}">Stagiaires</a>
+                </li>
+                <li><a href="{{ path('super_admin_address_index') }}">Adresse</a></li>
+                <li>
+                    <a href="{{ path('super_admin_school_index') }}">Ecole</a>
                 </li>
                 <li>
                     <a href="{{ path('app_company_index') }}">Entreprise</a>
                 </li>
-                <li><a href="{{ path('app_home') }}">Retour à la page d'accueil</a></li>
+
+                <li><a href="{{ path('app_home') }}">Retour a la page d'accueil</a></li>
             </ul>
         </nav>
     </header>

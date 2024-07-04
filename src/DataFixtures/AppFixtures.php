@@ -4,10 +4,8 @@ namespace App\DataFixtures;
 
 use App\Entity\Person;
 use App\Entity\User;
-use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Exception;
 use Faker\Factory;
 use Faker\Generator;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -24,11 +22,11 @@ class AppFixtures extends Fixture
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function load(ObjectManager $manager): void
     {
-        $date = new DateTimeImmutable($this->faker->dateTimeBetween('-1 week', 'now')->format('Y-m-d H:i:s'));
+        $date = new \DateTimeImmutable($this->faker->dateTimeBetween('-1 week', 'now')->format('Y-m-d H:i:s'));
 
         $person = new Person();
         $person->setFirstName('John');

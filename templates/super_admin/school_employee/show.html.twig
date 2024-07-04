@@ -1,0 +1,42 @@
+{% extends 'super_admin.html.twig' %}
+
+{% block title %}Person{% endblock %}
+
+{% block body %}
+    <h1>Personnes</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Nom : </th>
+                <td>{{ person.lastName }}</td>
+            </tr>
+            <tr>
+                <th>Prénom : </th>
+                <td>{{ person.firstName }}</td>
+            </tr>
+            <tr>
+                <th>Ecole de référence : </th>
+                <td>{{ person.school.name}}</td>
+            </tr>
+            <tr>
+                <th>Adresse de l'école : </th>
+                <td>{{ person.school.address.fullAddress }}</td>
+            </tr>
+            <tr>
+                <th>Créé le :</th>
+                <td>{{ person.createdAt ? person.createdAt|date('d/m/Y')}}</td>
+            </tr>
+            <tr>
+                <th>Mis à jour le : </th>
+                <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y')}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('super_admin_app_school_employee_index') }}">Retour</a>
+
+    <a href="{{ path('super_admin_app_school_employee_edit', {'id': person.id}) }}">Modifier</a>
+
+    {{ include('super_admin/school_employee/_delete_form.html.twig') }}
+{% endblock %}

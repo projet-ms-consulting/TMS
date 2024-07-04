@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/super_admin/address', name: 'super_admin_address_')]
+#[Route('/', name: 'super_admin_address_')]
 class AddressController extends AbstractController
 {
     #[Route('super_admin/address/index', name: 'index', methods: ['GET'])]
@@ -44,6 +44,7 @@ class AddressController extends AbstractController
             $entityManager->persist($address);
             $entityManager->flush();
             $this->addFlash('success', 'Adresse '.$address->getFullAddress().' crée avec succes!');
+
             return $this->redirectToRoute('super_admin_address_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -71,6 +72,7 @@ class AddressController extends AbstractController
             $address->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->flush();
             $this->addFlash('success', 'Adresse '.$address->getFullAddress().' modifié avec succes!');
+
             return $this->redirectToRoute('super_admin_address_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -88,6 +90,7 @@ class AddressController extends AbstractController
             $entityManager->flush();
         }
         $this->addFlash('success', 'Adresse '.$address->getFullAddress().' supprimé avec succes!');
+
         return $this->redirectToRoute('super_admin_address_index', [], Response::HTTP_SEE_OTHER);
     }
 }
