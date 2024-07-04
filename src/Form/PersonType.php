@@ -1,18 +1,16 @@
 <?php
-
 namespace App\Form;
 
 use App\Entity\Person;
 use App\Entity\School;
-use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
 
 class PersonType extends AbstractType
 {
@@ -23,29 +21,34 @@ class PersonType extends AbstractType
         $builder
             ->add('lastName', null, [
                 'label' => 'Nom : ',
+                'attr' => ['class' => 'form-control']
             ])
             ->add('firstName', null, [
                 'label' => 'Prénom : ',
+                'attr' => ['class' => 'form-control']
             ])
             ->add('startInternship', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'Date début de stage : ',
+                'attr' => ['class' => 'form-control']
             ])
             ->add('endInternship', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'Date fin de stage : ',
+                'attr' => ['class' => 'form-control']
             ])
             ->add('school', EntityType::class, [
                 'class' => School::class,
-                'label' => 'Ecole : ',
+                'label' => 'École : ',
                 'choice_label' => 'name',
-                'placeholder' => 'Choisir une ecole',
+                'placeholder' => 'Choisir une école',
+                'attr' => ['class' => 'form-control']
             ])
-            ->add('cv', FileType::class,[
-                'label' => 'Ajouter un CV  : ',
-                'mapped'=> false,
+            ->add('cv', FileType::class, [
+                'label' => 'Ajouter un CV : ',
+                'mapped' => false,
                 'required' => false,
-                'constraints'=> [
+                'constraints' => [
                     new File([
                         'mimeTypes' => [
                             'application/pdf',
@@ -54,28 +57,14 @@ class PersonType extends AbstractType
                         ],
                         'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
                     ])
-                ]
+                ],
+                'attr' => ['class' => 'form-control']
             ])
-            ->add('coverLetter', FileType::class,[
+            ->add('coverLetter', FileType::class, [
                 'label' => 'Ajouter une lettre de motivation : ',
-                'mapped'=> false,
+                'mapped' => false,
                 'required' => false,
-                'constraints'=> [
-                    new File([
-                        'mimeTypes' => [
-                            'application/pdf',
-                            'image/jpeg',
-                            'image/png',
-                        ],
-                        'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
-                        ])
-                ]
-            ])
-            ->add('internshipAgreement', FileType::class,[
-                'label' => 'Ajouter une convention de stage : ',
-                'mapped'=> false,
-                'required' => false,
-                'constraints'=> [
+                'constraints' => [
                     new File([
                         'mimeTypes' => [
                             'application/pdf',
@@ -84,22 +73,43 @@ class PersonType extends AbstractType
                         ],
                         'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
                     ])
-                ]
+                ],
+                'attr' => ['class' => 'form-control']
+            ])
+            ->add('internshipAgreement', FileType::class, [
+                'label' => 'Ajouter une convention de stage : ',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
+                    ])
+                ],
+                'attr' => ['class' => 'form-control']
             ]);
-            if ($context == 'new'){
-                $builder->add('createdAt', DateType::class, [
-                    'widget' => 'single_text',
-                    'label' => 'Créer le : ',
-                    'data' => new \DateTime('now')
-                ]);
-            }
-            if ($context == 'edit'){
-                $builder->add('updatedAt', DateType::class, [
-                    'widget' => 'single_text',
-                    'label' => 'Modifié le : ',
-                    'data' => new \DateTime('now')
-                ]);
-            }
+
+        if ($context == 'new') {
+            $builder->add('createdAt', DateType::class, [
+                'widget' => 'single_text',
+                'label' => 'Créé le : ',
+                'data' => new \DateTime('now'),
+                'attr' => ['class' => 'form-control']
+            ]);
+        }
+
+        if ($context == 'edit') {
+            $builder->add('updatedAt', DateType::class, [
+                'widget' => 'single_text',
+                'label' => 'Modifié le : ',
+                'data' => new \DateTime('now'),
+                'attr' => ['class' => 'form-control']
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

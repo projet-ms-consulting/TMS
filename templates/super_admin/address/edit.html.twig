@@ -1,16 +1,37 @@
 {% extends 'super_admin.html.twig' %}
 
-{% block title %}Edit Address{% endblock %}
+{% block title %}Modifier une adresse{% endblock %}
 
 {% block body %}
-    <h1>Edit Address</h1>
+    <h1>Modifier une adresse</h1>
 
     {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">update</button>
+    <table class="table">
+        <tr>
+            <th>Numéro de rue</th>
+            <td>{{ form_widget(form.nbStreet) }}</td>
+        </tr>
+        <tr>
+            <th>Rue</th>
+            <td>{{ form_widget(form.street) }}</td>
+        </tr>
+        <tr>
+            <th>Code postal</th>
+            <td>{{ form_widget(form.zipCode) }}</td>
+        </tr>
+        <tr>
+            <th>Ville</th>
+            <td>{{ form_widget(form.city) }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button class="btn">Modifier</button>
+            </td>
+        </tr>
+    </table>
     {{ form_end(form) }}
 
-    <a href="{{ path('super_admin_address_index') }}">back to list</a>
+    <a href="{{ path('super_admin_address_index') }}">Retour à la liste</a>
 
     {{ include('super_admin/address/_delete_form.html.twig') }}
 {% endblock %}

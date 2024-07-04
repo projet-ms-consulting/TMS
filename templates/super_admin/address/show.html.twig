@@ -3,7 +3,7 @@
 {% block title %}Address{% endblock %}
 
 {% block body %}
-    <h1>Address</h1>
+    <h1>Adresse</h1>
 
     <table class="table">
         <tbody>
@@ -12,19 +12,19 @@
                 <td>{{ address.id }}</td>
             </tr>
             <tr>
-                <th>NbStreet</th>
+                <th>Numéro de rue</th>
                 <td>{{ address.nbStreet }}</td>
             </tr>
             <tr>
-                <th>Street</th>
+                <th>Rue</th>
                 <td>{{ address.street }}</td>
             </tr>
             <tr>
-                <th>ZipCode</th>
+                <th>code postal</th>
                 <td>{{ address.zipCode }}</td>
             </tr>
             <tr>
-                <th>City</th>
+                <th>Ville</th>
                 <td>{{ address.city }}</td>
             </tr>
             <tr>
@@ -32,16 +32,16 @@
                 <td>{% if address.updatedAt != null %}
                         {{ address.updatedAt|date('Y-m-d H:i:s') }}
                     {% else %}
-                        crée le : {{ address.createdAt|date('Y-m-d H:i:s')}}
+                        créé le : {{ address.createdAt|date('Y-m-d H:i:s')}}
                     {% endif %}
                 </td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('super_admin_address_index') }}">back to list</a>
+    <a href="{{ path('super_admin_address_index') }}">Retour à la liste</a>
 
-    <a href="{{ path('super_admin_address_edit', {'id': address.id}) }}">edit</a>
+    <a href="{{ path('super_admin_address_edit', {'id': address.id}) }}">Modifier</a>
 
     {{ include('super_admin/address/_delete_form.html.twig') }}
 {% endblock %}
