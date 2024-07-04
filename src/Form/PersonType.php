@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Form;
 
 use App\Entity\Person;
@@ -11,37 +10,45 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Doctrine\ORM\EntityRepository;
 
 class PersonType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $context = $options['context'];
+
         $builder
             ->add('lastName', null, [
                 'label' => 'Nom : ',
+                'attr' => ['class' => 'form-control']
             ])
             ->add('firstName', null, [
                 'label' => 'Prénom : ',
+                'attr' => ['class' => 'form-control']
             ])
             ->add('startInternship', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'Date début de stage : ',
+                'attr' => ['class' => 'form-control']
             ])
             ->add('endInternship', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'Date fin de stage : ',
+                'attr' => ['class' => 'form-control']
             ])
             ->add('school', EntityType::class, [
                 'class' => School::class,
-                'label' => 'Ecole : ',
+                'label' => 'École : ',
                 'choice_label' => 'name',
-                'placeholder' => 'Choisir une ecole',
+                'placeholder' => 'Choisir une école',
+                'attr' => ['class' => 'form-control']
             ])
-            ->add('cv', FileType::class,[
-                'label' => 'Ajouter un CV  : ',
-                'mapped'=> false,
+            ->add('cv', FileType::class, [
+                'label' => 'Ajouter un CV : ',
+                'mapped' => false,
                 'required' => false,
-                'constraints'=> [
+                'constraints' => [
                     new File([
                         'mimeTypes' => [
                             'application/pdf',
@@ -50,28 +57,14 @@ class PersonType extends AbstractType
                         ],
                         'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
                     ])
-                ]
+                ],
+                'attr' => ['class' => 'form-control']
             ])
-            ->add('coverLetter', FileType::class,[
+            ->add('coverLetter', FileType::class, [
                 'label' => 'Ajouter une lettre de motivation : ',
-                'mapped'=> false,
+                'mapped' => false,
                 'required' => false,
-                'constraints'=> [
-                    new File([
-                        'mimeTypes' => [
-                            'application/pdf',
-                            'image/jpeg',
-                            'image/png',
-                        ],
-                        'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
-                        ])
-                ]
-            ])
-            ->add('internshipAgreement', FileType::class,[
-                'label' => 'Ajouter une convention de stage : ',
-                'mapped'=> false,
-                'required' => false,
-                'constraints'=> [
+                'constraints' => [
                     new File([
                         'mimeTypes' => [
                             'application/pdf',
@@ -80,7 +73,24 @@ class PersonType extends AbstractType
                         ],
                         'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
                     ])
-                ]
+                ],
+                'attr' => ['class' => 'form-control']
+            ])
+            ->add('internshipAgreement', FileType::class, [
+                'label' => 'Ajouter une convention de stage : ',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
+                    ])
+                ],
+                'attr' => ['class' => 'form-control']
             ]);
     }
 

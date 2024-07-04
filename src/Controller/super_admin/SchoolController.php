@@ -43,7 +43,7 @@ class SchoolController extends AbstractController
             $entityManager->persist($school);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Ecole '.$school->getName().' crée avec succes!');
+            $this->addFlash('success', 'Ecole '.$school->getName().' crée avec succés!');
             return $this->redirectToRoute('super_admin_school_index', [], Response::HTTP_SEE_OTHER);
         }
 

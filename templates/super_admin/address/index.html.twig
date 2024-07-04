@@ -3,18 +3,18 @@
 {% block title %}Address index{% endblock %}
 
 {% block body %}
-    <h1>Address index</h1>
+    <h1>Liste des adresses</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>{{ knp_pagination_sortable(addresses, 'id', 'a.id') }}</th>
-                <th>{{ knp_pagination_sortable(addresses, 'NbStreet', 'a.nbStreet') }}</th>
-                <th>{{ knp_pagination_sortable(addresses, 'Street', 'a.street') }}</th>
-                <th>{{ knp_pagination_sortable(addresses, 'ZipCode', 'a.zipCode') }}</th>
-                <th>{{ knp_pagination_sortable(addresses, 'City', 'a.city') }}</th>
+                <th>{{ knp_pagination_sortable(addresses, 'Id', 'a.id') }}</th>
+                <th>{{ knp_pagination_sortable(addresses, 'Numéro de rue', 'a.nbStreet') }}</th>
+                <th>{{ knp_pagination_sortable(addresses, 'Rue', 'a.street') }}</th>
+                <th>{{ knp_pagination_sortable(addresses, 'Code postal', 'a.zipCode') }}</th>
+                <th>{{ knp_pagination_sortable(addresses, 'Ville', 'a.city') }}</th>
                 <th>{{ knp_pagination_sortable(addresses, 'Dernière modification', 'a.updatedAt')?knp_pagination_sortable(addresses, 'Dernière modification', 'a.createdAt') }}</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -33,18 +33,18 @@
                     {% endif %}
                 </td>
                 <td>
-                    <a href="{{ path('super_admin_address_show', {'id': address.id}) }}">show</a>
-                    <a href="{{ path('super_admin_address_edit', {'id': address.id}) }}">edit</a>
+                    <a href="{{ path('super_admin_address_show', {'id': address.id}) }}">Voir</a>
+                    <a href="{{ path('super_admin_address_edit', {'id': address.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">Aucun enregistrement trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
     {{ knp_pagination_render(addresses) }}
 
-    <a href="{{ path('super_admin_address_new') }}">Create new</a>
+    <a href="{{ path('super_admin_address_new') }}">Créer une nouvelle adresse</a>
 {% endblock %}

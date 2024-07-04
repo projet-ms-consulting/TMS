@@ -1,24 +1,57 @@
 {% extends 'super_admin.html.twig' %}
 
-{% block title %}Modifier{% endblock %}
+{% block title %}Modifier une personne{% endblock %}
 
 {% block body %}
-    <h1>Modifier </h1>
-    <div>
-        {{ form_start(personForm) }}
-            {{ form_row(personForm.startInternship)}}
-            {{ form_row(personForm.endInternship)}}
-            {{ form_row(personForm.firstName)}}
-            {{ form_row(personForm.lastName)}}
-            {{ form_row(personForm.school)}}
-            {{ form_row(personForm.cv)}}
-            {{ form_row(personForm.coverLetter)}}
-            {{ form_row(personForm.internshipAgreement)}}
-        <button type="submit">Enregistrer</button>
-        {{ form_end(personForm) }}
-    </div>
+    <h1>Modifier une personne</h1>
 
-    <a href="{{ path('super_admin_app_person_index') }}">Retour</a>
+    {{ form_start(personForm) }}
+    <table class="table">
+        <tr>
+            <th>Nom</th>
+            <td>{{ form_widget(personForm.lastName) }}</td>
+        </tr>
+        <tr>
+            <th>Prénom</th>
+            <td>{{ form_widget(personForm.firstName) }}</td>
+        </tr>
+        <tr>
+            <th>Date début de stage</th>
+            <td>{{ form_widget(personForm.startInternship) }}</td>
+        </tr>
+        <tr>
+            <th>Date fin de stage</th>
+            <td>{{ form_widget(personForm.endInternship) }}</td>
+        </tr>
+        <tr>
+            <th>École</th>
+            <td>{{ form_widget(personForm.school) }}</td>
+        </tr>
+        <tr>
+            <th>Ajouter un CV</th>
+            <td>{{ form_widget(personForm.cv) }}</td>
+        </tr>
+        <tr>
+            <th>Ajouter une lettre de motivation</th>
+            <td>{{ form_widget(personForm.coverLetter) }}</td>
+        </tr>
+        <tr>
+            <th>Ajouter une convention de stage</th>
+            <td>{{ form_widget(personForm.internshipAgreement) }}</td>
+        </tr>
+        <tr>
+            <th>Modifié le</th>
+            <td>{{ form_widget(personForm.updatedAt) }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button class="btn">Enregistrer</button>
+            </td>
+        </tr>
+    </table>
+    {{ form_end(personForm) }}
+
+    <a href="{{ path('super_admin_app_person_index') }}">Retour à la liste</a>
 
     {{ include('super_admin/person/_delete_form.html.twig') }}
 {% endblock %}

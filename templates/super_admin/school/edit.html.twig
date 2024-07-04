@@ -1,15 +1,27 @@
 {% extends 'super_admin.html.twig' %}
 
-{% block title %}Edit School{% endblock %}
+{% block title %}Modifier une école{% endblock %}
 
 {% block body %}
     <h1>Modifier une école</h1>
 
     {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">Modifier</button>
+    <table class="table">
+        <tr>
+            <th>Nom de l'école</th>
+            <td>{{ form_widget(form.name) }}</td>
+        </tr>
+        <tr>
+            <th>Adresse</th>
+            <td>{{ form_widget(form.address) }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button class="btn">Modifier</button>
+            </td>
+        </tr>
+    </table>
     {{ form_end(form) }}
-
 
     <a href="{{ path('super_admin_school_index') }}">Retour à la liste</a>
 
