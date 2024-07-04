@@ -3,12 +3,12 @@
 {% block title %}New School{% endblock %}
 
 {% block body %}
-    <h1>Create new School</h1>
+    <h1>Créer une nouvelle école</h1>
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn">Create</button>
+    <button class="btn">Créer</button>
     {{ form_end(form) }}
-    <a href="{{ path('super_admin_address_new') }}">Créer une nouvelle adresse</a>
-    <a href="{{ path('super_admin_school_index') }}">back to list</a>
+    <a href="{{ path('super_admin_address_new') }}">Ajouter une adresse</a>
+    <a href="{{ path('super_admin_school_index') }}">Retour à la liste </a>
 {% endblock %}
