@@ -1,0 +1,7 @@
+input {
+  border: 1px solid #ccc;
+}
+label.required:after {
+  content: " *";
+  color: red;
+}

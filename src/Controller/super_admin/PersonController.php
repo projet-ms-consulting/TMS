@@ -93,6 +93,13 @@ class PersonController extends AbstractController
                 $entityManager->flush();
             }
 
+<<<<<<< Updated upstream
+=======
+            $entityManager->persist($person);
+            $entityManager->flush();
+
+
+>>>>>>> Stashed changes
             return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
         }
 
