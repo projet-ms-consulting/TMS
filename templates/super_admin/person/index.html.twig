@@ -24,11 +24,15 @@
                 <td>{{ person.firstName }}</td>
                 <td>{{ person.startInternship ? person.startInternship|date('d/m/Y')}}</td>
                 <td>{{ person.endInternship ? person.endInternship|date('d/m/Y')}}</td>
-                <td>{{ person.createdAt ? person.createdAt|date('d/m/Y')}}</td>
-                <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y')}}</td>
+                <td>{{ person.createdAt ? person.createdAt|date('d/m/Y H:i')}}</td>
+                <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y H:i')}}</td>
                 <td>
                     <a href="{{ path('super_admin_app_person_show', {'id': person.id}) }}">Voir</a>
                     <a href="{{ path('super_admin_app_person_edit', {'id': person.id}) }}">Modifier</a>
+                    <form method="post" action="{{ path('super_admin_app_person_delete', {'id': person.id}) }}" onsubmit="return confirm('Êtes-vous sur de vouloir supprimer cet élément?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ person.id) }}">
+                        <button class="btn">Supprimer</button>
+                    </form>
                 </td>
             </tr>
         {% else %}
