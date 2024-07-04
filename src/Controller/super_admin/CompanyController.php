@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\super_admin;
 
 use App\Entity\Company;
 use App\Form\CompanyType;
@@ -11,13 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/company')]
+#[Route('/super_admin/company')]
 class CompanyController extends AbstractController
 {
     #[Route('/', name: 'app_company_index', methods: ['GET'])]
     public function index(CompanyRepository $companyRepository): Response
     {
-        return $this->render('company/index.html.twig', [
+        return $this->render('super_admin/company/index.html.twig', [
             'companies' => $companyRepository->findAll(),
         ]);
     }
@@ -37,7 +37,7 @@ class CompanyController extends AbstractController
             return $this->redirectToRoute('app_company_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('company/new.html.twig', [
+        return $this->render('super_admin/company/new.html.twig', [
             'company' => $company,
             'form' => $form,
         ]);
@@ -46,7 +46,7 @@ class CompanyController extends AbstractController
     #[Route('/{id}', name: 'app_company_show', methods: ['GET'])]
     public function show(Company $company): Response
     {
-        return $this->render('company/show.html.twig', [
+        return $this->render('super_admin/company/show.html.twig', [
             'company' => $company,
         ]);
     }
@@ -63,7 +63,7 @@ class CompanyController extends AbstractController
             return $this->redirectToRoute('app_company_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('company/edit.html.twig', [
+        return $this->render('super_admin/company/edit.html.twig', [
             'company' => $company,
             'form' => $form,
         ]);
