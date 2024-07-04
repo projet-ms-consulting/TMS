@@ -39,14 +39,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\OneToOne(targetEntity: Person::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Person $person = null;
 
     /**
      * @var Collection<int, Person>
      */
-    #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'intershipSupervisor')]
+    #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'internshipSupervisor')]
     private Collection $internshipSupervisor;
 
     /**
@@ -118,7 +117,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
 
     /**
      * @see PasswordAuthenticatedUserInterface
@@ -192,7 +190,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->internshipSupervisor->contains($person)) {
             $this->internshipSupervisor->add($person);
-            $person->setIntershipSupervisor($this);
+            $person->setInternshipSupervisor($this);
         }
 
         return $this;
@@ -202,8 +200,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->internshipSupervisor->removeElement($person)) {
             // set the owning side to null (unless already changed)
-            if ($person->getIntershipSupervisor() === $this) {
-                $person->setIntershipSupervisor(null);
+            if ($person->getInternshipSupervisor() === $this) {
+                $person->setInternshipSupervisor(null);
             }
         }
 

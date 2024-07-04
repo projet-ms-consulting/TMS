@@ -23,7 +23,7 @@ class SchoolType extends AbstractType
             ->add('address', EntityType::class, [
                 'label' => 'Adresse',
                 'class' => Address::class,
-                'choice_label' => function(Address $address) {
+                'choice_label' => function (Address $address) {
                     return $address->getFullAddress();
                 },
                 'placeholder' => 'Choisissez une adresse',

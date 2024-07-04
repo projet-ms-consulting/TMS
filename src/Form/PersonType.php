@@ -56,7 +56,7 @@ class PersonType extends AbstractType
                             'image/png',
                         ],
                         'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
-                    ])
+                    ]),
                 ],
                 'attr' => ['class' => 'form-control']
             ])
@@ -72,7 +72,7 @@ class PersonType extends AbstractType
                             'image/png',
                         ],
                         'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
-                    ])
+                    ]),
                 ],
                 'attr' => ['class' => 'form-control']
             ])
@@ -88,7 +88,7 @@ class PersonType extends AbstractType
                             'image/png',
                         ],
                         'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
-                    ])
+                    ]),
                 ],
                 'attr' => ['class' => 'form-control']
             ]);

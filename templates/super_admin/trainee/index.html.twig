@@ -1,0 +1,53 @@
+{% extends 'super_admin.html.twig' %}
+
+{% block title %}Index Stagiaire{% endblock %}
+
+{% block body %}
+    <h1>Liste des personnes stagiaires</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Ecole</th>
+                <th>Référent école</th>
+                <th>Entreprise</th>
+                <th>Référent entreprise</th>
+                <th>Date début de stage</th>
+                <th>Date fin de stage</th>
+                <th>Date de modification</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for person in people %}
+            {% if is_granted('ROLE_TRAINEE',person.getUser) %}
+            <tr>
+                <td>{{ person.lastName }}</td>
+                <td>{{ person.firstName }}</td>
+                <td>{{ person.school.name }}</td>
+                <td>{{ person.schoolSupervisor.lastName }} {{ person.schoolSupervisor.firstName }}</td>
+                <td>{{ person.company.name }}</td>
+                <td>{{ person.internshipSupervisor.lastName }} {{ person.internshipSupervisor.firstName }}</td>
+                <td>{{ person.startInternship ? person.startInternship|date('d/m/Y')}}</td>
+                <td>{{ person.endInternship ? person.endInternship|date('d/m/Y')}}</td>
+                <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y')}}</td>
+                <td>
+                    <a href="{{ path('super_admin_app_trainee_show', {'id': person.id}) }}">Voir</a>
+                    <a href="{{ path('super_admin_app_trainee_edit', {'id': person.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">Aucun enregistrement ! </td>
+            </tr>
+        {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+{% endblock %}

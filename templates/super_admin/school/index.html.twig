@@ -8,17 +8,17 @@
     <table class="table">
         <thead>
             <tr>
-                <th>{{ knp_pagination_sortable(schools, 'id', 's.id') }}</th>
-                <th>{{ knp_pagination_sortable(schools, 'Name', 's.name') }}</th>
-                <th>Address</th>
-                <th>{{ knp_pagination_sortable(schools, 'Dernière modification', 's.updatedAt')?knp_pagination_sortable(schools, 'Dernière modification', 's.createdAt') }}</th>
+                <th>{{ knp_pagination_sortable(schools, 'Nom', 's.name') }}</th>
+                <th>Adresse</th>
+                <th>Référent(s)</th>
+                <th>Stagiaire(s)</th>
+                <th>{{ knp_pagination_sortable(schools, 'Dernière modification', 's.updatedAt')}}</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for school in schools %}
             <tr>
-                <td>{{ school.id }}</td>
                 <td>{{ school.name }}</td>
                 <td>
                     {% if school.address is defined %}
@@ -27,15 +27,27 @@
                         <b style="color: red">Aucune adresse</b>
                     {% endif %}
                 </td>
+                {% for person in persons %}
+                    <td>
+                        {% if person.school is not null and school.id == person.school.id and person.company.id is null %}
+                        <a href="{{ path('super_admin_app_person_show',{'id':person.id}) }}">{{ person.lastName }} {{ person.firstName }}</a> <br>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if person.company is not null and person.school is not null and school.id==person.school.id %}
+                            <a href="{{ path('super_admin_app_person_show',{'id':person.id}) }}">{{ person.lastName }} {{ person.firstName }}</a> <br>
+                        {% endif %}
+                    </td>
+                {% endfor %}
                 <td>
-                    {% if school.updatedAt != null %}
+                    {% if school.updatedAt is defined %}
                         {{ school.updatedAt|date('d-m-Y H:i') }}
                     {% else %}
-                        {{ school.createdAt|date('d-m-Y H:i')}}
+                        <b>Aucune modification</b>
                     {% endif %}
                 </td>
                 <td>
-                    <a href="{{ path('super_admin_school_show', {'id': school.id}) }}">Voir</a>
+                    <a href="{{ path('super_admin_school_show', {'id': school.id}) }}">Détails</a>
                     <a href="{{ path('super_admin_school_edit', {'id': school.id}) }}">Modifier</a>
                 </td>
             </tr>

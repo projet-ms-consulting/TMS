@@ -10,8 +10,8 @@
             <tr>
                 <th>Prénom</th>
                 <th>Nom</th>
-                <th>Date début de stage</th>
-                <th>Date fin de stage</th>
+{#                <th>Date début de stage</th>#}
+{#                <th>Date fin de stage</th>#}
                 <th>Date de création</th>
                 <th>Date de mise à jour</th>
                 <th>Actions</th>
@@ -19,13 +19,14 @@
         </thead>
         <tbody>
         {% for person in people %}
+            {% if people is not null) %}
             <tr>
                 <td>{{ person.lastName }}</td>
                 <td>{{ person.firstName }}</td>
-                <td>{{ person.startInternship ? person.startInternship|date('d/m/Y')}}</td>
-                <td>{{ person.endInternship ? person.endInternship|date('d/m/Y')}}</td>
-                <td>{{ person.createdAt ? person.createdAt|date('d/m/Y H:i')}}</td>
-                <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y H:i')}}</td>
+{#                <td>{{ person.startInternship ? person.startInternship|date('d/m/Y')}}</td>#}
+{#                <td>{{ person.endInternship ? person.endInternship|date('d/m/Y')}}</td>#}
+                <td>{{ person.createdAt ? person.createdAt|date('d/m/Y')}}</td>
+                <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y')}}</td>
                 <td>
                     <a href="{{ path('super_admin_app_person_show', {'id': person.id}) }}">Voir</a>
                     <a href="{{ path('super_admin_app_person_edit', {'id': person.id}) }}">Modifier</a>
@@ -39,6 +40,7 @@
             <tr>
                 <td colspan="8">Aucun enregistrement ! </td>
             </tr>
+        {% endif %}
         {% endfor %}
         </tbody>
     </table>

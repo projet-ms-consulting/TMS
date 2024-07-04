@@ -8,8 +8,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>{{ knp_pagination_sortable(addresses, 'Id', 'a.id') }}</th>
-                <th>{{ knp_pagination_sortable(addresses, 'Numéro de rue', 'a.nbStreet') }}</th>
+                <th>{{ knp_pagination_sortable(addresses, 'Numéro', 'a.nbStreet') }}</th>
                 <th>{{ knp_pagination_sortable(addresses, 'Rue', 'a.street') }}</th>
                 <th>{{ knp_pagination_sortable(addresses, 'Code postal', 'a.zipCode') }}</th>
                 <th>{{ knp_pagination_sortable(addresses, 'Ville', 'a.city') }}</th>
@@ -20,7 +19,6 @@
         <tbody>
         {% for address in addresses %}
             <tr>
-                <td>{{ address.id }}</td>
                 <td>{{ address.nbStreet }}</td>
                 <td>{{ address.street }}</td>
                 <td>{{ address.zipCode }}</td>
@@ -33,8 +31,8 @@
                     {% endif %}
                 </td>
                 <td>
-                    <a href="{{ path('super_admin_address_show', {'id': address.id}) }}">Voir</a>
-                    <a href="{{ path('super_admin_address_edit', {'id': address.id}) }}">Modifier</a>
+                    <a href="{{ path('super_admin_address_show', {'id': address.id}) }}">détails</a>
+                    <a href="{{ path('super_admin_address_edit', {'id': address.id}) }}">modifier</a>
                 </td>
             </tr>
         {% else %}

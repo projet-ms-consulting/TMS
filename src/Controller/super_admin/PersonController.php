@@ -4,6 +4,7 @@ namespace App\Controller\super_admin;
 
 use App\Entity\Files;
 use App\Entity\Person;
+use App\Entity\User;
 use App\Form\PersonType;
 use App\Repository\FilesRepository;
 use App\Repository\PersonRepository;
@@ -39,7 +40,7 @@ class PersonController extends AbstractController
             $entityManager->persist($person);
             $entityManager->flush();
 
-            // *************  Upload Lettre de motivation ***************
+            // *************  Upload CV ***************
             $cvFile = $personForm->get('cv')->getData();
             if ($cvFile) {
                 $cvFilename = 'CV.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $cvFile->guessExtension();
@@ -95,8 +96,10 @@ class PersonController extends AbstractController
             }
             $entityManager->persist($person);
             $entityManager->flush();
+
             return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
         }
+
         return $this->render('super_admin/person/new.html.twig', [
             'person' => $person,
             'personForm' => $personForm,
@@ -140,11 +143,14 @@ class PersonController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $person->getId(), $request->getPayload()->get('_token'))) {
             $entityManager->remove($person);
+            $user = $entityManager->getRepository(User::class)->findOneBy(['person_id' => $person->getId()]);
+
+            if ($user) {
+                $entityManager->remove($user);
+            }
             $entityManager->flush();
         }
+
         return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
     }
 }
-
-
-
