@@ -117,7 +117,7 @@ class PersonController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Person $person, EntityManagerInterface $entityManager, FilesRepository $filesRepository): Response
+    public function edit(Request $request, Person $person, EntityManagerInterface $entityManager): Response
     {
         $personForm = $this->createForm(PersonType::class, $person);
         $personForm->handleRequest($request);
@@ -136,7 +136,6 @@ class PersonController extends AbstractController
             'personForm' => $personForm,
         ]);
     }
-
 
     #[Route('/delete/{id}', name: 'delete', methods: ['GET', 'POST'])]
     public function delete(Request $request, Person $person, EntityManagerInterface $entityManager): Response
