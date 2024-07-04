@@ -28,7 +28,7 @@ class CompanyController extends AbstractController
         $company = new Company();
         $form = $this->createForm(CompanyType::class, $company);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $company->setCreatedAt(new \DateTimeImmutable());
             $entityManager->persist($company);
@@ -58,6 +58,7 @@ class CompanyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $company->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->flush();
 
             return $this->redirectToRoute('app_company_index', [], Response::HTTP_SEE_OTHER);
@@ -80,3 +81,11 @@ class CompanyController extends AbstractController
         return $this->redirectToRoute('app_company_index', [], Response::HTTP_SEE_OTHER);
     }
 }
+
+
+
+
+
+
+
+
