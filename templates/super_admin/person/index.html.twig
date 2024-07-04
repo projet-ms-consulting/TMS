@@ -3,43 +3,44 @@
 {% block title %}Person index{% endblock %}
 
 {% block body %}
-    <h1>Person index</h1>
+    <h1>Liste des personnes</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>LastName</th>
-                <th>FirstName</th>
-                <th>StartInternship</th>
-                <th>EndInternship</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Date début de stage</th>
+                <th>Date fin de stage</th>
+                <th>Date de création</th>
+                <th>Date de mise à jour</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for person in people %}
             <tr>
-                <td>{{ person.id }}</td>
                 <td>{{ person.lastName }}</td>
                 <td>{{ person.firstName }}</td>
-                <td>{{ person.startInternship ? person.startInternship|date('Y-m-d') : '' }}</td>
-                <td>{{ person.endInternship ? person.endInternship|date('Y-m-d') : '' }}</td>
-                <td>{{ person.createdAt ? person.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ person.updatedAt ? person.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ person.startInternship ? person.startInternship|date('d/m/Y')}}</td>
+                <td>{{ person.endInternship ? person.endInternship|date('d/m/Y')}}</td>
+                <td>{{ person.createdAt ? person.createdAt|date('d/m/Y')}}</td>
+                <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y')}}</td>
                 <td>
-                    <a href="{{ path('super_admin_app_person_show', {'id': person.id}) }}">show</a>
-                    <a href="{{ path('super_admin_app_person_edit', {'id': person.id}) }}">edit</a>
+                    <a href="{{ path('super_admin_app_person_show', {'id': person.id}) }}">Voir</a>
+                    <a href="{{ path('super_admin_app_person_edit', {'id': person.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">Aucun enregistrement ! </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('super_admin_app_person_new') }}">Create new</a>
+    <a href="{{ path('super_admin_app_person_new') }}">Créer</a>
+
+
+
 {% endblock %}

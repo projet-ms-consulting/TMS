@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\admin;
+namespace App\Controller\super_admin;
 
 use App\Entity\Files;
 use App\Entity\Person;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('super_admin/person', name: 'super_admin_app_person_')]
 class PersonController extends AbstractController
 {
-    #[Route('/super_admin/person/index', name: 'index', methods: ['GET'])]
+    #[Route('/index', name: 'index', methods: ['GET'])]
     public function index(PersonRepository $personRepository): Response
     {
         return $this->render('super_admin/person/index.html.twig', [
@@ -23,11 +23,13 @@ class PersonController extends AbstractController
         ]);
     }
 
-    #[Route('super_admin/new', name: 'new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $person = new Person();
-        $personForm = $this->createForm(PersonType::class, $person);
+        $personForm = $this->createForm(PersonType::class, $person, [
+            'context'=>'new'
+        ]);
         $personForm->handleRequest($request);
 
         if ($personForm->isSubmitted() && $personForm->isValid()) {
@@ -91,8 +93,7 @@ class PersonController extends AbstractController
                 $entityManager->flush();
             }
 
-
-            return $this->redirectToRoute('index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('super_admin/person/new.html.twig', [
@@ -101,7 +102,7 @@ class PersonController extends AbstractController
         ]);
     }
 
-    #[Route('super_admin/person/{id}', name: 'show', methods: ['GET'])]
+    #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Person $person): Response
     {
         return $this->render('super_admin/person/show.html.twig', [
@@ -109,13 +110,15 @@ class PersonController extends AbstractController
         ]);
     }
 
-    #[Route('super_admin/person/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Person $person, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(PersonType::class, $person);
-        $form->handleRequest($request);
+        $personForm = $this->createForm(PersonType::class, $person, [
+            'context' => 'edit'
+        ]);
+        $personForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($personForm->isSubmitted() && $personForm->isValid()) {
             $entityManager->flush();
 
             return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
@@ -123,11 +126,11 @@ class PersonController extends AbstractController
 
         return $this->render('super_admin/person/edit.html.twig', [
             'person' => $person,
-            'form' => $form,
+            'personForm' => $personForm,
         ]);
     }
 
-    #[Route('super_admin/person/delete/{id}', name: 'delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, Person $person, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$person->getId(), $request->getPayload()->get('_token'))) {

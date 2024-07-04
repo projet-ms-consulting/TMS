@@ -3,7 +3,7 @@
 {% block title %}Person{% endblock %}
 
 {% block body %}
-    <h1>Stagiaires</h1>
+    <h1>Personnes</h1>
 
     <table class="table">
         <tbody>
@@ -17,19 +17,19 @@
             </tr>
             <tr>
                 <th>Date de début de stage</th>
-                <td>{{ person.startInternship ? person.startInternship|date('Y-m-d') : '' }}</td>
+                <td>{{ person.startInternship ? person.startInternship|date('d/m/Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Date de fin de stage</th>
-                <td>{{ person.endInternship ? person.endInternship|date('Y-m-d') : '' }}</td>
+                <td>{{ person.endInternship ? person.endInternship|date('d/m/Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Créé le :</th>
-                <td>{{ person.createdAt ? person.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ person.createdAt ? person.createdAt|date('d/m/Y')}}</td>
             </tr>
             <tr>
                 <th>Mis à jour le : </th>
-                <td>{{ person.updatedAt ? person.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y')}}</td>
             </tr>
         </tbody>
     </table>

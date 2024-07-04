@@ -4,8 +4,10 @@ namespace App\Form;
 
 use App\Entity\Person;
 use App\Entity\School;
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,6 +18,8 @@ class PersonType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $context = $options['context'];
+
         $builder
             ->add('lastName', null, [
                 'label' => 'Nom : ',
@@ -27,14 +31,15 @@ class PersonType extends AbstractType
                 'widget' => 'single_text',
                 'label' => 'Date début de stage : ',
             ])
-            ->add('endInternship', null, [
+            ->add('endInternship', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'Date fin de stage : ',
             ])
             ->add('school', EntityType::class, [
                 'class' => School::class,
                 'label' => 'Ecole : ',
-                'choice_label' => 'school.name',
+                'choice_label' => 'name',
+                'placeholder' => 'Choisir une ecole',
             ])
             ->add('cv', FileType::class,[
                 'label' => 'Ajouter un CV  : ',
@@ -80,18 +85,28 @@ class PersonType extends AbstractType
                         'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
                     ])
                 ]
-            ])
-            ->add('createdAt', DateType::class, [
-                'widget' => 'single_text',
-                'label' => 'Créer le : ',
-                'data' => new \DateTime('now')
             ]);
+            if ($context == 'new'){
+                $builder->add('createdAt', DateType::class, [
+                    'widget' => 'single_text',
+                    'label' => 'Créer le : ',
+                    'data' => new \DateTime('now')
+                ]);
+            }
+            if ($context == 'edit'){
+                $builder->add('updatedAt', DateType::class, [
+                    'widget' => 'single_text',
+                    'label' => 'Modifié le : ',
+                    'data' => new \DateTime('now')
+                ]);
+            }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Person::class,
+            'context' => 'new',
         ]);
     }
 }

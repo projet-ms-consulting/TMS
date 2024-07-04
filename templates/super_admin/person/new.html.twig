@@ -1,18 +1,17 @@
 {% extends 'super_admin.html.twig' %}
 
-{% block title %} Créer un stagiaire {% endblock %}
+{% block title %} Créer une personne {% endblock %}
 
 {% block body %}
-    <h1>Créer un stagiaire</h1>
+    <h1>Créer une personne</h1>
     <div>
         {{ form_start(personForm) }}
-            {{ form_row(personForm.startInternship)}}
-            {{ form_row(personForm.endInternship)}}
             {{ form_row(personForm.firstName)}}
             {{ form_row(personForm.lastName)}}
+            {{ form_row(personForm.startInternship)}}
+            {{ form_row(personForm.endInternship)}}
             {{ form_row(personForm.school)}}
             {{ form_row(personForm.cv)}}
-            personForm.cv.getName
             {{ form_row(personForm.coverLetter)}}
             {{ form_row(personForm.internshipAgreement)}}
             {{ form_row(personForm.createdAt)}}
