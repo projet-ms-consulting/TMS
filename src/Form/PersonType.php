@@ -4,10 +4,8 @@ namespace App\Form;
 
 use App\Entity\Person;
 use App\Entity\School;
-use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,8 +16,6 @@ class PersonType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $context = $options['context'];
-
         $builder
             ->add('lastName', null, [
                 'label' => 'Nom : ',
@@ -86,27 +82,12 @@ class PersonType extends AbstractType
                     ])
                 ]
             ]);
-            if ($context == 'new'){
-                $builder->add('createdAt', DateType::class, [
-                    'widget' => 'single_text',
-                    'label' => 'Créer le : ',
-                    'data' => new \DateTime('now')
-                ]);
-            }
-            if ($context == 'edit'){
-                $builder->add('updatedAt', DateType::class, [
-                    'widget' => 'single_text',
-                    'label' => 'Modifié le : ',
-                    'data' => new \DateTime('now')
-                ]);
-            }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Person::class,
-            'context' => 'new',
+            'data_class' => Person::class, FileType::class
         ]);
     }
 }

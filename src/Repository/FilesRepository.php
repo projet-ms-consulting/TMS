@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Files;
+use App\Entity\Person;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,6 +22,14 @@ class FilesRepository extends ServiceEntityRepository
         parent::__construct($registry, Files::class);
     }
 
+    public function findByPerson(Person $person): array
+    {
+        return $this->createQueryBuilder('files')
+            ->andWhere('files.person = :person')
+            ->setParameter('person', $person)
+            ->getQuery()
+            ->getResult();
+    }
     //    /**
     //     * @return Files[] Returns an array of Files objects
     //     */

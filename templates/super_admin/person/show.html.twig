@@ -17,19 +17,25 @@
             </tr>
             <tr>
                 <th>Date de début de stage</th>
-                <td>{{ person.startInternship ? person.startInternship|date('d/m/Y') : '' }}</td>
+                <td>{{ person.startInternship ? person.startInternship|date('d/m/Y H:i') : '' }}</td>
             </tr>
             <tr>
                 <th>Date de fin de stage</th>
-                <td>{{ person.endInternship ? person.endInternship|date('d/m/Y') : '' }}</td>
+                <td>{{ person.endInternship ? person.endInternship|date('d/m/Y H:i') : '' }}</td>
             </tr>
             <tr>
                 <th>Créé le :</th>
-                <td>{{ person.createdAt ? person.createdAt|date('d/m/Y')}}</td>
+                <td>{{ person.createdAt ? person.createdAt|date('d/m/Y H:i')}}</td>
             </tr>
             <tr>
                 <th>Mis à jour le : </th>
-                <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y')}}</td>
+                <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y H:i')}}</td>
+            </tr>
+            <tr><
+                {% for file in files %}
+                    <th>Documents : </th>
+                    <td><a href="{{ asset('documents/' ~file.realFileName) }}">{{ file.label }}</a></td>
+                {% endfor %}
             </tr>
         </tbody>
     </table>
