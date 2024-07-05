@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Files;
 use App\Entity\Person;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -20,6 +21,9 @@ class PersonRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Person::class);
     }
+
+
+
 
     //    /**
     //     * @return Person[] Returns an array of Person objects
