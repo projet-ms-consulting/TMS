@@ -31,12 +31,12 @@
                 <th>Mis à jour le : </th>
                 <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y H:i')}}</td>
             </tr>
-            <tr><
-                {% for file in files %}
-                    <th>Documents : </th>
-                    <td><a href="{{ asset('documents/' ~file.realFileName) }}">{{ file.label }}</a></td>
-                {% endfor %}
+            {% for file in person.files %}
+            <tr>
+                <th>Documents : </th>
+                    <td><a href="{{ asset('documents/' ~file.realFileName) }}" target="_blank">{{ file.label }}</a></td>
             </tr>
+            {% endfor %}
         </tbody>
     </table>
 
