@@ -146,8 +146,6 @@ class AppFixtures extends Fixture
         $person7->setLastName('Personne');
         $person7->setStartInternship($date);
         $person7->setCreatedAt($date);
-        $person7->setInternshipSupervisor($user6);
-        $person7->setSchoolSupervisor($user5);
         $person7->setCompany($company);
         $person7->setSchool($school);
         $manager->persist($person7);
