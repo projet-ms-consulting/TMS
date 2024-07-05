@@ -4,7 +4,6 @@ namespace App\Controller\super_admin;
 
 use App\Entity\Files;
 use App\Entity\Person;
-use App\Entity\User;
 use App\Form\PersonType;
 use App\Repository\FilesRepository;
 use App\Repository\PersonRepository;
@@ -31,7 +30,6 @@ class PersonController extends AbstractController
         $person = new Person();
         $file = new Files();
 
-
         $personForm = $this->createForm(PersonType::class, $person);
         $personForm->handleRequest($request);
 
@@ -48,7 +46,6 @@ class PersonController extends AbstractController
                 $cvHashFile = $cvHash . '.' . $cvFile->guessExtension();
                 $cvFile->move($this->getParameter('kernel.project_dir') . '/public/documents', $cvFilename);
 
-                $file = new Files();
                 $file->setLabel('CV')
                     ->setFile($cvHashFile)
                     ->setCreatedAt(new \DateTimeImmutable())
@@ -66,7 +63,6 @@ class PersonController extends AbstractController
                 $lmHashFile = $lmHash . '.' . $lmFile->guessExtension();
                 $lmFile->move($this->getParameter('kernel.project_dir') . '/public/documents', $lmFilename);
 
-                $file = new Files();
                 $file->setLabel('LM')
                     ->setFile($lmHashFile)
                     ->setCreatedAt(new \DateTimeImmutable())
@@ -84,7 +80,6 @@ class PersonController extends AbstractController
                 $csHashFile = $csHash . '.' . $csFile->guessExtension();
                 $csFile->move($this->getParameter('kernel.project_dir') . '/public/documents', $csHashFile);
 
-                $file = new Files();
                 $file->setLabel('CS')
                     ->setFile($csHashFile)
                     ->setCreatedAt(new \DateTimeImmutable())
@@ -117,13 +112,44 @@ class PersonController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Person $person, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Person $person, FilesRepository $file, EntityManagerInterface $entityManager): Response
     {
+       $file = new Files();
         $personForm = $this->createForm(PersonType::class, $person);
         $personForm->handleRequest($request);
 
         if ($personForm->isSubmitted() && $personForm->isValid()) {
             $person->setUpdatedAt(new \DateTimeImmutable());
+
+            if ($request->files->get('person')['cv']) {
+                $oldFiles = $person->getFiles();
+                foreach ($oldFiles as $oldFile){
+                    $filePath = ($this->getParameter('kernel.project_dir') . '/public/documents/' . $oldFile->getFile());
+                    if (file_exists($filePath)) {
+                        unlink($oldFile);
+                    }
+                    $entityManager->remove($oldFile);
+                }
+
+
+                $cvFile = $request->files->get('person')['cv'];
+                $cvFilename = 'CV.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $cvFile->guessExtension();
+                $cvHash = hash('sha256', $cvFilename);
+                $cvHashFile = $cvHash . '.' . $cvFile->guessExtension();
+                $cvFile->move($this->getParameter('kernel.project_dir') . '/public/documents', $cvFilename);
+                $file->setLabel('CV')
+                    ->setFile($cvHashFile)
+                    ->setCreatedAt(new \DateTimeImmutable())
+                    ->setUpdatedAt(new \DateTimeImmutable())
+                    ->setPerson($person)
+                    ->setRealFileName($cvFilename);
+
+
+                $entityManager->persist($file);
+                $entityManager->flush();
+            }
+
+
 
             $entityManager->persist($person);
             $entityManager->flush();
@@ -134,6 +160,7 @@ class PersonController extends AbstractController
         return $this->render('super_admin/person/edit.html.twig', [
             'person' => $person,
             'personForm' => $personForm,
+            'file' => $file,
         ]);
     }
 
@@ -142,11 +169,11 @@ class PersonController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $person->getId(), $request->getPayload()->get('_token'))) {
             $entityManager->remove($person);
-            $user = $entityManager->getRepository(User::class)->findOneBy(['person_id' => $person->getId()]);
-
-            if ($user) {
-                $entityManager->remove($user);
-            }
+//            $user = $entityManager->getRepository(User::class)->findOneBy(['person_id' => $person->getId()]);
+//
+//            if ($user) {
+//                $entityManager->remove($user);
+//            }
             $entityManager->flush();
         }
 
