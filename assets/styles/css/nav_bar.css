@@ -1,0 +1,78 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #333;
+    border-radius: 10px;
+    box-shadow: 0 0 20px dimgrey;
+}
+
+.navbar-logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 60px;
+    width: auto;
+}
+
+.navbar-menu {
+    font-family:'Made GENDLED', sans-serif;
+    font-size: 20px;
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-menu li {
+    margin-left: 10px;
+    margin: 3px;
+}
+
+.navbar-menu li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar-menu li a:hover {
+    background-color: dimgrey;
+    color: whitesmoke;
+    border-radius: 5px;
+}
+
+/* Pas encore fonctionnel
+.navbar-toggle {
+    display: none;
+}
+*/
+
+/* A revoir pour les autres tailles */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+    }
+
+    .navbar-toggle {
+        display: block;
+        color: white;
+    }
+
+    .navbar-menu {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .navbar-menu li {
+        margin: 10px 0;
+    }
+
+    .navbar-menu.active {
+        display: flex;
+    }
+}
