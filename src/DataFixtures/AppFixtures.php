@@ -129,7 +129,6 @@ class AppFixtures extends Fixture
         $person6->setFirstName('La sixième');
         $person6->setLastName('Personne');
         $person6->setCreatedAt($date);
-        $person6->setManager($user3);
         $person6->setCompany($company);
         $manager->persist($person6);
 
@@ -147,7 +146,6 @@ class AppFixtures extends Fixture
         $person7->setLastName('Personne');
         $person7->setStartInternship($date);
         $person7->setCreatedAt($date);
-        $person7->setManager($user3);
         $person7->setInternshipSupervisor($user6);
         $person7->setSchoolSupervisor($user5);
         $person7->setCompany($company);
