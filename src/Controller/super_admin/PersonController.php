@@ -138,8 +138,7 @@ class PersonController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$person->getId(), $request->getPayload()->get('_token'))) {
             $entityManager->remove($person);
-            $user = $entityManager->getRepository(User::class)->findOneBy(['person_id' => $person->getId()]);
-
+            $user = $person->getUser();
             if ($user) {
                 $entityManager->remove($user);
             }
