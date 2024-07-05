@@ -29,15 +29,36 @@
         </tr>
         <tr>
             <th>Ajouter un CV</th>
-            <td>{{ form_widget(personForm.cv) }}</td>
+            {% for file in person.files %}
+                {% if file.label == 'CV' %}
+                    <td>
+                        {{ form_widget(personForm.cv) }}
+                        <a href="{{ asset('documents/' ~file.realFileName) }}" target="_blank">{{ file.realFileName }}</a>
+                    </td>
+                {% endif %}
+            {% endfor %}
         </tr>
         <tr>
             <th>Ajouter une lettre de motivation</th>
-            <td>{{ form_widget(personForm.coverLetter) }}</td>
+            {% for file in person.files %}
+                {% if file.label == 'LM' %}
+                    <td>
+                        {{ form_widget(personForm.coverLetter) }}
+                        <a href="{{ asset('documents/' ~file.realFileName) }}" target="_blank">{{ file.realFileName }}</a>
+                    </td>
+                {% endif %}
+            {% endfor %}
         </tr>
         <tr>
             <th>Ajouter une convention de stage</th>
-            <td>{{ form_widget(personForm.internshipAgreement) }}</td>
+            {% for file in person.files %}
+                {% if file.label == 'CS' %}
+                     <td>
+                         {{ form_widget(personForm.internshipAgreement) }}
+                         <a href="{{ asset('documents/' ~file.realFileName) }}" target="_blank">{{ file.realFileName }}</a>
+                     </td>
+                {% endif %}
+            {% endfor %}
         </tr>
         <tr>
             <td colspan="2">
