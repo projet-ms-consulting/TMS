@@ -94,6 +94,8 @@ class PersonController extends AbstractController
 
             $entityManager->persist($person);
             $entityManager->flush();
+            $this->addFlash('success', 'Création réussie !');
+
 
             return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -208,6 +210,8 @@ class PersonController extends AbstractController
 
             $entityManager->persist($person);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Modification réussie !');
 
             return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
         }
