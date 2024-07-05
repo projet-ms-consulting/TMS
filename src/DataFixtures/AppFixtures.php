@@ -81,12 +81,12 @@ class AppFixtures extends Fixture
 
         $person3 = new Person();
         $person3->setFirstName('Julien');
-        $person3->setLastName('Paul');
+        $person3->setLastName('Cadis');
         $person3->setCreatedAt($date);
         $manager->persist($person3);
 
         $user3 = new User();
-        $user3->setEmail('julien.sanchez@msconsulting-europe.com');
+        $user3->setEmail('julien.cadisz@msconsulting-europe.com');
         $hash = $this->hasher->hashPassword($user3, 'super_admin');
         $user3->setRoles(['ROLE_SUPER_ADMIN']);
         $user3->setPassword($hash);

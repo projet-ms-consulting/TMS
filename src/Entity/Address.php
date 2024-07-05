@@ -27,7 +27,7 @@ class Address
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $city = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
