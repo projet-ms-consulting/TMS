@@ -23,15 +23,17 @@ class SchoolController extends AbstractController
         $sort = $request->query->get('sort', 's.id');
         $direction = $request->query->get('direction', 'asc');
         $schools = $schoolRepository->paginateSchools($page, $limit);
-        $persons = $personRepository->findAll();
+        $person = $personRepository->findAll();
+        $school = $schoolRepository->find('id');
 
         return $this->render('super_admin/school/index.html.twig', [
             'schools' => $schools,
+            'school' => $school,
             'page' => $page,
             'limit' => $limit,
             'sort' => $sort,
             'direction' => $direction,
-            'persons' => $persons,
+            'person' => $person,
         ]);
     }
 
