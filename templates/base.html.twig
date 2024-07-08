@@ -8,6 +8,9 @@
     <link rel="icon"
           href="https://msconsulting-europe.com/wp-content/uploads/2024/05/cropped-logo-square.jpg">
     {% block stylesheets %}
+        <link href="{{ asset('/styles/css/array.css') }}" rel="stylesheet" />
+        <link href="{{ asset('/styles/css/nav_bar.css') }}" rel="stylesheet" />
+        <link href="{{ asset('/styles/css/style.css') }}" rel="stylesheet" />
     {% endblock %}
 
 
@@ -18,9 +21,9 @@
 
 <body>
 <header>
-    {% include "navfoot/nav.html.twig" %}
+    {% include "components/navbar.html.twig" %}
 </header>
-<main class="">
+<main class="container">
     {% block body %}{% endblock %}
 </main>
 <footer>

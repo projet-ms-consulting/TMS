@@ -39,8 +39,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\OneToOne(targetEntity: Person::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?Person $person = null;
 
     /**
      * @var Collection<int, Person>
@@ -59,6 +57,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'manager')]
     private Collection $manager;
+
+    #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?person $person = null;
 
     public function __construct()
     {
@@ -166,17 +168,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPerson(): ?Person
-    {
-        return $this->person;
-    }
-
-    public function setPerson(Person $person): static
-    {
-        $this->person = $person;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Person>
@@ -264,6 +255,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $manager->setManager(null);
             }
         }
+
+        return $this;
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return in_array($role, $this->getRoles());
+    }
+
+    public function getPerson(): ?person
+    {
+        return $this->person;
+    }
+
+    public function setPerson(person $person): static
+    {
+        $this->person = $person;
 
         return $this;
     }

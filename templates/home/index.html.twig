@@ -1,6 +1,5 @@
 {% extends 'base.html.twig' %}
 
-
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
@@ -16,13 +15,19 @@
                         La méthode la plus rapide pour collaborer sur des environnements de stage et temporaires.
                     </p>
                     <div class="flex flex-col items-center justify-center gap-2 mx-auto mt-8 md:flex-row">
-                        <a href="{{ path('app_login') }}">
-                            <button
-                                    class="inline-flex items-center justify-center w-full h-12 gap-3 px-5 py-3 font-medium text-white duration-200 bg-gray-900 md:w-auto rounded-xl hover:bg-gray-700 focus:ring-2 focus:ring-offset-2 focus:ring-black"
-                                    aria-label="Primary action">
-                                Connexion
-                            </button>
-                        </a>
+                        {% if app.user %}
+                            <a href="{{ path('app_profil') }}">
+                                <button class="inline-flex items-center justify-center w-full h-12 gap-3 px-5 py-3 font-medium text-white duration-200 bg-gray-900 md:w-auto rounded-xl hover:bg-gray-700 focus:ring-2 focus:ring-offset-2 focus:ring-black" aria-label="Mon Profil">
+                                    Mon Profil
+                                </button>
+                            </a>
+                        {% else %}
+                            <a href="{{ path('app_login') }}">
+                                <button class="inline-flex items-center justify-center w-full h-12 gap-3 px-5 py-3 font-medium text-white duration-200 bg-gray-900 md:w-auto rounded-xl hover:bg-gray-700 focus:ring-2 focus:ring-offset-2 focus:ring-black" aria-label="Connexion">
+                                    Connexion
+                                </button>
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

@@ -46,9 +46,7 @@ class Person
     #[ORM\OneToMany(targetEntity: Files::class, mappedBy: 'person', orphanRemoval: true)]
     private Collection $files;
 
-    #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'Person', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
-    private ?User $user = null;
+
 
     /**
      * @var Collection<int, Project>
@@ -56,9 +54,6 @@ class Person
     #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'person')]
     private Collection $projects;
 
-    #[ORM\OneToOne(inversedBy: 'person', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?Address $address = null;
 
     #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'internshipSupervisor')]
     #[ORM\JoinColumn(name: 'internship_supervisor_id', referencedColumnName: 'id', nullable: true)]
@@ -84,6 +79,9 @@ class Person
 
     #[ORM\ManyToOne(inversedBy: 'person')]
     private ?Company $company = null;
+
+    #[ORM\OneToOne(mappedBy: 'person', cascade: ['persist', 'remove'])]
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -232,22 +230,7 @@ class Person
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
 
-    public function setUser(User $user): static
-    {
-        // set the owning side of the relation if necessary
-        if ($user->getPerson() !== $this) {
-            $user->setPerson($this);
-        }
-
-        $this->user = $user;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Project>
@@ -276,17 +259,6 @@ class Person
         return $this;
     }
 
-    public function getAddress(): ?Address
-    {
-        return $this->address;
-    }
-
-    public function setAddress(Address $address): static
-    {
-        $this->address = $address;
-
-        return $this;
-    }
 
     public function getInternshipSupervisor(): Person
     {
@@ -375,5 +347,22 @@ class Person
     public function setManagers(Collection $managers): void
     {
         $this->managers = $managers;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): static
+    {
+        // set the owning side of the relation if necessary
+        if ($user->getPerson() !== $this) {
+            $user->setPerson($this);
+        }
+
+        $this->user = $user;
+
+        return $this;
     }
 }

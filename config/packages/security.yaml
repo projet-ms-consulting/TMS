@@ -38,7 +38,7 @@ security:
         - { path: ^/super_admin/*, roles: ROLE_SUPER_ADMIN }
         - { path: ^/super_admin, roles: ROLE_SUPER_ADMIN }
         - { path: ^/super_admin/*, roles: ROLE_SUPER_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/profil, roles: ROLE_USER }
 
 when@test:
     security:
