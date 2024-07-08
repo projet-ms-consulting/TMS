@@ -60,7 +60,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?person $person = null;
+    private ?Person $person = null;
 
     public function __construct()
     {
@@ -264,15 +264,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return in_array($role, $this->getRoles());
     }
 
-    public function getPerson(): ?person
+    public function getPerson(): ?Person
     {
         return $this->person;
     }
 
-    public function setPerson(person $person): static
+    public function setPerson(Person $person): static
     {
         $this->person = $person;
 
         return $this;
     }
+
 }

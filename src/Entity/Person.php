@@ -46,14 +46,11 @@ class Person
     #[ORM\OneToMany(targetEntity: Files::class, mappedBy: 'person', orphanRemoval: true)]
     private Collection $files;
 
-
-
     /**
      * @var Collection<int, Project>
      */
     #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'person')]
     private Collection $projects;
-
 
     #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'internshipSupervisor')]
     #[ORM\JoinColumn(name: 'internship_supervisor_id', referencedColumnName: 'id', nullable: true)]
@@ -365,4 +362,5 @@ class Person
 
         return $this;
     }
+
 }
