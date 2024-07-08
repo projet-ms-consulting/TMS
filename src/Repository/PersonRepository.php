@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
-use App\Entity\Files;
 use App\Entity\Person;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -22,8 +23,22 @@ class PersonRepository extends ServiceEntityRepository
         parent::__construct($registry, Person::class);
     }
 
+    public function filterSchoolInternshipPersons(EntityManagerInterface $entityManager): array
+    {
+        $subquery = $entityManager->createQueryBuilder()
+            ->select('u.id')
+            ->from(User::class, 'u')
+            ->where(':role IN (u.roles)')
+            ->setParameter('role', 'ROLE_SCHOOL_INTERNSHIP');
 
+        $repository = $entityManager->getRepository(Person::class);
 
+        $qb = $repository->createQueryBuilder('p');
+        $qb->where($qb->expr()->in('p.user', $subquery->getDQL()))
+            ->setParameter('role', 'ROLE_SCHOOL_INTERNSHIP');
+
+        return $qb->getQuery()->getResult();
+    }
 
     //    /**
     //     * @return Person[] Returns an array of Person objects
