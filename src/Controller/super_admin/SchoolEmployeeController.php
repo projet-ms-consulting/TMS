@@ -17,11 +17,15 @@ use Symfony\Component\Routing\Attribute\Route;
 class SchoolEmployeeController extends AbstractController
 {
     #[Route('/index', name: 'index', methods: ['GET'])]
-    public function index(PersonRepository $personRepository, Person $person, UserRepository $userRepository): Response
+    public function index(PersonRepository $personRepository, Person $person, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
+        $filteredPersons = $this->filterSchoolInternshipPersons($entityManager);
+        dd($filteredPersons);
+
         return $this->render('super_admin/school_employee/index.html.twig', [
             'people' => $personRepository->findAll(),
             'user' => $person->getUser(),
+            'persons' => $filteredPersons,
         ]);
     }
 
@@ -67,4 +71,6 @@ class SchoolEmployeeController extends AbstractController
 
         return $this->redirectToRoute('super_admin_app_school_employee_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
 }
