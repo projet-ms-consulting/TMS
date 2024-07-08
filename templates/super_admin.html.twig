@@ -5,38 +5,18 @@
     <title>{% block title %}Welcome!{% endblock %}</title>
     <link rel="icon" href="https://msconsulting-europe.com/wp-content/uploads/2024/05/cropped-logo-square.jpg">
     {% block stylesheets %}
-{#       <link href="{{ asset('/styles/css/home.css') }}" rel="stylesheet" />#}
         <link href="{{ asset('/styles/css/array.css') }}" rel="stylesheet" />
-{#        <link href="{{ asset('/styles/css/dashboard_layout.css') }}" rel="stylesheet" />#}
         <link href="{{ asset('/styles/css/nav_bar.css') }}" rel="stylesheet" />
+        <link href="{{ asset('/styles/css/style.css') }}" rel="stylesheet" />
     {% endblock %}
     {% block javascripts %}
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://kit.fontawesome.com/e320a50358.js" crossorigin="anonymous"></script>
-        <script src="{{ asset('js/navbar.js') }}"></script>
     {% endblock %}
 </head>
 <body>
 <header>
-    <nav class="navbar">
-        <a href="{{ path('app_home') }}" class="navbar-logo">
-            <img src="https://msconsulting-europe.com/wp-content/uploads/2024/05/cropped-logo-square.jpg" alt="Logo" class="logo-img">
-        </a>
-        <button class="navbar-toggle" aria-label="Toggle navigation">
-            <i class="fas fa-bars"></i>
-        </button>
-        <ul class="navbar-menu">
-            <li><a href="{{ path('super_admin_home') }}">Panel super admin</a></li>
-            <li><a href="{{ path('super_admin_app_person_index') }}">Personnes</a></li>
-            <li><a href="{{ path('super_admin_app_company_employee_index') }}">Employés d'entreprise</a></li>
-            <li><a href="{{ path('super_admin_app_school_employee_index') }}">Employés d'école</a></li>
-            <li><a href="{{ path('super_admin_app_trainee_index') }}">Stagiaires</a></li>
-            <li><a href="{{ path('super_admin_address_index') }}">Adresses</a></li>
-            <li><a href="{{ path('super_admin_school_index') }}">Écoles</a></li>
-            <li><a href="{{ path('app_company_index') }}">Entreprises</a></li>
-            <li><a href="{{ path('app_home') }}">Retour à la page d'accueil</a></li>
-        </ul>
-    </nav>
+    {% include "components/navbar.html.twig" %}
 </header>
 
 <section>
@@ -54,7 +34,6 @@
 
 <main class="container">
     {% block body %}
-
     {% endblock %}
 </main>
 </body>
