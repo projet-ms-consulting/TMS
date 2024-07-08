@@ -36,8 +36,6 @@ class Address
     #[ORM\OneToOne(mappedBy: 'address', cascade: ['persist', 'remove'])]
     private ?School $school = null;
 
-    #[ORM\OneToOne(mappedBy: 'address', cascade: ['persist', 'remove'])]
-    private ?Person $person = null;
 
     /**
      * @var Collection<int, Company>
