@@ -69,7 +69,7 @@ class AppFixtures extends Fixture
         $manager->persist($user);
 
         $roles = ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN', 'ROLE_TRAINEE', 'ROLE_SCHOOL_INTERNSHIP', 'ROLE_COMPANY_INTERNSHIP'];
-        for ($i = 0; $i < 500; $i++) {
+        for ($i = 0; $i < 30; $i++) {
             $person = new Person();
             $person->setFirstName($this->faker->firstName());
             $person->setLastName($this->faker->lastName());
