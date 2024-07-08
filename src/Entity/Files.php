@@ -22,7 +22,7 @@ class Files
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $realFileName = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]

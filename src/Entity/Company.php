@@ -22,7 +22,7 @@ class Company
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $companyType = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]

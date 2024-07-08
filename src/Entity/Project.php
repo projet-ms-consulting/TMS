@@ -25,7 +25,7 @@ class Project
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $git = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]

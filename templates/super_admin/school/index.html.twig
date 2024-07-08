@@ -27,9 +27,9 @@
                         <b style="color: red">Aucune adresse</b>
                     {% endif %}
                 </td>
-                {% for person in persons %}
+                {% for person in person %}
                     <td>
-                        {% if person.school is not null and school.id == person.school.id and person.company.id is null %}
+                        {% if person.school is not null and school.id == person.school.id and person.company is null %}
                         <a href="{{ path('super_admin_app_person_show',{'id':person.id}) }}">{{ person.lastName }} {{ person.firstName }}</a> <br>
                         {% endif %}
                     </td>
