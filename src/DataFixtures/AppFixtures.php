@@ -79,7 +79,7 @@ class AppFixtures extends Fixture
             $user = new User();
             $user->setEmail('user' . $i + 1 . '@user.fr');
             $user->setPassword($this->hasher->hashPassword($user, 'user'));
-            $user->setRoles(['ROLE_USER', $roles[array_rand($roles)]]);
+            $user->setRoles([$roles[array_rand($roles)]]);
             $user->setPerson($person);
             $user->setCreatedAt($date);
             $manager->persist($user);
