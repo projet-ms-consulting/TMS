@@ -2,17 +2,10 @@
 
 {% block title %}Hello MainController!{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }} {# Pour récuperer le template parent, sinon la css nav bar disparait  #}
-    <link rel="stylesheet" href="{{ asset('/styles/css/home.css') }}">
-{% endblock %}
-
 {% block body %}
-    <main class="container">
-        <div class="content">
-            <h1>Bienvenue sur TMS</h1>
-            <p>Notre application est conçue pour simplifier la gestion des stagiaires <br> et des entreprises partenaires.</p>
-            <p>Explorez nos fonctionnalités avancées pour gérer efficacement vos données.</p>
-        </div>
-    </main>
+    <div class="content">
+        <h1>Bienvenue sur TMS</h1>
+        <p>Notre application est conçue pour simplifier la gestion des stagiaires <br> et des entreprises partenaires.</p>
+        <p>Explorez nos fonctionnalités avancées pour gérer efficacement vos données.</p>
+    </div>
 {% endblock %}
