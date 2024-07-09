@@ -3,43 +3,34 @@
     border-collapse: collapse;
     margin-top: 20px;
     margin-bottom: 20px;
-    font-size: 16px;
 }
 
-/* Styles des en-têtes de colonnes */
 .table th {
-    background-color: #3498db; /* Bleu */
+    font-family: "Apple SD Gothic Neo";
+    font-size: larger;
+    background-color: dodgerblue;
     color: white;
     padding: 12px;
-    text-align: left;
+    text-align: center;
     border: 1px solid #ddd;
+
 }
 
-/* Styles des cellules */
 .table td {
-    background-color: #f9ca24; /* Jaune */
+    background-color: #333333;
+    color: whitesmoke;
     padding: 12px;
     text-align: left;
     border: 1px solid #ddd;
 }
 
-/* Style des lignes alternées */
-.table tr:nth-child(even) {
-    background-color: #ecf0f1; /* Gris clair */
-}
-
-/* Style au survol des lignes */
-.table tr:hover {
-    background-color: #f2f2f2; /* Gris plus foncé */
-}
-
-/* Style des liens dans les cellules */
 .table td a {
-    color: #3498db; /* Bleu */
+    color: whitesmoke;
     text-decoration: none;
+    font-size: large;
 }
 
-/* Style des liens au survol */
 .table td a:hover {
+    color: gold;
     text-decoration: underline;
 }

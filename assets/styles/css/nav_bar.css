@@ -28,14 +28,14 @@
 }
 
 .navbar-menu li {
-    margin-left: 5px;
+    margin-left: 3px;
     margin: 3px;
 }
 
 .navbar-menu li a {
     color: white;
     text-decoration: none;
-    padding: 5px;
+    padding: 3px;
     transition: background-color 0.3s, color 0.3s;
 }
 
