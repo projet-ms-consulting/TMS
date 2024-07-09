@@ -15,51 +15,55 @@
             <th>Prénom</th>
             <td>{{ form_widget(personForm.firstName) }}</td>
         </tr>
-        <tr>
-            <th>Date début de stage</th>
-            <td>{{ form_widget(personForm.startInternship) }}</td>
-        </tr>
-        <tr>
-            <th>Date fin de stage</th>
-            <td>{{ form_widget(personForm.endInternship) }}</td>
-        </tr>
-        <tr>
-            <th>École</th>
-            <td>{{ form_widget(personForm.school) }}</td>
-        </tr>
+{#        <tr>#}
+{#            <th>Date début de stage</th>#}
+{#            <td>{{ form_widget(personForm.startInternship) }}</td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <th>Date fin de stage</th>#}
+{#            <td>{{ form_widget(personForm.endInternship) }}</td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <th>École</th>#}
+{#            <td>{{ form_widget(personForm.school) }}</td>#}
+{#        </tr>#}
+
         <tr>
             <th>Ajouter un CV</th>
-            {% for file in person.files %}
-                {% if file.label == 'CV' %}
-                    <td>
-                        {{ form_widget(personForm.cv) }}
-                        <a href="{{ asset('documents/' ~file.realFileName) }}" target="_blank">{{ file.realFileName }}</a>
-                    </td>
+            <td>
+                 {{ form_widget(personForm.cv) }}
+                {% for file in person.files %}
+                    {% if file.label == 'CV' %}
+                <a href="{{ asset('documents/' ~file.realFileName) }}" target="_blank">{{ file.realFileName }}</a>
                 {% endif %}
-            {% endfor %}
+                {% endfor %}
+            </td>
+
         </tr>
+
         <tr>
             <th>Ajouter une lettre de motivation</th>
-            {% for file in person.files %}
-                {% if file.label == 'LM' %}
                     <td>
                         {{ form_widget(personForm.coverLetter) }}
+                        {% for file in person.files %}
+                        {% if file.label == 'LM' %}
                         <a href="{{ asset('documents/' ~file.realFileName) }}" target="_blank">{{ file.realFileName }}</a>
+                        {% endif %}
+                        {% endfor %}
                     </td>
-                {% endif %}
-            {% endfor %}
+
         </tr>
-        <tr>
-            <th>Ajouter une convention de stage</th>
-            {% for file in person.files %}
-                {% if file.label == 'CS' %}
-                     <td>
-                         {{ form_widget(personForm.internshipAgreement) }}
-                         <a href="{{ asset('documents/' ~file.realFileName) }}" target="_blank">{{ file.realFileName }}</a>
-                     </td>
-                {% endif %}
-            {% endfor %}
-        </tr>
+{#        <tr>#}
+{#            <th>Ajouter une convention de stage</th>#}
+{#            {% for file in person.files %}#}
+{#                {% if file.label == 'CS' %}#}
+{#                     <td>#}
+{#                         {{ form_widget(personForm.internshipAgreement) }}#}
+{#                         <a href="{{ asset('documents/' ~file.realFileName) }}" target="_blank">{{ file.realFileName }}</a>#}
+{#                     </td>#}
+{#                {% endif %}#}
+{#            {% endfor %}#}
+{#        </tr>#}
         <tr>
             <td colspan="2">
                 <button class="btn">Enregistrer</button>

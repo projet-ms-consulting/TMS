@@ -74,23 +74,23 @@ class PersonController extends AbstractController
                 $entityManager->flush();
             }
 //*************  Upload convention de stage ****************
-            $csFile = $personForm->get('internshipAgreement')->getData();
-            if ($csFile) {
-                $csFilename = 'CS.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $csFile->guessExtension();
-                $csHash = hash('sha256', $csFilename);
-                $csHashFile = $csHash . '.' . $csFile->guessExtension();
-                $csFile->move($this->getParameter('kernel.project_dir') . '/public/documents', $csHashFile);
-
-                $file= new Files();
-                $file->setLabel('CS')
-                    ->setFile($csHashFile)
-                    ->setCreatedAt(new \DateTimeImmutable())
-                    ->setPerson($person)
-                    ->setRealFileName($csFilename);
-
-                $entityManager->persist($file);
-                $entityManager->flush();
-            }
+//            $csFile = $personForm->get('internshipAgreement')->getData();
+//            if ($csFile) {
+//                $csFilename = 'CS.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $csFile->guessExtension();
+//                $csHash = hash('sha256', $csFilename);
+//                $csHashFile = $csHash . '.' . $csFile->guessExtension();
+//                $csFile->move($this->getParameter('kernel.project_dir') . '/public/documents', $csHashFile);
+//
+//                $file= new Files();
+//                $file->setLabel('CS')
+//                    ->setFile($csHashFile)
+//                    ->setCreatedAt(new \DateTimeImmutable())
+//                    ->setPerson($person)
+//                    ->setRealFileName($csFilename);
+//
+//                $entityManager->persist($file);
+//                $entityManager->flush();
+//            }
 
             $entityManager->persist($person);
             $entityManager->flush();
@@ -111,7 +111,9 @@ class PersonController extends AbstractController
     {
         return $this->render('super_admin/person/show.html.twig', [
             'person' => $person,
+            'user' => $person->getUser(),
             'files' => $person->getFiles(),
+
         ]);
     }
 
@@ -180,33 +182,33 @@ class PersonController extends AbstractController
                 $entityManager->flush();
             }
 
-            if ($request->files->get('person')['internshipAgreement']) {
-                $oldFiles = $person->getFiles();
-                foreach ($oldFiles as $oldFile){
-                    if($oldFile->getLabel() == 'CS') {
-                        $filePath = ($this->getParameter('kernel.project_dir') . '/public/documents/' . $oldFile->getFile());
-                        if (file_exists($oldFile->getFile())) {
-                            unlink($filePath);
-                        }
-                        $entityManager->remove($oldFile);
-
-                    }
-                }
-                $csFile = $request->files->get('person')['internshipAgreement'];
-                $csFilename = 'CS.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $csFile->guessExtension();
-                $cvHash = hash('sha256', $csFilename);
-                $cvHashFile = $cvHash . '.' . $csFile->guessExtension();
-                $csFile->move($this->getParameter('kernel.project_dir') . '/public/documents', $csFilename);
-                $file->setLabel('CS')
-                    ->setFile($cvHashFile)
-                    ->setCreatedAt(new \DateTimeImmutable())
-                    ->setUpdatedAt(new \DateTimeImmutable())
-                    ->setPerson($person)
-                    ->setRealFileName($csFilename);
-
-                $entityManager->persist($file);
-                $entityManager->flush();
-            }
+//            if ($request->files->get('person')['internshipAgreement']) {
+//                $oldFiles = $person->getFiles();
+//                foreach ($oldFiles as $oldFile){
+//                    if($oldFile->getLabel() == 'CS') {
+//                        $filePath = ($this->getParameter('kernel.project_dir') . '/public/documents/' . $oldFile->getFile());
+//                        if (file_exists($oldFile->getFile())) {
+//                            unlink($filePath);
+//                        }
+//                        $entityManager->remove($oldFile);
+//
+//                    }
+//                }
+//                $csFile = $request->files->get('person')['internshipAgreement'];
+//                $csFilename = 'CS.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $csFile->guessExtension();
+//                $cvHash = hash('sha256', $csFilename);
+//                $cvHashFile = $cvHash . '.' . $csFile->guessExtension();
+//                $csFile->move($this->getParameter('kernel.project_dir') . '/public/documents', $csFilename);
+//                $file->setLabel('CS')
+//                    ->setFile($cvHashFile)
+//                    ->setCreatedAt(new \DateTimeImmutable())
+//                    ->setUpdatedAt(new \DateTimeImmutable())
+//                    ->setPerson($person)
+//                    ->setRealFileName($csFilename);
+//
+//                $entityManager->persist($file);
+//                $entityManager->flush();
+//            }
 
             $entityManager->persist($person);
             $entityManager->flush();
@@ -220,6 +222,7 @@ class PersonController extends AbstractController
             'person' => $person,
             'personForm' => $personForm,
             'files' => $person->getFiles(),
+            'user' => $person->getUser()
         ]);
     }
 

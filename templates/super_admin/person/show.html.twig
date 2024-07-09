@@ -3,7 +3,7 @@
 {% block title %}Person{% endblock %}
 
 {% block body %}
-    <h1>Personnes</h1>
+    <h1>{{ person.firstName }} {{ person.lastName | upper }}</h1>
 
     <table class="table">
         <tbody>
@@ -16,27 +16,36 @@
                 <td>{{ person.firstName }}</td>
             </tr>
             <tr>
-                <th>Date de début de stage</th>
-                <td>{{ person.startInternship ? person.startInternship|date('d/m/Y H:i') : '' }}</td>
+                {% if person.user %}
+                    <th>Email : </th>
+                    <td>{{ person.user.email }}</td>
+                {% endif %}
             </tr>
-            <tr>
-                <th>Date de fin de stage</th>
-                <td>{{ person.endInternship ? person.endInternship|date('d/m/Y H:i') : '' }}</td>
-            </tr>
+{#                <th>Date de début de stage</th>#}
+{#                <td>{{ person.startInternship ? person.startInternship|date('d/m/Y H:i') : '' }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <th>Date de fin de stage</th>#}
+{#                <td>{{ person.endInternship ? person.endInternship|date('d/m/Y H:i') : '' }}</td>#}
+{#            </tr>#}
             <tr>
                 <th>Créé le :</th>
                 <td>{{ person.createdAt ? person.createdAt|date('d/m/Y H:i')}}</td>
             </tr>
             <tr>
-                <th>Mis à jour le : </th>
-                <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y H:i')}}</td>
+                {% if person.updatedAt is not defined %}
+                    <th>Mis à jour le : </th>
+                    <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y H:i')}}</td>
+                {% endif %}
             </tr>
-            {% for file in person.files %}
             <tr>
                 <th>Documents : </th>
-                    <td><a href="{{ asset('documents/' ~file.realFileName) }}" target="_blank">{{ file.label }}</a></td>
+                    <td>
+                        {% for file in person.files %}
+                            <a href="{{ asset('documents/' ~file.realFileName) }}" target="_blank">{{ file.label }}</a>
+                        {% endfor %}
+                    </td>
             </tr>
-            {% endfor %}
         </tbody>
     </table>
 
