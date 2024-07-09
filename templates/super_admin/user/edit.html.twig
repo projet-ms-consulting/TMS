@@ -4,14 +4,29 @@
 
 {% block body %}
     <h1>Modifier {{ user.person.firstName }} {{ user.person.lastName | upper}}</h1>
-    <div>
-        {{ form_start(userForm) }}
-            {{ form_row(userForm.email) }}
-            {{ form_row(userForm.password) }}
-            {{ form_row(userForm.roles) }}
-        <button type="submit">Enregistrer</button>
-        {{ form_end(userForm) }}
-    </div>
+
+    {{ form_start(userForm) }}
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Email : </th>
+            <td>{{ form_widget(userForm.email) }}</td>
+        </tr>
+        <tr>
+            <th>Mot de passe : </th>
+            <td>{{ form_widget(userForm.password) }}</td>
+        </tr>
+        <tr>
+            <th>Rôle : </th>
+            <td style="color: black">{{ form_widget(userForm.roles) }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button class="btn">Créer</button>
+            </td>
+        </tr>
+    </table>
+    {{ form_end(userForm) }}
 
     <a href="{{ path('super_admin_app_person_index') }}">Retour à la liste des personnes</a>
 
