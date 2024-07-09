@@ -14,16 +14,10 @@ class ProfilController extends AbstractController
     {
         $user = $this->getUser();
 
-        if (!$user) {
-            return $this->redirectToRoute('app_login');
-        }
-
-       $userFromDatabase = $userRepository->find($user->getId());
-
-        $person = $userFromDatabase->getPerson();
+       $person = $user->getPerson();
 
         return $this->render('profil/index.html.twig', [
-            'user' => $userFromDatabase,
+            'user' => $user,
             'person' => $person,
         ]);
     }

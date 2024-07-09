@@ -5,11 +5,9 @@
 {% block body %}
     <h1>Mon Profil</h1>
 
-{#    <p>Nom complet : {{ user.firstName }} {{ user.lastName }}</p>#}
-    <p>Email : {{ user.email }}</p>
-    <p>Rôles : {{ user.roles|join(', ') }}</p>
-    <p>Date de création : {{ user.createdAt ? user.createdAt|date('d/m/Y H:i:s') : 'Non disponible' }}</p>
-    <p>Date de dernière modification : {{ user.updatedAt ? user.updatedAt|date('d/m/Y H:i:s') : 'Non disponible' }}</p>
+    <p>Nom    : {{ person.lastName }}</p>
+    <p>Prenom : {{ person.firstName }}</p>
+    <p>Email  : {{ user.email }}</p>
 
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cvModal">
         Voir mon CV
