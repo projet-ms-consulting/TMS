@@ -19,10 +19,10 @@ class TraineeController extends AbstractController
     #[Route('/index', name: 'index', methods: ['GET'])]
     public function index(PersonRepository $personRepository, UserRepository $userRepository, Person $person): Response
     {
+        $filteredPersons = $personRepository->filterTraineePersons();
+
         return $this->render('super_admin/trainee/index.html.twig', [
-            'people' => $personRepository->findAll(),
-            'user' => $person->getUser(),
-            'person' => $person,
+            'persons' => $filteredPersons,
         ]);
     }
 
