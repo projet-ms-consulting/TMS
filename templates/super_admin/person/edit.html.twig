@@ -3,7 +3,7 @@
 {% block title %}Modifier une personne{% endblock %}
 
 {% block body %}
-    <h1>Modifier une personne</h1>
+    <h1>Modifier {{ person.firstName }} {{ person.lastName | upper }}</h1>
 
     {{ form_start(personForm) }}
     <table class="table">
@@ -40,7 +40,6 @@
             </td>
 
         </tr>
-
         <tr>
             <th>Ajouter une lettre de motivation</th>
                     <td>

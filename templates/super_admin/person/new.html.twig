@@ -4,19 +4,32 @@
 
 {% block body %}
     <h1>Créer une personne</h1>
-    <div>
-        {{ form_start(personForm) }}
-            {{ form_row(personForm.firstName)}}
-            {{ form_row(personForm.lastName)}}
-{#            {{ form_row(personForm.startInternship)}}#}
-{#            {{ form_row(personForm.endInternship)}}#}
-{#            {{ form_row(personForm.school)}}#}
-            {{ form_row(personForm.cv)}}
-            {{ form_row(personForm.coverLetter)}}
-{#            {{ form_row(personForm.internshipAgreement)}}#}
-        <button type="submit">Créer</button>
-        {{ form_end(personForm) }}
-    </div>
 
+    {{ form_start(personForm) }}
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Nom : </th>
+            <td>{{ form_widget(personForm.lastName) }}</td>
+        </tr>
+        <tr>
+            <th>Prénom : </th>
+            <td>{{ form_widget(personForm.firstName) }}</td>
+        </tr>
+        <tr>
+            <th>Ajouter un CV : </th>
+            <td>{{ form_widget(personForm.cv) }}</td>
+        </tr>
+        <tr>
+            <th>Ajouter une lettre de motivation : </th>
+            <td>{{ form_widget(personForm.coverLetter) }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button class="btn">Créer</button>
+            </td>
+        </tr>
+    </table>
+    {{ form_end(personForm) }}
     <a href="{{ path('super_admin_app_person_index') }}">Retour</a>
 {% endblock %}

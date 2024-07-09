@@ -34,7 +34,6 @@ class UserController extends AbstractController
         $userForm = $this->createForm(UserType::class, $user, [
             'selected_person' => $person
         ]);
-
         $userForm->handleRequest($request);
 
         if ($userForm->isSubmitted() && $userForm->isValid()) {
@@ -42,12 +41,11 @@ class UserController extends AbstractController
             $user->setRoles($userForm->getData()->getRoles());
             $person->setUser($user);
 
-
             $entityManager->persist($user);
             $entityManager->persist($person);
             $entityManager->flush();
 
-            return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('super_admin_app_person_new', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('super_admin/user/new.html.twig', [
