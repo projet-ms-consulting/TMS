@@ -1,6 +1,6 @@
 {% extends 'super_admin.html.twig' %}
 
-{% block title %}Person index{% endblock %}
+{% block title %}Liste des personnes{% endblock %}
 
 {% block body %}
     <h1>Liste des personnes</h1>
@@ -14,6 +14,7 @@
 {#                <th>Date fin de stage</th>#}
                 <th>Date de création</th>
                 <th>Date de mise à jour</th>
+{#                <th>Rôle</th>#}
                 <th>Actions</th>
             </tr>
         </thead>
@@ -27,6 +28,7 @@
 {#                <td>{{ person.endInternship ? person.endInternship|date('d/m/Y')}}</td>#}
                 <td>{{ person.createdAt ? person.createdAt|date('d/m/Y')}}</td>
                 <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y')}}</td>
+{#                <td>{{ person.user.roles ? person.user.roles |json_encode : '' }}</td>#}
                 <td>
                     <a href="{{ path('super_admin_app_person_show', {'id': person.id}) }}">Voir</a>
                     <a href="{{ path('super_admin_app_person_edit', {'id': person.id}) }}">Modifier</a>
@@ -34,6 +36,11 @@
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ person.id) }}">
                         <button class="btn">Supprimer</button>
                     </form>
+                    {% if not person.user %}
+                        <a href="{{ path('super_admin_app_user_new', {'id': person.id}) }}">Créer Utilisateur</a>
+                    {% else %}
+                        <a href="{{ path('super_admin_app_user_edit', {'id': person.id}) }}">Modifier rôle</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}

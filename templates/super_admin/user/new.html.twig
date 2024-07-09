@@ -1,0 +1,17 @@
+{% extends 'super_admin.html.twig' %}
+
+{% block title %}Création d'un utilisateur{% endblock %}
+
+{% block body %}
+    <h1>Créer un compte utilisateur pour  {{ person.firstName }} {{ person.lastName | upper }} </h1>
+    <div>
+        {{ form_start(userForm) }}
+        {{ form_row(userForm.email) }}
+        {{ form_row(userForm.password) }}
+            <button type="submit">Créer l'utilisateur</button>
+        {{ form_end(userForm) }}
+    </div>
+
+
+    <a href="{{ path('super_admin_app_user_index') }}">retour à la liste des utilisateur</a>
+{% endblock %}
