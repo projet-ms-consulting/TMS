@@ -23,21 +23,43 @@ class PersonRepository extends ServiceEntityRepository
         parent::__construct($registry, Person::class);
     }
 
-    public function filterSchoolInternshipPersons(EntityManagerInterface $entityManager): array
+    //Filtre des personnes internes à l'école
+    public function filterSchoolInternshipPersons(): array
     {
-        $subquery = $entityManager->createQueryBuilder()
-            ->select('u.id')
-            ->from(User::class, 'u')
-            ->where(':role IN (u.roles)')
-            ->setParameter('role', 'ROLE_SCHOOL_INTERNSHIP');
 
-        $repository = $entityManager->getRepository(Person::class);
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.user', 'u')
+            ->where('u.roles LIKE :role')
+            ->setParameter('role', '%"ROLE_SCHOOL_INTERNSHIP"%')
+            ->getQuery()
+            ->getResult();
 
-        $qb = $repository->createQueryBuilder('p');
-        $qb->where($qb->expr()->in('p.user', $subquery->getDQL()))
-            ->setParameter('role', 'ROLE_SCHOOL_INTERNSHIP');
+    }
 
-        return $qb->getQuery()->getResult();
+    //Filtre des personnes internes à l'entreprise
+    public function filterCompanyEmployeePersons(): array
+    {
+
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.user', 'u')
+            ->where('u.roles LIKE :role1 OR u.roles LIKE :role2')
+            ->setParameter('role1', '%"ROLE_COMPANY_INTERNSHIP"%')
+            ->setParameter('role2', '%"ROLE_ADMIN"%')
+            ->getQuery()
+            ->getResult();
+
+    }
+
+    //Filtre des personnes stagiaires
+    public function filterTraineePersons(): array
+    {
+
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.user', 'u')
+            ->where('u.roles LIKE :role')
+            ->setParameter('role', '%"ROLE_TRAINEE"%')
+            ->getQuery()
+            ->getResult();
     }
 
     //    /**

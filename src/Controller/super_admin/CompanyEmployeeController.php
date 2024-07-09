@@ -3,7 +3,6 @@
 namespace App\Controller\super_admin;
 
 use App\Entity\Person;
-use App\Entity\User;
 use App\Form\PersonType;
 use App\Repository\PersonRepository;
 use App\Repository\UserRepository;
@@ -19,9 +18,10 @@ class CompanyEmployeeController extends AbstractController
     #[Route('/index', name: 'index', methods: ['GET'])]
     public function index(PersonRepository $personRepository, Person $person, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
+        $filteredPersons = $personRepository->filterCompanyEmployeePersons();
+
         return $this->render('super_admin/company_employee/index.html.twig', [
-            'user' => $person->getUser(),
-            'people' => $personRepository->findAll(),
+            'persons' => $filteredPersons,
         ]);
     }
 

@@ -1,0 +1,19 @@
+{% extends 'super_admin.html.twig' %}
+
+{% block title %}Modifier l'utilisateur{% endblock %}
+
+{% block body %}
+    <h1>Modifier {{ user.person.firstName }} {{ user.person.lastName | upper}}</h1>
+    <div>
+        {{ form_start(userForm) }}
+            {{ form_row(userForm.email) }}
+            {{ form_row(userForm.password) }}
+            {{ form_row(userForm.roles) }}
+        <button type="submit">Enregistrer</button>
+        {{ form_end(userForm) }}
+    </div>
+
+    <a href="{{ path('super_admin_app_person_index') }}">Retour à la liste des personnes</a>
+
+    {{ include('super_admin/user/_delete_form.html.twig') }}
+{% endblock %}

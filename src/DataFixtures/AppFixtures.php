@@ -31,8 +31,8 @@ class AppFixtures extends Fixture
     {
         $date = new \DateTimeImmutable($this->faker->dateTimeBetween('-1 week', 'now')->format('Y-m-d H:i:s'));
 
-        //address
-        for ($i = 0; $i < 30; $i++) {
+        // company
+        for ($i = 0; $i < 20; ++$i) {
             $address = new Address();
             $address->setNbStreet($this->faker->buildingNumber());
             $address->setStreet($this->faker->streetName());
@@ -40,21 +40,32 @@ class AppFixtures extends Fixture
             $address->setCity($this->faker->city());
             $address->setCreatedAt($date);
             $manager->persist($address);
-            $listAddress[] = $address;
-        }
-
-        //company
-        for ($i = 0; $i < 20; $i++) {
             $company = new Company();
             $company->setName($this->faker->company());
-            $company->setAddress($listAddress[array_rand($listAddress)]);
+            $company->setAddress($address);
             $company->setCreatedAt($date);
             $manager->persist($company);
             $listCompany[] = $company;
         }
+        // school
+        for ($i = 0; $i < 20; ++$i) {
+            $address = new Address();
+            $address->setNbStreet($this->faker->buildingNumber());
+            $address->setStreet($this->faker->streetName());
+            $address->setZipCode($this->faker->postcode());
+            $address->setCity($this->faker->city());
+            $address->setCreatedAt($date);
+            $manager->persist($address);
+            $school = new School();
+            $school->setName($this->faker->company());
+            $school->setAddress($address);
+            $school->setCreatedAt($date);
+            $manager->persist($school);
+            $listSchool[] = $school;
+        }
 
-        //person
-        //admin
+        // person
+        // admin
         $admin = new Person();
         $admin->setFirstName('admin');
         $admin->setLastName('Admined');
@@ -69,7 +80,7 @@ class AppFixtures extends Fixture
         $manager->persist($user);
 
         $roles = ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN', 'ROLE_TRAINEE', 'ROLE_SCHOOL_INTERNSHIP', 'ROLE_COMPANY_INTERNSHIP'];
-        for ($i = 0; $i < 30; $i++) {
+        for ($i = 0; $i < 30; ++$i) {
             $person = new Person();
             $person->setFirstName($this->faker->firstName());
             $person->setLastName($this->faker->lastName());
@@ -77,15 +88,26 @@ class AppFixtures extends Fixture
             $manager->persist($person);
             $listPerson[] = $person;
             $user = new User();
-            $user->setEmail('user' . $i + 1 . '@user.fr');
+            $user->setEmail('user'.$i + 1 .'@user.fr');
             $user->setPassword($this->hasher->hashPassword($user, 'user'));
             $user->setRoles([$roles[array_rand($roles)]]);
             $user->setPerson($person);
             $user->setCreatedAt($date);
+            if ('ROLE_ADMIN' == $user->getRoles()[0] or 'ROLE_COMPANY_INTERNSHIP' == $user->getRoles()[0]) {
+                $user->getPerson()->setCompany($listCompany[array_rand($listCompany)]);
+            } elseif ('ROLE_SCHOOL_INTERNSHIP' == $user->getRoles()[0]) {
+                $user->getPerson()->setSchool($listSchool[array_rand($listSchool)]);
+            } elseif ('ROLE_TRAINEE' == $user->getRoles()[0]) {
+                $user->getPerson()->setSchool($listSchool[array_rand($listSchool)]);
+                $user->getPerson()->setCompany($listCompany[array_rand($listCompany)]);
+                $user->getPerson()->setInternshipSupervisor($listPerson[array_rand($listPerson)]->getId());
+                $user->getPerson()->setSchoolSupervisor($listPerson[array_rand($listPerson)]->getId());
+                $user->getPerson()->setManager($listPerson[array_rand($listPerson)]->getId());
+
+            }
             $manager->persist($user);
             $listUser[] = $user;
         }
-
         $manager->flush();
     }
 }
