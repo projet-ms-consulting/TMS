@@ -8,27 +8,21 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Prénom</th>
-                <th>Nom</th>
-{#                <th>Date début de stage</th>#}
-{#                <th>Date fin de stage</th>#}
-                <th>Date de création</th>
-                <th>Date de mise à jour</th>
-{#                <th>Rôle</th>#}
+                <th>{{ knp_pagination_sortable(personne, 'Prénom', 'p.firstName') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Nom', 'p.lastName') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Date de création', 'p.createdAt') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Date de mise à jour', 'p.updatedAt') }}</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for person in people %}
-            {% if people is not null %}
+        {% for person in personne %}
+            {% if person is not null %}
             <tr>
-                <td>{{ person.lastName }}</td>
                 <td>{{ person.firstName }}</td>
-{#                <td>{{ person.startInternship ? person.startInternship|date('d/m/Y')}}</td>#}
-{#                <td>{{ person.endInternship ? person.endInternship|date('d/m/Y')}}</td>#}
+                <td>{{ person.lastName }}</td>
                 <td>{{ person.createdAt ? person.createdAt|date('d/m/Y')}}</td>
                 <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y')}}</td>
-{#                <td>{{ person.user.roles ? person.user.roles |json_encode : '' }}</td>#}
                 <td>
                     <a href="{{ path('super_admin_app_person_show', {'id': person.id}) }}">Voir</a>
                     <a href="{{ path('super_admin_app_person_edit', {'id': person.id}) }}">Modifier</a>
@@ -51,7 +45,7 @@
         {% endfor %}
         </tbody>
     </table>
-
+    {{ knp_pagination_render(personne) }}
     <a href="{{ path('super_admin_app_person_new') }}">Créer</a>
 
 {% endblock %}

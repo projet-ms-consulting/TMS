@@ -62,6 +62,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private ?Person $person = null;
 
+    #[ORM\Column]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?bool $everLoggedIn = null;
+
     public function __construct()
     {
         $this->internshipSupervisor = new ArrayCollection();
@@ -272,6 +276,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPerson(Person $person): static
     {
         $this->person = $person;
+
+        return $this;
+    }
+
+    public function isEverLoggedIn(): ?bool
+    {
+        return $this->everLoggedIn;
+    }
+
+    public function setEverLoggedIn(bool $everLoggedIn): static
+    {
+        $this->everLoggedIn = $everLoggedIn;
 
         return $this;
     }
