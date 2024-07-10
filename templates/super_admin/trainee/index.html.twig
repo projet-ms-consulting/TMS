@@ -14,6 +14,7 @@
                 <th>Référent école</th>
                 <th>Entreprise</th>
                 <th>Référent entreprise</th>
+                <th>Manager</th>
                 <th>Date début de stage</th>
                 <th>Date fin de stage</th>
                 <th>Date de modification</th>
@@ -27,14 +28,22 @@
                 <td>{{ person.lastName }}</td>
                 <td>{{ person.firstName }}</td>
                 <td>{{ person.school.name }}</td>
-                {% if person.schoolSupervisor is not null %}
-                    <td>{{ person.schoolSupervisor.lastName }} {{ person.schoolSupervisor.firstName }}</td>
+                {% if person.schoolSupervisor is defined and person.schoolSupervisor is not null%}
+                    <td>{{ person.schoolSupervisor.firstName }} {{ person.schoolSupervisor.lastName }}</td>
                 {% else %}
                     <td>Pas de référent école</td>
                 {% endif %}
                 <td>{{ person.company.name }}</td>
-{#                <td>{{ person.internshipSupervisor.lastName }} {{ person.internshipSupervisor.firstName }}</td>#}
-                <td>Pas de référent stage</td>
+                {% if person.internshipSupervisor is defined and person.internshipSupervisor is not null %}
+                    <td>{{ person.internshipSupervisor.firstName }} {{ person.internshipSupervisor.lastName }}</td>
+                {% else %}
+                    <td>Pas de référent stage</td>
+                {% endif %}
+                {% if person.manager is defined and person.manager is not null %}
+                    <td>{{ person.manager.firstName }} {{ person.manager.lastName }}</td>
+                {% else %}
+                    <td>Pas de Manager</td>
+                {% endif %}
                 <td>{{ person.startInternship ? person.startInternship|date('d/m/Y')}}</td>
                 <td>{{ person.endInternship ? person.endInternship|date('d/m/Y')}}</td>
                 <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y')}}</td>

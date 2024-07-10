@@ -64,7 +64,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     #[ORM\JoinColumn(nullable: true)]
-    private ?bool $everLoggedIn = null;
+    private ?bool $everLoggedIn = false;
 
     public function __construct()
     {
