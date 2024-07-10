@@ -32,13 +32,14 @@ class UserController extends AbstractController
 
         $person = $entityManager->getRepository(Person::class)->find($personId);
         $userForm = $this->createForm(UserType::class, $user, [
-            'selected_person' => $person
+            'selected_person' => $person,
         ]);
         $userForm->handleRequest($request);
 
         if ($userForm->isSubmitted() && $userForm->isValid()) {
             $user->setCreatedAt(new \DateTimeImmutable());
             $user->setRoles($userForm->getData()->getRoles());
+            $user->setEverLoggedIn(false);
             $person->setUser($user);
 
             $entityManager->persist($user);

@@ -80,6 +80,12 @@ class Person
     #[ORM\OneToOne(mappedBy: 'person', cascade: ['persist', 'remove'])]
     private ?User $user = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $mailPerso = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $mailPro = null;
+
     public function __construct()
     {
         $this->socialNetworks = new ArrayCollection();
@@ -227,8 +233,6 @@ class Person
         return $this;
     }
 
-
-
     /**
      * @return Collection<int, Project>
      */
@@ -255,7 +259,6 @@ class Person
 
         return $this;
     }
-
 
     public function getInternshipSupervisor(): Person
     {
@@ -316,6 +319,7 @@ class Person
 
         return $this;
     }
+
     public function getInternshipSupervisors(): Collection
     {
         return $this->internshipSupervisors;
@@ -363,4 +367,27 @@ class Person
         return $this;
     }
 
+    public function getMailPerso(): ?string
+    {
+        return $this->mailPerso;
+    }
+
+    public function setMailPerso(?string $mailPerso): static
+    {
+        $this->mailPerso = $mailPerso;
+
+        return $this;
+    }
+
+    public function getMailPro(): ?string
+    {
+        return $this->mailPro;
+    }
+
+    public function setMailPro(?string $mailPro): static
+    {
+        $this->mailPro = $mailPro;
+
+        return $this;
+    }
 }
