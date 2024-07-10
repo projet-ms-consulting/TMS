@@ -3,16 +3,18 @@
     border-collapse: collapse;
     margin-top: 20px;
     margin-bottom: 20px;
+    border-radius: 30px;
+    overflow: hidden;
 }
 
 .table th {
     font-family: "Apple SD Gothic Neo";
     font-size: larger;
-    background-color: dodgerblue;
-    color: white;
+    background: dimgrey;
+    color: whitesmoke;
     padding: 12px;
     text-align: center;
-    border: 1px solid #ddd;
+    border: 2px solid grey;
 
 }
 
@@ -21,7 +23,7 @@
     color: whitesmoke;
     padding: 12px;
     text-align: left;
-    border: 1px solid #ddd;
+    border: 2px solid dimgrey;
 }
 
 .table td a {
@@ -31,6 +33,14 @@
 }
 
 .table td a:hover {
-    color: gold;
+    /*color: #333333;*/
+    color: whitesmoke;
     text-decoration: underline;
+}
+
+.table tr:hover td {
+    /*color: #333333;*/
+    color: whitesmoke;
+    /*background: darkgrey;*/
+    background-color: darkslategrey;
 }
