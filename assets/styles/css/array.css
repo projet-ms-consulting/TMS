@@ -5,6 +5,7 @@
     margin-bottom: 20px;
     border-radius: 30px;
     overflow: hidden;
+    /*box-shadow: 8px 10px 10px goldenrod;*/
 }
 
 .table th {
@@ -42,5 +43,6 @@
     /*color: #333333;*/
     color: whitesmoke;
     /*background: darkgrey;*/
-    background-color: darkslategrey;
+    background-color: #3e3e3e;
+    transition: color 0.5s, background-color 0.5s;
 }

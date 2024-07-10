@@ -36,13 +36,15 @@
     color: white;
     text-decoration: none;
     padding: 3px;
-    transition: background-color 0.3s, color 0.3s;
+    transition: color 0.2s;
 }
 
+
 .navbar-menu li a:hover {
-    background-color: dimgrey;
-    color: whitesmoke;
+    /*background-color: dimgrey;*/
+    color: goldenrod;
     border-radius: 5px;
+
 }
 
 /* Pas encore fonctionnel
