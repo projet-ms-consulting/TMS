@@ -5,6 +5,8 @@
 {% block body %}
     <h1>Mon Profil</h1>
 
+    <a href="{{ path('app_profil_edit') }}" class="btn btn-primary">Modifier mon profil</a>
+
     <p>Nom    : {{ person.lastName }}</p>
     <p>Prenom : {{ person.firstName }}</p>
     <p>Email  : {{ user.email }}</p>
@@ -13,3 +15,4 @@
         Voir mon CV
     </button>
 {% endblock %}
+

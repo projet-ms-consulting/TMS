@@ -5,6 +5,8 @@
 {% block body %}
     <h1>Liste des adresses</h1>
 
+    <a href="{{ path('super_admin_address_new') }}" class="btn-custom" >Créer une adresse</a>
+
     <table class="table">
         <thead>
             <tr>
@@ -44,5 +46,5 @@
     </table>
     {{ knp_pagination_render(addresses) }}
 
-    <a href="{{ path('super_admin_address_new') }}">Créer une nouvelle adresse</a>
+
 {% endblock %}

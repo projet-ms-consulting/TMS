@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier mon profil{% endblock %}
+
+{% block body %}
+    <h1>Modifier mon Profil</h1>
+
+    {{ form_start(form) }}
+
+    <div class="form-group">
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email, { 'attr': { 'class': 'form-control' } }) }}
+        {{ form_errors(form.email) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.password) }}
+        {{ form_widget(form.password, { 'attr': { 'class': 'form-control' } }) }}
+        {{ form_errors(form.password) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.person) }}
+        {{ form_widget(form.person, { 'attr': { 'class': 'form-control' } }) }}
+        {{ form_errors(form.person) }}
+    </div>
+
+    {{ form_end(form) }}
+
+    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+{% endblock %}

@@ -5,6 +5,8 @@
 {% block body %}
     <h1>Liste des personnes</h1>
 
+    <a href="{{ path('super_admin_app_person_new') }}" class="btn-custom">Créer une personne </a>
+
     <table class="table">
         <thead>
             <tr>
@@ -31,7 +33,7 @@
                         <button class="btn">Supprimer</button>
                     </form>
                     {% if not person.user %}
-                        <a href="{{ path('super_admin_app_user_new', {'id': person.id}) }}">Créer Utilisateur</a>
+                        <a href="{{ path('super_admin_app_user_new', {'id': person.id}) }}" class="btn-custom">Créer un Utilisateur</a>
                     {% else %}
                         <a href="{{ path('super_admin_app_user_edit', {'id': person.id}) }}">Modifier rôle</a>
                     {% endif %}
@@ -45,7 +47,9 @@
         {% endfor %}
         </tbody>
     </table>
+
     {{ knp_pagination_render(personne) }}
     <a href="{{ path('super_admin_app_person_new') }}">Créer</a>
+
 
 {% endblock %}
