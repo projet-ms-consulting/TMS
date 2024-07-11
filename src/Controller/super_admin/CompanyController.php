@@ -11,14 +11,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/', name: 'super_admin_app_company_')]
+#[Route('super_admin/company', name: 'super_admin_app_company_')]
 class CompanyController extends AbstractController
 {
     #[Route('/index', name: 'index', methods: ['GET'])]
-    public function index(CompanyRepository $companyRepository): Response
+    public function index(CompanyRepository $companyRepository, Request $request): Response
     {
+        $page = $request->query->getInt('page', 1);
+        $limit = $request->query->getInt('limit', 8);
+        $sort = $request->query->get('sort', 'a.id');
+        $direction = $request->query->get('direction', 'asc');
+        $company = $companyRepository->paginateCompany($page, $limit);
         return $this->render('super_admin/company/index.html.twig', [
-            'companies' => $companyRepository->findAll(),
+            'companies' => $company,
         ]);
     }
 

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Company;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
  * @extends ServiceEntityRepository<Company>
@@ -16,11 +17,28 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CompanyRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private \Knp\Component\Pager\PaginatorInterface $paginator)
     {
         parent::__construct($registry, Company::class);
     }
 
+
+    public function paginateCompany(int $page, int $limit): PaginationInterface
+    {
+        return $this->paginator->paginate(
+            $this->createQueryBuilder('c')
+                ->select('c')
+                ->innerJoin('c.address', 'a')
+                ->addSelect('a'),
+            $page,
+            $limit,
+            [
+                'defaultSortFieldName' => 'c.id',
+                'defaultSortDirection' => 'asc',
+                'sortFieldWhitelist' => ['c.id', 'c.name', 'c.createdAt', 'c.updatedAt', 'a.nbStreet', 'a.street', 'a.zipCode', 'a.city', 'c.companyType', 'c.employeeNumber'],
+            ]
+        );
+    }
     //    /**
     //     * @return Company[] Returns an array of Company objects
     //     */
