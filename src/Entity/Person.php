@@ -265,7 +265,7 @@ class Person
         return $this->internshipSupervisor;
     }
 
-    public function setInternshipSupervisor(?User $internshipSupervisor): static
+    public function setInternshipSupervisor(Person $internshipSupervisor): static
     {
         $this->internshipSupervisor = $internshipSupervisor;
 
@@ -277,7 +277,7 @@ class Person
         return $this->schoolSupervisor;
     }
 
-    public function setSchoolSupervisor(?User $schoolSupervisor): static
+    public function setSchoolSupervisor(Person $schoolSupervisor): static
     {
         $this->schoolSupervisor = $schoolSupervisor;
 
@@ -289,7 +289,7 @@ class Person
         return $this->manager;
     }
 
-    public function setManager(?User $manager): static
+    public function setManager(Person $manager): static
     {
         $this->manager = $manager;
 

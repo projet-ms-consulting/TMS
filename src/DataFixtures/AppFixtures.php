@@ -77,7 +77,75 @@ class AppFixtures extends Fixture
         $user->setRoles(['ROLE_SUPER_ADMIN']);
         $user->setPerson($admin);
         $user->setCreatedAt($date);
+        $user->setEverLoggedIn(true);
         $manager->persist($user);
+
+        // person
+        // school_internship
+        for ($i = 0; $i < 5; ++$i) {
+            $person = new Person();
+            $person->setFirstName($this->faker->firstName());
+            $person->setLastName($this->faker->lastName());
+            $person->setCreatedAt($date);
+            $person->setSchool($listSchool[array_rand($listSchool)]);
+            $manager->persist($person);
+            $listPerson[] = $person;
+            $user = new User();
+            $user->setEmail('schoolinternship'.$i + 1 .'@user.fr');
+            $user->setPassword($this->hasher->hashPassword($user, 'user'));
+            $user->setRoles(['ROLE_SCHOOL_INTERNSHIP']);
+            $user->setPerson($person);
+            $user->setCreatedAt($date);
+            $user->setEverLoggedIn(false);
+            $manager->persist($user);
+            $listSchoolInternship[] = $user;
+        }
+
+        // person
+        // manager
+        for ($i = 0; $i < 5; ++$i) {
+            $person = new Person();
+            $person->setFirstName($this->faker->firstName());
+            $person->setLastName($this->faker->lastName());
+            $person->setCreatedAt($date);
+            $person->setCompany($listCompany[array_rand($listCompany)]);
+            $manager->persist($person);
+            $listPerson[] = $person;
+            $user = new User();
+            $user->setEmail('manager'.$i + 1 .'@user.fr');
+            $user->setPassword($this->hasher->hashPassword($user, 'user'));
+            $user->setRoles(['ROLE_ADMIN']);
+            $user->setPerson($person);
+            $user->setCreatedAt($date);
+            $user->setEverLoggedIn(false);
+            $manager->persist($user);
+            $listManager[] = $user;
+        }
+
+        // person
+        // company_internship
+        for ($i = 0; $i < 5; ++$i) {
+            $person = new Person();
+            $person->setFirstName($this->faker->firstName());
+            $person->setLastName($this->faker->lastName());
+            $person->setCreatedAt($date);
+            $person->setCompany($listCompany[array_rand($listCompany)]);
+            $person->setManager($listManager[array_rand($listManager)]->getPerson());
+            $manager->persist($person);
+            $listPerson[] = $person;
+            $user = new User();
+            $user->setEmail('companyinternship'.$i + 1 .'@user.fr');
+            $user->setPassword($this->hasher->hashPassword($user, 'user'));
+            $user->setRoles(['ROLE_COMPANY_INTERNSHIP']);
+            $user->setPerson($person);
+            $user->setCreatedAt($date);
+            $user->setEverLoggedIn(false);
+            $manager->persist($user);
+            $listCompanyInternship[] = $user;
+        }
+
+        // person
+        // trainee
 
         $roles = ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN', 'ROLE_TRAINEE', 'ROLE_SCHOOL_INTERNSHIP', 'ROLE_COMPANY_INTERNSHIP'];
         for ($i = 0; $i < 30; ++$i) {
@@ -85,26 +153,23 @@ class AppFixtures extends Fixture
             $person->setFirstName($this->faker->firstName());
             $person->setLastName($this->faker->lastName());
             $person->setCreatedAt($date);
+            $person->setSchoolSupervisor($listSchoolInternship[array_rand($listSchoolInternship)]->getPerson());
+            $person->setInternshipSupervisor($listCompanyInternship[array_rand($listCompanyInternship)]->getPerson());
+            $person->setManager($listManager[array_rand($listManager)]->getPerson());
+
             $manager->persist($person);
             $listPerson[] = $person;
+
             $user = new User();
             $user->setEmail('user'.$i + 1 .'@user.fr');
             $user->setPassword($this->hasher->hashPassword($user, 'user'));
-            $user->setRoles([$roles[array_rand($roles)]]);
+            $user->setRoles(['ROLE_TRAINEE']);
             $user->setPerson($person);
             $user->setCreatedAt($date);
-            if ('ROLE_ADMIN' == $user->getRoles()[0] or 'ROLE_COMPANY_INTERNSHIP' == $user->getRoles()[0]) {
-                $user->getPerson()->setCompany($listCompany[array_rand($listCompany)]);
-            } elseif ('ROLE_SCHOOL_INTERNSHIP' == $user->getRoles()[0]) {
-                $user->getPerson()->setSchool($listSchool[array_rand($listSchool)]);
-            } elseif ('ROLE_TRAINEE' == $user->getRoles()[0]) {
-                $user->getPerson()->setSchool($listSchool[array_rand($listSchool)]);
-                $user->getPerson()->setCompany($listCompany[array_rand($listCompany)]);
-                $user->getPerson()->setInternshipSupervisor($listPerson[array_rand($listPerson)]->getId());
-                $user->getPerson()->setSchoolSupervisor($listPerson[array_rand($listPerson)]->getId());
-                $user->getPerson()->setManager($listPerson[array_rand($listPerson)]->getId());
+            $user->setEverLoggedIn(false);
+            $user->getPerson()->setSchool($listSchool[array_rand($listSchool)]);
+            $user->getPerson()->setCompany($listCompany[array_rand($listCompany)]);
 
-            }
             $manager->persist($user);
             $listUser[] = $user;
         }
