@@ -26,7 +26,7 @@
                 <td>{{ person.lastName }}</td>
                 <td>{{ person.createdAt ? person.createdAt|date('d/m/Y')}}</td>
                 <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y')}}</td>
-                {% if person.user.everLoggedIn %}
+                {% if person.user != null and person.user.everLoggedIn %}
                     <td>Oui</td>
                 {% else %}
                     <td>Non</td>

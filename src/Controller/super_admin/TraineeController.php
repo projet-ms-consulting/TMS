@@ -5,6 +5,7 @@ namespace App\Controller\super_admin;
 use App\Entity\Person;
 use App\Entity\User;
 use App\Form\PersonType;
+use App\Form\TraineeRoleType;
 use App\Form\TraineeType;
 use App\Repository\PersonRepository;
 use App\Repository\UserRepository;
@@ -32,18 +33,18 @@ class TraineeController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, PersonRepository $personRepository): Response
     {
         $person = new Person();
 
-        $traineeForm = $this->createForm(TraineeType::class, $person,  [
-            'selected_person' => $person,
-        ]);
+        $idPerson = intval($request->query->get('id'));
+
+        $person = $personRepository->find($idPerson);
+
+        $traineeForm = $this->createForm(TraineeRoleType::class, $person);
         $traineeForm->handleRequest($request);
 
         if ($traineeForm->isSubmitted() && $traineeForm->isValid()) {
-            $person->setStartInternship(new \DateTime() );
-            $person->setEndInternship(new \DateTime() );
             $entityManager->persist($person);
             $entityManager->flush();
 
@@ -53,7 +54,7 @@ class TraineeController extends AbstractController
 
         return $this->render('super_admin/trainee/new.html.twig', [
             'person' => $person,
-            'traineeForm' => $traineeForm,
+            'form' => $traineeForm,
         ]);
     }
 

@@ -56,7 +56,7 @@ class UserController extends AbstractController
             $entityManager->flush();
 
             if (in_array('ROLE_TRAINEE', $userForm->getData()->getRoles())) {
-                return $this->redirectToRoute('super_admin_app_trainee_new', ['id' => $user->getId()]);
+                return $this->redirectToRoute('super_admin_app_trainee_new', ['id' => $user->getPerson()->getId()]);
             }
             return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
         }

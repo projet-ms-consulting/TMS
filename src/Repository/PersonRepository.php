@@ -64,7 +64,7 @@ class PersonRepository extends ServiceEntityRepository
         return $this->paginator->paginate(
             $this->createQueryBuilder('p')
                 ->select('p')
-                ->innerJoin('p.user', 'u')
+                ->leftJoin('p.user', 'u')
                 ->addSelect('u'),
             $page,
             $limit,
