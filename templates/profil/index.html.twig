@@ -3,16 +3,17 @@
 {% block title %}Mon Profil{% endblock %}
 
 {% block body %}
-    <h1>Mon Profil</h1>
+    <div class="profile-page">
+        <h1 class="profile-title">Mon Profil</h1>
 
-    <a href="{{ path('app_profil_edit') }}" class="btn btn-primary">Modifier mon profil</a>
+        <a href="{{ path('app_profil_edit') }}" class="btn btn-primary edit-profile-btn">Modifier mon profil</a>
 
-    <p>Nom    : {{ person.lastName }}</p>
-    <p>Prenom : {{ person.firstName }}</p>
-    <p>Email  : {{ user.email }}</p>
+        <p class="profile-info">Nom    : {{ person.lastName }}</p>
+        <p class="profile-info">Prenom : {{ person.firstName }}</p>
+        <p class="profile-info">Email  : {{ user.email }}</p>
 
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cvModal">
-        Voir mon CV
-    </button>
+        <button type="button" class="btn btn-primary view-cv-btn" data-toggle="modal" data-target="#cvModal">
+            Voir mon CV
+        </button>
+    </div>
 {% endblock %}
-
