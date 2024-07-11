@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Person;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -64,13 +63,15 @@ class PersonRepository extends ServiceEntityRepository
     {
         return $this->paginator->paginate(
             $this->createQueryBuilder('p')
-                ->select('p'),
+                ->select('p')
+                ->innerJoin('p.user', 'u')
+                ->addSelect('u'),
             $page,
             $limit,
             [
                 'defaultSortFieldName' => 'p.id',
                 'defaultSortDirection' => 'asc',
-                'sortFieldWhitelist' => ['p.id', 'p.firstName', 'p.lastName', 'p.createdAt', 'p.updatedAt'],
+                'sortFieldWhitelist' => ['p.id', 'p.firstName', 'p.lastName', 'p.createdAt', 'p.updatedAt', 'u.everLoggedIn'],
             ]
         );
     }
@@ -102,8 +103,22 @@ class PersonRepository extends ServiceEntityRepository
         );
     }
 
-    public function paginateCompanyEmployee(Query $query, int $page, int $limit): PaginationInterface
+    public function paginateCompanyEmployee(int $page, int $limit): PaginationInterface
     {
+        $qb = $this->createQueryBuilder('p');
+
+        $qb
+            ->innerJoin('p.company', 'c')
+            ->addSelect('c')
+            ->innerJoin('c.address', 'a')
+            ->addSelect('a')
+            ->innerJoin('p.user', 'u')
+            ->where('u.roles LIKE :role OR u.roles LIKE :role2')
+            ->setParameter('role', '%"ROLE_COMPANY_INTERNSHIP"%')
+            ->setParameter('role2', '%"ROLE_ADMIN"%');
+
+        $query = $qb->getQuery();
+
         return $this->paginator->paginate(
             $query,
             $page,
@@ -111,13 +126,33 @@ class PersonRepository extends ServiceEntityRepository
             [
                 'defaultSortFieldName' => 'p.id',
                 'defaultSortDirection' => 'asc',
-                'sortFieldWhitelist' => ['p.id', 'p.firstName', 'p.lastName', 'p.updatedAt', 'p.company.name', 'p.company.address.FullAddress', 'p.mailPro'],
+                'sortFieldWhitelist' => ['p.id', 'p.firstName', 'p.lastName', 'p.updatedAt', 'c.name', 'a.nbStreet', 'a.street', 'a.zipCode', 'a.city', 'p.mailPro', 'u.roles'],
             ]
         );
     }
 
-    public function paginateTrainee(Query $query, int $page, int $limit): PaginationInterface
+    public function paginateTrainee(int $page, int $limit): PaginationInterface
     {
+        $qb = $this->createQueryBuilder('p');
+
+        $qb
+            ->innerJoin('p.company', 'c')
+            ->addSelect('s')
+            ->innerJoin('p.school', 's')
+            ->addSelect('s')
+            ->innerJoin('p.user', 'u')
+            ->innerJoin('p.internshipSupervisor', 'i')
+            ->addSelect('i')
+            ->innerJoin('p.schoolSupervisor', 'ss')
+            ->addSelect('ss')
+            ->innerJoin('p.manager', 'm')
+            ->addSelect('m')
+            ->where('u.roles LIKE :role')
+            ->setParameter('role', '%"ROLE_TRAINEE"%')
+            ->getQuery()
+            ->getResult();
+        $query = $qb->getQuery();
+
         return $this->paginator->paginate(
             $query,
             $page,
@@ -125,7 +160,7 @@ class PersonRepository extends ServiceEntityRepository
             [
                 'defaultSortFieldName' => 'p.id',
                 'defaultSortDirection' => 'asc',
-                'sortFieldWhitelist' => ['p.id', 'p.firstName', 'p.lastName', 'p.updatedAt', 'p.school.name', 'p.school.address.FullAddress', 'p.mailPro', 'p.company.name', 'p.company.address.FullAddress', 'p.mailPerso'],
+                'sortFieldWhitelist' => ['p.id', 'p.firstName', 'p.lastName', 'p.updatedAt', 'ss.lastName', 'i.lastName', 'm.lastName', 's.name', 'p.mailPro', 'c.name', 'p.mailPerso'],
             ]
         );
     }

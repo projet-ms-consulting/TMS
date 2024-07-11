@@ -29,7 +29,7 @@ class CompanyType extends AbstractType
                 'label' => 'Adresse',
             ])
             ->add('employeeNumber', TextType::class, [
-                'label' => 'Nombre d\'employés'
+                'label' => 'Nombre d\'employés',
             ]);
     }
 

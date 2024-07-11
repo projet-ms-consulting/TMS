@@ -11,18 +11,23 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/super_admin/company')]
+#[Route('super_admin/company', name: 'super_admin_app_company_')]
 class CompanyController extends AbstractController
 {
-    #[Route('/index', name: 'app_company_index', methods: ['GET'])]
-    public function index(CompanyRepository $companyRepository): Response
+    #[Route('/index', name: 'index', methods: ['GET'])]
+    public function index(CompanyRepository $companyRepository, Request $request): Response
     {
+        $page = $request->query->getInt('page', 1);
+        $limit = $request->query->getInt('limit', 8);
+        $sort = $request->query->get('sort', 'a.id');
+        $direction = $request->query->get('direction', 'asc');
+        $company = $companyRepository->paginateCompany($page, $limit);
         return $this->render('super_admin/company/index.html.twig', [
-            'companies' => $companyRepository->findAll(),
+            'companies' => $company,
         ]);
     }
 
-    #[Route('/new', name: 'app_company_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $company = new Company();
@@ -34,7 +39,7 @@ class CompanyController extends AbstractController
             $entityManager->persist($company);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_company_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('super_admin_app_company_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('super_admin/company/new.html.twig', [
@@ -43,7 +48,7 @@ class CompanyController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_company_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Company $company): Response
     {
         return $this->render('super_admin/company/show.html.twig', [
@@ -51,7 +56,7 @@ class CompanyController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_company_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Company $company, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CompanyType::class, $company);
@@ -61,7 +66,7 @@ class CompanyController extends AbstractController
             $company->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_company_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('super_admin_app_company_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('super_admin/company/edit.html.twig', [
@@ -70,7 +75,7 @@ class CompanyController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_company_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, Company $company, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$company->getId(), $request->getPayload()->get('_token'))) {
@@ -78,7 +83,7 @@ class CompanyController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_company_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('super_admin_app_company_index', [], Response::HTTP_SEE_OTHER);
     }
 }
 

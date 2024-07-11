@@ -17,12 +17,16 @@ use Symfony\Component\Routing\Attribute\Route;
 class TraineeController extends AbstractController
 {
     #[Route('/index', name: 'index', methods: ['GET'])]
-    public function index(PersonRepository $personRepository, UserRepository $userRepository, Person $person): Response
+    public function index(PersonRepository $personRepository, Request $request): Response
     {
-        $filteredPersons = $personRepository->filterTraineePersons();
+        $page = $request->query->getInt('page', 1);
+        $limit = $request->query->getInt('limit', 8);
+        $sort = $request->query->get('sort', 'a.id');
+        $direction = $request->query->get('direction', 'asc');
+        $person = $personRepository->paginateTrainee($page, $limit);
 
         return $this->render('super_admin/trainee/index.html.twig', [
-            'persons' => $filteredPersons,
+            'personne' => $person,
         ]);
     }
 
