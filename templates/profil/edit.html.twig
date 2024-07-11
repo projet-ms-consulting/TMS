@@ -2,6 +2,11 @@
 
 {% block title %}Modifier mon profil{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/css/array.css') }}">
+{% endblock %}
+
 {% block body %}
     <h1>Modifier mon Profil</h1>
 

@@ -5,6 +5,8 @@
 {% block body %}
     <h1>Entreprises</h1>
 
+    <a href="{{ path('app_company_new') }} " class="btn-custom" >Créer une entreprise</a>
+
     <table class="table">
         <thead>
         <tr>
@@ -39,5 +41,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_company_new') }}">Créer une nouvelle entreprise</a>
+
 {% endblock %}
