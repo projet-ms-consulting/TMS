@@ -17,13 +17,6 @@ class ProfilType extends AbstractType
         $builder
             ->add('email')
             ->add('password')
-            ->add('person', EntityType::class, [
-                'class' => Person::class,
-                'choice_label' => function (Person $person) {
-                    return $person->getFirstName() . ' ' . $person->getLastName();
-                },
-                'label' => 'Personne',
-            ])
             ->add('firstName', TextType::class, [
                 'label' => 'Prénom',
                 'required' => true,
