@@ -260,7 +260,7 @@ class Person
         return $this;
     }
 
-    public function getInternshipSupervisor(): Person
+    public function getInternshipSupervisor(): ?Person
     {
         return $this->internshipSupervisor;
     }
@@ -272,7 +272,7 @@ class Person
         return $this;
     }
 
-    public function getSchoolSupervisor(): Person
+    public function getSchoolSupervisor(): ?Person
     {
         return $this->schoolSupervisor;
     }
@@ -284,7 +284,7 @@ class Person
         return $this;
     }
 
-    public function getManager(): Person
+    public function getManager(): ?Person
     {
         return $this->manager;
     }

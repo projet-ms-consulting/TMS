@@ -5,9 +5,9 @@
 {% block body %}
     <h1>Modifier une entreprise</h1>
 
-    {{ include('super_admin/company/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('app_company_index') }}">Retour à la liste</a>
+
+    <a href="{{ path('super_admin_app_company_index') }}">Retour à la liste</a>
 
     {{ include('super_admin/company/_delete_form.html.twig') }}
 {% endblock %}

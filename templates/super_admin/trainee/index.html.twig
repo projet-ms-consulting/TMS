@@ -8,41 +8,59 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Prénom</th>
-                <th>Nom</th>
-                <th>Ecole</th>
-                <th>Référent école</th>
-                <th>Entreprise</th>
-                <th>Référent entreprise</th>
-                <th>Manager</th>
-                <th>Date début de stage</th>
-                <th>Date fin de stage</th>
-                <th>Date de modification</th>
+                <th>{{ knp_pagination_sortable(personne, 'Nom et prénom', 'p.lastName') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Ecole', 's.name') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Référent école', 'ss.lastName') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Entreprise', 'c.name') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Référent entreprise', 'i.lastName') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Manager', 'm.lastName') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Mail perso', 'p.mailPerso') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Mail pro', 'p.mailPro') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Début de stage', 'p.startInternship') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Fin de stage', 'p.endInternship') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Modifié le', 'p.updatedAt') }}</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for person in persons %}
+        {% for person in personne %}
             {% if person is defined %}
             <tr>
-                <td>{{ person.lastName }}</td>
-                <td>{{ person.firstName }}</td>
-                <td>{{ person.school.name }}</td>
-                {% if person.schoolSupervisor is defined and person.schoolSupervisor is not null%}
-                    <td>{{ person.schoolSupervisor.firstName }} {{ person.schoolSupervisor.lastName }}</td>
+                <td>{{ person.lastName }} {{ person.firstName }}</td>
+                {% if person.school is defined and person.school is not null %}
+                    <td><a href="{{ path('super_admin_school_show', {'id': person.school.id}) }}">{{ person.school.name }}</a></td>
+                {% else %}
+                    <td>Pas d'école</td>
+                {% endif %}
+                {% if person.schoolSupervisor is not null%}
+                    <td><a href="{{ path('super_admin_app_person_show', {'id':person.schoolSupervisor.id}) }}">{{ person.schoolSupervisor.firstName }} {{ person.schoolSupervisor.lastName }}</td>
                 {% else %}
                     <td>Pas de référent école</td>
                 {% endif %}
-                <td>{{ person.company.name }}</td>
+                {% if person.company is not null %}
+                    <td><a href="{{ path('super_admin_app_company_show', {'id':person.company.id}) }}">{{ person.company.name }}</a></td>
+                {% else %}
+                    <td>Pas d'entreprise</td>
+                {% endif %}
                 {% if person.internshipSupervisor is defined and person.internshipSupervisor is not null %}
-                    <td>{{ person.internshipSupervisor.firstName }} {{ person.internshipSupervisor.lastName }}</td>
+                    <td><a href="{{ path('super_admin_app_person_show', {'id':person.internshipSupervisor.id}) }}">{{ person.internshipSupervisor.firstName }} {{ person.internshipSupervisor.lastName }}</a></td>
                 {% else %}
                     <td>Pas de référent stage</td>
                 {% endif %}
                 {% if person.manager is defined and person.manager is not null %}
-                    <td>{{ person.manager.firstName }} {{ person.manager.lastName }}</td>
+                    <td><a href="{{ path('super_admin_app_person_show', {'id':person.manager.id}) }}">{{ person.manager.firstName }} {{ person.manager.lastName }}</a></td>
                 {% else %}
                     <td>Pas de Manager</td>
+                {% endif %}
+                {% if person.mailPerso is defined and person.mailPerso is not null %}
+                    <td>{{ person.mailPerso }}</td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+                {% if person.mailPro is defined and person.mailPro is not null %}
+                    <td>{{ person.mailPro }}</td>
+                {% else %}
+                    <td></td>
                 {% endif %}
                 <td>{{ person.startInternship ? person.startInternship|date('d/m/Y')}}</td>
                 <td>{{ person.endInternship ? person.endInternship|date('d/m/Y')}}</td>
@@ -60,7 +78,7 @@
         {% endfor %}
         </tbody>
     </table>
-
+    {{ knp_pagination_render(personne) }}
 
 
 

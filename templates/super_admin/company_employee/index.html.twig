@@ -8,25 +8,33 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Prénom</th>
-                <th>Nom</th>
-                <th>Entreprise</th>
-                <th>Rôle</th>
-                <th>Date de mise à jour</th>
+                <th>{{ knp_pagination_sortable(personne, 'Prénom', 'p.firstName') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Nom', 'p.lastName') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Role', 'u.roles') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Entreprise', 'c.name') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Adresse de l\'entreprise', 'a.city') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Email pro', 'p.mailPro') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Modifié le', 'p.updatedAt') }}</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for person in persons %}
+        {% for person in personne %}
             {% if person is defined %}
                 <tr>
                     <td>{{ person.lastName }}</td>
                     <td>{{ person.firstName }}</td>
-                    <td>{{ person.company.name }}</td>
                     {% if person.user.roles[0]=='ROLE_ADMIN' %}
                         <td>Manager</td>
                     {% else %}
                         <td>Superviseur interne</td>
+                    {% endif %}
+                    <td><a href="{{ path('app_company_show', {'id':person.company.id}) }}">{{ person.company.name }}</a></td>
+                    <td>{{ person.company.address.nbStreet }} {{ person.company.address.street }}, {{ person.company.address.zipCode }} {{ person.company.address.city }}</td>
+                    {% if person.mailPro is not null %}
+                        <td>{{ person.mailPro }}</td>
+                    {% else %}
+                        <td>Pas d'enregistrement</td>
                     {% endif %}
                     <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y') }}</td>
                     <td>
@@ -42,7 +50,7 @@
         {% endfor %}
         </tbody>
     </table>
-
+    {{ knp_pagination_render(personne) }}
 
 
 
