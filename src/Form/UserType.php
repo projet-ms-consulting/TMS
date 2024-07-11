@@ -2,18 +2,13 @@
 
 namespace App\Form;
 
-use App\Entity\Person;
 use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormTypeInterface;
-
 
 class UserType extends AbstractType
 {
@@ -34,7 +29,7 @@ class UserType extends AbstractType
                     'Super Admin' => 'ROLE_SUPER_ADMIN',
                     'Manager' => 'ROLE_ADMIN',
                     'Stagiaire' => 'ROLE_TRAINEE',
-                    'Responsable école' => 'ROLE_SCHOOL_SUPERVISOR',
+                    'Responsable école' => 'ROLE_SCHOOL_INTERNSHIP',
                     'Responsable de stage' => 'ROLE_COMPANY_INTERNSHIP',
                 ],
             ]);

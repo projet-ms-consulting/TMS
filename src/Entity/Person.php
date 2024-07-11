@@ -390,4 +390,9 @@ class Person
 
         return $this;
     }
+
+    public function getFullName(): string
+    {
+        return $this->getFirstName() . ' ' . $this->getLastName();
+    }
 }

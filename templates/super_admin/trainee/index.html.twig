@@ -43,12 +43,12 @@
                     <td>Pas d'entreprise</td>
                 {% endif %}
                 {% if person.internshipSupervisor is defined and person.internshipSupervisor is not null %}
-                    <td><a href="{{ path('super_admin_app_person_show', {'id':person.internshipSupervisor.id}) }}">{{ person.internshipSupervisor.firstName }} {{ person.internshipSupervisor.lastName }}</a></td>
+                    <td>{{ person.internshipSupervisor.firstName }} {{ person.internshipSupervisor.lastName }}</td>
                 {% else %}
                     <td>Pas de référent stage</td>
                 {% endif %}
                 {% if person.manager is defined and person.manager is not null %}
-                    <td><a href="{{ path('super_admin_app_person_show', {'id':person.manager.id}) }}">{{ person.manager.firstName }} {{ person.manager.lastName }}</a></td>
+                    <td>{{ person.manager.firstName }} {{ person.manager.lastName }}</td>
                 {% else %}
                     <td>Pas de Manager</td>
                 {% endif %}

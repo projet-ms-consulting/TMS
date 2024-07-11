@@ -5,6 +5,8 @@ namespace App\Controller\super_admin;
 use App\Entity\Person;
 use App\Entity\User;
 use App\Form\PersonType;
+use App\Form\TraineeRoleType;
+use App\Form\TraineeType;
 use App\Repository\PersonRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,6 +31,33 @@ class TraineeController extends AbstractController
             'personne' => $person,
         ]);
     }
+
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager, PersonRepository $personRepository): Response
+    {
+        $person = new Person();
+
+        $idPerson = intval($request->query->get('id'));
+
+        $person = $personRepository->find($idPerson);
+
+        $traineeForm = $this->createForm(TraineeRoleType::class, $person);
+        $traineeForm->handleRequest($request);
+
+        if ($traineeForm->isSubmitted() && $traineeForm->isValid()) {
+            $entityManager->persist($person);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
+
+        }
+
+        return $this->render('super_admin/trainee/new.html.twig', [
+            'person' => $person,
+            'form' => $traineeForm,
+        ]);
+    }
+
 
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Person $person): Response

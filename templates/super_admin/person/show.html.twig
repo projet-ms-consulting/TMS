@@ -42,7 +42,7 @@
                 <th>Documents : </th>
                     <td>
                         {% for file in person.files %}
-                            <a href="{{ asset('documents/' ~file.realFileName) }}" target="_blank">{{ file.label }}</a>
+                            <a href="{{ asset('/public/doc/' ~file.realFileName) }}" target="_blank">{{ file.label }}</a>
                         {% endfor %}
                     </td>
             </tr>
