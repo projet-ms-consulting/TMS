@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('super_admin/company', name: 'super_admin_app_company_')]
 class CompanyController extends AbstractController
@@ -21,9 +21,10 @@ class CompanyController extends AbstractController
         $limit = $request->query->getInt('limit', 8);
         $sort = $request->query->get('sort', 'a.id');
         $direction = $request->query->get('direction', 'asc');
-        $company = $companyRepository->paginateCompany($page, $limit);
+        $companies = $companyRepository->paginateCompany($page, $limit);
+
         return $this->render('super_admin/company/index.html.twig', [
-            'companies' => $company,
+            'companies' => $companies,
         ]);
     }
 
@@ -78,7 +79,7 @@ class CompanyController extends AbstractController
     #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, Company $company, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$company->getId(), $request->getPayload()->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$company->getId(), $request->request->get('_token'))) {
             $entityManager->remove($company);
             $entityManager->flush();
         }
@@ -86,9 +87,6 @@ class CompanyController extends AbstractController
         return $this->redirectToRoute('super_admin_app_company_index', [], Response::HTTP_SEE_OTHER);
     }
 }
-
-
-
 
 
 

@@ -20,6 +20,7 @@ class CompanyType extends AbstractType
             ])
             ->add('companyType', TextType::class, [
                 'label' => 'Type d\'entreprise',
+                'required' => false,
             ])
             ->add('address', EntityType::class, [
                 'class' => Address::class,
@@ -27,6 +28,8 @@ class CompanyType extends AbstractType
                     return $address->getFullAddress();
                 },
                 'label' => 'Adresse',
+                'required' => false,
+                'placeholder' => 'Choisir une adresse',
             ])
             ->add('employeeNumber', TextType::class, [
                 'label' => 'Nombre d\'employés',
