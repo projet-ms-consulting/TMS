@@ -23,20 +23,18 @@ class ProfilType extends AbstractType
                     return $person->getFirstName() . ' ' . $person->getLastName();
                 },
                 'label' => 'Personne',
-                ])
-            ->add('firstName',TextType::class, [
-                'label' => 'Prénom',
+            ])
+            ->add('firstName', TextType::class, [
+                'label' => 'Prénom',
                 'required' => true,
                 'mapped' => false,
-
             ])
-            ->add('lastName',TextType::class, [
+            ->add('lastName', TextType::class, [
                 'label' => 'Nom',
                 'required' => true,
                 'mapped' => false,
             ])
         ;
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void
