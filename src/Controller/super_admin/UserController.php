@@ -46,6 +46,7 @@ class UserController extends AbstractController
         $userForm->handleRequest($request);
 
         if ($userForm->isSubmitted() && $userForm->isValid()) {
+            $user->setPassword(password_hash($userForm->getData()->getPassword(), PASSWORD_DEFAULT));
             $user->setCreatedAt(new \DateTimeImmutable());
             $user->setRoles($userForm->getData()->getRoles());
             $user->setEverLoggedIn(false);
