@@ -4,6 +4,7 @@ namespace App\Controller\super_admin;
 
 use App\Entity\Person;
 use App\Entity\User;
+use App\Form\PersonType;
 use App\Form\UserType;
 use App\Repository\PersonRepository;
 use App\Repository\UserRepository;
@@ -28,9 +29,17 @@ class UserController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, PersonRepository $personRepository): Response
     {
         $user = new User();
-        $personId = $request->query->get('id');
+        $user->setPerson(new Person());
 
+        $personId = $request->query->get('id');
         $person = $entityManager->getRepository(Person::class)->find($personId);
+
+        if ($person) {
+        $user->setPerson($person);
+    } else {
+            $user->setPerson(new Person());
+    }
+
         $userForm = $this->createForm(UserType::class, $user, [
             'selected_person' => $person,
         ]);
@@ -46,12 +55,15 @@ class UserController extends AbstractController
             $entityManager->persist($person);
             $entityManager->flush();
 
-            return $this->redirectToRoute('super_admin_app_person_new', [], Response::HTTP_SEE_OTHER);
+            if (in_array('ROLE_TRAINEE', $userForm->getData()->getRoles())) {
+                return $this->redirectToRoute('super_admin_app_trainee_new', ['id' => $user->getId()]);
+            }
+            return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('super_admin/user/new.html.twig', [
+            return $this->render('super_admin/user/new.html.twig', [
             'userForm' => $userForm->createView(),
-            'person' => $person,
+            'person' => $user->getPerson(),
             'people' => $personRepository->findAll(),
         ]);
     }
@@ -64,7 +76,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         $userForm = $this->createForm(UserType::class, $user);
@@ -78,7 +90,7 @@ class UserController extends AbstractController
 
         return $this->render('super_admin/user/edit.html.twig', [
             'user' => $user,
-            'person' => $user->getPerson(),
+//            'person' => $user->getPerson(),
             'userForm' => $userForm,
         ]);
     }
