@@ -29,7 +29,7 @@
                     {% else %}
                         <td>Superviseur interne</td>
                     {% endif %}
-                    <td><a href="{{ path('app_company_show', {'id':person.company.id}) }}">{{ person.company.name }}</a></td>
+                    <td><a href="{{ path('super_admin_app_company_show', {'id':person.company.id}) }}">{{ person.company.name }}</a></td>
                     <td>{{ person.company.address.nbStreet }} {{ person.company.address.street }}, {{ person.company.address.zipCode }} {{ person.company.address.city }}</td>
                     {% if person.mailPro is not null %}
                         <td>{{ person.mailPro }}</td>
