@@ -43,6 +43,7 @@ body {
   justify-content: center;
   align-items: center;
   padding: 10px;
+  min-width: 100%;
 }
 
 * {
