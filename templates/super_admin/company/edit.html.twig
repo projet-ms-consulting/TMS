@@ -5,7 +5,10 @@
 {% block body %}
     <h1>Modifier une entreprise</h1>
 
-
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">Enregistrer les modifications</button>
+    {{ form_end(form) }}
 
     <a href="{{ path('super_admin_app_company_index') }}">Retour à la liste</a>
 
