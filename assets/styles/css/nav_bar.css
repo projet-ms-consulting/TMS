@@ -30,8 +30,7 @@
 
 .navbar-menu li a:hover {
     color: goldenrod;
-    background-color: #555;
-    border-radius: 5px;
+    border-radius: 20px;
 }
 
 
