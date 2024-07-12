@@ -13,11 +13,19 @@
     {% block javascripts %}
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://kit.fontawesome.com/e320a50358.js" crossorigin="anonymous"></script>
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}
 </head>
 <body>
-<header>
-    {% include "components/navbar.html.twig" %}
+<header class="header-container">
+    <div class="logo-container">
+        <a href="{{ path('app_home') }}">
+            <img src="https://msconsulting-europe.com/wp-content/uploads/2024/05/cropped-logo-square.jpg" alt="Logo" class="logo-img">
+        </a>
+    </div>
+    <div class="nav-container">
+        {% include "components/navbar.html.twig" %}
+    </div>
 </header>
 
 <section>
