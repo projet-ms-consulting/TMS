@@ -7,9 +7,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="https://msconsulting-europe.com/wp-content/uploads/2024/05/cropped-logo-square.jpg">
     {% block stylesheets %}
-        <link href="{{ asset('/styles/css/array.css') }}" rel="stylesheet" />
-        <link href="{{ asset('/styles/css/nav_bar.css') }}" rel="stylesheet" />
-        <link href="{{ asset('/styles/css/style.css') }}" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+        <link href="{{ asset('/styles/css/array.css') }}" rel="stylesheet">
+        <link href="{{ asset('/styles/css/nav_bar.css') }}" rel="stylesheet">
+        <link href="{{ asset('/styles/css/style.css') }}" rel="stylesheet">
     {% endblock %}
     {% block javascripts %}
         {% block importmap %}{{ importmap('app') }}{% endblock %}
