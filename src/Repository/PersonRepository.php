@@ -81,11 +81,11 @@ class PersonRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('p');
 
         $qb
-            ->innerJoin('p.school', 's')
+            ->leftJoin('p.school', 's')
             ->addSelect('s')
-            ->innerJoin('s.address', 'a')
+            ->leftJoin('s.address', 'a')
             ->addSelect('a')
-            ->innerJoin('p.user', 'u')
+            ->leftJoin('p.user', 'u')
             ->where('u.roles LIKE :role')
             ->setParameter('role', '%"ROLE_SCHOOL_INTERNSHIP"%');
 
@@ -108,11 +108,11 @@ class PersonRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('p');
 
         $qb
-            ->innerJoin('p.company', 'c')
+            ->leftJoin('p.company', 'c')
             ->addSelect('c')
-            ->innerJoin('c.address', 'a')
+            ->leftJoin('c.address', 'a')
             ->addSelect('a')
-            ->innerJoin('p.user', 'u')
+            ->leftJoin('p.user', 'u')
             ->where('u.roles LIKE :role OR u.roles LIKE :role2')
             ->setParameter('role', '%"ROLE_COMPANY_INTERNSHIP"%')
             ->setParameter('role2', '%"ROLE_ADMIN"%');
@@ -136,16 +136,16 @@ class PersonRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('p');
 
         $qb
-            ->innerJoin('p.company', 'c')
+            ->leftJoin('p.company', 'c')
             ->addSelect('s')
-            ->innerJoin('p.school', 's')
+            ->leftJoin('p.school', 's')
             ->addSelect('s')
-            ->innerJoin('p.user', 'u')
-            ->innerJoin('p.internshipSupervisor', 'i')
+            ->leftJoin('p.user', 'u')
+            ->leftJoin('p.internshipSupervisor', 'i')
             ->addSelect('i')
-            ->innerJoin('p.schoolSupervisor', 'ss')
+            ->leftJoin('p.schoolSupervisor', 'ss')
             ->addSelect('ss')
-            ->innerJoin('p.manager', 'm')
+            ->leftJoin('p.manager', 'm')
             ->addSelect('m')
             ->where('u.roles LIKE :role')
             ->setParameter('role', '%"ROLE_TRAINEE"%')
