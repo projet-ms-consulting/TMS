@@ -1,28 +1,41 @@
-{% extends 'base.html.twig' %}
 
-{% block title %}Panel Super Admin{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon" href="https://msconsulting-europe.com/wp-content/uploads/2024/05/cropped-logo-square.jpg">
+    {% block stylesheets %}
+        <link href="{{ asset('/styles/css/array.css') }}" rel="stylesheet" />
+        <link href="{{ asset('/styles/css/nav_bar.css') }}" rel="stylesheet" />
+        <link href="{{ asset('/styles/css/style.css') }}" rel="stylesheet" />
+    {% endblock %}
+    {% block javascripts %}
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://kit.fontawesome.com/e320a50358.js" crossorigin="anonymous"></script>
+    {% endblock %}
+</head>
+<body>
+<header>
+    {% include "components/navbar.html.twig" %}
+</header>
 
-{% block body %}
-    <header>
-        {% include "components/navbar.html.twig" %}
-    </header>
-
-    <section>
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success" style="color: green">
-                {{ message }}
-            </div>
-        {% endfor %}
-        {% for message in app.flashes('error') %}
-            <div class="alert alert-danger" style="color: red">
-                {{ message }}
-            </div>
-        {% endfor %}
-    </section>
-
-    <main class="container">
-        <div class="super-admin-panel">
-            <h1>Panel Super Admin</h1>
+<section>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success" style="color: green">
+            {{ message }}
         </div>
-    </main>
-{% endblock %}
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger" style="color: red">
+            {{ message }}
+        </div>
+    {% endfor %}
+</section>
+
+<main class="container">
+    {% block body %}
+    {% endblock %}
+</main>
+</body>
+</html>
