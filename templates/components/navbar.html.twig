@@ -1,27 +1,25 @@
 <nav class="navbar">
-    <a href="{{ path('app_home') }}" class="navbar-logo">
-        <img src="https://msconsulting-europe.com/wp-content/uploads/2024/05/cropped-logo-square.jpg" alt="Logo" class="logo-img">
-    </a>
-    {#        <button class="navbar-toggle" aria-label="Toggle navigation">#}
-    {#            <i class="fas fa-bars"></i>#}
-    {#        </button>#}
-        <ul class="navbar-menu">
-            {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <li><a href="{{ path('super_admin_home') }}">Panel super admin</a></li>
-                <li><a href="{{ path('super_admin_app_person_index') }}">Personnes</a></li>
-                <li><a href="{{ path('super_admin_app_company_employee_index') }}">Employés d'entreprise</a></li>
-                <li><a href="{{ path('super_admin_app_school_employee_index') }}">Employés d'école</a></li>
-                <li><a href="{{ path('super_admin_app_trainee_index') }}">Stagiaires</a></li>
-                <li><a href="{{ path('super_admin_address_index') }}">Adresses</a></li>
-                <li><a href="{{ path('super_admin_school_index') }}">Écoles</a></li>
-                <li><a href="{{ path('super_admin_app_company_index') }}">Entreprises</a></li>
-            {% endif %}
-                <li><a href="{{ path('app_home') }}">Retour à la page d'accueil</a></li>
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <li><a href="{{ path('app_profil') }}">Mon profil</a></li>
-                <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
-            {% else %}
-                <li><a href="{{ path('app_login') }}">Se connecter</a></li>
-            {% endif %}
-        </ul>
+    <ul class="navbar-menu">
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <li><a href="{{ path('super_admin_home') }}">Panel super admin</a></li>
+            <li>
+                <a href="#">Personnes</a>
+                <ul class="sub-menu">
+                    <li><a href="{{ path('super_admin_app_company_employee_index') }}">Employés d'entreprise</a></li>
+                    <li><a href="{{ path('super_admin_app_school_employee_index') }}">Employés d'école</a></li>
+                    <li><a href="{{ path('super_admin_app_trainee_index') }}">Stagiaires</a></li>
+                </ul>
+            </li>
+            <li><a href="{{ path('super_admin_address_index') }}">Adresses</a></li>
+            <li><a href="{{ path('super_admin_school_index') }}">Écoles</a></li>
+            <li><a href="{{ path('super_admin_app_company_index') }}">Entreprises</a></li>
+        {% endif %}
+        <li><a href="{{ path('app_home') }}">Retour à la page d'accueil</a></li>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <li><a href="{{ path('app_profil') }}">Mon profil</a></li>
+            <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
+        {% else %}
+            <li><a href="{{ path('app_login') }}">Se connecter</a></li>
+        {% endif %}
+    </ul>
 </nav>

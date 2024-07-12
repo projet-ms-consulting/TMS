@@ -1,5 +1,50 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
 
+.header-container {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #333;
+  border-radius: 10px;
+  box-shadow: 0 0 20px dimgrey;
+}
+
+.logo-container {
+  flex-shrink: 0;
+  margin-right: 20px;
+}
+
+.logo-img {
+  height: 60px;
+  width: auto;
+}
+
+.nav-container {
+  flex-grow: 1;
+}
+
+body {
+  background-image: url("../../pictures/Wave.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
 * {
   font-family: 'DM Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -8,7 +53,7 @@
 h1 {
   font-family: "Apple SD Gothic Neo";
   color: whitesmoke;
-  font-size: 30px !important ;
+  font-size: 30px !important;
   text-align: center;
   margin-top: 20px !important;
   margin-bottom: 30px;
@@ -25,9 +70,8 @@ button {
 
 input {
   border: 1px solid whitesmoke;
-  /*color: #333333;*/
   color: whitesmoke;
-  background-color:whitesmoke;
+  background-color: whitesmoke;
   padding: 10px;
   margin-bottom: 10px;
   align-items: center;
@@ -36,21 +80,6 @@ input {
 label.required:after {
   content: " *";
   color: red;
-}
-
-body {
-  background-image: url("../../pictures/Wave.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .container {
@@ -91,30 +120,7 @@ body {
   color: #333333;
   background-color: whitesmoke;
   transition: all 0.5s;
-  }
-
-
-/*.navbar-menu {*/
-/*  font-family: 'Made GENDLED', sans-serif;*/
-/*  font-size: 20px;*/
-/*  display: flex;*/
-/*  list-style: none;*/
-/*  margin: 0;*/
-/*  padding: 0;*/
-/*}*/
-
-/*.navbar-menu li {*/
-/*  margin-left: 20px;*/
-/*}*/
-
-/*.navbar-menu li a {*/
-/*  color: white;*/
-/*  text-decoration: none;*/
-/*  padding: 3px;*/
-/*  position: relative;*/
-/*  overflow: hidden;*/
-/*}*/
-
+}
 
 .profile-page {
   background-color: rgba(51, 51, 51, 0.8);
@@ -157,7 +163,6 @@ body {
   padding: 10px 20px;
   border-radius: 5px;
   text-decoration: none;
-
 }
 
 .view-cv-btn:hover {
@@ -169,5 +174,3 @@ body {
   background-color: goldenrod;
   color: whitesmoke;
 }
-
-
