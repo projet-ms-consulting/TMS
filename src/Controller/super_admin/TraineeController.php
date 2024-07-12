@@ -32,7 +32,7 @@ class TraineeController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
+    #[Route('/new/', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, PersonRepository $personRepository): Response
     {
         $idPerson = intval($request->query->get('id'));
