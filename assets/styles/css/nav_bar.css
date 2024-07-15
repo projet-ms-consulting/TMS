@@ -1,4 +1,17 @@
 
+.dropdown-toggle .fa-caret-down,
+.dropdown-toggle .fa-caret-right {
+    transition: transform 0.3s ease;
+}
+
+.dropdown:hover > .dropdown-toggle .fa-caret-down {
+    transform: rotate(180deg);
+}
+
+.sub-menu .dropdown:hover > .dropdown-toggle .fa-caret-right {
+    transform: rotate(90deg);
+}
+
 .navbar {
     background-color: #333;
     padding: 10px 20px;
@@ -72,6 +85,11 @@
 
 .navbar-menu li i {
     margin-right: 5px;
+}
+
+.navbar-menu .dropdown .sub-menu .sub-menu {
+    left: 178px;
+    top: 0;
 }
 
 
