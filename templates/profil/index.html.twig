@@ -12,22 +12,23 @@
         <p class="profile-info">Prenom : {{ person.firstName }}</p>
         <p class="profile-info">Email  : {{ user.email }}</p>
 
-        {% for file in person.files %}
-            <li>
-                <a href="{{ asset('assets/FilesDirectory/' ~ file.file) }}" target="_blank">{{ file.realFileName }}</a>
+        <ul>
+            {% for file in person.files %}
+                <li>
+                    <a href="{{ asset('assets/FilesDirectory/' ~ file.file) }}" target="_blank" class="file-link">{{ file.realFileName }}</a>
 
-                {% if file.file is not null and file.realFileName is not null %}
-                    {% set extension = file.file|split('.')|last|lower %}
-                    {% if extension in ['jpg', 'jpeg', 'png', 'gif'] %}
-                        <br>
-                        <img src="{{ asset('assets/FilesDirectory/' ~ file.file) }}" alt="Miniature CV" style="max-width: 200px;">
+                    {% if file.file is not null and file.realFileName is not null %}
+                        {% set extension = file.file|split('.')|last|lower %}
+                        {% if extension in ['jpg', 'jpeg', 'png', 'gif'] %}
+                            <br>
+                            <img src="{{ asset('assets/FilesDirectory/' ~ file.file) }}" alt="Miniature CV" style="max-width: 200px;">
+                        {% endif %}
                     {% endif %}
-                {% endif %}
 
-                <a href="{{ path('app_delete_cv', {'id': file.id}) }}" class="btn btn-danger delete-cv-btn"
-                   onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce CV ?')">Supprimer</a>
-            </li>
-        {% endfor %}
-
+                    <a href="{{ path('app_delete_cv', {'id': file.id}) }}" class="btn btn-danger delete-cv-btn"
+                       onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce CV ?')">Supprimer</a>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 {% endblock %}

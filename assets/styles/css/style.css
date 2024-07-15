@@ -190,3 +190,12 @@ label.required:after {
   background-color: #c82333;
   color: #fff;
 }
+
+.file-link {
+  color: whitesmoke;
+  text-decoration: none;
+}
+
+.file-link:hover {
+  color: goldenrod; 
+}
