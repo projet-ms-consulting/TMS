@@ -86,6 +86,29 @@ class Person
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $mailPro = null;
 
+    #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'companyReferents')]
+    private ?Person $companyReferent = null;
+
+    /**
+     * @var Collection<int, self>
+     */
+    #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'companyReferent')]
+    private Collection $companyReferents;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isManager = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isCompanyReferent = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isInternshipSupervisor = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isSchoolSupervisor = null;
+
+
+
     public function __construct()
     {
         $this->socialNetworks = new ArrayCollection();
@@ -94,6 +117,7 @@ class Person
         $this->internshipSupervisors = new ArrayCollection();
         $this->schoolSupervisors = new ArrayCollection();
         $this->managers = new ArrayCollection();
+        $this->companyReferents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -393,6 +417,69 @@ class Person
 
     public function getFullName(): string
     {
-        return $this->getFirstName() . ' ' . $this->getLastName();
+        return $this->getFirstName().' '.$this->getLastName();
     }
+
+    public function getCompanyReferent(): ?Person
+    {
+        return $this->companyReferent;
+    }
+
+    public function setCompanyReferent(?Person $companyReferent): static
+    {
+        $this->companyReferent = $companyReferent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, person>
+     */
+    public function getCompanyReferents(): Collection
+    {
+        return $this->companyReferents;
+    }
+
+    public function addCompanyReferent(Person $companyReferent): static
+    {
+        if (!$this->companyReferents->contains($companyReferent)) {
+            $this->companyReferents->add($companyReferent);
+            $companyReferent->setCompanyReferent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompanyReferent(Person $companyReferent): static
+    {
+        if ($this->companyReferents->removeElement($companyReferent)) {
+            // set the owning side to null (unless already changed)
+            if ($companyReferent->getCompanyReferent() === $this) {
+                $companyReferent->setCompanyReferent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isManager(): ?bool
+    {
+        return $this->isManager;
+    }
+
+    public function isCompanyReferent(): ?bool
+    {
+        return $this->isCompanyReferent;
+    }
+
+    public function isInternshipSupervisor(): ?bool
+    {
+        return $this->isInternshipSupervisor;
+    }
+
+    public function isSchoolSupervisor(): ?bool
+    {
+        return $this->isSchoolSupervisor;
+    }
+
 }

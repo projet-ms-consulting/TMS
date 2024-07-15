@@ -25,10 +25,10 @@ class UserType extends AbstractType
 
         $builder
             ->add('email', EmailType::class, [
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('password', PasswordType::class, [
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('roles', ChoiceType::class, [
                 'choices' => [
@@ -44,22 +44,22 @@ class UserType extends AbstractType
                 'multiple' => false,
                 'attr' => ['class' => 'form-control'],
             ])
-            ->addDependent('startInternship','roles',  function (DependentField $field, ? string $roles){
-                if ($roles === 'ROLE_TRAINEE')  {
-                    $field->add( DateType::class, [
+            ->addDependent('startInternship', 'roles', function (DependentField $field, ?string $roles) {
+                if ('ROLE_TRAINEE' === $roles) {
+                    $field->add(DateType::class, [
                         'mapped' => false,
                         'attr' => ['class' => 'form-control']]);
                 }
             })
-            ->addDependent('endInternship','roles',  function (DependentField $field, ? string $roles) {
-            if ($roles === 'ROLE_TRAINEE') {
-                $field->add(DateType::class, [
-                    'mapped' => false,
-                    'attr' => ['class' => 'form-control']]);
-            }
-        })
-            ->addDependent('school','roles',  function (DependentField $field, ? string $roles) {
-                if ($roles === 'ROLE_TRAINEE') {
+            ->addDependent('endInternship', 'roles', function (DependentField $field, ?string $roles) {
+                if ('ROLE_TRAINEE' === $roles) {
+                    $field->add(DateType::class, [
+                        'mapped' => false,
+                        'attr' => ['class' => 'form-control']]);
+                }
+            })
+            ->addDependent('school', 'roles', function (DependentField $field, ?string $roles) {
+                if ('ROLE_TRAINEE' === $roles) {
                     $field->add(EntityType::class, [
                         'class' => School::class,
                         'choice_label' => 'name',
@@ -67,7 +67,7 @@ class UserType extends AbstractType
                         'attr' => ['class' => 'form-control']]);
                 }
             })
-            ->addDependent('schoolSupervisors','school',  function (DependentField $field, ? School $school) {
+            ->addDependent('schoolSupervisors', 'school', function (DependentField $field, ?School $school) {
                 if ($school) {
                     $field->add(EntityType::class, [
                         'class' => Person::class,
@@ -77,8 +77,8 @@ class UserType extends AbstractType
                         'attr' => ['class' => 'form-control']]);
                 }
             })
-            ->addDependent('company','roles',  function (DependentField $field, ? string $roles) {
-                if ($roles === 'ROLE_TRAINEE') {
+            ->addDependent('company', 'roles', function (DependentField $field, ?string $roles) {
+                if ('ROLE_TRAINEE' === $roles) {
                     $field->add(EntityType::class, [
                         'class' => Company::class,
                         'choice_label' => 'name',
@@ -86,7 +86,7 @@ class UserType extends AbstractType
                         'attr' => ['class' => 'form-control']]);
                 }
             })
-            ->addDependent('internshipSupervisors','company',  function (DependentField $field, ? Company $company) {
+            ->addDependent('internshipSupervisors', 'company', function (DependentField $field, ?Company $company) {
                 if ($company) {
                     $field->add(EntityType::class, [
                         'class' => Person::class,
@@ -95,13 +95,10 @@ class UserType extends AbstractType
                         'mapped' => false,
                         'attr' => ['class' => 'form-control']]);
                 }
-
-            } )
+            })
 
         ;
-
     }
-
 
     public function configureOptions(OptionsResolver $resolver): void
     {
