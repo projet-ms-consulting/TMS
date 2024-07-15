@@ -147,6 +147,7 @@ class PersonRepository extends ServiceEntityRepository
             ->addSelect('ss')
             ->leftJoin('p.manager', 'm')
             ->addSelect('m')
+            ->leftJoin('p.companyReferent', 'cr')
             ->where('u.roles LIKE :role')
             ->setParameter('role', '%"ROLE_TRAINEE"%')
             ->getQuery()
@@ -160,7 +161,7 @@ class PersonRepository extends ServiceEntityRepository
             [
                 'defaultSortFieldName' => 'p.id',
                 'defaultSortDirection' => 'asc',
-                'sortFieldWhitelist' => ['p.id', 'p.firstName', 'p.lastName', 'p.updatedAt', 'ss.lastName', 'i.lastName', 'm.lastName', 's.name', 'p.mailPro', 'c.name', 'p.mailPerso'],
+                'sortFieldWhitelist' => ['p.id', 'p.firstName', 'p.lastName', 'p.updatedAt', 'ss.lastName', 'i.lastName', 'm.lastName', 's.name', 'p.mailPro', 'c.name', 'p.mailPerso', 'cr.lastName'],
             ]
         );
     }

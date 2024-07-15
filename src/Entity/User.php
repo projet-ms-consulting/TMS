@@ -66,6 +66,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: true)]
     private ?bool $everLoggedIn = false;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $passwordResetToken = null;
+
     public function __construct()
     {
         $this->internshipSupervisor = new ArrayCollection();
@@ -288,6 +291,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEverLoggedIn(bool $everLoggedIn): static
     {
         $this->everLoggedIn = $everLoggedIn;
+
+        return $this;
+    }
+
+    public function getPasswordResetToken(): ?string
+    {
+        return $this->passwordResetToken;
+    }
+
+    public function setPasswordResetToken(?string $passwordResetToken): static
+    {
+        $this->passwordResetToken = $passwordResetToken;
 
         return $this;
     }
