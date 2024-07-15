@@ -12,8 +12,15 @@
         <p class="profile-info">Prenom : {{ person.firstName }}</p>
         <p class="profile-info">Email  : {{ user.email }}</p>
 
-        <button type="button" class="btn btn-primary view-cv-btn" data-toggle="modal" data-target="#cvModal">
-            Voir mon CV
-        </button>
+        {% if person.files|length > 0 %}
+            <h2>Mes CV</h2>
+            <ul>
+                {% for file in person.files %}
+                    <li>
+                        <a href="{{ asset('assets/FilesDirectory/' ~ file.file) }}" target="_blank">{{ file.realFileName }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     </div>
 {% endblock %}
