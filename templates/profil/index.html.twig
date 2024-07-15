@@ -12,15 +12,18 @@
         <p class="profile-info">Prenom : {{ person.firstName }}</p>
         <p class="profile-info">Email  : {{ user.email }}</p>
 
-        {% if person.files|length > 0 %}
-            <h2>Mes CV</h2>
-            <ul>
-                {% for file in person.files %}
-                    <li>
-                        <a href="{{ asset('assets/FilesDirectory/' ~ file.file) }}" target="_blank">{{ file.realFileName }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
+        {% for file in person.files %}
+            <li>
+                <a href="{{ asset('assets/FilesDirectory/' ~ file.file) }}" target="_blank">{{ file.realFileName }}</a>
+
+                {% if file.file is not null and file.realFileName is not null %}
+                    {% set extension = file.file|split('.')|last|lower %}
+                    {% if extension in ['jpg', 'jpeg', 'png', 'gif'] %}
+                        <br>
+                        <img src="{{ asset('assets/FilesDirectory/' ~ file.file) }}" alt="Miniature CV" style="max-width: 200px;">
+                    {% endif %}
+                {% endif %}
+            </li>
+        {% endfor %}
     </div>
 {% endblock %}
