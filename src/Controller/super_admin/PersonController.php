@@ -4,6 +4,7 @@ namespace App\Controller\super_admin;
 
 use App\Entity\Files;
 use App\Entity\Person;
+use App\Entity\User;
 use App\Form\PersonType;
 use App\Repository\FilesRepository;
 use App\Repository\PersonRepository;
@@ -40,6 +41,7 @@ class PersonController extends AbstractController
 
         if ($personForm->isSubmitted() && $personForm->isValid()) {
             $person->setCreatedAt(new \DateTimeImmutable());
+
             $entityManager->persist($person);
             $entityManager->flush();
 

@@ -29,43 +29,39 @@ class UserController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, PersonRepository $personRepository): Response
     {
         $user = new User();
-        $user->setPerson(new Person());
 
         $personId = $request->query->get('id');
         $person = $entityManager->getRepository(Person::class)->find($personId);
 
         if ($person) {
-        $user->setPerson($person);
-    } else {
+            $user->setPerson($person);
+        } else {
             $user->setPerson(new Person());
-    }
+        }
 
-        $userForm = $this->createForm(UserType::class, $user, [
-            'selected_person' => $person,
-        ]);
+        $userForm = $this->createForm(UserType::class, $user);
         $userForm->handleRequest($request);
 
         if ($userForm->isSubmitted() && $userForm->isValid()) {
-            $user->setPassword(password_hash($userForm->getData()->getPassword(), PASSWORD_DEFAULT));
+            $user->setEmail($userForm->get('email')->getData());
+            $user->setPassword(password_hash($userForm->get('password')->getData(), PASSWORD_BCRYPT));
             $user->setCreatedAt(new \DateTimeImmutable());
-            $user->setRoles($userForm->getData()->getRoles());
-            $user->setEverLoggedIn(false);
-            $person->setUser($user);
+
+            $roles = $userForm->get('roles')->getData();
+                if (is_string($roles)) {
+                    $roles = [$roles];
+                }
+                $user->setRoles($roles);
 
             $entityManager->persist($user);
             $entityManager->persist($person);
             $entityManager->flush();
 
-            if (in_array('ROLE_TRAINEE', $userForm->getData()->getRoles())) {
-                return $this->redirectToRoute('super_admin_app_trainee_new', ['id' => $user->getPerson()->getId()]);
-            }
             return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
         }
 
             return $this->render('super_admin/user/new.html.twig', [
-            'userForm' => $userForm->createView(),
             'person' => $user->getPerson(),
-            'people' => $personRepository->findAll(),
         ]);
     }
 

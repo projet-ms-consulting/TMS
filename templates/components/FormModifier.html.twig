@@ -1,0 +1,55 @@
+<div{{ attributes }}>
+        {{ form_start(form) }}
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Email : </th>
+                <td>{{ form_widget(form.email) }}</td>
+            </tr>
+            <tr>
+                <th>Mot de passe : </th>
+                <td>{{ form_widget(form.password) }}</td>
+            </tr>
+            <tr>
+                <th>Rôle : </th>
+                <td>{{ form_widget(form.roles) }}</td>
+            </tr>
+            {% if form.startInternship is defined %}
+                <tr>
+                    <th>Date début de stage : </th>
+                    <td>{{ form_widget(form.startInternship) }}</td>
+                </tr>
+                <tr>
+                    <th>Date fin de stage : </th>
+                    <td>{{ form_widget(form.endInternship) }}</td>
+                </tr>
+                <tr>
+                    <th>Ecole : </th>
+                    <td>{{ form_widget(form.school) }}</td>
+                </tr>
+                    {% if form.schoolSupervisors is defined %}
+                        <tr>
+                            <th>Référent école : </th>
+                            <td>{{ form_widget(form.schoolSupervisors) }}</td>
+                        </tr>
+                    {% endif %}
+                <tr>
+                    <th>Entreprise : </th>
+                    <td>{{ form_widget(form.company) }}</td>
+                </tr>
+            {% endif %}
+            {% if form.internshipSupervisors is defined %}
+                <tr>
+                    <th>Référent entreprise : </th>
+                    <td>{{ form_widget(form.internshipSupervisors) }}</td>
+                </tr>
+            {% endif %}
+            <tr>
+                <td colspan="2">
+                    <button class="btn">Créer</button>
+                </td>
+            </tr>
+        </table>
+        {{ form_end(form) }}
+        <a href="{{ path('super_admin_app_user_index') }}">retour à la liste des utilisateur</a>
+</div>
