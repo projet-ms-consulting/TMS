@@ -23,7 +23,11 @@
                         <img src="{{ asset('assets/FilesDirectory/' ~ file.file) }}" alt="Miniature CV" style="max-width: 200px;">
                     {% endif %}
                 {% endif %}
+
+                <a href="{{ path('app_delete_cv', {'id': file.id}) }}" class="btn btn-danger delete-cv-btn"
+                   onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce CV ?')">Supprimer</a>
             </li>
         {% endfor %}
+
     </div>
 {% endblock %}

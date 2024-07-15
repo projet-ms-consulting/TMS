@@ -175,3 +175,18 @@ label.required:after {
   background-color: goldenrod;
   color: whitesmoke;
 }
+
+.delete-cv-btn {
+  display: inline-block;
+  margin-left: 10px;
+  color: #fff;
+  background-color: grey;
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.delete-cv-btn:hover {
+  background-color: #c82333;
+  color: #fff;
+}

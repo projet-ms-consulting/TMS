@@ -88,8 +88,23 @@ class ProfilController extends AbstractController
 
         return $this->render('profil/edit.html.twig', [
             'form' => $form->createView(),
-
         ]);
     }
-}
 
+    #[Route('/profil/delete-cv/{id}', name: 'app_delete_cv')]
+    public function deleteCV(int $id, EntityManagerInterface $entityManager): Response
+    {
+        $cv = $entityManager->getRepository(Files::class)->find($id);
+
+        if (!$cv) {
+            throw $this->createNotFoundException('Le CV avec l\'id ' . $id . ' n\'existe pas.');
+        }
+
+        $entityManager->remove($cv);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'CV supprimé avec succès.');
+
+        return $this->redirectToRoute('app_profil');
+    }
+}
