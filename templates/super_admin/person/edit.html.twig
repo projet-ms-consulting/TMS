@@ -2,6 +2,12 @@
 
 {% block title %}Modifier une personne{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/css/array.css') }}">
+{% endblock %}
+
+
 {% block body %}
     <h1>Modifier {{ person.firstName }} {{ person.lastName | upper }}</h1>
 

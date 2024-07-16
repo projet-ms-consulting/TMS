@@ -4,7 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('styles/css/array.css') }}">
+    <link rel="stylesheet" href="{{ asset('path/to/password-toggle-bootstrap.css') }}">
 {% endblock %}
 
 {% block body %}
@@ -20,7 +20,12 @@
 
     <div class="form-group">
         {{ form_label(form.password) }}
-        {{ form_widget(form.password, { 'attr': { 'class': 'form-control' } }) }}
+        {{ form_widget(form.password, {
+            'attr': {
+                'class': 'form-control toggle-password-input',
+                'data-toggle-password': true
+            }
+        }) }}
         {{ form_errors(form.password) }}
     </div>
 
@@ -51,4 +56,22 @@
     <button type="submit" class="btn btn-primary">Sauvegarder</button>
 
     {{ form_end(form) }}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const togglePasswordInputs = document.querySelectorAll('.toggle-password-input');
+            togglePasswordInputs.forEach(function (input) {
+                const toggleBtn = document.createElement('span');
+                toggleBtn.className = 'toggle-password-btn';
+                toggleBtn.innerHTML = '<i class="fa fa-eye"></i>';
+
+                toggleBtn.addEventListener('click', function () {
+                    const type = input.type === 'password' ? 'text' : 'password';
+                    input.type = type;
+                });
+
+                input.parentNode.insertBefore(toggleBtn, input.nextSibling);
+            });
+        });
+    </script>
 {% endblock %}
