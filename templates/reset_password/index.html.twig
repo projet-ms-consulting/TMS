@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réinitialisation de mot de passe{% endblock %}
+
+{% block body %}
+    <h1>Réinitialisation de mot de passe</h1>
+
+    {% if app.user %}
+        <p>Vous êtes déjà connecté(e), vous ne pouvez pas réinitialiser votre mot de passe depuis cette page.</p>
+    {% else %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+
+        <form method="post">
+            {{ form_start(form, {'action': path('app_reset_password_reset'), 'method': 'POST'}) }}
+            {{ form_row(form.email) }}
+            <button type="submit" class="btn btn-primary">Envoyer un e-mail de réinitialisation</button>
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+        </form>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+

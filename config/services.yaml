@@ -23,6 +23,10 @@ services:
     App\Entity\Person:
         public: true
 
+    App\Security\CustomAuthenticationSuccessHandler:
+        tags:
+            - { name: 'monolog.logger', channel: 'security' }
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

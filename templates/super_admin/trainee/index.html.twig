@@ -12,8 +12,9 @@
                 <th>{{ knp_pagination_sortable(personne, 'Ecole', 's.name') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Référent école', 'ss.lastName') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Entreprise', 'c.name') }}</th>
-                <th>{{ knp_pagination_sortable(personne, 'Référent entreprise', 'i.lastName') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Manager', 'm.lastName') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Référent entreprise', 'cr.lastName') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Maître de stage', 'i.lastName') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Mail perso', 'p.mailPerso') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Mail pro', 'p.mailPro') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Début de stage', 'p.startInternship') }}</th>
@@ -42,15 +43,20 @@
                 {% else %}
                     <td>Pas d'entreprise</td>
                 {% endif %}
-                {% if person.internshipSupervisor is defined and person.internshipSupervisor is not null %}
-                    <td>{{ person.internshipSupervisor.firstName }} {{ person.internshipSupervisor.lastName }}</td>
-                {% else %}
-                    <td>Pas de référent stage</td>
-                {% endif %}
                 {% if person.manager is defined and person.manager is not null %}
                     <td>{{ person.manager.firstName }} {{ person.manager.lastName }}</td>
                 {% else %}
                     <td>Pas de Manager</td>
+                {% endif %}
+                {% if person.companyReferent is defined and person.companyReferent is not null %}
+                    <td>{{ person.companyReferent.firstName }} {{ person.companyReferent.lastName }}</td>
+                {% else %}
+                    <td>Pas de référent d'entreprise</td>
+                {% endif %}
+                {% if person.internshipSupervisor is defined and person.internshipSupervisor is not null %}
+                    <td>{{ person.internshipSupervisor.firstName }} {{ person.internshipSupervisor.lastName }}</td>
+                {% else %}
+                    <td>Pas de maître de stage</td>
                 {% endif %}
                 {% if person.mailPerso is defined and person.mailPerso is not null %}
                     <td>{{ person.mailPerso }}</td>

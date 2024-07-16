@@ -29,6 +29,18 @@
         {% include "components/navbar.html.twig" %}
     </div>
 </header>
+<section>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success" style="color: green">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger" style="color: red">
+            {{ message }}
+        </div>
+    {% endfor %}
+</section>
 <main class="container">
     {% block body %}{% endblock %}
 </main>

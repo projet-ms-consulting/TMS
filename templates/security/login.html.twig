@@ -17,7 +17,7 @@
 
             {% if app.user %}
             <div class="mb-3">
-                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                Vous êtes connectés en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Se déconnecter</a>
             </div>
             {% endif %}
             <div class="space-y-3">
@@ -32,16 +32,19 @@
                 </div>
                 <div>
                     <label for="password" class="block mb-3 text-sm font-medium text-black">
-                        Password
+                        Mot de passe
                     </label>
                     <input
                         class="block w-full h-12 px-4 py-2 text-blue-500 duration-200 border rounded-lg appearance-none bg-chalk border-zinc-300 placeholder-zinc-300 focus:border-zinc-300 focus:outline-none focus:ring-zinc-300 sm:text-sm"
                         type="password" name="_password" id="password" class="form-control"
                         autocomplete="current-password" required>
                 </div>
+                <div>
+                    <a href="{{ path('app_reset_password_reset') }}">Mot de passe oublié</a>
+                </div>
                 <div class="checkbox mb-3">
                     <label class="block mb-3 text-sm font-medium text-black">
-                        <input type="checkbox" name="_remember_me"> Remember me
+                        <input type="checkbox" name="_remember_me"> Se souvenir de moi
                     </label>
                 </div>
                 <div class="col-span-full">
