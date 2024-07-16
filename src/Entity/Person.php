@@ -107,6 +107,9 @@ class Person
     #[ORM\Column(nullable: true)]
     private ?bool $isSchoolSupervisor = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $labelRole = null;
+
 
 
     public function __construct()
@@ -480,6 +483,18 @@ class Person
     public function isSchoolSupervisor(): ?bool
     {
         return $this->isSchoolSupervisor;
+    }
+
+    public function getLabelRole(): ?string
+    {
+        return $this->labelRole;
+    }
+
+    public function setLabelRole(string $labelRole): static
+    {
+        $this->labelRole = $labelRole;
+
+        return $this;
     }
 
 }

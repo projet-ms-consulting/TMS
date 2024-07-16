@@ -4,9 +4,11 @@ namespace App\Controller\super_admin;
 
 use App\Entity\Files;
 use App\Entity\Person;
+use App\Entity\User;
 use App\Form\PersonType;
 use App\Repository\FilesRepository;
 use App\Repository\PersonRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,18 +33,30 @@ class PersonController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
         $person = new Person();
+
 
         $personForm = $this->createForm(PersonType::class, $person);
         $personForm->handleRequest($request);
 
         if ($personForm->isSubmitted() && $personForm->isValid()) {
             $person->setCreatedAt(new \DateTimeImmutable());
+            $person->setLabelRole($personForm->get('labelRole')->getData());
 
             $entityManager->persist($person);
             $entityManager->flush();
+            $this->addFlash('success', 'Création réussie !');
+
+            return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('super_admin/person/new.html.twig', [
+            'person' => $person,
+            'personForm' => $personForm,
+            'files' => $person->getFiles(),
+        ]);
 
             // *************  Upload CV ***************
 //            $cvFile = $personForm->get('cv')->getData();
@@ -99,18 +113,6 @@ class PersonController extends AbstractController
 //                            $entityManager->flush();
 //                        }
 
-            $entityManager->persist($person);
-            $entityManager->flush();
-            $this->addFlash('success', 'Création réussie !');
-
-            return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('super_admin/person/new.html.twig', [
-            'person' => $person,
-            'personForm' => $personForm,
-            'files' => $person->getFiles(),
-        ]);
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'])]

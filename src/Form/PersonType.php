@@ -3,6 +3,7 @@ namespace App\Form;
 
 use App\Entity\Person;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -32,6 +33,22 @@ class PersonType extends AbstractType
                 'label' => 'Email professionnelle : ',
                 'required' => false,
                 'attr' => ['class' => 'form-control']
+            ])
+            ->add('labelRole', ChoiceType::class, [
+                'label' => 'Rôle :',
+                'placeholder' => 'Choisir un rôle',
+                'choices' => [
+                    'Super Admin' =>  'Super Admin',
+                    'Manager' => 'Manager',
+                    'Stagiaire' => 'Stagiaire',
+                    'Référent école' => 'Référent école',
+                    'Maître de stage' => 'Maître de stage',
+                    'Chef d\'entreprise' => 'Chef d\'entreprise',
+                ],
+                'mapped' => false,
+                'expanded' => false,
+                'multiple' => false,
+                'attr' => ['class' => 'form-control'],
             ]);
     }
 
