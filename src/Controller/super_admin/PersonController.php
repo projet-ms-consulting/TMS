@@ -4,7 +4,6 @@ namespace App\Controller\super_admin;
 
 use App\Entity\Files;
 use App\Entity\Person;
-use App\Entity\User;
 use App\Form\PersonType;
 use App\Repository\FilesRepository;
 use App\Repository\PersonRepository;
@@ -46,41 +45,41 @@ class PersonController extends AbstractController
             $entityManager->flush();
 
             // *************  Upload CV ***************
-            $cvFile = $personForm->get('cv')->getData();
-            if ($cvFile) {
-                $cvFilename = 'CV.'.$person->getFirstName().'-'.$person->getLastName().'.'.$cvFile->guessExtension();
-                $cvHash = hash('sha256', $cvFilename);
-                $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
-                $cvFile->move($this->getParameter('kernel.project_dir') . 'public/doc/', $cvFilename);
-
-                $file = new Files();
-                $file->setLabel('CV')
-                    ->setFile($cvHashFile)
-                    ->setCreatedAt(new \DateTimeImmutable())
-                    ->setPerson($person)
-                    ->setRealFileName($cvFilename);
-
-                $entityManager->persist($file);
-                $entityManager->flush();
-            }
+//            $cvFile = $personForm->get('cv')->getData();
+//            if ($cvFile) {
+//                $cvFilename = 'CV.'.$person->getFirstName().'-'.$person->getLastName().'.'.$cvFile->guessExtension();
+//                $cvHash = hash('sha256', $cvFilename);
+//                $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
+//                $cvFile->move($this->getParameter('kernel.project_dir') . 'public/doc/', $cvFilename);
+//
+//                $file = new Files();
+//                $file->setLabel('CV')
+//                    ->setFile($cvHashFile)
+//                    ->setCreatedAt(new \DateTimeImmutable())
+//                    ->setPerson($person)
+//                    ->setRealFileName($cvFilename);
+//
+//                $entityManager->persist($file);
+//                $entityManager->flush();
+//            }
            // *************  Upload Lettre de motivation ****************
-            $lmFile = $personForm->get('coverLetter')->getData();
-            if ($lmFile) {
-                $lmFilename = 'LM.'.$person->getFirstName().'-'.$person->getLastName().'.'.$lmFile->guessExtension();
-                $lmHash = hash('sha256', $lmFilename);
-                $lmHashFile = $lmHash.'.'.$lmFile->guessExtension();
-                $lmFile->move($this->getParameter('kernel.project_dir') . 'public/doc/', $lmFilename);
-
-                $file = new Files();
-                $file->setLabel('LM')
-                    ->setFile($lmHashFile)
-                    ->setCreatedAt(new \DateTimeImmutable())
-                    ->setPerson($person)
-                    ->setRealFileName($lmFilename);
-
-                $entityManager->persist($file);
-                $entityManager->flush();
-            }
+//            $lmFile = $personForm->get('coverLetter')->getData();
+//            if ($lmFile) {
+//                $lmFilename = 'LM.'.$person->getFirstName().'-'.$person->getLastName().'.'.$lmFile->guessExtension();
+//                $lmHash = hash('sha256', $lmFilename);
+//                $lmHashFile = $lmHash.'.'.$lmFile->guessExtension();
+//                $lmFile->move($this->getParameter('kernel.project_dir') . 'public/doc/', $lmFilename);
+//
+//                $file = new Files();
+//                $file->setLabel('LM')
+//                    ->setFile($lmHashFile)
+//                    ->setCreatedAt(new \DateTimeImmutable())
+//                    ->setPerson($person)
+//                    ->setRealFileName($lmFilename);
+//
+//                $entityManager->persist($file);
+//                $entityManager->flush();
+//            }
             // *************  Upload convention de stage ****************
 //                        $csFile = $personForm->get('internshipAgreement')->getData();
 //                        if ($csFile) {

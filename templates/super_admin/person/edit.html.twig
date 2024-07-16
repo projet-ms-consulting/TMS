@@ -8,12 +8,20 @@
     {{ form_start(personForm) }}
     <table class="table">
         <tr>
-            <th>Nom</th>
+            <th>{{ form_label(personForm.lastName) }}</th>
             <td>{{ form_widget(personForm.lastName) }}</td>
         </tr>
         <tr>
-            <th>Prénom</th>
+            <th>{{ form_label(personForm.firstName) }}</th>
             <td>{{ form_widget(personForm.firstName) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(personForm.mailPerso) }}</th>
+            <td>{{ form_widget(personForm.mailPerso) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(personForm.mailPro) }}</th>
+            <td>{{ form_widget(personForm.mailPro) }}</td>
         </tr>
 {#        <tr>#}
 {#            <th>Date début de stage</th>#}
@@ -28,29 +36,29 @@
 {#            <td>{{ form_widget(personForm.school) }}</td>#}
 {#        </tr>#}
 
-        <tr>
-            <th>Ajouter un CV</th>
-            <td>
-                 {{ form_widget(personForm.cv) }}
-                {% for file in person.files %}
-                    {% if file.label == 'CV' %}
-                <a href="{{ asset('documents/' ~file.realFileName) }}" target="_blank">{{ file.realFileName }}</a>
-                {% endif %}
-                {% endfor %}
-            </td>
-        </tr>
-        <tr>
-            <th>Ajouter une lettre de motivation</th>
-                    <td>
-                        {{ form_widget(personForm.coverLetter) }}
-                        {% for file in person.files %}
-                        {% if file.label == 'LM' %}
-                        <a href="{{ asset('documents/' ~file.realFileName) }}" target="_blank">{{ file.realFileName }}</a>
-                        {% endif %}
-                        {% endfor %}
-                    </td>
+{#        <tr>#}
+{#            <th>Ajouter un CV</th>#}
+{#            <td>#}
+{#                 {{ form_widget(personForm.cv) }}#}
+{#                {% for file in person.files %}#}
+{#                    {% if file.label == 'CV' %}#}
+{#                <a href="{{ asset('documents/' ~file.realFileName) }}" target="_blank">{{ file.realFileName }}</a>#}
+{#                {% endif %}#}
+{#                {% endfor %}#}
+{#            </td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <th>Ajouter une lettre de motivation</th>#}
+{#                    <td>#}
+{#                        {{ form_widget(personForm.coverLetter) }}#}
+{#                        {% for file in person.files %}#}
+{#                        {% if file.label == 'LM' %}#}
+{#                        <a href="{{ asset('documents/' ~file.realFileName) }}" target="_blank">{{ file.realFileName }}</a>#}
+{#                        {% endif %}#}
+{#                        {% endfor %}#}
+{#                    </td>#}
 
-        </tr>
+{#        </tr>#}
 {#        <tr>#}
 {#            <th>Ajouter une convention de stage</th>#}
 {#            {% for file in person.files %}#}

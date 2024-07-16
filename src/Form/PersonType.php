@@ -23,38 +23,17 @@ class PersonType extends AbstractType
                 'label' => 'Prénom : ',
                 'attr' => ['class' => 'form-control']
             ])
-            ->add('cv', FileType::class, [
-                        'mapped' => false,
-                        'required' => false,
-                        'constraints' => [
-                            new File([
-                                'mimeTypes' => [
-                                    'application/pdf',
-                                    'image/jpeg',
-                                    'image/png',
-                                ],
-                                'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
-                            ]),
-                        ],
-                        'attr' => ['class' => 'form-control']
-                    ])
-            ->add('coverLetter', FileType::class, [
-                        'mapped' => false,
-                        'required' => false,
-                        'constraints' => [
-                            new File([
-                                'mimeTypes' => [
-                                    'application/pdf',
-                                    'image/jpeg',
-                                    'image/png',
-                                ],
-                                'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
-                            ]),
-                        ],
-                        'attr' => ['class' => 'form-control']
-                    ]);
-
-            }
+            ->add('mailPerso', EmailType::class, [
+                'label' => 'Email personnelle : ',
+                'required' => false,
+                'attr' => ['class' => 'form-control']
+            ])
+            ->add('mailPro', EmailType::class, [
+                'label' => 'Email professionnelle : ',
+                'required' => false,
+                'attr' => ['class' => 'form-control']
+            ]);
+    }
 
     public function configureOptions(OptionsResolver $resolver): void
     {

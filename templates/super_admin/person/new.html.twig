@@ -9,22 +9,29 @@
     <table class="table">
         <tbody>
         <tr>
-            <th>Nom : </th>
+            <th>{{ form_label(personForm.lastName) }}</th>
             <td>{{ form_widget(personForm.lastName) }}</td>
         </tr>
         <tr>
-            <th>Prénom : </th>
+            <th>{{ form_label(personForm.firstName) }}</th>
             <td>{{ form_widget(personForm.firstName) }}</td>
         </tr>
         <tr>
-        <tr>
-            <th>Ajouter un CV : </th>
-            <td>{{ form_widget(personForm.cv) }}</td>
+            <th>{{ form_label(personForm.mailPerso) }}</th>
+            <td>{{ form_widget(personForm.mailPerso) }}</td>
         </tr>
         <tr>
-            <th>Ajouter une lettre de motivation : </th>
-            <td>{{ form_widget(personForm.coverLetter) }}</td>
+            <th>{{ form_label(personForm.mailPro) }}</th>
+            <td>{{ form_widget(personForm.mailPro) }}</td>
         </tr>
+{#        <tr>#}
+{#            <th>Ajouter un CV : </th>#}
+{#            <td>{{ form_widget(personForm.cv) }}</td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <th>Ajouter une lettre de motivation : </th>#}
+{#            <td>{{ form_widget(personForm.coverLetter) }}</td>#}
+{#        </tr>#}
         <tr>
             <td colspan="2">
                 <button class="btn">Créer</button>

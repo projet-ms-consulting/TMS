@@ -2,9 +2,9 @@
 
 namespace App\Controller\super_admin;
 
+use App\Entity\Files;
 use App\Entity\Person;
 use App\Entity\User;
-use App\Form\PersonType;
 use App\Form\UserType;
 use App\Repository\PersonRepository;
 use App\Repository\UserRepository;
@@ -39,7 +39,9 @@ class UserController extends AbstractController
             $user->setPerson(new Person());
         }
 
-        $userForm = $this->createForm(UserType::class, $user);
+        $userForm = $this->createForm(UserType::class, $user, [
+                'selected_person' => $person,
+            ]);
         $userForm->handleRequest($request);
 
         if ($userForm->isSubmitted() && $userForm->isValid()) {
@@ -52,6 +54,25 @@ class UserController extends AbstractController
                     $roles = [$roles];
                 }
                 $user->setRoles($roles);
+
+            // *************  Upload CV ***************
+            $cvFile = $userForm->get('cv')->getData();
+            if ($cvFile) {
+                $cvFilename = 'CV.'.$person->getFirstName().'-'.$person->getLastName().'.'.$cvFile->guessExtension();
+                $cvHash = hash('sha256', $cvFilename);
+                $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
+                $cvFile->move($this->getParameter('kernel.project_dir') . 'public/doc/', $cvFilename);
+
+                $file = new Files();
+                $file->setLabel('CV')
+                    ->setFile($cvHashFile)
+                    ->setCreatedAt(new \DateTimeImmutable())
+                    ->setPerson($person)
+                    ->setRealFileName($cvFilename);
+
+                $entityManager->persist($file);
+                $entityManager->flush();
+            }
 
             $entityManager->persist($user);
             $entityManager->persist($person);
