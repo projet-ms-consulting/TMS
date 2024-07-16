@@ -40,6 +40,7 @@ class ProfilController extends AbstractController
             $firstName = $form->get('firstName')->getData();
             $lastName = $form->get('lastName')->getData();
             $cvFile = $form->get('cv')->getData();
+            $cvType = $form->get('cvType')->getData();
 
             if ($firstName) {
                 $person->setFirstName($firstName);
@@ -64,16 +65,16 @@ class ProfilController extends AbstractController
                     );
 
                     $cv = new Files();
-                    $cv->setLabel('CV');
-                    $cv->setFile($newFilename);
-                    $cv->setRealFileName($originalFilename);
-                    $cv->setCreatedAt(new \DateTimeImmutable());
-                    $cv->setPerson($person);
+                    $cv.setLabel($cvType);
+                    $cv.setFile($newFilename);
+                    $cv.setRealFileName($originalFilename);
+                    $cv.setCreatedAt(new \DateTimeImmutable());
+                    $cv.setPerson($person);
 
                     $entityManager->persist($cv);
                     $entityManager->flush();
                 } catch (FileException | \UnexpectedValueException $e) {
-                    $this->addFlash('error', $e->getMessage());
+                    $this->addFlash('error', $e.getMessage());
                     return $this->redirectToRoute('app_profil_edit');
                 }
             }
