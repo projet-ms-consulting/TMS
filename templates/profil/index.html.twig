@@ -16,6 +16,7 @@
             {% for file in person.files %}
                 <li>
                     <a href="{{ asset('assets/FilesDirectory/' ~ file.file) }}" target="_blank" class="file-link">{{ file.realFileName }}</a>
+                    - <span class="file-label">{{ file.label == 'Autre document' ? 'Autre document' : file.label }}</span>
 
                     {% if file.file is not null and file.realFileName is not null %}
                         {% set extension = file.file|split('.')|last|lower %}
@@ -26,7 +27,7 @@
                     {% endif %}
 
                     <a href="{{ path('app_delete_cv', {'id': file.id}) }}" class="btn btn-danger delete-cv-btn"
-                       onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce CV ?')">Supprimer</a>
+                       onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce fichier ?')">Supprimer</a>
                 </li>
             {% endfor %}
         </ul>

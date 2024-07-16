@@ -36,6 +36,18 @@
         {{ form_errors(form.lastName) }}
     </div>
 
+    <div class="form-group">
+        {{ form_label(form.cv) }}
+        {{ form_widget(form.cv, { 'attr': { 'class': 'form-control' } }) }}
+        {{ form_errors(form.cv) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.cvType) }}
+        {{ form_widget(form.cvType, { 'attr': { 'class': 'form-control' } }) }}
+        {{ form_errors(form.cvType) }}
+    </div>
+
     <button type="submit" class="btn btn-primary">Sauvegarder</button>
 
     {{ form_end(form) }}

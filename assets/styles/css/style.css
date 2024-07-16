@@ -199,3 +199,12 @@ label.required:after {
 .file-link:hover {
   color: goldenrod;
 }
+
+.file-label {
+  color: whitesmoke;
+}
+
+.form-group label[for="profil_cv"],
+.form-group label[for="profil_cvType"] {
+  color: whitesmoke;
+}
