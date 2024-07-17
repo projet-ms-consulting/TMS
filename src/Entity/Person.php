@@ -109,10 +109,8 @@ class Person
     #[ORM\Column(nullable: true)]
     private ?bool $isSchoolSupervisor = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $labelRole = null;
-
-
 
     public function __construct()
     {
@@ -508,5 +506,4 @@ class Person
     {
         $this->emailChoice = $emailChoice;
     }
-
 }
