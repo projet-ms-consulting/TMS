@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProfilController extends AbstractController
@@ -28,7 +29,7 @@ class ProfilController extends AbstractController
     }
 
     #[Route('/profil/edit', name: 'app_profil_edit')]
-    public function edit(Request $request, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = $this->getUser();
         $person = $user->getPerson();
@@ -42,6 +43,7 @@ class ProfilController extends AbstractController
             $cvFile = $form->get('cv')->getData();
             $cvType = $form->get('cvType')->getData();
 
+            // Mise à jour des autres champs
             if ($firstName) {
                 $person->setFirstName($firstName);
             }
@@ -65,18 +67,24 @@ class ProfilController extends AbstractController
                     );
 
                     $cv = new Files();
-                    $cv.setLabel($cvType);
-                    $cv.setFile($newFilename);
-                    $cv.setRealFileName($originalFilename);
-                    $cv.setCreatedAt(new \DateTimeImmutable());
-                    $cv.setPerson($person);
+                    $cv->setLabel($cvType);
+                    $cv->setFile($newFilename);
+                    $cv->setRealFileName($originalFilename);
+                    $cv->setCreatedAt(new \DateTimeImmutable());
+                    $cv->setPerson($person);
 
                     $entityManager->persist($cv);
                     $entityManager->flush();
                 } catch (FileException | \UnexpectedValueException $e) {
-                    $this->addFlash('error', $e.getMessage());
+                    $this->addFlash('error', $e->getMessage());
                     return $this->redirectToRoute('app_profil_edit');
                 }
+            }
+
+            $newPassword = $form->get('password')->getData();
+            if ($newPassword) {
+                $hashedPassword = $passwordHasher->hashPassword($user, $newPassword);
+                $user->setPassword($hashedPassword);
             }
 
             $entityManager->persist($person);

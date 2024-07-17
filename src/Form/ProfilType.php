@@ -21,10 +21,14 @@ class ProfilType extends AbstractType
             ->add('password', PasswordType::class, [
                 'label' => 'Mot de passe',
                 'required' => false,
+                'attr' => [
+                    'autocomplete' => 'new-password',
+                ],
+                'mapped' => false,
             ])
             ->add('firstName', TextType::class, [
                 'label' => 'Prénom',
-                'required' =>false,
+                'required' => false,
                 'mapped' => false,
             ])
             ->add('lastName', TextType::class, [
