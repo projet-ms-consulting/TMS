@@ -4,5 +4,76 @@
 
 {% block body %}
     <h1>Créer un compte utilisateur pour {{ person.firstName }} {{ person.lastName | upper }}</h1>
-    <twig:FormModifier />
+    <twig:FormModifier/>
+
+{#    {{ form_start(userForm)}}#}
+{#    <table class="table">#}
+{#        <tbody>#}
+{#        <tr>#}
+{#            <th>{{ form_label(userForm.emailChoice) }}</th>#}
+{#            <td>{{ form_widget(userForm.emailChoice) }}</td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <th>{{ form_label(userForm.password) }}</th>#}
+{#            <td>{{ form_widget(userForm.password) }}</td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <th>{{ form_label(userForm.roles) }}</th>#}
+{#            <td>{{ form_widget(userForm.roles) }}</td>#}
+{#        </tr>#}
+{#        {% if form.startInternship is defined %}#}
+{#            <tr>#}
+{#                <th>{{ form_label(userForm.startInternship) }}</th>#}
+{#                <td>{{ form_widget(userForm.startInternship) }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <th>{{ form_label(userForm.endInternship) }}</th>#}
+{#                <td>{{ form_widget(userForm.endInternship) }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <th>{{ form_label(userForm.school) }}</th>#}
+{#                <td>{{ form_widget(userForm.school) }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <th>{{ form_label(userForm.cv) }}</th>#}
+{#                <td>{{ form_widget(userForm.cv) }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <th>{{ form_label(userForm.coverLetter) }}</th>#}
+{#                <td>{{ form_widget(userForm.coverLetter) }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <th>{{ form_label(userForm.internshipAgreement) }}</th>#}
+{#                <td>{{ form_widget(userForm.internshipAgreement) }}</td>#}
+{#            </tr>#}
+{#            {% if form.schoolSupervisors is defined %}#}
+{#                <tr>#}
+{#                    <th>{{ form_label(userForm.schoolSupervisors) }}</th>#}
+{#                    <td>{{ form_widget(userForm.schoolSupervisors) }}</td>#}
+{#                </tr>#}
+{#            {% endif %}#}
+{#        {% endif %}#}
+{#        {% if form.company is defined %}#}
+{#            <tr>#}
+{#                <th>{{ form_label(form.company) }}</th>#}
+{#                <td>{{ form_widget(form.company) }}</td>#}
+{#            </tr>#}
+{#            {% if form.internshipSupervisors is defined %}#}
+{#                <tr>#}
+{#                    <th>{{ form_label(form.internshipSupervisors) }}</th>#}
+{#                    <td>{{ form_widget(form.internshipSupervisors) }}</td>#}
+{#                </tr>#}
+{#            {% endif %}#}
+{#        {% endif %}#}
+{#        <tr>#}
+{#            <td colspan="2">#}
+{#                <button class="btn">Créer</button>#}
+{#            </td>#}
+{#        </tr>#}
+{#    </table>#}
+{#    {{ form_end(userForm) }}#}
+{#    <a href="{{ path('super_admin_app_user_index') }}">Retour à la liste des utilisateur</a>#}
+
+
+
 {% endblock %}

@@ -23,6 +23,9 @@ services:
     App\Entity\Person:
         public: true
 
+    App\Entity\User:
+        public: true
+
     App\Security\CustomAuthenticationSuccessHandler:
         tags:
             - { name: 'monolog.logger', channel: 'security' }

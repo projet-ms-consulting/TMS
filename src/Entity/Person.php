@@ -79,6 +79,8 @@ class Person
 
     #[ORM\OneToOne(mappedBy: 'person', cascade: ['persist', 'remove'])]
     private ?User $user = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $emailChoice = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $mailPerso = null;
@@ -495,6 +497,16 @@ class Person
         $this->labelRole = $labelRole;
 
         return $this;
+    }
+
+    public function getEmailChoice(): ?string
+    {
+        return $this->emailChoice;
+    }
+
+    public function setEmailChoice(?string $emailChoice): void
+    {
+        $this->emailChoice = $emailChoice;
     }
 
 }

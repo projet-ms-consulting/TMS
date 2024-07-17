@@ -2,10 +2,10 @@
         {{ form_start(form)}}
         <table class="table">
             <tbody>
-            <tr>
-                <th>{{ form_label(form.email) }}</th>
-                <td>{{ form_widget(form.email) }}</td>
-            </tr>
+{#            <tr>#}
+{#                <th>{{ form_label(form.emailChoice) }}</th>#}
+{#                <td>{{ form_widget(form.emailChoice) }}</td>#}
+{#            </tr>#}
             <tr>
                 <th>{{ form_label(form.password) }}</th>
                 <td>{{ form_widget(form.password) }}</td>
@@ -27,23 +27,23 @@
                     <th>{{ form_label(form.school) }}</th>
                     <td>{{ form_widget(form.school) }}</td>
                 </tr>
-                    {% if form.schoolSupervisors is defined %}
+                {% if form.schoolSupervisors is defined %}
+                    <tr>
+                        <th>{{ form_label(form.schoolSupervisors) }}</th>
+                        <td>{{ form_widget(form.schoolSupervisors) }}</td>
+                    </tr>
+                {% endif %}
+                {% if form.company is defined %}
+                    <tr>
+                        <th>{{ form_label(form.company) }}</th>
+                        <td>{{ form_widget(form.company) }}</td>
+                    </tr>
+                    {% if form.internshipSupervisors is defined %}
                         <tr>
-                            <th>{{ form_label(form.schoolSupervisors) }}</th>
-                            <td>{{ form_widget(form.schoolSupervisors) }}</td>
+                            <th>{{ form_label(form.internshipSupervisors) }}</th>
+                            <td>{{ form_widget(form.internshipSupervisors) }}</td>
                         </tr>
                     {% endif %}
-            {% endif %}
-            {% if form.company is defined %}
-                <tr>
-                    <th>{{ form_label(form.company) }}</th>
-                    <td>{{ form_widget(form.company) }}</td>
-                </tr>
-                {% if form.internshipSupervisors is defined %}
-                    <tr>
-                        <th>{{ form_label(form.internshipSupervisors) }}</th>
-                        <td>{{ form_widget(form.internshipSupervisors) }}</td>
-                    </tr>
                 {% endif %}
                 <tr>
                     <th>{{ form_label(form.cv) }}</th>

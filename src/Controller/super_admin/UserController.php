@@ -3,7 +3,6 @@
 namespace App\Controller\super_admin;
 
 use App\Entity\Files;
-use App\Entity\Person;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\PersonRepository;
@@ -31,23 +30,21 @@ class UserController extends AbstractController
         $user = new User();
 
         $personId = $request->query->get('id');
-        $person = $entityManager->getRepository(Person::class)->find($personId);
-
-        if ($person) {
-            $user->setPerson($person);
-        } else {
-            $user->setPerson(new Person());
+        $person = $user->getPerson();
+        if ($personId) {
+            $person = $personRepository->find($personId);
         }
+        $user->setPerson($person);
 
         $userForm = $this->createForm(UserType::class, $user, [
-                'selected_person' => $person,
-            ]);
+            'selected_person' => $person,
+        ]);
         $userForm->handleRequest($request);
 
         if ($userForm->isSubmitted() && $userForm->isValid()) {
-            $user->setEmail($userForm->get('email')->getData());
             $user->setPassword(password_hash($userForm->get('password')->getData(), PASSWORD_BCRYPT));
             $user->setCreatedAt(new \DateTimeImmutable());
+            $user->setEmail($userForm->get('email')->getData());
 
             $roles = $userForm->get('roles')->getData();
                 if (is_string($roles)) {
@@ -82,7 +79,8 @@ class UserController extends AbstractController
         }
 
             return $this->render('super_admin/user/new.html.twig', [
-            'person' => $user->getPerson(),
+                'person' => $person,
+                'form' => $userForm->createView(),
         ]);
     }
 
