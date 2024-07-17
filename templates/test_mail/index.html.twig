@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}test_Mail{% endblock %}
+
+{% block body %}
+    <h1>Test d'envoi de mail</h1>
+
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+
+        <form method="post">
+            {{ form_start(form, {'action': path('testEnvoiMail'), 'method': 'POST'}) }}
+            <button type="submit" class="btn btn-primary">Envoyer un e-mail</button>
+            {{ form_end(form) }}
+        </form>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+{% endblock %}
