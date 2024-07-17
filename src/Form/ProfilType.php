@@ -6,6 +6,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,15 +18,18 @@ class ProfilType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('password')
+            ->add('password', PasswordType::class, [
+                'label' => 'Mot de passe',
+                'required' => false,
+            ])
             ->add('firstName', TextType::class, [
                 'label' => 'Prénom',
-                'required' => true,
+                'required' =>false,
                 'mapped' => false,
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Nom',
-                'required' => true,
+                'required' => false,
                 'mapped' => false,
             ])
             ->add('cv', FileType::class, [
@@ -50,11 +54,10 @@ class ProfilType extends AbstractType
                     'CV' => 'CV',
                     'Lettre de motivation' => 'Lettre de motivation',
                     'Convention de stage' => 'Convention de stage',
-                    'Autre document ' => 'Autre document ',
+                    'Autre document' => 'Autre document',
                 ],
             ]);
     }
-
 
     public function configureOptions(OptionsResolver $resolver): void
     {
