@@ -9,27 +9,27 @@
         <tbody>
             <tr>
                 <th>Nom : </th>
-                <td>{{ person.lastName }}</td>
+                <td>{{ personne.lastName }}</td>
             </tr>
             <tr>
                 <th>Prénom : </th>
-                <td>{{ person.firstName }}</td>
+                <td>{{ personne.firstName }}</td>
             </tr>
             <tr>
                 <th>Date de début de stage</th>
-                <td>{{ person.startInternship ? person.startInternship|date('d/m/Y') : '' }}</td>
+                <td>{{ personne.startInternship ? personne.startInternship|date('d/m/Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Date de fin de stage</th>
-                <td>{{ person.endInternship ? person.endInternship|date('d/m/Y') : '' }}</td>
+                <td>{{ personne.endInternship ? personne.endInternship|date('d/m/Y') : '' }}</td>
             </tr>
             <tr>
                 <th>Créé le :</th>
-                <td>{{ person.createdAt ? person.createdAt|date('d/m/Y')}}</td>
+                <td>{{ personne.createdAt ? personne.createdAt|date('d/m/Y')}}</td>
             </tr>
             <tr>
                 <th>Mis à jour le : </th>
-                <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y')}}</td>
+                <td>{{ personne.updatedAt ? personne.updatedAt|date('d/m/Y')}}</td>
             </tr>
         </tbody>
     </table>

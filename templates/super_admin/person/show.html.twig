@@ -3,22 +3,22 @@
 {% block title %}Personne{% endblock %}
 
 {% block body %}
-    <h1>{{ person.firstName }} {{ person.lastName | upper }}</h1>
+    <h1>{{ personne.firstName }} {{ personne.lastName | upper }}</h1>
 
     <table class="table">
         <tbody>
             <tr>
                 <th>Nom : </th>
-                <td>{{ person.lastName }}</td>
+                <td>{{ personne.lastName }}</td>
             </tr>
             <tr>
                 <th>Prénom : </th>
-                <td>{{ person.firstName }}</td>
+                <td>{{ personne.firstName }}</td>
             </tr>
             <tr>
-                {% if person.user %}
+                {% if personne.user %}
                     <th>Email : </th>
-                    <td>{{ person.user.email }}</td>
+                    <td>{{ personne.user.email }}</td>
                 {% endif %}
             </tr>
 {#                <th>Date de début de stage</th>#}
@@ -30,18 +30,18 @@
 {#            </tr>#}
             <tr>
                 <th>Créé le :</th>
-                <td>{{ person.createdAt ? person.createdAt|date('d/m/Y H:i')}}</td>
+                <td>{{ personne.createdAt ? personne.createdAt|date('d/m/Y H:i')}}</td>
             </tr>
             <tr>
-                {% if person.updatedAt is not defined %}
+                {% if personne.updatedAt is not defined %}
                     <th>Mis à jour le : </th>
-                    <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y H:i')}}</td>
+                    <td>{{ personne.updatedAt ? personne.updatedAt|date('d/m/Y H:i')}}</td>
                 {% endif %}
             </tr>
             <tr>
                 <th>Documents : </th>
                     <td>
-                        {% for file in person.files %}
+                        {% for file in personne.files %}
                             <a href="{{ asset('/public/doc/' ~file.realFileName) }}" target="_blank">{{ file.label }}</a>
                         {% endfor %}
                     </td>
@@ -51,7 +51,7 @@
 
     <a href="{{ path('super_admin_app_person_index') }}">Retour</a>
 
-    <a href="{{ path('super_admin_app_person_edit', {'id': person.id}) }}">Modifier</a>
+    <a href="{{ path('super_admin_app_person_edit', {'id': personne.id}) }}">Modifier</a>
 
     {{ include('super_admin/person/_delete_form.html.twig') }}
 {% endblock %}

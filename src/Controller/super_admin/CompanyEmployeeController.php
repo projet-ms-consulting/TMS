@@ -35,15 +35,21 @@ class CompanyEmployeeController extends AbstractController
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Person $person, UserRepository $userRepository): Response
     {
+        $user = $this->getUser();
+        $personne = $user->getPerson();
+
         return $this->render('super_admin/company_employee/show.html.twig', [
-            'person' => $person,
+            'personne' => $person,
             'user' => $person->getUser(),
+            'person' => $personne,
         ]);
     }
 
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Person $person, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+        $personne = $user->getPerson();
         $personForm = $this->createForm(PersonType::class, $person, [
             'context' => 'edit',
         ]);
@@ -56,8 +62,9 @@ class CompanyEmployeeController extends AbstractController
         }
 
         return $this->render('super_admin/company_employee/edit.html.twig', [
-            'person' => $person,
+            'personne' => $person,
             'personForm' => $personForm,
+            'person' => $personne,
         ]);
     }
 

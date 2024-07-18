@@ -76,6 +76,7 @@ class ProfilController extends AbstractController
 
                 } catch (FileException | \UnexpectedValueException $e) {
                     $this->addFlash('error', $e->getMessage());
+
                     return $this->redirectToRoute('app_profil_edit');
                 }
             }
@@ -123,7 +124,7 @@ class ProfilController extends AbstractController
         $cv = $entityManager->getRepository(Files::class)->find($id);
 
         if (!$cv) {
-            throw $this->createNotFoundException('Le CV avec l\'id ' . $id . ' n\'existe pas.');
+            throw $this->createNotFoundException('Le CV avec l\'id '.$id.' n\'existe pas.');
         }
 
         $entityManager->remove($cv);

@@ -47,10 +47,10 @@ class UserController extends AbstractController
             $user->setEmail($userForm->get('email')->getData());
 
             $roles = $userForm->get('roles')->getData();
-                if (is_string($roles)) {
-                    $roles = [$roles];
-                }
-                $user->setRoles($roles);
+            if (is_string($roles)) {
+                $roles = [$roles];
+            }
+            $user->setRoles($roles);
 
             // *************  Upload CV ***************
             $cvFile = $userForm->get('cv')->getData();
@@ -58,7 +58,7 @@ class UserController extends AbstractController
                 $cvFilename = 'CV.'.$person->getFirstName().'-'.$person->getLastName().'.'.$cvFile->guessExtension();
                 $cvHash = hash('sha256', $cvFilename);
                 $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
-                $cvFile->move($this->getParameter('kernel.project_dir') . 'public/doc/', $cvFilename);
+                $cvFile->move($this->getParameter('kernel.project_dir').'public/doc/', $cvFilename);
 
                 $file = new Files();
                 $file->setLabel('CV')
@@ -78,17 +78,20 @@ class UserController extends AbstractController
             return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
         }
 
-            return $this->render('super_admin/user/new.html.twig', [
-                'person' => $person,
-                'form' => $userForm->createView(),
+        return $this->render('super_admin/user/new.html.twig', [
+            'person' => $person,
+            'form' => $userForm->createView(),
         ]);
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(User $user): Response
     {
+        $user = $this->getUser();
+        $personne = $user->getPerson();
         return $this->render('super_admin/user/show.html.twig', [
             'user' => $user,
+            'person' => $personne,
         ]);
     }
 
@@ -97,6 +100,8 @@ class UserController extends AbstractController
     {
         $userForm = $this->createForm(UserType::class, $user);
         $userForm->handleRequest($request);
+        $user = $this->getUser();
+        $personne = $user->getPerson();
 
         if ($userForm->isSubmitted() && $userForm->isValid()) {
             $entityManager->flush();
@@ -106,7 +111,7 @@ class UserController extends AbstractController
 
         return $this->render('super_admin/user/edit.html.twig', [
             'user' => $user,
-//            'person' => $user->getPerson(),
+            'person' => $personne,
             'userForm' => $userForm,
         ]);
     }

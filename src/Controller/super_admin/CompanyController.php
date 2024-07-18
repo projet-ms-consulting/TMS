@@ -35,6 +35,8 @@ class CompanyController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $company = new Company();
+        $user = $this->getUser();
+        $personne = $user->getPerson();
         $form = $this->createForm(CompanyType::class, $company);
         $form->handleRequest($request);
 
@@ -49,20 +51,26 @@ class CompanyController extends AbstractController
         return $this->render('super_admin/company/new.html.twig', [
             'company' => $company,
             'form' => $form->createView(),
+            'person' => $personne
         ]);
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Company $company): Response
     {
+        $user = $this->getUser();
+        $personne = $user->getPerson();
         return $this->render('super_admin/company/show.html.twig', [
             'company' => $company,
+            'person' => $personne
         ]);
     }
 
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Company $company, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+        $personne = $user->getPerson();
         $form = $this->createForm(CompanyType::class, $company);
         $form->handleRequest($request);
 
@@ -76,6 +84,7 @@ class CompanyController extends AbstractController
         return $this->render('super_admin/company/edit.html.twig', [
             'company' => $company,
             'form' => $form->createView(),
+            'person' => $personne
         ]);
     }
 

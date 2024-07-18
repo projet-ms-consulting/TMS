@@ -5,7 +5,6 @@ namespace App\Controller\super_admin;
 use App\Entity\Person;
 use App\Form\PersonType;
 use App\Repository\PersonRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +17,6 @@ class SchoolEmployeeController extends AbstractController
     #[Route('/index', name: 'index', methods: ['GET'])]
     public function index(PersonRepository $personRepository, Request $request): Response
     {
-
         $page = $request->query->getInt('page', 1);
         $limit = $request->query->getInt('limit', 8);
         $sort = $request->query->get('sort', 'a.id');
@@ -26,7 +24,6 @@ class SchoolEmployeeController extends AbstractController
         $person = $personRepository->paginateSchoolEmployee($page, $limit);
         $user = $this->getUser();
         $personne = $user->getPerson();
-
 
         return $this->render('super_admin/school_employee/index.html.twig', [
             'personne' => $person,
@@ -37,14 +34,20 @@ class SchoolEmployeeController extends AbstractController
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Person $person): Response
     {
+        $user = $this->getUser();
+        $personne = $user->getPerson();
+
         return $this->render('super_admin/school_employee/show.html.twig', [
-            'person' => $person,
+            'personne' => $person,
+            'person' => $personne,
         ]);
     }
 
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Person $person, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+        $personne = $user->getPerson();
         $personForm = $this->createForm(PersonType::class, $person, [
             'context' => 'edit',
         ]);
@@ -57,8 +60,9 @@ class SchoolEmployeeController extends AbstractController
         }
 
         return $this->render('super_admin/school_employee/edit.html.twig', [
-            'person' => $person,
+            'personne' => $person,
             'personForm' => $personForm,
+            'person' => $personne,
         ]);
     }
 
