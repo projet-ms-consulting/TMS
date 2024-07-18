@@ -21,20 +21,21 @@ class ProfilType extends AbstractType
             ->add('password', PasswordType::class, [
                 'label' => 'Mot de passe',
                 'required' => false,
-                'attr' => [
-                    'autocomplete' => 'new-password',
-                ],
                 'mapped' => false,
+                'toggle' => true,
+                'toggle_container_classes' => ['text-blue-600'],
             ])
             ->add('firstName', TextType::class, [
                 'label' => 'Prénom',
                 'required' => false,
                 'mapped' => false,
+                'data' => $options['data']->getPerson()->getFirstName(),
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Nom',
                 'required' => false,
                 'mapped' => false,
+                'data' => $options['data']->getPerson()->getLastName(),
             ])
             ->add('cv', FileType::class, [
                 'label' => 'Télécharger un fichier (PDF ou JPG)',
