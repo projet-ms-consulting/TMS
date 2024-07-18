@@ -27,7 +27,7 @@ class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler
 
             $url = $this->urlGenerator->generate('app_reset_password_firstLogin');
         } else {
-            $url = $this->urlGenerator->generate('app_home');
+            $url = $this->urlGenerator->generate('app_accueil');
         }
 
         return new RedirectResponse($url);

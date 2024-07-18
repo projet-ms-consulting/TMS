@@ -17,10 +17,10 @@ class Person
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $lastName = null;
+    private string $lastName;
 
     #[ORM\Column(length: 255)]
-    private ?string $firstName = null;
+    private string $firstName;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $startInternship = null;
@@ -52,22 +52,24 @@ class Person
     #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'person')]
     private Collection $projects;
 
-    #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'internshipSupervisor')]
+    #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'internshipSupervisors')]
     #[ORM\JoinColumn(name: 'internship_supervisor_id', referencedColumnName: 'id', nullable: true)]
     private ?Person $internshipSupervisor = null;
 
     #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'internshipSupervisor')]
     private Collection $internshipSupervisors;
 
-    #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'schoolSupervisor')]
+    #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'schoolSupervisors')]
     #[ORM\JoinColumn(name: 'school_supervisor_id', referencedColumnName: 'id', nullable: true)]
     private ?Person $schoolSupervisor = null;
+
     #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'schoolSupervisor')]
     private Collection $schoolSupervisors;
 
-    #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'manager')]
+    #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'managers')]
     #[ORM\JoinColumn(name: 'manager_id', referencedColumnName: 'id', nullable: true)]
     private ?Person $manager = null;
+
     #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'manager')]
     private Collection $managers;
 
@@ -292,9 +294,39 @@ class Person
         return $this->internshipSupervisor;
     }
 
-    public function setInternshipSupervisor(Person $internshipSupervisor): static
+    public function setInternshipSupervisor(?Person $internshipSupervisor): static
     {
         $this->internshipSupervisor = $internshipSupervisor;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getInternshipSupervisors(): Collection
+    {
+        return $this->internshipSupervisors;
+    }
+
+    public function addInternshipSupervisor(self $internshipSupervisor): static
+    {
+        if (!$this->internshipSupervisors->contains($internshipSupervisor)) {
+            $this->internshipSupervisors->add($internshipSupervisor);
+            $internshipSupervisor->setInternshipSupervisor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInternshipSupervisor(self $internshipSupervisor): static
+    {
+        if ($this->internshipSupervisors->removeElement($internshipSupervisor)) {
+            // set the owning side to null (unless already changed)
+            if ($internshipSupervisor->getInternshipSupervisor() === $this) {
+                $internshipSupervisor->setInternshipSupervisor(null);
+            }
+        }
 
         return $this;
     }
@@ -304,9 +336,39 @@ class Person
         return $this->schoolSupervisor;
     }
 
-    public function setSchoolSupervisor(Person $schoolSupervisor): static
+    public function setSchoolSupervisor(?Person $schoolSupervisor): static
     {
         $this->schoolSupervisor = $schoolSupervisor;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getSchoolSupervisors(): Collection
+    {
+        return $this->schoolSupervisors;
+    }
+
+    public function addSchoolSupervisor(self $schoolSupervisor): static
+    {
+        if (!$this->schoolSupervisors->contains($schoolSupervisor)) {
+            $this->schoolSupervisors->add($schoolSupervisor);
+            $schoolSupervisor->setSchoolSupervisor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSchoolSupervisor(self $schoolSupervisor): static
+    {
+        if ($this->schoolSupervisors->removeElement($schoolSupervisor)) {
+            // set the owning side to null (unless already changed)
+            if ($schoolSupervisor->getSchoolSupervisor() === $this) {
+                $schoolSupervisor->setSchoolSupervisor(null);
+            }
+        }
 
         return $this;
     }
@@ -316,12 +378,43 @@ class Person
         return $this->manager;
     }
 
-    public function setManager(Person $manager): static
+    public function setManager(?Person $manager): static
     {
         $this->manager = $manager;
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getManagers(): Collection
+    {
+        return $this->managers;
+    }
+
+    public function addManager(self $manager): static
+    {
+        if (!$this->managers->contains($manager)) {
+            $this->managers->add($manager);
+            $manager->setManager($this);
+        }
+
+        return $this;
+    }
+
+    public function removeManager(self $manager): static
+    {
+        if ($this->managers->removeElement($manager)) {
+            // set the owning side to null (unless already changed)
+            if ($manager->getManager() === $this) {
+                $manager->setManager(null);
+            }
+        }
+
+        return $this;
+    }
+
 
     public function getSchool(): ?School
     {
@@ -347,35 +440,6 @@ class Person
         return $this;
     }
 
-    public function getInternshipSupervisors(): Collection
-    {
-        return $this->internshipSupervisors;
-    }
-
-    public function setInternshipSupervisors(Collection $internshipSupervisors): void
-    {
-        $this->internshipSupervisors = $internshipSupervisors;
-    }
-
-    public function getSchoolSupervisors(): Collection
-    {
-        return $this->schoolSupervisors;
-    }
-
-    public function setSchoolSupervisors(Collection $schoolSupervisors): void
-    {
-        $this->schoolSupervisors = $schoolSupervisors;
-    }
-
-    public function getManagers(): Collection
-    {
-        return $this->managers;
-    }
-
-    public function setManagers(Collection $managers): void
-    {
-        $this->managers = $managers;
-    }
 
     public function getUser(): ?User
     {
