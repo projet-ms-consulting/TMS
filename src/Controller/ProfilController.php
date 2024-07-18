@@ -3,19 +3,21 @@
 namespace App\Controller;
 
 use App\Entity\Files;
+use App\Entity\Person;
+use App\Entity\User;
 use App\Form\ProfilType;
+use App\Repository\FilesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProfilController extends AbstractController
 {
-    private const FILES_DIRECTORY = __DIR__.'/../../public/assets/FilesDirectory';
-
     #[Route('/profil', name: 'app_profil')]
     public function index(): Response
     {
@@ -44,7 +46,6 @@ class ProfilController extends AbstractController
             $cvType = $form->get('cvType')->getData();
 //            $profilePictureFile = $form->get('profilePicture')->getData();
 
-
             if ($firstName) {
                 $person->setFirstName($firstName);
             }
@@ -55,33 +56,30 @@ class ProfilController extends AbstractController
 
             if ($cvFile) {
                 $originalFilename = pathinfo($cvFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $newFilename = $originalFilename . '-' . uniqid() . '.' . $cvFile->guessExtension();
+                $newFilename = $originalFilename . '-' . md5(uniqid()) . '.' . $cvFile->guessExtension();
 
                 try {
-                    if (!in_array($cvFile->guessExtension(), ['pdf', 'jpg'])) {
-                        throw new \UnexpectedValueException('Format de fichier non valide. Veuillez télécharger un fichier PDF ou JPG.');
-                    }
 
                     $cvFile->move(
-                        self::FILES_DIRECTORY,
+                        $this->getParameter('kernel.project_dir') . '/files/' . $person->getId(),
                         $newFilename
                     );
 
                     $cv = new Files();
                     $cv->setLabel($cvType);
                     $cv->setFile($newFilename);
-                    $cv->setRealFileName($originalFilename);
+                    $cv->setRealFileName($cvFile->getClientOriginalName());
                     $cv->setCreatedAt(new \DateTimeImmutable());
                     $cv->setPerson($person);
 
                     $entityManager->persist($cv);
-                    $entityManager->flush();
+
                 } catch (FileException | \UnexpectedValueException $e) {
                     $this->addFlash('error', $e->getMessage());
                     return $this->redirectToRoute('app_profil_edit');
                 }
             }
-//
+
 //            if ($profilePictureFile) {
 //                $originalFilename = pathinfo($profilePictureFile->getClientOriginalName(), PATHINFO_FILENAME);
 //                $newFilename = $originalFilename . '-' . uniqid() . '.' . $profilePictureFile->guessExtension();
@@ -134,5 +132,13 @@ class ProfilController extends AbstractController
         $this->addFlash('success', 'CV supprimé avec succès.');
 
         return $this->redirectToRoute('app_profil');
+    }
+
+    #[Route('/profil/file/{id}/{name}', name: 'app_file_show', methods: ['GET'])]
+    public function showFile(Person $person, $name, FilesRepository $filesRepository): Response
+    {
+        $file = $filesRepository->findOneBy(['person' => $person->getId(), 'realFileName' => $name]);
+        $filePath = $this->getParameter('kernel.project_dir') . '/files/' . $file->getPerson()->getId() . '/' . $file->getFile();
+        return $this->file($filePath, $file->getFile(), ResponseHeaderBag::DISPOSITION_INLINE);
     }
 }

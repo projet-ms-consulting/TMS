@@ -1,5 +1,6 @@
 /assets/styles/prepros.config
 /.idea
+/files
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
