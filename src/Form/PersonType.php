@@ -48,6 +48,7 @@ class PersonType extends AbstractType
                 'multiple' => false,
                 'attr' => ['class' => 'form-control'],
             ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

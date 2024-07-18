@@ -3,7 +3,8 @@
 {% block title %}Modifier une école{% endblock %}
 
 {% block body %}
-    <h1>Modifier une école</h1>
+    <h1>Modifier l'école</h1>
+    <h2>{{ school.name }}</h2>
 
     {{ form_start(form) }}
     <table class="table">
@@ -15,15 +16,12 @@
             <th>Adresse</th>
             <td>{{ form_widget(form.address) }}</td>
         </tr>
-        <tr>
-            <td colspan="2">
-                <button class="btn">Modifier</button>
-            </td>
-        </tr>
     </table>
     {{ form_end(form) }}
 
-    <a href="{{ path('super_admin_school_index') }}">Retour à la liste</a>
-
+    <div class="btnForm">
+        <a href="{{ path('super_admin_school_index') }}" class="btn-custom">Retour</a>
+        <button class="btn-custom">Modifier</button>
+    </div>
     {{ include('super_admin/school/_delete_form.html.twig') }}
 {% endblock %}

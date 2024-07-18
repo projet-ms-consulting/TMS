@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,30 +23,30 @@ use Symfonycasts\DynamicForms\DynamicFormBuilder;
 
 class UserType extends AbstractType
 {
-//    private $user;
-//    public function __construct(User $user)
-//    {
-//        $this->user = $user;
-//    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
             $builder = new DynamicFormBuilder($builder);
 
-//            $user = $builder->getData();
-//            $person = $user->getPerson();
+            $user = $builder->getData();
+            $person = $user->getPerson();
 
             $builder
-//                ->add('emailChoice', ChoiceType::class,[
-//                    'choices' => [
-//                        $person->getMailPro() => 'Mail professionnel',
-//                        $person->getMailPerso() => 'Mail personnel',
-//                    ],
-//                    'expanded' => false,
-//                    'multiple' => false,
-//                    'label' => 'Choisissez le type de mail à utiliser',
-//                    'mapped' => false,
-//                    'attr' => ['class' => 'form-control'],
-//                ])
+                ->add('email', ChoiceType::class,[
+                    'choices' => [
+                        $person->getMailPro() => 'Mail professionnel',
+                        $person->getMailPerso() => 'Mail personnel',
+                    ],
+                    'expanded' => false,
+                    'multiple' => false,
+                    'label' => 'Choisissez l\'adresse mail',
+                    'mapped' => false,
+                    'attr' => ['class' => 'form-control'],
+                ])
+//                    ->add('email', EmailType::class, [
+//                        'label' => 'Adresse email :',
+//                    'attr' => ['class' => 'form-control']
+//
+//                    ])
                 ->add('password', PasswordType::class, [
                     'label' => 'Mot de passe :',
                     'attr' => ['class' => 'form-control']
@@ -54,7 +55,6 @@ class UserType extends AbstractType
                     'label' => 'Rôle :',
                     'placeholder' => 'Choisir un rôle',
                     'choices' => [
-                        'Super Admin' => 'ROLE_SUPER_ADMIN',
                         'Chef d\'entreprise' => 'ROLE_ADMIN',
                         'Stagiaire' => 'ROLE_TRAINEE',
                         'Référent école' => 'ROLE_SCHOOL_INTERNSHIP',
@@ -65,72 +65,64 @@ class UserType extends AbstractType
                     'expanded' => false,
                     'multiple' => false,
                     'attr' => ['class' => 'form-control'],
-                ])
-        ->addDependent('startInternship', 'roles', function (DependentField $field, ?string $roles) {
-                    if ($roles === 'ROLE_TRAINEE') {
-                        $field->add(DateType::class, [
+                ]);
+                if ($person->getlabelRole() === 'Stagiaire' && $user->getRoles() === 'ROLE_TRAINEE') {
+                    $builder
+                        ->add('startInternship', DateType::class, [
                             'label' => 'Date début de stage :',
                             'mapped' => false,
-                            'attr' => ['class' => 'form-control']]);
-                    }
-                })
-                ->addDependent('endInternship', 'roles', function (DependentField $field, ?string $roles) {
-                    if ($roles === 'ROLE_TRAINEE') {
-                        $field->add(DateType::class, [
+                            'attr' => ['class' => 'form-control']
+                        ])
+                        ->add('endInternship', DateType::class, [
                             'label' => 'Date fin de stage :',
                             'mapped' => false,
-                            'attr' => ['class' => 'form-control']]);
-                    }
-                })
-                ->addDependent('school', 'roles', function (DependentField $field, ?string $roles) {
-                    if ($roles === 'ROLE_TRAINEE') {
-                        $field->add(EntityType::class, [
+                            'attr' => ['class' => 'form-control']
+                        ])
+                        ->add('school', EntityType::class, [
                             'class' => School::class,
                             'label' => 'École : ',
                             'choice_label' => 'name',
                             'placeholder' => 'Choisir école',
                             'mapped' => false,
-                            'attr' => ['class' => 'form-control']]);
-                    }
-                })
-                ->addDependent('schoolSupervisors', 'school', function (DependentField $field, ?School $school) {
-                    if ($school) {
-                        $field->add(EntityType::class, [
-                            'class' => Person::class,
-                            'label' => 'Référent école : ',
-                            'choices' => $school->getPeople(),
-                            'choice_label' => 'fullName',
-                            'placeholder' => 'Référent école',
-                            'mapped' => false,
-                            'attr' => ['class' => 'form-control']]);
-                    }
-                })
-                ->addDependent('company', 'roles', function (DependentField $field, ?string $roles) {
-                    if ($roles === 'ROLE_TRAINEE') {
-                        $field->add(EntityType::class, [
-                            'class' => Company::class,
-                            'label' => 'Entreprise : ',
-                            'choice_label' => 'name',
-                            'mapped' => false,
-                            'attr' => ['class' => 'form-control']]);
-                    }
-                })
-                ->addDependent('internshipSupervisors', 'company', function (DependentField $field, ?Company $company) {
-                    if ($company) {
-                        $field->add(EntityType::class, [
-                            'class' => Person::class,
-                            'label' => 'Maître de stage : ',
-                            'choices' => $company->getPerson(),
-                            'choice_label' => 'fullName',
-                            'placeholder' => 'Maître de stage',
-                            'mapped' => false,
-                            'attr' => ['class' => 'form-control']]);
-                    }
-                })
-                ->addDependent('cv', 'roles', function (DependentField $field, ?string $roles) {
-                    if ($roles === 'ROLE_TRAINEE') {
-                        $field->add(FileType::class, [
-                            'label' => 'Ajouter un CV : ',
+                            'attr' => ['class' => 'form-control']
+                        ])
+//                        ->add('schoolSupervisors', EntityType::class, [
+//                            'class' => Person::class,
+//                            'label' => 'Référent école : ',
+//                            'choices' => $school->getPeople(),
+//                            'choice_label' => 'fullName',
+//                            'placeholder' => 'Référent école',
+//                            'mapped' => false,
+//                            'attr' => ['class' => 'form-control'],
+//                        ])
+//                      ->add('internshipSupervisors', EntityType::class, [
+//                            'class' => Person::class,
+//                            'label' => 'Maître de stage : ',
+//                            'choices' => $person->getSchool()->getPeople(),
+//                            'choice_label' => 'fullName',
+//                            'placeholder' => 'Maître de stage : ',
+//                            'mapped' => false,
+//                            'attr' => ['class' => 'form-control']
+//                        ])
+                        ->add('company', EntityType::class, [
+                        'class' => Company::class,
+                        'label' => 'Entreprise : ',
+                        'choice_label' => 'name',
+                        'placeholder' => 'Choisir une entreprise',
+                        'mapped' => false,
+                        'attr' => ['class' => 'form-control']
+                        ])
+//                        ->add('internshipSupervisors', EntityType::class, [
+//                            'class' => Person::class,
+//                            'label' => 'Maître de stage : ',
+//                            'choices' => $person->getSchool()->getPeople(),
+//                            'choice_label' => 'fullName',
+//                            'placeholder' => 'Maître de stage : ',
+//                            'mapped' => false,
+//                            'attr' => ['class' => 'form-control']
+//                        ])
+                        ->add('cv', FileType::class, [
+                            'label' => 'CV :',
                             'mapped' => false,
                             'required' => false,
                             'constraints' => [
@@ -144,13 +136,9 @@ class UserType extends AbstractType
                                 ]),
                             ],
                             'attr' => ['class' => 'form-control'],
-                        ]);
-                    }
-                })
-                ->addDependent('coverLetter', 'roles', function (DependentField $field, ?string $roles) {
-                    if ($roles === 'ROLE_TRAINEE') {
-                        $field->add(FileType::class, [
-                            'label' => 'Ajouter une lettre de motivation : ',
+                            ])
+                        ->add('coverLetter', FileType::class, [
+                            'label' => 'Lettre de motivation : ',
                             'mapped' => false,
                             'required' => false,
                             'constraints' => [
@@ -164,15 +152,12 @@ class UserType extends AbstractType
                                 ]),
                             ],
                             'attr' => ['class' => 'form-control'],
-                        ]);
-                    }
-                })
-                ->addDependent('internshipAgreement', 'roles', function (DependentField $field, ?string $roles) {
-                    if ($roles === 'ROLE_TRAINEE') {
-                        $field->add(FileType::class, [
-                            'label' => 'Ajouter une convention de stage : ',
-                            'mapped' => false,
-                            'required' => false,
+                        ])
+                        ->add('internshipAgreement', FileType::class, [
+                        'label' => 'Convention de stage : ',
+                        'mapped' => false,
+                        'required' => false,
+                            'attr' => ['class' => 'form-control'],
                             'constraints' => [
                                 new File([
                                     'mimeTypes' => [
@@ -183,10 +168,43 @@ class UserType extends AbstractType
                                     'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
                                 ]),
                             ],
-                            'attr' => ['class' => 'form-control'],
                         ]);
-                    }
-                });
+                }
+//                ->addDependent('startInternship', 'roles', function (DependentField $field, ?string roles) {
+//                    if ($roles == 'ROLE_TRAINEE') {
+//                        $field->add(DateType::class, [
+//                            'label' => 'Date début de stage : ',
+//                            'mapped' => false,
+//                            'attr' => ['class' => 'form-control']
+//                        ]);
+//                    }
+//                })
+//                ->addDependent('company', 'roles', function (DependentField $field, ?string roles) {
+//                    if ($roles == 'ROLE_TRAINEE') {
+//                        $field->add(EntityType::class, [
+//                            'class' => Company::class,
+//                            'label' => 'Entreprise : ',
+//                            'placeholder' => 'Choisir une entreprise',
+//                            'choice_label' => 'name',
+//                            'mapped' => false,
+//                            'attr' => ['class' => 'form-control']
+//                        ]);
+//                    }
+//                })
+//                ->addDependent('internshipSupervisors', 'company', function (DependentField $field, ?Company $company) {
+//                    if ($company) {
+//                        $field->add(EntityType::class, [
+//                            'class' => Person::class,
+//                            'label' => 'Maître de stage : ',
+//                            'placeholder' => 'Maître de stage : ',
+//                            'choices' => $company->getPeople(),
+//                            'choice_label' => 'fullName',
+//                            'mapped' => false,
+//                            'attr' => ['class' => 'form-control']
+//                        ]);
+//                    }
+//                })
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

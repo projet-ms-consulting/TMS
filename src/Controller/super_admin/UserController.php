@@ -58,7 +58,7 @@ class UserController extends AbstractController
                 $cvFilename = 'CV.'.$person->getFirstName().'-'.$person->getLastName().'.'.$cvFile->guessExtension();
                 $cvHash = hash('sha256', $cvFilename);
                 $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
-                $cvFile->move($this->getParameter('kernel.project_dir').'public/doc/', $cvFilename);
+                $cvFile->move($this->getParameter('kernel.project_dir') . '/files/', $cvFilename);
 
                 $file = new Files();
                 $file->setLabel('CV')
@@ -71,9 +71,49 @@ class UserController extends AbstractController
                 $entityManager->flush();
             }
 
+            // *************  Upload Lettre de motivation ****************
+            $lmFile = $userForm->get('coverLetter')->getData();
+            if ($lmFile) {
+                $lmFilename = 'LM.'.$person->getFirstName().'-'.$person->getLastName().'.'.$lmFile->guessExtension();
+                $lmHash = hash('sha256', $lmFilename);
+                $lmHashFile = $lmHash.'.'.$lmFile->guessExtension();
+                $lmFile->move($this->getParameter('kernel.project_dir') . 'public/doc/', $lmFilename);
+
+                $file = new Files();
+                $file->setLabel('LM')
+                    ->setFile($lmHashFile)
+                    ->setCreatedAt(new \DateTimeImmutable())
+                    ->setPerson($person)
+                    ->setRealFileName($lmFilename);
+
+                $entityManager->persist($file);
+                $entityManager->flush();
+            }
+
+            // *************  Upload convention de stage ****************
+            $csFile = $userForm->get('internshipAgreement')->getData();
+            if ($csFile) {
+                $csFilename = 'CS.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $csFile->guessExtension();
+                $csHash = hash('sha256', $csFilename);
+                $csHashFile = $csHash . '.' . $csFile->guessExtension();
+                $csFile->move($this->getParameter('kernel.project_dir') . 'public/doc/', $csHashFile);
+
+                $file= new Files();
+                $file->setLabel('CS')
+                    ->setFile($csHashFile)
+                    ->setCreatedAt(new \DateTimeImmutable())
+                    ->setPerson($person)
+                    ->setRealFileName($csFilename);
+
+                $entityManager->persist($file);
+                $entityManager->flush();
+            }
+
             $entityManager->persist($user);
             $entityManager->persist($person);
             $entityManager->flush();
+
+            $this->addFlash('success', 'L\'utilisateur a bien été créé');
 
             return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
         }

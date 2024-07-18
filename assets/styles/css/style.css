@@ -62,6 +62,7 @@ h1 {
 
 h2 {
   font-size: 30px;
+  color: whitesmoke;
 }
 
 button {
@@ -103,7 +104,10 @@ label.required:after {
   border-radius: 10px;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
 }
-
+.btnForm {
+  display: flex;
+  justify-content: space-around;
+}
 .btn-custom {
   display: inline-block;
   color: whitesmoke;

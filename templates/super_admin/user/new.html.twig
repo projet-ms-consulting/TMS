@@ -3,77 +3,71 @@
 {% block title %}Création d'un utilisateur{% endblock %}
 
 {% block body %}
+
     <h1>Créer un compte utilisateur pour {{ person.firstName }} {{ person.lastName | upper }}</h1>
-    <twig:FormModifier/>
+{#    <twig:FormModifier/>#}
 
-{#    {{ form_start(userForm)}}#}
-{#    <table class="table">#}
-{#        <tbody>#}
-{#        <tr>#}
-{#            <th>{{ form_label(userForm.emailChoice) }}</th>#}
-{#            <td>{{ form_widget(userForm.emailChoice) }}</td>#}
-{#        </tr>#}
-{#        <tr>#}
-{#            <th>{{ form_label(userForm.password) }}</th>#}
-{#            <td>{{ form_widget(userForm.password) }}</td>#}
-{#        </tr>#}
-{#        <tr>#}
-{#            <th>{{ form_label(userForm.roles) }}</th>#}
-{#            <td>{{ form_widget(userForm.roles) }}</td>#}
-{#        </tr>#}
-{#        {% if form.startInternship is defined %}#}
+    {{ form_start(form)}}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>{{ form_label(form.email) }}</th>
+                <td>{{ form_widget(form.email) }}</td>
+            </tr>
+            <tr>
+                <th>{{ form_label(form.password) }}</th>
+                <td>{{ form_widget(form.password) }}</td>
+            </tr>
+            <tr>
+                <th>{{ form_label(form.roles) }}</th>
+                <td>{{ form_widget(form.roles) }}</td>
+            </tr>
+            {% if person.labelRole == 'Stagiaire' %}
+            <tr>
+                <th>{{ form_label(form.startInternship) }}</th>
+                <td>{{ form_widget(form.startInternship) }}</td>
+            </tr>
+            <tr>
+                <th>{{ form_label(form.endInternship) }}</th>
+                <td>{{ form_widget(form.endInternship) }}</td>
+            </tr>
+            <tr>
+                <th>{{ form_label(form.school) }}</th>
+                <td>{{ form_widget(form.school) }}</td>
+            </tr>
 {#            <tr>#}
-{#                <th>{{ form_label(userForm.startInternship) }}</th>#}
-{#                <td>{{ form_widget(userForm.startInternship) }}</td>#}
+{#                <th>{{ form_label(form.schoolSupervisors) }}</th>#}
+{#                <td>{{ form_widget(form.schoolSupervisors) }}</td>#}
 {#            </tr>#}
+            <tr>
+                <th>{{ form_label(form.company) }}</th>
+                <td>{{ form_widget(form.company) }}</td>
+            </tr>
 {#            <tr>#}
-{#                <th>{{ form_label(userForm.endInternship) }}</th>#}
-{#                <td>{{ form_widget(userForm.endInternship) }}</td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <th>{{ form_label(userForm.school) }}</th>#}
-{#                <td>{{ form_widget(userForm.school) }}</td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <th>{{ form_label(userForm.cv) }}</th>#}
-{#                <td>{{ form_widget(userForm.cv) }}</td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <th>{{ form_label(userForm.coverLetter) }}</th>#}
-{#                <td>{{ form_widget(userForm.coverLetter) }}</td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <th>{{ form_label(userForm.internshipAgreement) }}</th>#}
-{#                <td>{{ form_widget(userForm.internshipAgreement) }}</td>#}
-{#            </tr>#}
-{#            {% if form.schoolSupervisors is defined %}#}
-{#                <tr>#}
-{#                    <th>{{ form_label(userForm.schoolSupervisors) }}</th>#}
-{#                    <td>{{ form_widget(userForm.schoolSupervisors) }}</td>#}
-{#                </tr>#}
-{#            {% endif %}#}
-{#        {% endif %}#}
-{#        {% if form.company is defined %}#}
-{#            <tr>#}
-{#                <th>{{ form_label(form.company) }}</th>#}
-{#                <td>{{ form_widget(form.company) }}</td>#}
-{#            </tr>#}
-{#            {% if form.internshipSupervisors is defined %}#}
-{#                <tr>#}
-{#                    <th>{{ form_label(form.internshipSupervisors) }}</th>#}
-{#                    <td>{{ form_widget(form.internshipSupervisors) }}</td>#}
-{#                </tr>#}
-{#            {% endif %}#}
-{#        {% endif %}#}
-{#        <tr>#}
-{#            <td colspan="2">#}
-{#                <button class="btn">Créer</button>#}
-{#            </td>#}
-{#        </tr>#}
-{#    </table>#}
-{#    {{ form_end(userForm) }}#}
-{#    <a href="{{ path('super_admin_app_user_index') }}">Retour à la liste des utilisateur</a>#}
+{#                <th>{{ form_label(form.internshipSupervisors) }}</th>#}
+{#                <td>{{ form_widget(form.internshipSupervisors) }}</td>#}
+{#            </tr>%}#}
+            <tr>
+                <th>{{ form_label(form.cv)}}</th>
+                <td>{{ form_widget(form.cv) }}</td>
+            </tr>
 
+            <tr>
+                <th>{{ form_label(form.coverLetter) }}</th>
+                <td>{{ form_widget(form.coverLetter) }}</td>
+            </tr>
 
-
+            <tr>
+                <th>{{ form_label(form.internshipAgreement) }}</th>
+                <td>{{ form_widget(form.internshipAgreement) }}</td>
+            </tr>
+            {% endif %}
+        <tr>
+            <td colspan="2">
+                <button id="btn-submit" class="btn">Créer</button>
+            </td>
+        </tr>
+    </table>
+    {{ form_end(form) }}
+    <a href="{{ path('super_admin_app_user_index') }}">Retour à la liste des utilisateur</a>
 {% endblock %}

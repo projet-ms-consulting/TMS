@@ -28,12 +28,10 @@
             <th>{{ form_label(personForm.labelRole) }}</th>
             <td>{{ form_widget(personForm.labelRole) }}</td>
         </tr>
-        <tr>
-            <td colspan="2">
-                <button class="btn">Créer</button>
-            </td>
-        </tr>
     </table>
+    <div class="btnForm">
+        <a href="{{ path('super_admin_app_person_index') }} " class="btn-custom">Retour</a>
+        <button class="btn-custom">Créer</button>
+    </div>
     {{ form_end(personForm) }}
-    <a href="{{ path('super_admin_app_person_index') }} " class="btn-custom">Retour</a>
 {% endblock %}

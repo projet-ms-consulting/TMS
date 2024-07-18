@@ -2,12 +2,50 @@
 
 {% block title %}Modifier une entreprise{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/css/array.css') }}">
+{% endblock %}
+
 {% block body %}
-    <h1>Modifier une entreprise</h1>
+    <h1>Modifier l'entreprise {{ company.name }}</h1>
 
     {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">Enregistrer les modifications</button>
+    <table class="table">
+        <tr>
+            <th>{{ form_label(form.name) }}</th>
+            <td>{{ form_widget(form.name) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.companyType) }}</th>
+            <td>{{ form_widget(form.companyType) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.nbStreet) }}</th>
+            <td>{{ form_widget(form.nbStreet) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.street) }}</th>
+            <td>{{ form_widget(form.street) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.zipCode) }}</th>
+            <td>{{ form_widget(form.zipCode) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.city) }}</th>
+            <td>{{ form_widget(form.city) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.employeeNumber) }}</th>
+            <td>{{ form_widget(form.employeeNumber) }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button id="btn-submit" class="btn">Enregistrer</button>
+            </td>
+        </tr>
+    </table>
     {{ form_end(form) }}
 
     <a href="{{ path('super_admin_app_company_index') }}">Retour à la liste</a>

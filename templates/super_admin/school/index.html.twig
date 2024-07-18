@@ -45,7 +45,7 @@
                 </td>
                 <td>
                     {% if school.updatedAt is defined %}
-                        {{ school.updatedAt|date('d-m-Y H:i') }}
+                        {{ school.updatedAt|date('d/m/Y H:i') }}
                     {% else %}
                         <b>Aucune modification</b>
                     {% endif %}

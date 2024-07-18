@@ -5,6 +5,8 @@ namespace App\Controller\super_admin;
 use App\Entity\Person;
 use App\Form\PersonType;
 use App\Form\TraineeRoleType;
+use App\Form\TraineeType;
+use App\Form\UserType;
 use App\Repository\PersonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -74,12 +76,10 @@ class TraineeController extends AbstractController
     {
         $user = $this->getUser();
         $personne = $user->getPerson();
-        $personForm = $this->createForm(PersonType::class, $person, [
-            'context' => 'edit',
-        ]);
-        $personForm->handleRequest($request);
+        $traineeForm = $this->createForm(TraineeType::class);
+        $traineeForm->handleRequest($request);
 
-        if ($personForm->isSubmitted() && $personForm->isValid()) {
+        if ($traineeForm->isSubmitted() && $traineeForm->isValid()) {
             $entityManager->flush();
 
             return $this->redirectToRoute('super_admin_app_trainee_index', [], Response::HTTP_SEE_OTHER);
@@ -87,7 +87,7 @@ class TraineeController extends AbstractController
 
         return $this->render('super_admin/trainee/edit.html.twig', [
             'personne' => $person,
-            'personForm' => $personForm,
+            'form' => $traineeForm->createView(),
             'person' => $personne
         ]);
     }

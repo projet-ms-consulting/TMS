@@ -5,15 +5,15 @@
 {% block body %}
     <h1>Modifier </h1>
     <div>
-        {{ form_start(personForm) }}
-            {{ form_row(personForm.startInternship)}}
-            {{ form_row(personForm.endInternship)}}
-            {{ form_row(personForm.firstName)}}
-            {{ form_row(personForm.lastName)}}
-            {{ form_row(personForm.school)}}
-            {{ form_row(personForm.company) }}
+        {{ form_start(form) }}
+            {{ form_row(form.startInternship)}}
+            {{ form_row(form.endInternship)}}
+{#            {{ form_row(form.firstName)}}#}
+{#            {{ form_row(form.lastName)}}#}
+{#            {{ form_row(form.school)}}#}
+{#            {{ form_row(form.company) }}#}
         <button type="submit">Enregistrer</button>
-        {{ form_end(personForm) }}
+        {{ form_end(form) }}
     </div>
 
     <a href="{{ path('super_admin_app_trainee_index') }}">Retour</a>

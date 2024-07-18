@@ -2,7 +2,6 @@
 
 namespace App\Twig\Components;
 
-use App\Entity\Person;
 use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
