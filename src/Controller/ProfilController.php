@@ -42,8 +42,9 @@ class ProfilController extends AbstractController
             $lastName = $form->get('lastName')->getData();
             $cvFile = $form->get('cv')->getData();
             $cvType = $form->get('cvType')->getData();
+//            $profilePictureFile = $form->get('profilePicture')->getData();
 
-            // Mise à jour des autres champs
+
             if ($firstName) {
                 $person->setFirstName($firstName);
             }
@@ -80,6 +81,23 @@ class ProfilController extends AbstractController
                     return $this->redirectToRoute('app_profil_edit');
                 }
             }
+//
+//            if ($profilePictureFile) {
+//                $originalFilename = pathinfo($profilePictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+//                $newFilename = $originalFilename . '-' . uniqid() . '.' . $profilePictureFile->guessExtension();
+//
+//                try {
+//                    $profilePictureFile->move(
+//                        self::FILES_DIRECTORY,
+//                        $newFilename
+//                    );
+//
+//                    $person->setProfilePicture($newFilename);
+//                } catch (FileException $e) {
+//                    $this->addFlash('error', 'Erreur lors du téléchargement de la photo de profil.');
+//                    return $this->redirectToRoute('app_profil_edit');
+//                }
+//            }
 
             $newPassword = $form->get('password')->getData();
             if ($newPassword) {
