@@ -22,6 +22,8 @@ class AddressController extends AbstractController
         $sort = $request->query->get('sort', 'a.id');
         $direction = $request->query->get('direction', 'asc');
         $addresses = $addressRepository->paginateAddresses($page, $limit);
+        $user = $this->getUser();
+        $personne = $user->getPerson();
 
         return $this->render('super_admin/address/index.html.twig', [
             'addresses' => $addresses,
@@ -29,6 +31,7 @@ class AddressController extends AbstractController
             'limit' => $limit,
             'sort' => $sort,
             'direction' => $direction,
+            'person' => $personne,
         ]);
     }
 

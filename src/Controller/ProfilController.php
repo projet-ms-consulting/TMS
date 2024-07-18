@@ -115,6 +115,7 @@ class ProfilController extends AbstractController
 
         return $this->render('profil/edit.html.twig', [
             'form' => $form->createView(),
+            'person' => $person,
         ]);
     }
 

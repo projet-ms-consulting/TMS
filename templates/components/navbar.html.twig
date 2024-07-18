@@ -1,9 +1,8 @@
 <nav class="navbar">
     <ul class="navbar-menu">
-        <li><a href="{{ path('app_home') }}"><i class="fas fa-home"></i> Accueil</a></li>
+        <li><a href="{{ path('app_accueil') }}"><i class="fas fa-home"></i> Accueil</a></li>
         {% if is_granted('ROLE_SUPER_ADMIN') %}
             <li><a href="{{ path('super_admin_app_trainee_index') }}"><i class="fas fa-graduation-cap"></i> Stagiaires</a></li>
-            {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle">
                         <i class="fas fa-crown"></i> Super admin <i class="fas fa-caret-down"></i>
@@ -25,9 +24,14 @@
                     </ul>
                 </li>
             {% endif %}
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle">
-                    <i class="fas fa-user"></i> Profil <i class="fas fa-caret-down"></i>
+                    {% if not is_granted('IS_AUTHENTICATED_FULLY') and not person is defined %}
+                        <i class="fas fa-user"></i> Invité <i class="fas fa-caret-down"></i>
+                    {% else %}
+                        <i class="fas fa-user"></i> {{ person.fullName }} <i class="fas fa-caret-down"></i>
+                    {% endif %}
                 </a>
                 <ul class="sub-menu">
                     <li><a href="{{ path('app_profil') }}"><i class="fas fa-user"></i> Mon profil</a></li>

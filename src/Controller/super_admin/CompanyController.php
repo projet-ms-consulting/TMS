@@ -22,9 +22,12 @@ class CompanyController extends AbstractController
         $sort = $request->query->get('sort', 'a.id');
         $direction = $request->query->get('direction', 'asc');
         $companies = $companyRepository->paginateCompany($page, $limit);
+        $user = $this->getUser();
+        $personne = $user->getPerson();
 
         return $this->render('super_admin/company/index.html.twig', [
             'companies' => $companies,
+            'person' => $personne,
         ]);
     }
 
