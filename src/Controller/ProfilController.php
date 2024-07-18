@@ -55,7 +55,7 @@ class ProfilController extends AbstractController
 
             if ($cvFile) {
                 $originalFilename = pathinfo($cvFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $newFilename = $originalFilename . '-' . uniqid() . '.' . $cvFile->guessExtension();
+                $newFilename = $originalFilename.'-'.uniqid().'.'.$cvFile->guessExtension();
 
                 try {
                     if (!in_array($cvFile->guessExtension(), ['pdf', 'jpg'])) {
@@ -76,8 +76,9 @@ class ProfilController extends AbstractController
 
                     $entityManager->persist($cv);
                     $entityManager->flush();
-                } catch (FileException | \UnexpectedValueException $e) {
+                } catch (FileException|\UnexpectedValueException $e) {
                     $this->addFlash('error', $e->getMessage());
+
                     return $this->redirectToRoute('app_profil_edit');
                 }
             }
@@ -125,7 +126,7 @@ class ProfilController extends AbstractController
         $cv = $entityManager->getRepository(Files::class)->find($id);
 
         if (!$cv) {
-            throw $this->createNotFoundException('Le CV avec l\'id ' . $id . ' n\'existe pas.');
+            throw $this->createNotFoundException('Le CV avec l\'id '.$id.' n\'existe pas.');
         }
 
         $entityManager->remove($cv);

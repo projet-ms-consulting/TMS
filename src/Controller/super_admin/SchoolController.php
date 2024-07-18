@@ -46,6 +46,8 @@ class SchoolController extends AbstractController
         $school = new School();
         $form = $this->createForm(SchoolType::class, $school);
         $form->handleRequest($request);
+        $user = $this->getUser();
+        $personne = $user->getPerson();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $school->setCreatedAt(new \DateTimeImmutable());
@@ -59,14 +61,18 @@ class SchoolController extends AbstractController
         return $this->render('super_admin/school/new.html.twig', [
             'school' => $school,
             'form' => $form,
+            'person' => $personne,
         ]);
     }
 
     #[Route('super_admin/school/show/{id}', name: 'show', methods: ['GET'])]
     public function show(School $school): Response
     {
+        $user = $this->getUser();
+        $personne = $user->getPerson();
         return $this->render('super_admin/school/show.html.twig', [
             'school' => $school,
+            'person' => $personne,
         ]);
     }
 
@@ -75,7 +81,8 @@ class SchoolController extends AbstractController
     {
         $form = $this->createForm(SchoolType::class, $school);
         $form->handleRequest($request);
-
+        $user = $this->getUser();
+        $personne = $user->getPerson();
         if ($form->isSubmitted() && $form->isValid()) {
             $school->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->flush();
@@ -88,6 +95,7 @@ class SchoolController extends AbstractController
         return $this->render('super_admin/school/edit.html.twig', [
             'school' => $school,
             'form' => $form,
+            'person' => $personne,
         ]);
     }
 

@@ -37,16 +37,17 @@ class PersonController extends AbstractController
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
-        $person = new Person();
-
-        $personForm = $this->createForm(PersonType::class, $person);
+        $personne = new Person();
+        $user = $this->getUser();
+        $person = $user->getPerson();
+        $personForm = $this->createForm(PersonType::class, $personne);
         $personForm->handleRequest($request);
 
         if ($personForm->isSubmitted() && $personForm->isValid()) {
-            $person->setCreatedAt(new \DateTimeImmutable());
-            $person->setLabelRole($personForm->get('labelRole')->getData());
+            $personne->setCreatedAt(new \DateTimeImmutable());
+            $personne->setLabelRole($personForm->get('labelRole')->getData());
 
-            $entityManager->persist($person);
+            $entityManager->persist($personne);
             $entityManager->flush();
             $this->addFlash('success', 'Création réussie !');
 
@@ -55,8 +56,9 @@ class PersonController extends AbstractController
 
         return $this->render('super_admin/person/new.html.twig', [
             'person' => $person,
+            'personne' => $personne,
             'personForm' => $personForm,
-            'files' => $person->getFiles(),
+            'files' => $personne->getFiles(),
         ]);
 
         // *************  Upload CV ***************
@@ -118,8 +120,11 @@ class PersonController extends AbstractController
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Person $person): Response
     {
+        $user = $this->getUser();
+        $personne = $user->getPerson();
         return $this->render('super_admin/person/show.html.twig', [
-            'person' => $person,
+            'personne' => $person,
+            'person' => $personne,
             'user' => $person->getUser(),
             'files' => $person->getFiles(),
         ]);
@@ -129,6 +134,8 @@ class PersonController extends AbstractController
     public function edit(Request $request, Person $person, FilesRepository $file, EntityManagerInterface $entityManager): Response
     {
         $file = new Files();
+        $user = $this->getUser();
+        $personne = $user->getPerson();
         $personForm = $this->createForm(PersonType::class, $person);
         $personForm->handleRequest($request);
 
@@ -227,6 +234,7 @@ class PersonController extends AbstractController
 
         return $this->render('super_admin/person/edit.html.twig', [
             'person' => $person,
+            'personne' => $person,
             'personForm' => $personForm,
             'files' => $person->getFiles(),
             'user' => $person->getUser(),

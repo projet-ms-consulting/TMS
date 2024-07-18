@@ -3,12 +3,9 @@
 namespace App\Controller\super_admin;
 
 use App\Entity\Person;
-use App\Entity\User;
 use App\Form\PersonType;
 use App\Form\TraineeRoleType;
-use App\Form\TraineeType;
 use App\Repository\PersonRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,7 +36,8 @@ class TraineeController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, PersonRepository $personRepository): Response
     {
         $idPerson = intval($request->query->get('id'));
-
+        $user = $this->getUser();
+        $personne = $user->getPerson();
         $person = $personRepository->find($idPerson);
 
         $traineeForm = $this->createForm(TraineeRoleType::class, $person);
@@ -50,27 +48,32 @@ class TraineeController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
-
         }
 
         return $this->render('super_admin/trainee/new.html.twig', [
-            'person' => $person,
+            'personne' => $person,
+            'person' => $personne,
             'form' => $traineeForm,
         ]);
     }
 
-
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Person $person): Response
     {
+        $user = $this->getUser();
+        $personne = $user->getPerson();
+
         return $this->render('super_admin/trainee/show.html.twig', [
-            'person' => $person,
+            'personne' => $person,
+            'person' => $personne,
         ]);
     }
 
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Person $person, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+        $personne = $user->getPerson();
         $personForm = $this->createForm(PersonType::class, $person, [
             'context' => 'edit',
         ]);
@@ -83,8 +86,9 @@ class TraineeController extends AbstractController
         }
 
         return $this->render('super_admin/trainee/edit.html.twig', [
-            'person' => $person,
+            'personne' => $person,
             'personForm' => $personForm,
+            'person' => $personne
         ]);
     }
 

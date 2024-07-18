@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Form;
 
 use App\Entity\Person;
@@ -8,7 +9,6 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-
 class PersonType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -16,27 +16,27 @@ class PersonType extends AbstractType
         $builder
             ->add('lastName', null, [
                 'label' => 'Nom : ',
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('firstName', null, [
                 'label' => 'Prénom : ',
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('mailPerso', EmailType::class, [
                 'label' => 'Email personnelle : ',
                 'required' => false,
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('mailPro', EmailType::class, [
                 'label' => 'Email professionnelle : ',
                 'required' => false,
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('labelRole', ChoiceType::class, [
                 'label' => 'Rôle :',
                 'placeholder' => 'Choisir un rôle',
                 'choices' => [
-                    'Super Admin' =>  'Super Admin',
+                    'Super Admin' => 'Super Admin',
                     'Chef d\'entreprise' => 'Manager',
                     'Stagiaire' => 'Stagiaire',
                     'Référent école' => 'Référent école',
