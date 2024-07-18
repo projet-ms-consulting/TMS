@@ -60,7 +60,25 @@ class ProfilType extends AbstractType
                     'Convention de stage' => 'Convention de stage',
                     'Autre document' => 'Autre document',
                 ],
-            ]);
+            ]) ;
+
+
+//        ->add('profilePicture', FileType::class, [
+//        'label' => 'Photo de profil',
+//        'mapped' => false,
+//        'required' => false,
+//        'constraints' => [
+//            new File([
+//                'maxSize' => '1024k',
+//                'mimeTypes' => [
+//                    'image/jpeg',
+//                    'image/png',
+//                ],
+//                'mimeTypesMessage' => 'Veuillez télécharger une image JPEG ou PNG valide.',
+//            ])
+//        ],
+//    ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
