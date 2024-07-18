@@ -37,9 +37,16 @@ class Project
     #[ORM\ManyToMany(targetEntity: Person::class, inversedBy: 'projects')]
     private Collection $person;
 
+    /**
+     * @var Collection<int, OtherLinks>
+     */
+    #[ORM\OneToMany(targetEntity: OtherLinks::class, mappedBy: 'Project')]
+    private Collection $otherLinks;
+
     public function __construct()
     {
         $this->person = new ArrayCollection();
+        $this->otherLinks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,6 +134,36 @@ class Project
     public function removePerson(Person $person): static
     {
         $this->person->removeElement($person);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OtherLinks>
+     */
+    public function getOtherLinks(): Collection
+    {
+        return $this->otherLinks;
+    }
+
+    public function addOtherLink(OtherLinks $otherLink): static
+    {
+        if (!$this->otherLinks->contains($otherLink)) {
+            $this->otherLinks->add($otherLink);
+            $otherLink->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOtherLink(OtherLinks $otherLink): static
+    {
+        if ($this->otherLinks->removeElement($otherLink)) {
+            // set the owning side to null (unless already changed)
+            if ($otherLink->getProject() === $this) {
+                $otherLink->setProject(null);
+            }
+        }
 
         return $this;
     }

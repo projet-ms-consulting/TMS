@@ -14,7 +14,6 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/', name: 'super_admin_address_')]
 class AddressController extends AbstractController
 {
-
     #[Route('super_admin/address/index', name: 'index', methods: ['GET'])]
     public function index(AddressRepository $addressRepository, Request $request): Response
     {
@@ -51,7 +50,6 @@ class AddressController extends AbstractController
             $entityManager->flush();
             $this->addFlash('success', 'Adresse '.$address->getFullAddress().' crée avec succes!');
 
-
             return $this->redirectToRoute('super_admin_address_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -67,6 +65,7 @@ class AddressController extends AbstractController
     {
         $user = $this->getUser();
         $personne = $user->getPerson();
+
         return $this->render('super_admin/address/show.html.twig', [
             'address' => $address,
             'person' => $personne,
@@ -98,7 +97,6 @@ class AddressController extends AbstractController
     #[Route('super_admin/address/delete/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, Address $address, EntityManagerInterface $entityManager): Response
     {
-
         if ($this->isCsrfTokenValid('delete'.$address->getId(), $request->getPayload()->get('_token'))) {
             $entityManager->remove($address);
             $entityManager->flush();
