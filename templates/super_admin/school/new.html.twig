@@ -3,12 +3,25 @@
 {% block title %}New School{% endblock %}
 
 {% block body %}
-    <h1>Créer une nouvelle école</h1>
+    <h1>Créer une école</h1>
 
     {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">Créer</button>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>{{ form_label(form.name) }}</th>
+                    <td>{{ form_widget(form.name) }}</td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.address) }}</th>
+                    <td>{{ form_widget(form.address) }}</td>
+                </tr>
+        </table>
+    <div class="btnForm">
+        <a href="{{ path('super_admin_school_index') }}" class="btn-custom">Retour</a>
+        <button class="btn-custom">Créer</button>
+    </div>
     {{ form_end(form) }}
-    <a href="{{ path('super_admin_address_new') }}">Ajouter une adresse</a>
-    <a href="{{ path('super_admin_school_index') }}">Retour à la liste </a>
+
+    <a href="{{ path('super_admin_address_new') }}" class="btn-custom">Ajouter une adresse</a>
 {% endblock %}
