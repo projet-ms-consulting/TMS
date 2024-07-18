@@ -24,10 +24,13 @@ class SchoolEmployeeController extends AbstractController
         $sort = $request->query->get('sort', 'a.id');
         $direction = $request->query->get('direction', 'asc');
         $person = $personRepository->paginateSchoolEmployee($page, $limit);
+        $user = $this->getUser();
+        $personne = $user->getPerson();
 
 
         return $this->render('super_admin/school_employee/index.html.twig', [
             'personne' => $person,
+            'person' => $personne,
         ]);
     }
 

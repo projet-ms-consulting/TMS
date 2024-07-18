@@ -26,9 +26,12 @@ class TraineeController extends AbstractController
         $sort = $request->query->get('sort', 'a.id');
         $direction = $request->query->get('direction', 'asc');
         $person = $personRepository->paginateTrainee($page, $limit);
+        $user = $this->getUser();
+        $personne = $user->getPerson();
 
         return $this->render('super_admin/trainee/index.html.twig', [
             'personne' => $person,
+            'person' => $personne,
         ]);
     }
 

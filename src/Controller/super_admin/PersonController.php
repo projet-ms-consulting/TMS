@@ -4,7 +4,6 @@ namespace App\Controller\super_admin;
 
 use App\Entity\Files;
 use App\Entity\Person;
-use App\Entity\User;
 use App\Form\PersonType;
 use App\Repository\FilesRepository;
 use App\Repository\PersonRepository;
@@ -26,9 +25,12 @@ class PersonController extends AbstractController
         $sort = $request->query->get('sort', 'a.id');
         $direction = $request->query->get('direction', 'asc');
         $person = $personRepository->paginatePerson($page, $limit);
+        $user = $this->getUser();
+        $personne = $user->getPerson();
 
         return $this->render('super_admin/person/index.html.twig', [
             'personne' => $person,
+            'person' => $personne,
         ]);
     }
 
@@ -36,7 +38,6 @@ class PersonController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
         $person = new Person();
-
 
         $personForm = $this->createForm(PersonType::class, $person);
         $personForm->handleRequest($request);
@@ -58,61 +59,60 @@ class PersonController extends AbstractController
             'files' => $person->getFiles(),
         ]);
 
-            // *************  Upload CV ***************
-//            $cvFile = $personForm->get('cv')->getData();
-//            if ($cvFile) {
-//                $cvFilename = 'CV.'.$person->getFirstName().'-'.$person->getLastName().'.'.$cvFile->guessExtension();
-//                $cvHash = hash('sha256', $cvFilename);
-//                $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
-//                $cvFile->move($this->getParameter('kernel.project_dir') . 'public/doc/', $cvFilename);
-//
-//                $file = new Files();
-//                $file->setLabel('CV')
-//                    ->setFile($cvHashFile)
-//                    ->setCreatedAt(new \DateTimeImmutable())
-//                    ->setPerson($person)
-//                    ->setRealFileName($cvFilename);
-//
-//                $entityManager->persist($file);
-//                $entityManager->flush();
-//            }
-           // *************  Upload Lettre de motivation ****************
-//            $lmFile = $personForm->get('coverLetter')->getData();
-//            if ($lmFile) {
-//                $lmFilename = 'LM.'.$person->getFirstName().'-'.$person->getLastName().'.'.$lmFile->guessExtension();
-//                $lmHash = hash('sha256', $lmFilename);
-//                $lmHashFile = $lmHash.'.'.$lmFile->guessExtension();
-//                $lmFile->move($this->getParameter('kernel.project_dir') . 'public/doc/', $lmFilename);
-//
-//                $file = new Files();
-//                $file->setLabel('LM')
-//                    ->setFile($lmHashFile)
-//                    ->setCreatedAt(new \DateTimeImmutable())
-//                    ->setPerson($person)
-//                    ->setRealFileName($lmFilename);
-//
-//                $entityManager->persist($file);
-//                $entityManager->flush();
-//            }
-            // *************  Upload convention de stage ****************
-//                        $csFile = $personForm->get('internshipAgreement')->getData();
-//                        if ($csFile) {
-//                            $csFilename = 'CS.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $csFile->guessExtension();
-//                            $csHash = hash('sha256', $csFilename);
-//                            $csHashFile = $csHash . '.' . $csFile->guessExtension();
-//                            $csFile->move($this->getParameter('kernel.project_dir') . 'public/doc/', $csHashFile);
-//
-//                            $file= new Files();
-//                            $file->setLabel('CS')
-//                                ->setFile($csHashFile)
-//                                ->setCreatedAt(new \DateTimeImmutable())
-//                                ->setPerson($person)
-//                                ->setRealFileName($csFilename);
-//
-//                            $entityManager->persist($file);
-//                            $entityManager->flush();
-//                        }
-
+        // *************  Upload CV ***************
+        //            $cvFile = $personForm->get('cv')->getData();
+        //            if ($cvFile) {
+        //                $cvFilename = 'CV.'.$person->getFirstName().'-'.$person->getLastName().'.'.$cvFile->guessExtension();
+        //                $cvHash = hash('sha256', $cvFilename);
+        //                $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
+        //                $cvFile->move($this->getParameter('kernel.project_dir') . 'public/doc/', $cvFilename);
+        //
+        //                $file = new Files();
+        //                $file->setLabel('CV')
+        //                    ->setFile($cvHashFile)
+        //                    ->setCreatedAt(new \DateTimeImmutable())
+        //                    ->setPerson($person)
+        //                    ->setRealFileName($cvFilename);
+        //
+        //                $entityManager->persist($file);
+        //                $entityManager->flush();
+        //            }
+        // *************  Upload Lettre de motivation ****************
+        //            $lmFile = $personForm->get('coverLetter')->getData();
+        //            if ($lmFile) {
+        //                $lmFilename = 'LM.'.$person->getFirstName().'-'.$person->getLastName().'.'.$lmFile->guessExtension();
+        //                $lmHash = hash('sha256', $lmFilename);
+        //                $lmHashFile = $lmHash.'.'.$lmFile->guessExtension();
+        //                $lmFile->move($this->getParameter('kernel.project_dir') . 'public/doc/', $lmFilename);
+        //
+        //                $file = new Files();
+        //                $file->setLabel('LM')
+        //                    ->setFile($lmHashFile)
+        //                    ->setCreatedAt(new \DateTimeImmutable())
+        //                    ->setPerson($person)
+        //                    ->setRealFileName($lmFilename);
+        //
+        //                $entityManager->persist($file);
+        //                $entityManager->flush();
+        //            }
+        // *************  Upload convention de stage ****************
+        //                        $csFile = $personForm->get('internshipAgreement')->getData();
+        //                        if ($csFile) {
+        //                            $csFilename = 'CS.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $csFile->guessExtension();
+        //                            $csHash = hash('sha256', $csFilename);
+        //                            $csHashFile = $csHash . '.' . $csFile->guessExtension();
+        //                            $csFile->move($this->getParameter('kernel.project_dir') . 'public/doc/', $csHashFile);
+        //
+        //                            $file= new Files();
+        //                            $file->setLabel('CS')
+        //                                ->setFile($csHashFile)
+        //                                ->setCreatedAt(new \DateTimeImmutable())
+        //                                ->setPerson($person)
+        //                                ->setRealFileName($csFilename);
+        //
+        //                            $entityManager->persist($file);
+        //                            $entityManager->flush();
+        //                        }
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'])]
@@ -135,59 +135,59 @@ class PersonController extends AbstractController
         if ($personForm->isSubmitted() && $personForm->isValid()) {
             $person->setUpdatedAt(new \DateTimeImmutable());
 
-//            if ($request->files->get('person')['cv']) {
-//                $oldFiles = $person->getFiles();
-//                foreach ($oldFiles as $oldFile) {
-//                    if ('CV' == $oldFile->getLabel()) {
-//                        $filePath = ($this->getParameter('kernel.project_dir') . 'public/doc/' .$oldFile->getFile());
-//                        if (file_exists($oldFile->getFile())) {
-//                            unlink($filePath);
-//                        }
-//                        $entityManager->remove($oldFile);
-//                    }
-//                }
-//                $cvFile = $request->files->get('person')['cv'];
-//                $cvFilename = 'CV.'.$person->getFirstName().'-'.$person->getLastName().'.'.$cvFile->guessExtension();
-//                $cvHash = hash('sha256', $cvFilename);
-//                $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
-//                $cvFile->move($this->getParameter('kernel.project_dir') . 'public/doc/', $cvFilename);
-//                $file->setLabel('CV')
-//                    ->setFile($cvHashFile)
-//                    ->setCreatedAt(new \DateTimeImmutable())
-//                    ->setUpdatedAt(new \DateTimeImmutable())
-//                    ->setPerson($person)
-//                    ->setRealFileName($cvFilename);
-//
-//                $entityManager->persist($file);
-//                $entityManager->flush();
-//            }
+            //            if ($request->files->get('person')['cv']) {
+            //                $oldFiles = $person->getFiles();
+            //                foreach ($oldFiles as $oldFile) {
+            //                    if ('CV' == $oldFile->getLabel()) {
+            //                        $filePath = ($this->getParameter('kernel.project_dir') . 'public/doc/' .$oldFile->getFile());
+            //                        if (file_exists($oldFile->getFile())) {
+            //                            unlink($filePath);
+            //                        }
+            //                        $entityManager->remove($oldFile);
+            //                    }
+            //                }
+            //                $cvFile = $request->files->get('person')['cv'];
+            //                $cvFilename = 'CV.'.$person->getFirstName().'-'.$person->getLastName().'.'.$cvFile->guessExtension();
+            //                $cvHash = hash('sha256', $cvFilename);
+            //                $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
+            //                $cvFile->move($this->getParameter('kernel.project_dir') . 'public/doc/', $cvFilename);
+            //                $file->setLabel('CV')
+            //                    ->setFile($cvHashFile)
+            //                    ->setCreatedAt(new \DateTimeImmutable())
+            //                    ->setUpdatedAt(new \DateTimeImmutable())
+            //                    ->setPerson($person)
+            //                    ->setRealFileName($cvFilename);
+            //
+            //                $entityManager->persist($file);
+            //                $entityManager->flush();
+            //            }
 
-//            if ($request->files->get('person')['coverLetter']) {
-//                $oldFiles = $person->getFiles();
-//                foreach ($oldFiles as $oldFile) {
-//                    if ('LM' == $oldFile->getLabel()) {
-//                        $filePath = ($this->getParameter('kernel.project_dir') . 'public/doc/' .$oldFile->getFile());
-//                        if (file_exists($oldFile->getFile())) {
-//                            unlink($filePath);
-//                        }
-//                        $entityManager->remove($oldFile);
-//                    }
-//                }
-//                $lmFile = $request->files->get('person')['coverLetter'];
-//                $lmFilename = 'LM.'.$person->getFirstName().'-'.$person->getLastName().'.'.$lmFile->guessExtension();
-//                $cvHash = hash('sha256', $lmFilename);
-//                $cvHashFile = $cvHash.'.'.$lmFile->guessExtension();
-//                $lmFile->move($this->getParameter('kernel.project_dir') . 'public/doc/', $lmFilename);
-//                $file->setLabel('LM')
-//                    ->setFile($cvHashFile)
-//                    ->setCreatedAt(new \DateTimeImmutable())
-//                    ->setUpdatedAt(new \DateTimeImmutable())
-//                    ->setPerson($person)
-//                    ->setRealFileName($lmFilename);
-//
-//                $entityManager->persist($file);
-//                $entityManager->flush();
-//            }
+            //            if ($request->files->get('person')['coverLetter']) {
+            //                $oldFiles = $person->getFiles();
+            //                foreach ($oldFiles as $oldFile) {
+            //                    if ('LM' == $oldFile->getLabel()) {
+            //                        $filePath = ($this->getParameter('kernel.project_dir') . 'public/doc/' .$oldFile->getFile());
+            //                        if (file_exists($oldFile->getFile())) {
+            //                            unlink($filePath);
+            //                        }
+            //                        $entityManager->remove($oldFile);
+            //                    }
+            //                }
+            //                $lmFile = $request->files->get('person')['coverLetter'];
+            //                $lmFilename = 'LM.'.$person->getFirstName().'-'.$person->getLastName().'.'.$lmFile->guessExtension();
+            //                $cvHash = hash('sha256', $lmFilename);
+            //                $cvHashFile = $cvHash.'.'.$lmFile->guessExtension();
+            //                $lmFile->move($this->getParameter('kernel.project_dir') . 'public/doc/', $lmFilename);
+            //                $file->setLabel('LM')
+            //                    ->setFile($cvHashFile)
+            //                    ->setCreatedAt(new \DateTimeImmutable())
+            //                    ->setUpdatedAt(new \DateTimeImmutable())
+            //                    ->setPerson($person)
+            //                    ->setRealFileName($lmFilename);
+            //
+            //                $entityManager->persist($file);
+            //                $entityManager->flush();
+            //            }
 
             //            if ($request->files->get('person')['internshipAgreement']) {
             //                $oldFiles = $person->getFiles();

@@ -23,9 +23,12 @@ class CompanyEmployeeController extends AbstractController
         $sort = $request->query->get('sort', 'a.id');
         $direction = $request->query->get('direction', 'asc');
         $person = $personRepository->paginateCompanyEmployee($page, $limit);
+        $user = $this->getUser();
+        $personne = $user->getPerson();
 
         return $this->render('super_admin/company_employee/index.html.twig', [
             'personne' => $person,
+            'person' => $personne,
         ]);
     }
 
