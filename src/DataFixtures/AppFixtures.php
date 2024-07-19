@@ -75,6 +75,7 @@ class AppFixtures extends Fixture
         $user->setEmail('admin@admin.fr');
         $user->setPassword($this->hasher->hashPassword($user, 'admin'));
         $user->setRoles(['ROLE_SUPER_ADMIN']);
+        $user->setCanLogin(true);
         $user->setPerson($admin);
         $user->setCreatedAt($date);
         $user->setEverLoggedIn(true);
@@ -94,6 +95,7 @@ class AppFixtures extends Fixture
             $user->setEmail('schoolinternship'.$i + 1 .'@user.fr');
             $user->setPassword($this->hasher->hashPassword($user, 'user'));
             $user->setRoles(['ROLE_SCHOOL_INTERNSHIP']);
+            $user->setCanLogin(true);
             $user->setPerson($person);
             $user->setCreatedAt($date);
             $user->setEverLoggedIn(false);
@@ -115,6 +117,7 @@ class AppFixtures extends Fixture
             $user->setEmail('manager'.$i + 1 .'@user.fr');
             $user->setPassword($this->hasher->hashPassword($user, 'user'));
             $user->setRoles(['ROLE_ADMIN']);
+            $user->setCanLogin(true);
             $user->setPerson($person);
             $user->setCreatedAt($date);
             $user->setEverLoggedIn(false);
@@ -137,6 +140,7 @@ class AppFixtures extends Fixture
             $user->setEmail('companyinternship'.$i + 1 .'@user.fr');
             $user->setPassword($this->hasher->hashPassword($user, 'user'));
             $user->setRoles(['ROLE_COMPANY_INTERNSHIP']);
+            $user->setCanLogin(true);
             $user->setPerson($person);
             $user->setCreatedAt($date);
             $user->setEverLoggedIn(false);
@@ -164,6 +168,7 @@ class AppFixtures extends Fixture
             $user->setEmail('user'.$i + 1 .'@user.fr');
             $user->setPassword($this->hasher->hashPassword($user, 'user'));
             $user->setRoles(['ROLE_TRAINEE']);
+            $user->setCanLogin(true);
             $user->setPerson($person);
             $user->setCreatedAt($date);
             $user->setEverLoggedIn(false);
