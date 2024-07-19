@@ -22,7 +22,7 @@
                 <th>{{ form_label(form.roles) }}</th>
                 <td>{{ form_widget(form.roles) }}</td>
             </tr>
-            {% if person.labelRole == 'Stagiaire' %}
+            {% if person.labelRole == 'Stagiaire' or person.labelRole is not defined%}
             <tr>
                 <th>{{ form_label(form.startInternship) }}</th>
                 <td>{{ form_widget(form.startInternship) }}</td>
@@ -46,17 +46,15 @@
 {#            <tr>#}
 {#                <th>{{ form_label(form.internshipSupervisors) }}</th>#}
 {#                <td>{{ form_widget(form.internshipSupervisors) }}</td>#}
-{#            </tr>%}#}
+{#            </tr>#}
             <tr>
                 <th>{{ form_label(form.cv)}}</th>
                 <td>{{ form_widget(form.cv) }}</td>
             </tr>
-
             <tr>
                 <th>{{ form_label(form.coverLetter) }}</th>
                 <td>{{ form_widget(form.coverLetter) }}</td>
             </tr>
-
             <tr>
                 <th>{{ form_label(form.internshipAgreement) }}</th>
                 <td>{{ form_widget(form.internshipAgreement) }}</td>

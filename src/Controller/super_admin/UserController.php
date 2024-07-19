@@ -129,7 +129,7 @@ class UserController extends AbstractController
     {
         $user = $this->getUser();
         $personne = $user->getPerson();
-        return $this->render('super_admin/user/show.html.twig', [
+        return $this->render('super_admin/person/index.html.twig', [
             'user' => $user,
             'person' => $personne,
         ]);

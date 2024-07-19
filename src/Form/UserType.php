@@ -42,11 +42,11 @@ class UserType extends AbstractType
                     'mapped' => false,
                     'attr' => ['class' => 'form-control'],
                 ])
-//                    ->add('email', EmailType::class, [
-//                        'label' => 'Adresse email :',
-//                    'attr' => ['class' => 'form-control']
-//
-//                    ])
+                    ->add('email', EmailType::class, [
+                        'label' => 'Adresse email :',
+                    'attr' => ['class' => 'form-control']
+
+                    ])
                 ->add('password', PasswordType::class, [
                     'label' => 'Mot de passe :',
                     'attr' => ['class' => 'form-control']
@@ -94,15 +94,6 @@ class UserType extends AbstractType
 //                            'placeholder' => 'Référent école',
 //                            'mapped' => false,
 //                            'attr' => ['class' => 'form-control'],
-//                        ])
-//                      ->add('internshipSupervisors', EntityType::class, [
-//                            'class' => Person::class,
-//                            'label' => 'Maître de stage : ',
-//                            'choices' => $person->getSchool()->getPeople(),
-//                            'choice_label' => 'fullName',
-//                            'placeholder' => 'Maître de stage : ',
-//                            'mapped' => false,
-//                            'attr' => ['class' => 'form-control']
 //                        ])
                         ->add('company', EntityType::class, [
                         'class' => Company::class,
@@ -170,7 +161,9 @@ class UserType extends AbstractType
                             ],
                         ]);
                 }
-//                ->addDependent('startInternship', 'roles', function (DependentField $field, ?string roles) {
+
+
+//                ->addDependent('startInternship', 'roles', function (DependentField $field, ?string $roles) {
 //                    if ($roles == 'ROLE_TRAINEE') {
 //                        $field->add(DateType::class, [
 //                            'label' => 'Date début de stage : ',
@@ -179,7 +172,16 @@ class UserType extends AbstractType
 //                        ]);
 //                    }
 //                })
-//                ->addDependent('company', 'roles', function (DependentField $field, ?string roles) {
+//                ->addDependent('endInternship', 'roles', function (DependentField $field, ?string $roles) {
+//                    if ($roles == 'ROLE_TRAINEE') {
+//                        $field->add(DateType::class, [
+//                            'label' => 'Date fin de stage : ',
+//                            'mapped' => false,
+//                            'attr' => ['class' => 'form-control']
+//                        ]);
+//                    }
+//                })
+//                ->addDependent('company', 'roles', function (DependentField $field, ?string $roles) {
 //                    if ($roles == 'ROLE_TRAINEE') {
 //                        $field->add(EntityType::class, [
 //                            'class' => Company::class,
@@ -203,7 +205,7 @@ class UserType extends AbstractType
 //                            'attr' => ['class' => 'form-control']
 //                        ]);
 //                    }
-//                })
+//                });
 
     }
 
