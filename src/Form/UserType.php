@@ -86,24 +86,6 @@ class UserType extends AbstractType
                             'mapped' => false,
                             'attr' => ['class' => 'form-control']
                         ])
-//                        ->add('schoolSupervisors', EntityType::class, [
-//                            'class' => Person::class,
-//                            'label' => 'Référent école : ',
-//                            'choices' => $school->getPeople(),
-//                            'choice_label' => 'fullName',
-//                            'placeholder' => 'Référent école',
-//                            'mapped' => false,
-//                            'attr' => ['class' => 'form-control'],
-//                        ])
-//                      ->add('internshipSupervisors', EntityType::class, [
-//                            'class' => Person::class,
-//                            'label' => 'Maître de stage : ',
-//                            'choices' => $person->getSchool()->getPeople(),
-//                            'choice_label' => 'fullName',
-//                            'placeholder' => 'Maître de stage : ',
-//                            'mapped' => false,
-//                            'attr' => ['class' => 'form-control']
-//                        ])
                         ->add('company', EntityType::class, [
                         'class' => Company::class,
                         'label' => 'Entreprise : ',
@@ -112,15 +94,6 @@ class UserType extends AbstractType
                         'mapped' => false,
                         'attr' => ['class' => 'form-control']
                         ])
-//                        ->add('internshipSupervisors', EntityType::class, [
-//                            'class' => Person::class,
-//                            'label' => 'Maître de stage : ',
-//                            'choices' => $person->getSchool()->getPeople(),
-//                            'choice_label' => 'fullName',
-//                            'placeholder' => 'Maître de stage : ',
-//                            'mapped' => false,
-//                            'attr' => ['class' => 'form-control']
-//                        ])
                         ->add('cv', FileType::class, [
                             'label' => 'CV :',
                             'mapped' => false,
@@ -170,41 +143,6 @@ class UserType extends AbstractType
                             ],
                         ]);
                 }
-//                ->addDependent('startInternship', 'roles', function (DependentField $field, ?string roles) {
-//                    if ($roles == 'ROLE_TRAINEE') {
-//                        $field->add(DateType::class, [
-//                            'label' => 'Date début de stage : ',
-//                            'mapped' => false,
-//                            'attr' => ['class' => 'form-control']
-//                        ]);
-//                    }
-//                })
-//                ->addDependent('company', 'roles', function (DependentField $field, ?string roles) {
-//                    if ($roles == 'ROLE_TRAINEE') {
-//                        $field->add(EntityType::class, [
-//                            'class' => Company::class,
-//                            'label' => 'Entreprise : ',
-//                            'placeholder' => 'Choisir une entreprise',
-//                            'choice_label' => 'name',
-//                            'mapped' => false,
-//                            'attr' => ['class' => 'form-control']
-//                        ]);
-//                    }
-//                })
-//                ->addDependent('internshipSupervisors', 'company', function (DependentField $field, ?Company $company) {
-//                    if ($company) {
-//                        $field->add(EntityType::class, [
-//                            'class' => Person::class,
-//                            'label' => 'Maître de stage : ',
-//                            'placeholder' => 'Maître de stage : ',
-//                            'choices' => $company->getPeople(),
-//                            'choice_label' => 'fullName',
-//                            'mapped' => false,
-//                            'attr' => ['class' => 'form-control']
-//                        ]);
-//                    }
-//                })
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void
