@@ -69,6 +69,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $passwordResetToken = null;
 
+    #[ORM\Column]
+    private ?bool $canLogin = null;
+
     public function __construct()
     {
         $this->internshipSupervisor = new ArrayCollection();
@@ -310,6 +313,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getEmailChoice(): ?string
     {
         return $this->person->getEmailChoice();
+    }
+
+    public function isCanLogin(): ?bool
+    {
+        return $this->canLogin;
+    }
+
+    public function setCanLogin(bool $canLogin): static
+    {
+        $this->canLogin = $canLogin;
+
+        return $this;
     }
 
 }

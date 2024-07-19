@@ -81,14 +81,6 @@ class Person
 
     #[ORM\OneToOne(mappedBy: 'person', cascade: ['persist', 'remove'])]
     private ?User $user = null;
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $emailChoice = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $mailPerso = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $mailPro = null;
 
     #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'companyReferents')]
     private ?Person $companyReferent = null;
@@ -99,20 +91,6 @@ class Person
     #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'companyReferent')]
     private Collection $companyReferents;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $isManager = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?bool $isCompanyReferent = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?bool $isInternshipSupervisor = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?bool $isSchoolSupervisor = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $labelRole = null;
 
     public function __construct()
     {
@@ -458,29 +436,6 @@ class Person
         return $this;
     }
 
-    public function getMailPerso(): ?string
-    {
-        return $this->mailPerso;
-    }
-
-    public function setMailPerso(?string $mailPerso): static
-    {
-        $this->mailPerso = $mailPerso;
-
-        return $this;
-    }
-
-    public function getMailPro(): ?string
-    {
-        return $this->mailPro;
-    }
-
-    public function setMailPro(?string $mailPro): static
-    {
-        $this->mailPro = $mailPro;
-
-        return $this;
-    }
 
     public function getFullName(): string
     {
@@ -529,45 +484,5 @@ class Person
         return $this;
     }
 
-    public function isManager(): ?bool
-    {
-        return $this->isManager;
-    }
 
-    public function isCompanyReferent(): ?bool
-    {
-        return $this->isCompanyReferent;
-    }
-
-    public function isInternshipSupervisor(): ?bool
-    {
-        return $this->isInternshipSupervisor;
-    }
-
-    public function isSchoolSupervisor(): ?bool
-    {
-        return $this->isSchoolSupervisor;
-    }
-
-    public function getLabelRole(): ?string
-    {
-        return $this->labelRole;
-    }
-
-    public function setLabelRole(string $labelRole): static
-    {
-        $this->labelRole = $labelRole;
-
-        return $this;
-    }
-
-    public function getEmailChoice(): ?string
-    {
-        return $this->emailChoice;
-    }
-
-    public function setEmailChoice(?string $emailChoice): void
-    {
-        $this->emailChoice = $emailChoice;
-    }
 }
