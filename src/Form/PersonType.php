@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Company;
 use App\Entity\Person;
+use App\Entity\School;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -29,16 +30,6 @@ class PersonType extends AbstractType
                 'label' => 'Prénom : ',
                 'attr' => ['class' => 'form-control'],
             ])
-            ->add('mailPerso', EmailType::class, [
-                'label' => 'Email personnelle : ',
-                'required' => false,
-                'attr' => ['class' => 'form-control'],
-            ])
-            ->add('mailPro', EmailType::class, [
-                'label' => 'Email professionnelle : ',
-                'required' => false,
-                'attr' => ['class' => 'form-control'],
-            ])
             ->add('labelRole', ChoiceType::class, [
                 'label' => 'Rôle :',
                 'placeholder' => 'Choisir un rôle',
@@ -55,11 +46,41 @@ class PersonType extends AbstractType
                 'multiple' => false,
                 'attr' => ['class' => 'form-control'],
             ])
-            ->addDependent('refEntrepCompany', 'labelRole', function (DependentField $field, ?int $labelRole) {
+            ->addDependent('refCompany', 'labelRole', function (DependentField $field, ?int $labelRole) {
                 if ($labelRole == 6) {
                     $field->add(EntityType::class, [
                         'class' => Company::class,
                         'label' => 'Entreprise',
+                        'choice_label' => 'name',
+                        'mapped' => false,
+                    ]);
+                }
+            })
+            ->addDependent('chefCompany', 'labelRole', function (DependentField $field, ?int $labelRole) {
+                if ($labelRole == 2) {
+                    $field->add(EntityType::class, [
+                        'class' => Company::class,
+                        'label' => 'Entreprise',
+                        'choice_label' => 'name',
+                        'mapped' => false,
+                    ]);
+                }
+            })
+            ->addDependent('maitreStage', 'labelRole', function (DependentField $field, ?int $labelRole) {
+                if ($labelRole == 5) {
+                    $field->add(EntityType::class, [
+                        'class' => Company::class,
+                        'label' => 'Entreprise',
+                        'choice_label' => 'name',
+                        'mapped' => false,
+                    ]);
+                }
+            })
+            ->addDependent('refEcole', 'labelRole', function (DependentField $field, ?int $labelRole) {
+                if ($labelRole == 4) {
+                    $field->add(EntityType::class, [
+                        'class' => School::class,
+                        'label' => 'Ecole',
                         'choice_label' => 'name',
                         'mapped' => false,
                     ]);
@@ -78,28 +99,64 @@ class PersonType extends AbstractType
             })
             ->addDependent('stagiaireRefEntrep', 'stagiaireCompany', function (DependentField $field, ?Company $company) {
                 if ($company != null) {
-                    $field->add(EntityType::class, [
-                        'class' => Person::class,
-                        'label' => 'Référent entreprise',
-                        'choice_label' => 'fullName',
-                        'mapped' => false,
-                    ]);
+                    // Obtenez toutes les personnes associées à l'entreprise
+                    $allPersons = $company->getPerson()->toArray();
+
+                    // Filtrez pour ne garder que celles avec le rôle ROLE_COMPANY_INTERNSHIP
+                    $filteredPersons = array_filter($allPersons, function ($person) {
+                        return in_array('ROLE_COMPANY_INTERNSHIP', $person->getRoles());
+                    });
+
+                    if (count($filteredPersons) == 0) {
+                        $field->add(ChoiceType::class, [
+                            'label' => 'Référent entreprise',
+                            'choices' => [
+                                'Aucun référent entreprise trouvé' => null,
+                            ],
+                            'mapped' => false,
+                        ]);
+                    } else {
+                        $field->add(ChoiceType::class, [
+                            'label' => 'Référent entreprise',
+                            'choices' => array_combine(
+                                array_map(function($person) { return $person->getFullName(); }, $filteredPersons),
+                                array_map(function($person) { return $person->getId(); }, $filteredPersons)
+                            ),
+                            'choice_label' => function ($choice, $key, $value) {
+                                // Since the choices are now the person's ID, the label is the person's full name which is the key in this context
+                                return $key;
+                            },
+                            'mapped' => false,
+                        ]);
+                    }
                 }
             })
             ->add('checkUser', ChoiceType::class, [
                 'label' => 'peut ce connecter ?',
-                'data' => true,
+                'data' => false,
                 'choices' => [
                     'Oui' => true,
                     'Non' => false,
                 ],
                 'mapped' => false,
             ])
-            ->addDependent('user', 'checkUser', function (DependentField $field, ?bool $checkUser) {
-                if ($checkUser === true) {
-                    $field->add(PasswordType::class, [
-                        'label' => 'Mot de passe : ',
+            ->addDependent('email', 'checkUser', function (DependentField $field, ?bool $checkUser) {
+                if ($checkUser) {
+                    $field->add(EmailType::class, [
+                        'label' => 'Email : ',
                         'attr' => ['class' => 'form-control'],
+                        'mapped' => false,
+                    ]);
+                }
+            })
+            ->addDependent('password', 'checkUser', function (DependentField $field, ?bool $checkUser) {
+                if ($checkUser) {
+                    $field->add(PasswordType::class, [
+                        'label' => 'Mot de passe',
+                        'help' => 'laissez vide, pour créer un mot de passe aléatoire',
+                        'attr' => ['placeholder' => 'laissez vide, pour créer un mot de passe aléatoire'],
+                        'required' => false,
+                        'mapped' => false,
                     ]);
                 }
             })

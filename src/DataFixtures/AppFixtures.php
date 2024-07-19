@@ -69,6 +69,7 @@ class AppFixtures extends Fixture
         $admin = new Person();
         $admin->setFirstName('admin');
         $admin->setLastName('Admined');
+        $admin->setRoles(['ROLE_SUPER_ADMIN']);
         $admin->setCreatedAt($date);
         $manager->persist($admin);
         $user = new User();
@@ -87,6 +88,7 @@ class AppFixtures extends Fixture
             $person = new Person();
             $person->setFirstName($this->faker->firstName());
             $person->setLastName($this->faker->lastName());
+            $person->setRoles(['ROLE_SCHOOL_INTERNSHIP']);
             $person->setCreatedAt($date);
             $person->setSchool($listSchool[array_rand($listSchool)]);
             $manager->persist($person);
@@ -109,6 +111,7 @@ class AppFixtures extends Fixture
             $person = new Person();
             $person->setFirstName($this->faker->firstName());
             $person->setLastName($this->faker->lastName());
+            $person->setRoles(['ROLE_ADMIN']);
             $person->setCreatedAt($date);
             $person->setCompany($listCompany[array_rand($listCompany)]);
             $manager->persist($person);
@@ -131,6 +134,7 @@ class AppFixtures extends Fixture
             $person = new Person();
             $person->setFirstName($this->faker->firstName());
             $person->setLastName($this->faker->lastName());
+            $person->setRoles(['ROLE_COMPANY_INTERNSHIP']);
             $person->setCreatedAt($date);
             $person->setCompany($listCompany[array_rand($listCompany)]);
             $person->setManager($listManager[array_rand($listManager)]->getPerson());
@@ -156,6 +160,7 @@ class AppFixtures extends Fixture
             $person = new Person();
             $person->setFirstName($this->faker->firstName());
             $person->setLastName($this->faker->lastName());
+            $person->setRoles(['ROLE_TRAINEE']);
             $person->setCreatedAt($date);
             $person->setSchoolSupervisor($listSchoolInternship[array_rand($listSchoolInternship)]->getPerson());
             $person->setInternshipSupervisor($listCompanyInternship[array_rand($listCompanyInternship)]->getPerson());

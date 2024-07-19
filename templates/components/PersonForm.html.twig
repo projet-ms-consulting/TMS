@@ -1,5 +1,77 @@
 <div{{ attributes }}>
     {{ form_start(form) }}
-
+        <table>
+            <tbody>
+                <tr>
+                    <th>{{ form_label(form.lastName) }}</th>
+                    <td>{{ form_widget(form.lastName) }}</td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.firstName) }}</th>
+                    <td>{{ form_widget(form.firstName) }}</td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(form.labelRole) }}</th>
+                    <td>{{ form_widget(form.labelRole) }}</td>
+                </tr>
+                {% if form.refCompany is defined %}
+                    <tr>
+                        <th>{{ form_label(form.refCompany) }}</th>
+                        <td>{{ form_widget(form.refCompany) }}</td>
+                    </tr>
+                {% endif %}
+                {% if form.stagiaireCompany is defined %}
+                    <tr>
+                        <th>{{ form_label(form.stagiaireCompany) }}</th>
+                        <td>{{ form_widget(form.stagiaireCompany) }}</td>
+                    </tr>
+                {% endif %}
+                {% if form.stagiaireRefEntrep is defined %}
+                    <tr>
+                        <th>{{ form_label(form.stagiaireRefEntrep) }}</th>
+                        <td>{{ form_widget(form.stagiaireRefEntrep) }}</td>
+                    </tr>
+                {% endif %}
+                {% if form.maitreStage is defined %}
+                    <tr>
+                        <th>{{ form_label(form.maitreStage) }}</th>
+                        <td>{{ form_widget(form.maitreStage) }}</td>
+                    </tr>
+                {% endif %}
+                {% if form.refEcole is defined %}
+                    <tr>
+                        <th>{{ form_label(form.refEcole) }}</th>
+                        <td>{{ form_widget(form.refEcole) }}</td>
+                    </tr>
+                {% endif %}
+                {% if form.chefCompany is defined %}
+                    <tr>
+                        <th>{{ form_label(form.chefCompany) }}</th>
+                        <td>{{ form_widget(form.chefCompany) }}</td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <th>{{ form_label(form.checkUser) }}</th>
+                    <td>{{ form_widget(form.checkUser) }}</td>
+                </tr>
+                {% if form.email is defined %}
+                    <tr>
+                        <th>{{ form_label(form.email) }}</th>
+                        <td>{{ form_widget(form.email) }}</td>
+                    </tr>
+                {% endif %}
+                {% if form.password is defined %}
+                    <tr>
+                        <th>{{ form_label(form.password) }}</th>
+                        <td>{{ form_widget(form.password) }}</td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <td colspan="2">
+                        <button id="btn-submit" class="btn">Créer</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     {{ form_end(form) }}
 </div>

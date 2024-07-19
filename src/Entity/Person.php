@@ -91,6 +91,9 @@ class Person
     #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'companyReferent')]
     private Collection $companyReferents;
 
+    #[ORM\Column(nullable: true)]
+    private ?array $roles = null;
+
 
     public function __construct()
     {
@@ -480,6 +483,18 @@ class Person
                 $companyReferent->setCompanyReferent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRoles(): ?array
+    {
+        return $this->roles;
+    }
+
+    public function setRoles(?array $roles): static
+    {
+        $this->roles = $roles;
 
         return $this;
     }

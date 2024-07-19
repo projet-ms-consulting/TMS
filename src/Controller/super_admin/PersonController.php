@@ -4,6 +4,7 @@ namespace App\Controller\super_admin;
 
 use App\Entity\Files;
 use App\Entity\Person;
+use App\Entity\User;
 use App\Form\PersonType;
 use App\Repository\FilesRepository;
 use App\Repository\PersonRepository;
@@ -44,6 +45,9 @@ class PersonController extends AbstractController
         $personForm->handleRequest($request);
 
         if ($personForm->isSubmitted() && $personForm->isValid()) {
+            dump($personne);
+            dd($request->request->all());
+
             $personne->setCreatedAt(new \DateTimeImmutable());
             $personne->setLabelRole($personForm->get('labelRole')->getData());
 

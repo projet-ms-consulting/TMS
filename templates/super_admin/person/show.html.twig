@@ -22,14 +22,6 @@
                 {% endif %}
             </tr>
             <tr>
-                <th>Rôle : </th>
-                {% if personne.labelRole is empty %}
-                    <td>Rôle non défini</td>
-                {% else %}
-                    <td>{{ personne.labelRole }}</td>
-                {% endif %}
-            </tr>
-            <tr>
                 <th>Créé le :</th>
                 <td>{{ personne.createdAt ? personne.createdAt|date('d/m/Y H:i')}}</td>
             </tr>
