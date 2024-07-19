@@ -5,33 +5,6 @@
 {% block body %}
     <h1>Créer une personne</h1>
 
-    {{ form_start(personForm) }}
-    <table class="table">
-        <tbody>
-        <tr>
-            <th>{{ form_label(personForm.lastName) }}</th>
-            <td>{{ form_widget(personForm.lastName) }}</td>
-        </tr>
-        <tr>
-            <th>{{ form_label(personForm.firstName) }}</th>
-            <td>{{ form_widget(personForm.firstName) }}</td>
-        </tr>
-        <tr>
-            <th>{{ form_label(personForm.mailPerso) }}</th>
-            <td>{{ form_widget(personForm.mailPerso) }}</td>
-        </tr>
-        <tr>
-            <th>{{ form_label(personForm.mailPro) }}</th>
-            <td>{{ form_widget(personForm.mailPro) }}</td>
-        </tr>
-        <tr>
-            <th>{{ form_label(personForm.labelRole) }}</th>
-            <td>{{ form_widget(personForm.labelRole) }}</td>
-        </tr>
-    </table>
-    <div class="btnForm">
-        <a href="{{ path('super_admin_app_person_index') }} " class="btn-custom">Retour</a>
-        <button class="btn-custom">Créer</button>
-    </div>
-    {{ form_end(personForm) }}
+    <twig:PersonForm />
+
 {% endblock %}
