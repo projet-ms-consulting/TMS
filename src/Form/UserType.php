@@ -65,9 +65,7 @@ class UserType extends AbstractType
                     'expanded' => false,
                     'multiple' => false,
                     'attr' => ['class' => 'form-control'],
-                ]);
-                if ($person->getlabelRole() === 'Stagiaire' && $user->getRoles() === 'ROLE_TRAINEE') {
-                    $builder
+                ])
                         ->add('startInternship', DateType::class, [
                             'label' => 'Date début de stage :',
                             'mapped' => false,
@@ -207,7 +205,7 @@ class UserType extends AbstractType
 //                    }
 //                });
 
-    }
+
 
     public function configureOptions(OptionsResolver $resolver): void
     {

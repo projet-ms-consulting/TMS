@@ -45,11 +45,12 @@ class PersonController extends AbstractController
         $personForm->handleRequest($request);
 
         if ($personForm->isSubmitted() && $personForm->isValid()) {
-            dump($personne);
-            dd($request->request->all());
+//            dump($personne);
+//            dd($request->request->all());
 
             $personne->setCreatedAt(new \DateTimeImmutable());
-            $personne->setLabelRole($personForm->get('labelRole')->getData());
+
+
 
             $entityManager->persist($personne);
             $entityManager->flush();
