@@ -3,7 +3,7 @@
 {% block title %}Project index{% endblock %}
 
 {% block body %}
-    <h1>Project index</h1>
+    <h1>Liste des projets</h1>
 
     <a href="{{ path('super_admin_project_new') }}">Créer un nouveau project</a>
     <table class="table">
@@ -32,7 +32,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">no records found</td>
+                <td colspan="7">Aucun enregistrement</td>
             </tr>
         {% endfor %}
         </tbody>

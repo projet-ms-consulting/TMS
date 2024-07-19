@@ -116,16 +116,24 @@ class ProfilController extends AbstractController
     }
 
     #[Route('/profil/delete-cv/{id}', name: 'app_delete_cv')]
-    public function deleteCV(int $id, EntityManagerInterface $entityManager): Response
+    public function deleteCV(int $id, FilesRepository $filesRepository): Response
     {
-        $cv = $entityManager->getRepository(Files::class)->find($id);
+        $cv = $filesRepository->find($id);
 
         if (!$cv) {
             throw $this->createNotFoundException('Le CV avec l\'id '.$id.' n\'existe pas.');
         }
 
-        $entityManager->remove($cv);
-        $entityManager->flush();
+        $filePath = $this->getParameter('kernel.project_dir') . '/files/' . $cv->getPerson()->getId() . '/' . $cv->getFile();
+
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        } else {
+            $this->addFlash('error', 'Le fichier n\'existe pas ou a déjà été supprimé.');
+        }
+
+        $filesRepository->remove($cv);
+        $filesRepository->flush();
 
         $this->addFlash('success', 'CV supprimé avec succès.');
 
