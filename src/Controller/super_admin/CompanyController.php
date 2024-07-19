@@ -41,6 +41,10 @@ class CompanyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+//            $address = new Adresse();
+
+
             $company->setCreatedAt(new \DateTimeImmutable());
             $entityManager->persist($company);
             $entityManager->flush();
