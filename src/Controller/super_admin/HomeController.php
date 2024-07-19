@@ -2,8 +2,9 @@
 
 namespace App\Controller\super_admin;
 
-use App\Entity\Company;
+use App\Repository\PersonRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -11,8 +12,13 @@ use Symfony\Component\Routing\Attribute\Route;
 class HomeController extends AbstractController
 {
     #[Route('', name: 'home')]
-    public function index(): Response
+    public function index(PersonRepository $personRepository, Security $security): Response
     {
-        return $this->render('super_admin/home/index.html.twig');
+        $user = $this->getUser();
+        $person = $user->getPerson();
+
+        return $this->render('super_admin/home/index.html.twig', [
+            'person' => $person,
+        ]);
     }
 }

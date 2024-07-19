@@ -31,7 +31,7 @@ class TestMailController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $email = (new Email())
-                ->from('noreply@msconsulting.com')
+                ->from('noreply@msconsulting-europe.com')
                 ->to('testMail@msconsulting-europe.com')
                 ->subject('Test de mail')
                 ->html('<p>Ceci est un test</p>');
