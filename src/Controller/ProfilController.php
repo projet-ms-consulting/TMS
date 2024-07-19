@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Files;
 use App\Entity\Person;
-use App\Entity\User;
 use App\Form\ProfilType;
 use App\Repository\FilesRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -44,7 +43,7 @@ class ProfilController extends AbstractController
             $lastName = $form->get('lastName')->getData();
             $cvFile = $form->get('cv')->getData();
             $cvType = $form->get('cvType')->getData();
-//            $profilePictureFile = $form->get('profilePicture')->getData();
+            //            $profilePictureFile = $form->get('profilePicture')->getData();
 
             if ($firstName) {
                 $person->setFirstName($firstName);
@@ -56,12 +55,11 @@ class ProfilController extends AbstractController
 
             if ($cvFile) {
                 $originalFilename = pathinfo($cvFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $newFilename = $originalFilename . '-' . md5(uniqid()) . '.' . $cvFile->guessExtension();
+                $newFilename = $originalFilename.'-'.md5(uniqid()).'.'.$cvFile->guessExtension();
 
                 try {
-
                     $cvFile->move(
-                        $this->getParameter('kernel.project_dir') . '/files/' . $person->getId(),
+                        $this->getParameter('kernel.project_dir').'/files/'.$person->getId(),
                         $newFilename
                     );
 
@@ -73,30 +71,29 @@ class ProfilController extends AbstractController
                     $cv->setPerson($person);
 
                     $entityManager->persist($cv);
-
-                } catch (FileException | \UnexpectedValueException $e) {
+                } catch (FileException|\UnexpectedValueException $e) {
                     $this->addFlash('error', $e->getMessage());
 
                     return $this->redirectToRoute('app_profil_edit');
                 }
             }
 
-//            if ($profilePictureFile) {
-//                $originalFilename = pathinfo($profilePictureFile->getClientOriginalName(), PATHINFO_FILENAME);
-//                $newFilename = $originalFilename . '-' . uniqid() . '.' . $profilePictureFile->guessExtension();
-//
-//                try {
-//                    $profilePictureFile->move(
-//                        self::FILES_DIRECTORY,
-//                        $newFilename
-//                    );
-//
-//                    $person->setProfilePicture($newFilename);
-//                } catch (FileException $e) {
-//                    $this->addFlash('error', 'Erreur lors du téléchargement de la photo de profil.');
-//                    return $this->redirectToRoute('app_profil_edit');
-//                }
-//            }
+            //            if ($profilePictureFile) {
+            //                $originalFilename = pathinfo($profilePictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+            //                $newFilename = $originalFilename . '-' . uniqid() . '.' . $profilePictureFile->guessExtension();
+            //
+            //                try {
+            //                    $profilePictureFile->move(
+            //                        self::FILES_DIRECTORY,
+            //                        $newFilename
+            //                    );
+            //
+            //                    $person->setProfilePicture($newFilename);
+            //                } catch (FileException $e) {
+            //                    $this->addFlash('error', 'Erreur lors du téléchargement de la photo de profil.');
+            //                    return $this->redirectToRoute('app_profil_edit');
+            //                }
+            //            }
 
             $newPassword = $form->get('password')->getData();
             if ($newPassword) {
@@ -147,7 +144,8 @@ class ProfilController extends AbstractController
     public function showFile(Person $person, $name, FilesRepository $filesRepository): Response
     {
         $file = $filesRepository->findOneBy(['person' => $person->getId(), 'realFileName' => $name]);
-        $filePath = $this->getParameter('kernel.project_dir') . '/files/' . $file->getPerson()->getId() . '/' . $file->getFile();
+        $filePath = $this->getParameter('kernel.project_dir').'/files/'.$file->getPerson()->getId().'/'.$file->getFile();
+
         return $this->file($filePath, $file->getFile(), ResponseHeaderBag::DISPOSITION_INLINE);
     }
 }

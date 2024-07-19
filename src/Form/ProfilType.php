@@ -42,16 +42,16 @@ class ProfilType extends AbstractType
                 'label' => 'Télécharger un fichier (PDF ou JPG)',
                 'mapped' => false,
                 'required' => false,
-//                'constraints' => [
-//                    new File([
-//                        'maxSize' => '1024k',
-//                        'mimeTypes' => [
-////                            'application/pdf',
-////                            'image/jpeg',
-//                        ],
-//                        'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF ou JPG valide.',
-//                    ])
-//                ],
+                //                'constraints' => [
+                //                    new File([
+                //                        'maxSize' => '1024k',
+                //                        'mimeTypes' => [
+                // //                            'application/pdf',
+                // //                            'image/jpeg',
+                //                        ],
+                //                        'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF ou JPG valide.',
+                //                    ])
+                //                ],
             ])
             ->add('cvType', ChoiceType::class, [
                 'label' => 'Type de fichier',
@@ -62,25 +62,23 @@ class ProfilType extends AbstractType
                     'Convention de stage' => 'Convention de stage',
                     'Autre document' => 'Autre document',
                 ],
-            ]) ;
+            ]);
 
-
-//        ->add('profilePicture', FileType::class, [
-//        'label' => 'Photo de profil',
-//        'mapped' => false,
-//        'required' => false,
-//        'constraints' => [
-//            new File([
-//                'maxSize' => '1024k',
-//                'mimeTypes' => [
-//                    'image/jpeg',
-//                    'image/png',
-//                ],
-//                'mimeTypesMessage' => 'Veuillez télécharger une image JPEG ou PNG valide.',
-//            ])
-//        ],
-//    ]);
-
+        //        ->add('profilePicture', FileType::class, [
+        //        'label' => 'Photo de profil',
+        //        'mapped' => false,
+        //        'required' => false,
+        //        'constraints' => [
+        //            new File([
+        //                'maxSize' => '1024k',
+        //                'mimeTypes' => [
+        //                    'image/jpeg',
+        //                    'image/png',
+        //                ],
+        //                'mimeTypesMessage' => 'Veuillez télécharger une image JPEG ou PNG valide.',
+        //            ])
+        //        ],
+        //    ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
