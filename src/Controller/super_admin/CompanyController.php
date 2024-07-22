@@ -2,6 +2,7 @@
 
 namespace App\Controller\super_admin;
 
+use App\Entity\Address;
 use App\Entity\Company;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
@@ -36,14 +37,31 @@ class CompanyController extends AbstractController
     {
         $company = new Company();
         $user = $this->getUser();
-        $personne = $user->getPerson();
+        $person = $user->getPerson();
         $form = $this->createForm(CompanyType::class, $company);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $address = $data->getAddress();
 
-//            $address = new Adresse();
+            if ($address) {
+                $company->setAddress($address);
+            } else {
+                $nbStreet = $form->get('nbStreet')->getData();
+                $street = $form->get('street')->getData();
+                $city = $form->get('city')->getData();
+                $zipCode = $form->get('zipCode')->getData();
 
+                $newAddress = new Address();
+                $newAddress->setNbStreet($nbStreet);
+                $newAddress->setStreet($street);
+                $newAddress->setCity($city);
+                $newAddress->setZipCode($zipCode);
+
+                $entityManager->persist($newAddress);
+                $company->setAddress($newAddress);
+            }
 
             $company->setCreatedAt(new \DateTimeImmutable());
             $entityManager->persist($company);
@@ -55,7 +73,7 @@ class CompanyController extends AbstractController
         return $this->render('super_admin/company/new.html.twig', [
             'company' => $company,
             'form' => $form->createView(),
-            'person' => $personne,
+            'person' => $person,
         ]);
     }
 
