@@ -54,7 +54,10 @@
 
     </table>
 
-    <button type="submit" class="btn btn-primary">Modifier</button>
-    <a href="{{ path('app_profil_edit') }}" class="btn btn-secondary">Retour</a>
+    <div class="button-container">
+        <a href="{{ path('app_profil') }}" class="btn btn-primary back-btn">Retour</a>
+        <button type="submit" class="btn btn-primary">Modifier</button>
+    </div>
+
     {{ form_end(form) }}
 {% endblock %}

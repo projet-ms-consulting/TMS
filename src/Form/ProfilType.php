@@ -42,16 +42,16 @@ class ProfilType extends AbstractType
                 'label' => 'Télécharger un fichier (PDF ou JPG)',
                 'mapped' => false,
                 'required' => false,
-                //                'constraints' => [
-                //                    new File([
-                //                        'maxSize' => '1024k',
-                //                        'mimeTypes' => [
-                // //                            'application/pdf',
-                // //                            'image/jpeg',
-                //                        ],
-                //                        'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF ou JPG valide.',
-                //                    ])
-                //                ],
+                                'constraints' => [
+                                    new File([
+                                        'maxSize' => '1024k',
+                                        'mimeTypes' => [
+                                             'application/pdf',
+                                             'image/jpeg',
+                                        ],
+                                        'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF ou JPG valide.',
+                                    ])
+                                ],
             ])
             ->add('cvType', ChoiceType::class, [
                 'label' => 'Type de fichier',

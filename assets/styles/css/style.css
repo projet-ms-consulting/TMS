@@ -230,3 +230,21 @@ label.required:after {
   /*background-color: #555;*/
   color: red;
 }
+
+.delete-cv-btn {
+  display: inline-block;
+  color: #333;
+  background-color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 2px solid #333;
+  text-decoration: none;
+  font-family: 'DM Sans', sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.delete-cv-btn:hover {
+  background-color: #c82333;
+  color: #fff;
+  border: 2px solid #c82333;
+}

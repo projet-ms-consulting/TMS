@@ -82,3 +82,33 @@
 input, select, textarea {
     color: black !important;
 }
+
+.btn-primary {
+    background-color: dimgrey;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary:hover {
+    background-color: goldenrod;
+}
+
+.back-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: dimgrey;
+    color: white;
+    border: none;
+    text-decoration: none;
+}
+
+.back-btn:hover {
+    background-color: goldenrod;
+    color: white;
+}

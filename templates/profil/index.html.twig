@@ -15,15 +15,20 @@
         <ul>
             {% for file in person.files %}
                 <li>
-                    <a href="{{ path('app_file_show',{ id: person.id, name: file.realFileName}) }}" target="_blank" class="file-link">{{ file.realFileName }}</a>
+                    <a href="{{ path('app_file_show', { id: file.id, name: file.realFileName }) }}" target="_blank" class="file-link">{{ file.realFileName }}</a>
                     - <span class="file-label">{{ file.label }}</span>
-                    {% dump(file.realFileName|split('.')|last) %}
+
                     {% if file.realFileName|split('.')|last == 'pdf' %}
-                        <embed src="{{ path('app_file_show', {id: person.id, name: file.realFilename}) }}" style="min-width: 100%" height="500">
+                        <embed src="{{ path('app_file_show', { id: file.id, name: file.realFileName }) }}" type="application/pdf" style="min-width: 100%" height="500">
+                    {% elseif file.realFileName|split('.')|last in ['jpg', 'jpeg', 'png'] %}
+                        <img src="{{ path('app_file_show', { id: file.id, name: file.realFileName }) }}" alt="{{ file.realFileName }}" style="max-width: 100%; height: auto;">
                     {% else %}
-                        <img src="{{ path('app_file_show', {id: person.id, name: file.realFilename}) }}" alt="Photo de profil" style="min-width: 100%">
+                        <span>Type de fichier non supporté.</span>
                     {% endif %}
-                    
+
+                    <form action="{{ path('app_delete_cv', { id: file.id }) }}" method="post" style="display: inline;">
+                        <button type="submit" class="delete-cv-btn" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce fichier ?');">Supprimer</button>
+                    </form>
 
                 </li>
             {% endfor %}

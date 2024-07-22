@@ -43,7 +43,6 @@ class ProfilController extends AbstractController
             $lastName = $form->get('lastName')->getData();
             $cvFile = $form->get('cv')->getData();
             $cvType = $form->get('cvType')->getData();
-            //            $profilePictureFile = $form->get('profilePicture')->getData();
 
             if ($firstName) {
                 $person->setFirstName($firstName);
@@ -73,27 +72,9 @@ class ProfilController extends AbstractController
                     $entityManager->persist($cv);
                 } catch (FileException|\UnexpectedValueException $e) {
                     $this->addFlash('error', $e->getMessage());
-
                     return $this->redirectToRoute('app_profil_edit');
                 }
             }
-
-            //            if ($profilePictureFile) {
-            //                $originalFilename = pathinfo($profilePictureFile->getClientOriginalName(), PATHINFO_FILENAME);
-            //                $newFilename = $originalFilename . '-' . uniqid() . '.' . $profilePictureFile->guessExtension();
-            //
-            //                try {
-            //                    $profilePictureFile->move(
-            //                        self::FILES_DIRECTORY,
-            //                        $newFilename
-            //                    );
-            //
-            //                    $person->setProfilePicture($newFilename);
-            //                } catch (FileException $e) {
-            //                    $this->addFlash('error', 'Erreur lors du téléchargement de la photo de profil.');
-            //                    return $this->redirectToRoute('app_profil_edit');
-            //                }
-            //            }
 
             $newPassword = $form->get('password')->getData();
             if ($newPassword) {
@@ -105,7 +86,6 @@ class ProfilController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Profil mis à jour avec succès.');
-
             return $this->redirectToRoute('app_profil');
         }
 
@@ -116,7 +96,7 @@ class ProfilController extends AbstractController
     }
 
     #[Route('/profil/delete-cv/{id}', name: 'app_delete_cv')]
-    public function deleteCV(int $id, FilesRepository $filesRepository): Response
+    public function deleteCV(int $id, FilesRepository $filesRepository, EntityManagerInterface $entityManager): Response
     {
         $cv = $filesRepository->find($id);
 
@@ -132,20 +112,29 @@ class ProfilController extends AbstractController
             $this->addFlash('error', 'Le fichier n\'existe pas ou a déjà été supprimé.');
         }
 
-        $filesRepository->remove($cv);
-        $filesRepository->flush();
+        $entityManager->remove($cv);
+        $entityManager->flush();
 
         $this->addFlash('success', 'CV supprimé avec succès.');
-
         return $this->redirectToRoute('app_profil');
     }
 
     #[Route('/profil/file/{id}/{name}', name: 'app_file_show', methods: ['GET'])]
-    public function showFile(Person $person, $name, FilesRepository $filesRepository): Response
+    public function showFile(int $id, string $name, FilesRepository $filesRepository): Response
     {
-        $file = $filesRepository->findOneBy(['person' => $person->getId(), 'realFileName' => $name]);
+        $file = $filesRepository->find($id);
+
+        if (!$file || $file->getRealFileName() !== $name) {
+            throw $this->createNotFoundException('Fichier non trouvé.');
+        }
+
         $filePath = $this->getParameter('kernel.project_dir').'/files/'.$file->getPerson()->getId().'/'.$file->getFile();
 
-        return $this->file($filePath, $file->getFile(), ResponseHeaderBag::DISPOSITION_INLINE);
+        if (!file_exists($filePath)) {
+            throw $this->createNotFoundException('Le fichier demandé n\'existe pas.');
+        }
+
+        $mimeType = mime_content_type($filePath);
+        return $this->file($filePath, $file->getFile(), ResponseHeaderBag::DISPOSITION_INLINE, ['Content-Type' => $mimeType]);
     }
 }
