@@ -8,12 +8,6 @@
 
         <a href="{{ path('app_profil_edit') }}" class="btn btn-primary edit-profile-btn">Modifier mon profil</a>
 
-{#        {% if person.profilePicture %}#}
-{#            <div class="profile-picture">#}
-{#                <img src="{{ asset('assets/FilesDirectory/' ~ person.profilePicture) }}" alt="Photo de profil" style="max-width: 200px;">#}
-{#            </div>#}
-{#        {% endif %}#}
-
         <p class="profile-info">Nom    : {{ person.lastName }}</p>
         <p class="profile-info">Prenom : {{ person.firstName }}</p>
         <p class="profile-info">Email  : {{ user.email }}</p>

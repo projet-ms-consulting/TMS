@@ -64,21 +64,6 @@ class ProfilType extends AbstractType
                 ],
             ]);
 
-        //        ->add('profilePicture', FileType::class, [
-        //        'label' => 'Photo de profil',
-        //        'mapped' => false,
-        //        'required' => false,
-        //        'constraints' => [
-        //            new File([
-        //                'maxSize' => '1024k',
-        //                'mimeTypes' => [
-        //                    'image/jpeg',
-        //                    'image/png',
-        //                ],
-        //                'mimeTypesMessage' => 'Veuillez télécharger une image JPEG ou PNG valide.',
-        //            ])
-        //        ],
-        //    ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
