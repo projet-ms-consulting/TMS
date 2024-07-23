@@ -6,7 +6,9 @@
     <div class="profile-page">
         <h1 class="profile-title">Mon Profil</h1>
 
-        <a href="{{ path('app_profil_edit') }}" class="btn btn-primary edit-profile-btn">Modifier mon profil</a>
+        <div class="edit-profile-btn-container">
+            <a href="{{ path('app_profil_edit') }}" class="btn btn-primary edit-profile-btn">Modifier mon profil</a>
+        </div>
 
         <p class="profile-info">Nom    : {{ person.lastName }}</p>
         <p class="profile-info">Prenom : {{ person.firstName }}</p>
