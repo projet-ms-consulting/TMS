@@ -12,9 +12,10 @@
             <tr>
                 <th>{{ knp_pagination_sortable(personne, 'Prénom', 'p.firstName') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Nom', 'p.lastName') }}</th>
-                <th>{{ knp_pagination_sortable(personne, 'Date de création', 'p.createdAt') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Rôle', 'p.roles') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'S\'est déjà connecté ?', 'u.everLoggedIn') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Peut se connecter ?', 'u.canLogin') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Date de mise à jour', 'p.updatedAt') }}</th>
-{#                <th>{{ knp_pagination_sortable(personne, 's\'est déjà connecté ?', 'u.everLoggedIn') }}</th>#}
                 <th>Actions</th>
             </tr>
         </thead>
@@ -24,13 +25,42 @@
             <tr>
                 <td>{{ person.firstName }}</td>
                 <td>{{ person.lastName }}</td>
-                <td>{{ person.createdAt ? person.createdAt|date('d/m/Y')}}</td>
+                {% if person.role is defined and person.role=='ROLE_SUPER_ADMIN' %}
+                    <td>Super Admin</td>
+                {% else %}
+                    {% if person.role is defined and person.role=='ROLE_ADMIN' %}
+                        <td>Chef d'entreprise</td>
+                    {% else %}
+                        {% if person.role is defined and person.role=='ROLE_COMPANY_INTERNSHIP'%}
+                            <td>Maître de stage</td>
+                        {% else %}
+                            {% if person.role is defined and person.role=='ROLE_COMPANY_REFERENT' %}
+                                <td>Référent entreprise</td>
+                            {% else %}
+                                {% if person.role is defined and person.role=='ROLE_SCHOOL_INTERNSHIP' %}
+                                    <td>Référent école</td>
+                                {% else %}
+                                    {% if person.role is defined and person.role=='ROLE_TRAINEE' %}
+                                        <td>Stagiaire</td>
+                                    {% else %}
+                                        <td>Autre</td>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                {% if person.user != null and person.user.everLoggedIn %}
+                    <td>Oui</td>
+                {% else %}
+                    <td>Non</td>
+                {% endif %}
+                {% if person.user != null and person.user.canLogin %}
+                    <td>Oui</td>
+                {% else %}
+                    <td>Non</td>
+                {% endif %}
                 <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y')}}</td>
-{#                {% if person.user != null and person.user.everLoggedIn %}#}
-{#                    <td>Oui</td>#}
-{#                {% else %}#}
-{#                    <td>Non</td>#}
-{#                {% endif %}#}
                 <td>
                     <a href="{{ path('super_admin_app_person_show', {'id': person.id}) }}">Voir</a>
                     <a href="{{ path('super_admin_app_person_edit', {'id': person.id}) }}">Modifier</a>

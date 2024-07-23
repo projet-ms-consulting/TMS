@@ -15,7 +15,11 @@ class HomeController extends AbstractController
     public function index(PersonRepository $personRepository, Security $security): Response
     {
         $user = $this->getUser();
-        $person = $user->getPerson();
+        if (null === $user) {
+            return $this->redirectToRoute('app_login');
+        } else {
+            $person = $user->getPerson();
+        }
 
         return $this->render('home/index.html.twig', [
             'person' => $person,

@@ -1,9 +1,9 @@
 {% extends 'super_admin.html.twig' %}
 
-{% block title %}Modifier{% endblock %}
+{% block title %}Modifier l'employé d'entreprise{% endblock %}
 
 {% block body %}
-    <h1>Modifier </h1>
+    <h1>Modifier</h1>
     <div>
         {{ form_start(personForm) }}
             {{ form_row(personForm.firstName)}}
@@ -15,5 +15,5 @@
 
     <a href="{{ path('super_admin_app_school_employee_index') }}">Retour</a>
 
-    {{ include('super_admin/school/_delete_form.html.twig') }}
+    {{ include('super_admin/school_employee/_delete_form.html.twig') }}
 {% endblock %}
