@@ -15,8 +15,6 @@
                 <th>{{ knp_pagination_sortable(personne, 'Manager', 'm.lastName') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Référent entreprise', 'cr.lastName') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Maître de stage', 'i.lastName') }}</th>
-                <th>{{ knp_pagination_sortable(personne, 'Mail perso', 'p.mailPerso') }}</th>
-                <th>{{ knp_pagination_sortable(personne, 'Mail pro', 'p.mailPro') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Début de stage', 'p.startInternship') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Fin de stage', 'p.endInternship') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Modifié le', 'p.updatedAt') }}</th>
@@ -57,16 +55,6 @@
                     <td>{{ person.internshipSupervisor.firstName }} {{ person.internshipSupervisor.lastName }}</td>
                 {% else %}
                     <td>Pas de maître de stage</td>
-                {% endif %}
-                {% if person.mailPerso is defined and person.mailPerso is not null %}
-                    <td>{{ person.mailPerso }}</td>
-                {% else %}
-                    <td></td>
-                {% endif %}
-                {% if person.mailPro is defined and person.mailPro is not null %}
-                    <td>{{ person.mailPro }}</td>
-                {% else %}
-                    <td></td>
                 {% endif %}
                 <td>{{ person.startInternship ? person.startInternship|date('d/m/Y')}}</td>
                 <td>{{ person.endInternship ? person.endInternship|date('d/m/Y')}}</td>

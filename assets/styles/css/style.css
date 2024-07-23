@@ -104,10 +104,12 @@ label.required:after {
   border-radius: 10px;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
 }
+
 .btnForm {
   display: flex;
   justify-content: space-around;
 }
+
 .btn-custom {
   display: inline-block;
   color: whitesmoke;
@@ -131,15 +133,22 @@ label.required:after {
   background-color: rgba(51, 51, 51, 0.8);
   padding: 20px;
   border-radius: 10px;
-  max-width: 600px;
-  margin: auto;
+  width: 1000px;
+  margin: 20px auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  text-align: center;
 }
 
 .profile-title {
   color: #fff;
   font-size: 2em;
   text-align: center;
+  margin-bottom: 20px;
+}
+
+.edit-profile-btn-container {
+  display: flex;
+  justify-content: center;
   margin-bottom: 20px;
 }
 
@@ -152,10 +161,17 @@ label.required:after {
   padding: 10px 20px;
   border-radius: 5px;
   text-decoration: none;
+  width: auto;
+  max-width: 200px;
+}
+
+.edit-profile-btn:hover {
+  background-color: goldenrod;
+  color: whitesmoke;
 }
 
 .profile-info {
-  color: #fff;
+  color: whitesmoke;
   font-size: 1.2em;
   margin-bottom: 10px;
 }
@@ -175,24 +191,24 @@ label.required:after {
   color: whitesmoke;
 }
 
-.edit-profile-btn:hover {
-  background-color: goldenrod;
-  color: whitesmoke;
-}
-
 .delete-cv-btn {
   display: inline-block;
   margin-left: 10px;
+  margin-top: 10px;
   color: #fff;
   background-color: grey;
   padding: 5px 10px;
   border-radius: 5px;
   text-decoration: none;
+  /*border: 2px solid #333;*/
+  font-family: 'DM Sans', sans-serif;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .delete-cv-btn:hover {
   background-color: #c82333;
   color: #fff;
+  border: 2px solid #c82333;
 }
 
 .file-link {
@@ -229,22 +245,4 @@ label.required:after {
 .toggle-password-btn:hover {
   /*background-color: #555;*/
   color: red;
-}
-
-.delete-cv-btn {
-  display: inline-block;
-  color: #333;
-  background-color: #fff;
-  padding: 5px 10px;
-  border-radius: 5px;
-  border: 2px solid #333;
-  text-decoration: none;
-  font-family: 'DM Sans', sans-serif;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.delete-cv-btn:hover {
-  background-color: #c82333;
-  color: #fff;
-  border: 2px solid #c82333;
 }

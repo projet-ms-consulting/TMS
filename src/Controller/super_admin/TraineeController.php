@@ -3,10 +3,8 @@
 namespace App\Controller\super_admin;
 
 use App\Entity\Person;
-use App\Form\PersonType;
 use App\Form\TraineeRoleType;
 use App\Form\TraineeType;
-use App\Form\UserType;
 use App\Repository\PersonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -88,7 +86,7 @@ class TraineeController extends AbstractController
         return $this->render('super_admin/trainee/edit.html.twig', [
             'personne' => $person,
             'form' => $traineeForm->createView(),
-            'person' => $personne
+            'person' => $personne,
         ]);
     }
 

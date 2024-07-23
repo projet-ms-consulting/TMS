@@ -1,6 +1,6 @@
 {% extends 'super_admin.html.twig' %}
 
-{% block title %}School{% endblock %}
+{% block title %}Détails de l'école{% endblock %}
 
 {% block body %}
     <h1>École</h1>
@@ -13,12 +13,12 @@
                 <td>{{ school.name }}</td>
             </tr>
             <tr>
-                <th>Addresse</th>
+                <th>Adresse</th>
                 <td>
                     {% if school.address is defined %}
                         <a href="{{ path('super_admin_address_show', {'id': school.address.id}) }}">{{ school.address.fullAddress }}</a>
                     {% else %}
-                        <b style="color: red">Aucune addresse</b>
+                        <b style="color: red">Aucune adresse</b>
                     {% endif %}
                 </td>
             </tr>

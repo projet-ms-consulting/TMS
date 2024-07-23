@@ -22,7 +22,7 @@
                 <th>{{ form_label(form.roles) }}</th>
                 <td>{{ form_widget(form.roles) }}</td>
             </tr>
-            {% if person.labelRole == 'Stagiaire' or person.labelRole is not defined%}
+            {% if person.roles == 'Stagiaire' or person.roles is not defined%}
             <tr>
                 <th>{{ form_label(form.startInternship) }}</th>
                 <td>{{ form_widget(form.startInternship) }}</td>

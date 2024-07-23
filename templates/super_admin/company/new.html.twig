@@ -32,9 +32,11 @@
     </div>
 
     <div class="center-btn-container">
+        <a href="{{ path('super_admin_app_company_index') }}" class="btn btn-primary back-btn">Retour</a>
         <button type="submit" class="btn btn-primary">Créer</button>
     </div>
     {{ form_end(form) }}
 
-    <a href="{{ path('super_admin_app_company_index') }}">Retour à la liste</a>
+
+
 {% endblock %}
