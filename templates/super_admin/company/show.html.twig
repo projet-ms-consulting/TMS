@@ -5,28 +5,37 @@
 {% block body %}
     <h1>Détails de l'entreprise</h1>
 
-    <table class="table">
+    <table class="table table-show">
         <tbody>
         <tr>
-            <th>Nom</th>
-            <td>{{ company.name }}</td>
+            <th class="table-show">Nom</th>
+            <td class="table-show">{{ company.name }}</td>
         </tr>
         <tr>
-            <th>Type d'entreprise</th>
-            <td>{{ company.companyType }}</td>
+            <th class="table-show">Type d'entreprise</th>
+            <td class="table-show">{{ company.companyType }}</td>
         </tr>
+
         <tr>
-            <th>Date de création</th>
-            <td>{{ company.createdAt ? company.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            <th class="table-show">Adresse</th>
+            <td class="table-show">{{ company.address.fullAddress }}</td>
         </tr>
+
         <tr>
-            <th>Date de mise à jour</th>
-            <td>{{ company.updatedAt ? company.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            <th class="table-show">Nombre d'employés</th>
+            <td class="table-show">{{ company.employeeNumber }}</td>
         </tr>
+
         <tr>
-            <th>Nombre d'employés</th>
-            <td>{{ company.employeeNumber }}</td>
+            <th>Dernière modification</th>
+            <td>{% if company.updatedAt != null %}
+                    {{ company.updatedAt|date('Y-m-d H:i:s') }}
+                {% else %}
+                    créé le : {{ company.createdAt|date('Y-m-d H:i:s')}}
+                {% endif %}
+            </td>
         </tr>
+
         </tbody>
     </table>
 

@@ -42,6 +42,7 @@
     margin-bottom: 20px;
     border-radius: 15px;
     overflow: hidden;
+    table-layout: auto;
 }
 
 .table th {
@@ -52,6 +53,7 @@
     padding: 12px;
     text-align: center;
     border: 2px solid grey;
+    width: auto;
 }
 
 .table td {
@@ -78,6 +80,56 @@
     background-color: #3e3e3e;
     transition: color 0.5s, background-color 0.5s;
 }
+
+.table td {
+    background-color: #333333;
+    color: whitesmoke;
+    padding: 12px;
+    text-align: left;
+    border: 2px solid dimgrey;
+}
+
+.table td a {
+    color: whitesmoke;
+    text-decoration: none;
+    font-size: large;
+}
+
+.table.table-show {
+    max-width: 60%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    overflow: hidden;
+    table-layout: auto;
+    border: 2px solid dimgrey;
+
+}
+
+.table.table-show th, .table.table-show td {
+    padding: 12px;
+    border: 2px solid grey;
+}
+
+.table.table-show th {
+    font-family: "Apple SD Gothic Neo";
+    font-size: larger;
+    background: dimgrey;
+    color: whitesmoke;
+    text-align: center;
+    width: auto;
+    border: 2px solid grey;
+}
+
+.table.table-show td {
+    background-color: #333333;
+    color: whitesmoke;
+    text-align: left;
+    border: 2px solid grey ;
+}
+
+
 
 input, select, textarea {
     color: black !important;
@@ -112,3 +164,10 @@ input, select, textarea {
     background-color: goldenrod;
     color: white;
 }
+
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+

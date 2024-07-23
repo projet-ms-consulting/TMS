@@ -1,4 +1,4 @@
 <form method="post" action="{{ path('super_admin_app_trainee_delete', {'id': person.id}) }}" onsubmit="return confirm('Êtes vous sûr de vouloir supprimer ce stagiaire ??');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ person.id) }}">
-    <button class="btn">Supprimer</button>
+    <button class="delete-cv-btn">Supprimer</button>
 </form>
