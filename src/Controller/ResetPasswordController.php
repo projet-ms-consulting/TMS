@@ -37,16 +37,14 @@ class ResetPasswordController extends AbstractController
     public function reset(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-
         if ($user instanceof PasswordAuthenticatedUserInterface && false === $user->isEverLoggedIn()) {
             $form = $this->createFormBuilder()
                 ->add('password', PasswordType::class)
                 ->getForm();
 
             $form->handleRequest($request);
-
             if ($form->isSubmitted() && $form->isValid()) {
-                $password = $form->getData();
+                $password = $form->getData()['password'];
 
                 // Encodez le nouveau mot de passe
                 $encodedPassword = $this->passwordHasher->hashPassword($user, $password);
@@ -68,7 +66,7 @@ class ResetPasswordController extends AbstractController
         }
 
         // Redirigez l'utilisateur vers la page d'accueil s'il a déjà été connecté
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRoute('app_accueil');
     }
 
     /**
@@ -103,9 +101,9 @@ class ResetPasswordController extends AbstractController
                         ->html('<p>Cliquez sur le lien suivant pour réinitialiser votre mot de passe : <a href="'.$this->generateUrl('app_reset_password_reset_with_token', ['token' => $token]).'">Réinitialiser mon mot de passe</a></p>');
 
                     $this->mailer->send($email);
-
                 }
                 $this->addFlash('success', 'Un e-mail de réinitialisation de mot de passe a été envoyé à votre adresse e-mail.');
+
                 return $this->redirectToRoute('app_login');
             }
         }

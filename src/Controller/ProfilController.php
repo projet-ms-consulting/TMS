@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Files;
-use App\Entity\Person;
 use App\Form\ProfilType;
 use App\Repository\FilesRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -72,6 +71,7 @@ class ProfilController extends AbstractController
                     $entityManager->persist($cv);
                 } catch (FileException|\UnexpectedValueException $e) {
                     $this->addFlash('error', $e->getMessage());
+
                     return $this->redirectToRoute('app_profil_edit');
                 }
             }
@@ -80,12 +80,14 @@ class ProfilController extends AbstractController
             if ($newPassword) {
                 $hashedPassword = $passwordHasher->hashPassword($user, $newPassword);
                 $user->setPassword($hashedPassword);
+                $user->setEverLoggedIn(true);
             }
 
             $entityManager->persist($person);
             $entityManager->flush();
 
             $this->addFlash('success', 'Profil mis à jour avec succès.');
+
             return $this->redirectToRoute('app_profil');
         }
 
@@ -104,7 +106,7 @@ class ProfilController extends AbstractController
             throw $this->createNotFoundException('Le CV avec l\'id '.$id.' n\'existe pas.');
         }
 
-        $filePath = $this->getParameter('kernel.project_dir') . '/files/' . $cv->getPerson()->getId() . '/' . $cv->getFile();
+        $filePath = $this->getParameter('kernel.project_dir').'/files/'.$cv->getPerson()->getId().'/'.$cv->getFile();
 
         if (file_exists($filePath)) {
             unlink($filePath);
@@ -116,6 +118,7 @@ class ProfilController extends AbstractController
         $entityManager->flush();
 
         $this->addFlash('success', 'CV supprimé avec succès.');
+
         return $this->redirectToRoute('app_profil');
     }
 
@@ -135,6 +138,7 @@ class ProfilController extends AbstractController
         }
 
         $mimeType = mime_content_type($filePath);
+
         return $this->file($filePath, $file->getFile(), ResponseHeaderBag::DISPOSITION_INLINE, ['Content-Type' => $mimeType]);
     }
 }

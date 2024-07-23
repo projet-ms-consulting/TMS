@@ -37,8 +37,6 @@ security:
     access_control:
         - { path: ^/super_admin, roles: ROLE_SUPER_ADMIN }
         - { path: ^/super_admin/*, roles: ROLE_SUPER_ADMIN }
-        - { path: ^/super_admin, roles: ROLE_SUPER_ADMIN }
-        - { path: ^/super_admin/*, roles: ROLE_SUPER_ADMIN }
         - { path: ^/profil, roles: ROLE_USER }
 
 when@test:

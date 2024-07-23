@@ -14,6 +14,7 @@ class Links
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'Links')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Project $Project = null;
 
     #[ORM\Column(length: 255, nullable: false)]

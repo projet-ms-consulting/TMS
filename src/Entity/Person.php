@@ -53,36 +53,39 @@ class Person
     private Collection $projects;
 
     #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'internshipSupervisors')]
-    #[ORM\JoinColumn(name: 'internship_supervisor_id', referencedColumnName: 'id', nullable: true)]
+    #[ORM\JoinColumn(name: 'internship_supervisor_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     private ?Person $internshipSupervisor = null;
 
     #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'internshipSupervisor')]
     private Collection $internshipSupervisors;
 
     #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'schoolSupervisors')]
-    #[ORM\JoinColumn(name: 'school_supervisor_id', referencedColumnName: 'id', nullable: true)]
+    #[ORM\JoinColumn(name: 'school_supervisor_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     private ?Person $schoolSupervisor = null;
 
     #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'schoolSupervisor')]
     private Collection $schoolSupervisors;
 
     #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'managers')]
-    #[ORM\JoinColumn(name: 'manager_id', referencedColumnName: 'id', nullable: true)]
+    #[ORM\JoinColumn(name: 'manager_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     private ?Person $manager = null;
 
     #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'manager')]
     private Collection $managers;
 
     #[ORM\ManyToOne(inversedBy: 'people')]
+    #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     private ?School $school = null;
 
     #[ORM\ManyToOne(inversedBy: 'person')]
+    #[ORM\JoinColumn(name: 'company_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     private ?Company $company = null;
 
     #[ORM\OneToOne(mappedBy: 'person', cascade: ['persist', 'remove'])]
     private ?User $user = null;
 
     #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'companyReferents')]
+    #[ORM\JoinColumn(name: 'company_referent_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     private ?Person $companyReferent = null;
 
     /**
@@ -93,7 +96,6 @@ class Person
 
     #[ORM\Column(nullable: true)]
     private ?array $roles = null;
-
 
     public function __construct()
     {
@@ -396,7 +398,6 @@ class Person
         return $this;
     }
 
-
     public function getSchool(): ?School
     {
         return $this->school;
@@ -421,7 +422,6 @@ class Person
         return $this;
     }
 
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -438,7 +438,6 @@ class Person
 
         return $this;
     }
-
 
     public function getFullName(): string
     {
@@ -498,6 +497,4 @@ class Person
 
         return $this;
     }
-
-
 }

@@ -49,8 +49,8 @@ class PersonController extends AbstractController
         $personForm->handleRequest($request);
 
         if ($personForm->isSubmitted() && $personForm->isValid()) {
-//            dump($personne);
-//            dd($request->request->all());
+            //            dump($personne);
+            //            dd($request->request->all());
             $personne->setCreatedAt(new \DateTimeImmutable());
 
             if ($personForm->has('companyReferent')) {
@@ -74,15 +74,15 @@ class PersonController extends AbstractController
             if ($personForm->has('stagiaireCompany')) {
                 $personne->setCompany($personForm->get('stagiaireCompany')->getData());
             }
-//           if ($personForm->has('stagiaireRefEntrep')) {
-//               $personne->setCompany($personForm->get('stagiaireRefEntrep')->getData());
-//           }
+            //           if ($personForm->has('stagiaireRefEntrep')) {
+            //               $personne->setCompany($personForm->get('stagiaireRefEntrep')->getData());
+            //           }
             if ($personForm->has('traineeSchool')) {
                 $personne->setSchool($personForm->get('traineeSchool')->getData());
             }
-//            if ($personForm->has('traineeRefSchool')) {
-//                $personne->setSchool($personForm->get('traineeRefSchool')->getData());
-//            }
+            //            if ($personForm->has('traineeRefSchool')) {
+            //                $personne->setSchool($personForm->get('traineeRefSchool')->getData());
+            //            }
 
             $roles = $personForm->get('roles')->getData();
             if (is_string($roles)) {
@@ -104,15 +104,14 @@ class PersonController extends AbstractController
                 $entityManager->persist($user);
             }
 
-
             // *************  Upload CV ***************
             if ($personForm->has('cv')) {
                 $cvFile = $personForm->get('cv')->getData();
                 if ($cvFile) {
-                    $cvFilename = 'CV.' . $personne->getFirstName() . '-' . $personne->getLastName() . '.' . $cvFile->guessExtension();
+                    $cvFilename = 'CV.'.$personne->getFirstName().'-'.$personne->getLastName().'.'.$cvFile->guessExtension();
                     $cvHash = hash('sha256', $cvFilename);
-                    $cvHashFile = $cvHash . '.' . $cvFile->guessExtension();
-                    $cvFile->move($this->getParameter('kernel.project_dir') . '/files/' , $cvFilename);
+                    $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
+                    $cvFile->move($this->getParameter('kernel.project_dir').'/files/', $cvFilename);
 
                     $file = new Files();
                     $file->setLabel('CV')
@@ -132,7 +131,7 @@ class PersonController extends AbstractController
                     $lmFilename = 'LM.'.$personne->getFirstName().'-'.$personne->getLastName().'.'.$lmFile->guessExtension();
                     $lmHash = hash('sha256', $lmFilename);
                     $lmHashFile = $lmHash.'.'.$lmFile->guessExtension();
-                    $lmFile->move($this->getParameter('kernel.project_dir') . '/files/' , $lmFilename);
+                    $lmFile->move($this->getParameter('kernel.project_dir').'/files/', $lmFilename);
 
                     $file = new Files();
                     $file->setLabel('LM')
@@ -149,10 +148,10 @@ class PersonController extends AbstractController
             if ($personForm->has('internshipAgreement')) {
                 $csFile = $personForm->get('internshipAgreement')->getData();
                 if ($csFile) {
-                    $csFilename = 'CS.' . $personne->getFirstName() . '-' . $personne->getLastName() . '.' . $csFile->guessExtension();
+                    $csFilename = 'CS.'.$personne->getFirstName().'-'.$personne->getLastName().'.'.$csFile->guessExtension();
                     $csHash = hash('sha256', $csFilename);
-                    $csHashFile = $csHash . '.' . $csFile->guessExtension();
-                    $csFile->move($this->getParameter('kernel.project_dir') . 'files/' , $csFilename);
+                    $csHashFile = $csHash.'.'.$csFile->guessExtension();
+                    $csFile->move($this->getParameter('kernel.project_dir').'files/', $csFilename);
 
                     $file = new Files();
                     $file->setLabel('CS')
@@ -166,7 +165,7 @@ class PersonController extends AbstractController
                 }
             }
             //            dump($personne);
-//            dd($request->request->all());
+            //            dd($request->request->all());
             $entityManager->persist($personne);
             $entityManager->flush();
             $this->addFlash('success', 'Création réussie !');
@@ -181,8 +180,7 @@ class PersonController extends AbstractController
             'files' => $personne->getFiles(),
             'roles' => $personne->getRoles(),
         ]);
-}
-
+    }
 
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Person $person, FilesRepository $file, EntityManagerInterface $entityManager, $id): Response
@@ -207,11 +205,10 @@ class PersonController extends AbstractController
             throw $this->createNotFoundException('File not found');
         }
 
-        $filePath = $this->getParameter('kernel.project_dir') . '/files/' . $file->getRealFileName();
+        $filePath = $this->getParameter('kernel.project_dir').'/files/'.$file->getRealFileName();
 
         return $this->file($filePath, $file->getRealFileName(), ResponseHeaderBag::DISPOSITION_INLINE);
     }
-
 
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Person $person, FilesRepository $file, EntityManagerInterface $entityManager): Response
@@ -230,7 +227,7 @@ class PersonController extends AbstractController
                 $oldFiles = $person->getFiles();
                 foreach ($oldFiles as $oldFile) {
                     if ('CV' == $oldFile->getLabel()) {
-                        $filePath = ($this->getParameter('kernel.project_dir') . '/files/' .$oldFile->getFile());
+                        $filePath = ($this->getParameter('kernel.project_dir').'/files/'.$oldFile->getFile());
                         if (file_exists($oldFile->getFile())) {
                             unlink($filePath);
                         }
@@ -241,24 +238,24 @@ class PersonController extends AbstractController
                 $cvFilename = 'CV.'.$person->getFirstName().'-'.$person->getLastName().'.'.$cvFile->guessExtension();
                 $cvHash = hash('sha256', $cvFilename);
                 $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
-                $cvFile->move($this->getParameter('kernel.project_dir') . '/files/', $cvFilename);
-                    $file = new Files();
-                    $file->setLabel('CV')
-                        ->setFile($cvHashFile)
-                        ->setCreatedAt(new \DateTimeImmutable())
-                        ->setUpdatedAt(new \DateTimeImmutable())
-                        ->setPerson($person)
-                        ->setRealFileName($cvFilename);
+                $cvFile->move($this->getParameter('kernel.project_dir').'/files/', $cvFilename);
+                $file = new Files();
+                $file->setLabel('CV')
+                    ->setFile($cvHashFile)
+                    ->setCreatedAt(new \DateTimeImmutable())
+                    ->setUpdatedAt(new \DateTimeImmutable())
+                    ->setPerson($person)
+                    ->setRealFileName($cvFilename);
 
-                    $entityManager->persist($file);
-                    $entityManager->flush();
+                $entityManager->persist($file);
+                $entityManager->flush();
             }
 
             if ($request->files->get('person')['coverLetter']) {
                 $oldFiles = $person->getFiles();
                 foreach ($oldFiles as $oldFile) {
                     if ('LM' == $oldFile->getLabel()) {
-                        $filePath = ($this->getParameter('kernel.project_dir') . '/files/' .$oldFile->getFile());
+                        $filePath = ($this->getParameter('kernel.project_dir').'/files/'.$oldFile->getFile());
                         if (file_exists($oldFile->getFile())) {
                             unlink($filePath);
                         }
@@ -269,24 +266,24 @@ class PersonController extends AbstractController
                 $lmFilename = 'LM.'.$person->getFirstName().'-'.$person->getLastName().'.'.$lmFile->guessExtension();
                 $cvHash = hash('sha256', $lmFilename);
                 $cvHashFile = $cvHash.'.'.$lmFile->guessExtension();
-                $lmFile->move($this->getParameter('kernel.project_dir') . '/files/' . $lmFilename);
-                    $file = new Files();
-                    $file->setLabel('LM')
-                        ->setFile($cvHashFile)
-                        ->setCreatedAt(new \DateTimeImmutable())
-                        ->setUpdatedAt(new \DateTimeImmutable())
-                        ->setPerson($person)
-                        ->setRealFileName($lmFilename);
+                $lmFile->move($this->getParameter('kernel.project_dir').'/files/'.$lmFilename);
+                $file = new Files();
+                $file->setLabel('LM')
+                    ->setFile($cvHashFile)
+                    ->setCreatedAt(new \DateTimeImmutable())
+                    ->setUpdatedAt(new \DateTimeImmutable())
+                    ->setPerson($person)
+                    ->setRealFileName($lmFilename);
 
-                    $entityManager->persist($file);
-                    $entityManager->flush();
+                $entityManager->persist($file);
+                $entityManager->flush();
             }
 
             if ($request->files->get('person')['internshipAgreement']) {
                 $oldFiles = $person->getFiles();
-                foreach ($oldFiles as $oldFile){
-                    if($oldFile->getLabel() == 'CS') {
-                        $filePath = ($this->getParameter('kernel.project_dir') . '/files/' . $oldFile->getFile());
+                foreach ($oldFiles as $oldFile) {
+                    if ('CS' == $oldFile->getLabel()) {
+                        $filePath = ($this->getParameter('kernel.project_dir').'/files/'.$oldFile->getFile());
                         if (file_exists($oldFile->getFile())) {
                             unlink($filePath);
                         }
@@ -294,20 +291,20 @@ class PersonController extends AbstractController
                     }
                 }
                 $csFile = $request->files->get('person')['internshipAgreement'];
-                $csFilename = 'CS.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $csFile->guessExtension();
+                $csFilename = 'CS.'.$person->getFirstName().'-'.$person->getLastName().'.'.$csFile->guessExtension();
                 $cvHash = hash('sha256', $csFilename);
-                $cvHashFile = $cvHash . '.' . $csFile->guessExtension();
-                $csFile->move($this->getParameter('kernel.project_dir') . '/files/' . $csFilename);
-                    $file = new Files();
-                    $file->setLabel('CS')
-                        ->setFile($cvHashFile)
-                        ->setCreatedAt(new \DateTimeImmutable())
-                        ->setUpdatedAt(new \DateTimeImmutable())
-                        ->setPerson($person)
-                        ->setRealFileName($csFilename);
+                $cvHashFile = $cvHash.'.'.$csFile->guessExtension();
+                $csFile->move($this->getParameter('kernel.project_dir').'/files/'.$csFilename);
+                $file = new Files();
+                $file->setLabel('CS')
+                    ->setFile($cvHashFile)
+                    ->setCreatedAt(new \DateTimeImmutable())
+                    ->setUpdatedAt(new \DateTimeImmutable())
+                    ->setPerson($person)
+                    ->setRealFileName($csFilename);
 
-                    $entityManager->persist($file);
-                    $entityManager->flush();
+                $entityManager->persist($file);
+                $entityManager->flush();
             }
 
             $entityManager->persist($personne);
@@ -333,6 +330,7 @@ class PersonController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$person->getId(), $request->getPayload()->get('_token'))) {
             $entityManager->remove($person);
             $user = $person->getUser();
+
             if ($user) {
                 $entityManager->remove($user);
             }
