@@ -53,23 +53,23 @@ class UserController extends AbstractController
             $user->setRoles($roles);
 
             // *************  Upload CV ***************
-            $cvFile = $userForm->get('cv')->getData();
-            if ($cvFile) {
-                $cvFilename = 'CV.'.$person->getFirstName().'-'.$person->getLastName().'.'.$cvFile->guessExtension();
-                $cvHash = hash('sha256', $cvFilename);
-                $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
-                $cvFile->move($this->getParameter('kernel.project_dir') . '/files/', $cvFilename);
-
-                $file = new Files();
-                $file->setLabel('CV')
-                    ->setFile($cvHashFile)
-                    ->setCreatedAt(new \DateTimeImmutable())
-                    ->setPerson($person)
-                    ->setRealFileName($cvFilename);
-
-                $entityManager->persist($file);
-                $entityManager->flush();
-            }
+//            $cvFile = $userForm->get('cv')->getData();
+//            if ($cvFile) {
+//                $cvFilename = 'CV.'.$person->getFirstName().'-'.$person->getLastName().'.'.$cvFile->guessExtension();
+//                $cvHash = hash('sha256', $cvFilename);
+//                $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
+//                $cvFile->move($this->getParameter('kernel.project_dir') . '/files/', $cvFilename);
+//
+//                $file = new Files();
+//                $file->setLabel('CV')
+//                    ->setFile($cvHashFile)
+//                    ->setCreatedAt(new \DateTimeImmutable())
+//                    ->setPerson($person)
+//                    ->setRealFileName($cvFilename);
+//
+//                $entityManager->persist($file);
+//                $entityManager->flush();
+//            }
 
             // *************  Upload Lettre de motivation ****************
             $lmFile = $userForm->get('coverLetter')->getData();

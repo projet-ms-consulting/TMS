@@ -1,6 +1,6 @@
 {% extends 'super_admin.html.twig' %}
 
-{% block title %}Person index{% endblock %}
+{% block title %}Employés d'école{% endblock %}
 
 {% block body %}
     <h1>Liste des employés d'école</h1>
@@ -12,7 +12,6 @@
                 <th>{{ knp_pagination_sortable(personne, 'Nom', 'p.lastName') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Ecole de référence', 's.name') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Adresse de l\'école', 'a.city') }}</th>
-                <th>{{ knp_pagination_sortable(personne, 'Email pro', 'p.mailPro') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Modifié le', 'p.updatedAt') }}</th>
                 <th>Actions</th>
             </tr>
@@ -25,11 +24,6 @@
                             <td>{{ person.lastName }}</td>
                             <td><a href="{{ path('super_admin_school_show', {'id': person.school.id}) }}">{{ person.school.name }}</a></td>
                             <td>{{ person.school.address.nbStreet }} {{ person.school.address.street }}, {{ person.school.address.zipCode }} {{ person.school.address.city }}</td>
-                            {% if person.mailPro is not null %}
-                                <td>{{ person.mailPro }}</td>
-                            {% else %}
-                                <td>Pas d'enregistrement</td>
-                            {% endif %}
                             <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y')}}</td>
                             <td>
                                 <a href="{{ path('super_admin_app_school_employee_show', {'id': person.id}) }}">Voir</a>

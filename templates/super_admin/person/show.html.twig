@@ -33,12 +33,12 @@
             </tr>
             <tr>
                 <th>Documents : </th>
-                {% if personne.files is empty %}
+                {% if person.files is empty %}
                     <td>Pas de document</td>
                 {% else %}
                     <td>
-                        {% for file in personne.files %}
-                            <a href="{{ asset('/files/' ~file.realFileName) }}" target="_blank">{{ file.label }}</a>
+                        {% for file in person.files %}
+                            <a href="{{ path('super_admin_app_person_show_file', {id: file.id}) }}" target="_blank">{{ file.label }}</a>
                         {% endfor %}
                     </td>
                 {% endif %}
@@ -51,7 +51,7 @@
     {% if personne.user %}
         <a href="{{ path('super_admin_app_person_edit', {'id': personne.id}) }}">Modifier</a>
     {% else %}
-        <a href="{{ path('super_admin_app_user_edit', {'id': personne.id}) }}">Modifier</a>
+        <a href="{{ path('super_admin_app_person_edit', {'id': personne.id}) }}">Modifier</a>
     {% endif %}
 
     {{ include('super_admin/person/_delete_form.html.twig') }}
