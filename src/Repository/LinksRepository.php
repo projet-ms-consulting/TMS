@@ -2,18 +2,18 @@
 
 namespace App\Repository;
 
-use App\Entity\OtherLinks;
+use App\Entity\Links;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<OtherLinks>
+ * @extends ServiceEntityRepository<Links>
  */
-class OtherLinksRepository extends ServiceEntityRepository
+class LinksRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, OtherLinks::class);
+        parent::__construct($registry, Links::class);
     }
 
     //    /**

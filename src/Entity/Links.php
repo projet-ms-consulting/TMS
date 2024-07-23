@@ -2,24 +2,24 @@
 
 namespace App\Entity;
 
-use App\Repository\OtherLinksRepository;
+use App\Repository\LinksRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: OtherLinksRepository::class)]
-class OtherLinks
+#[ORM\Entity(repositoryClass: LinksRepository::class)]
+class Links
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'otherLinks')]
+    #[ORM\ManyToOne(inversedBy: 'Links')]
     private ?Project $Project = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: false)]
     private ?string $label = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: false)]
     private ?string $link = null;
 
     public function getId(): ?int

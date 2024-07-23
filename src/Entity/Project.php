@@ -22,10 +22,8 @@ class Project
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $git = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(nullable: false)]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
@@ -38,15 +36,15 @@ class Project
     private Collection $person;
 
     /**
-     * @var Collection<int, OtherLinks>
+     * @var Collection<int, Links>
      */
-    #[ORM\OneToMany(targetEntity: OtherLinks::class, mappedBy: 'Project')]
-    private Collection $otherLinks;
+    #[ORM\OneToMany(targetEntity: Links::class, mappedBy: 'Project')]
+    private Collection $links;
 
     public function __construct()
     {
         $this->person = new ArrayCollection();
-        $this->otherLinks = new ArrayCollection();
+        $this->links = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -78,17 +76,6 @@ class Project
         return $this;
     }
 
-    public function getGit(): ?string
-    {
-        return $this->git;
-    }
-
-    public function setGit(?string $git): static
-    {
-        $this->git = $git;
-
-        return $this;
-    }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -139,29 +126,29 @@ class Project
     }
 
     /**
-     * @return Collection<int, OtherLinks>
+     * @return Collection<int, Links>
      */
     public function getOtherLinks(): Collection
     {
-        return $this->otherLinks;
+        return $this->links;
     }
 
-    public function addOtherLink(OtherLinks $otherLink): static
+    public function addOtherLink(Links $link): static
     {
-        if (!$this->otherLinks->contains($otherLink)) {
-            $this->otherLinks->add($otherLink);
-            $otherLink->setProject($this);
+        if (!$this->links->contains($link)) {
+            $this->links->add($link);
+            $link->setProject($this);
         }
 
         return $this;
     }
 
-    public function removeOtherLink(OtherLinks $otherLink): static
+    public function removeOtherLink(Links $link): static
     {
-        if ($this->otherLinks->removeElement($otherLink)) {
+        if ($this->links->removeElement($link)) {
             // set the owning side to null (unless already changed)
-            if ($otherLink->getProject() === $this) {
-                $otherLink->setProject(null);
+            if ($link->getProject() === $this) {
+                $link->setProject(null);
             }
         }
 

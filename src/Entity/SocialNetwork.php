@@ -19,7 +19,7 @@ class SocialNetwork
     #[ORM\Column(length: 255)]
     private ?string $link = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(nullable: false)]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
