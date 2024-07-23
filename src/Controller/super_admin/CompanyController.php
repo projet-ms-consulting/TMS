@@ -58,6 +58,7 @@ class CompanyController extends AbstractController
                 $newAddress->setStreet($street);
                 $newAddress->setCity($city);
                 $newAddress->setZipCode($zipCode);
+                $newAddress->setCreatedAt(new \DateTimeImmutable());
 
                 $entityManager->persist($newAddress);
                 $company->setAddress($newAddress);
