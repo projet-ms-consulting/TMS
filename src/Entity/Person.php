@@ -97,6 +97,10 @@ class Person
     #[ORM\Column(nullable: true)]
     private ?array $roles = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $mailContact = null;
+
+
     public function __construct()
     {
         $this->socialNetworks = new ArrayCollection();
@@ -398,6 +402,7 @@ class Person
         return $this;
     }
 
+
     public function getSchool(): ?School
     {
         return $this->school;
@@ -422,6 +427,7 @@ class Person
         return $this;
     }
 
+
     public function getUser(): ?User
     {
         return $this->user;
@@ -438,6 +444,7 @@ class Person
 
         return $this;
     }
+
 
     public function getFullName(): string
     {
@@ -497,4 +504,18 @@ class Person
 
         return $this;
     }
+
+    public function getMailContact(): ?string
+    {
+        return $this->mailContact;
+    }
+
+    public function setMailContact(?string $mailContact): static
+    {
+        $this->mailContact = $mailContact;
+
+        return $this;
+    }
+
+
 }

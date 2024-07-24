@@ -34,7 +34,10 @@ class PersonType extends AbstractType
             ->add('firstName', null, [
                 'label' => 'Prénom : ',
                 'attr' => ['class' => 'form-control'],
-//                'data' => $options['data']->getPerson()->getFirstName(),
+            ])
+            ->add('mailContact', EmailType::class, [
+                'label' => 'Nom : ',
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('roles', ChoiceType::class, [
                 'label' => 'Rôle :',
@@ -273,7 +276,7 @@ class PersonType extends AbstractType
                     ]);
                 }
             })
-            // Si stagiaire, afficher le champ Lettre de Motiv
+            // Si stagiaire, afficher le champ Lettre de Motivation
             ->addDependent('coverLetter', 'roles', function (DependentField $field, ?string $roles) {
                 if ($roles == 'ROLE_TRAINEE') {
                     $field->add(FileType::class, [
@@ -327,7 +330,7 @@ class PersonType extends AbstractType
             ->addDependent('email', 'checkUser', function (DependentField $field, ?bool $checkUser) {
                 if ($checkUser) {
                     $field->add(EmailType::class, [
-                        'label' => 'Email : ',
+                        'label' => 'Email de connexion : ',
                         'attr' => ['class' => 'form-control'],
                         'mapped' => false,
                     ]);
