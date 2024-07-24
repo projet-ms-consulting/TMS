@@ -13,7 +13,6 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -27,7 +26,7 @@ class PersonType extends AbstractType
         $builder = new DynamicFormBuilder($builder);
 
         $builder
-            ->add('lastName', TextType::class, [
+            ->add('lastName', null, [
                 'label' => 'Nom : ',
                 'attr' => ['class' => 'form-control'],
             ])
@@ -36,7 +35,8 @@ class PersonType extends AbstractType
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('mailContact', EmailType::class, [
-                'label' => 'Nom : ',
+                'label' => 'Email de contact : ',
+                'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('roles', ChoiceType::class, [
@@ -55,6 +55,28 @@ class PersonType extends AbstractType
                 'multiple' => false,
                 'attr' => ['class' => 'form-control'],
             ])
+            // Si stagiaire, afficher champ date début de stage
+            ->addDependent('startInternship', 'roles', function (DependentField $field, ?string $roles) {
+                if ($roles == 'ROLE_TRAINEE') {
+                    $field->add(DateType::class, [
+                        'label' => 'Date début de stage',
+                        'mapped' => false,
+                        'required' => false,
+                        'attr' => ['class' => 'form-control'],
+                    ]);
+                }
+            })
+            // Si stagiaire, afficher champ date fin de stage
+            ->addDependent('endInternship', 'roles', function (DependentField $field, ?string $roles) {
+                if ($roles == 'ROLE_TRAINEE') {
+                    $field->add(DateType::class, [
+                        'label' => 'Date fin de stage',
+                        'mapped' => false,
+                        'required' => false,
+                        'attr' => ['class' => 'form-control'],
+                    ]);
+                }
+            })
             // Si Référent entreprise, afficher le champ entreprise
             ->addDependent('companyReferent', 'roles', function (DependentField $field, ?string $roles) {
                 if ($roles == 'ROLE_COMPANY_REFERENT') {
@@ -104,7 +126,7 @@ class PersonType extends AbstractType
                 }
             })
             // Si Référent école, afficher le champ école
-            ->addDependent('schoolSupervisor', 'roles', function (DependentField $field, ?string $roles) {
+            ->addDependent('school', 'roles', function (DependentField $field, ?string $roles) {
                 if ($roles == 'ROLE_SCHOOL_INTERNSHIP') {
                     $field->add(EntityType::class, [
                         'class' => School::class,
@@ -116,26 +138,6 @@ class PersonType extends AbstractType
                             return $er ->createQueryBuilder('s')
                                 ->orderBy('s.name', 'ASC');
                         }
-                    ]);
-                }
-            })
-            // Si stagiaire, afficher champ date début de stage
-            ->addDependent('startInternship', 'roles', function (DependentField $field, ?string $roles) {
-                if ($roles == 'ROLE_TRAINEE') {
-                    $field->add(DateType::class, [
-                        'label' => 'Date début de stage',
-                        'mapped' => false,
-                        'attr' => ['class' => 'form-control'],
-                    ]);
-                }
-            })
-            // Si stagiaire, afficher champ date fin de stage
-            ->addDependent('endInternship', 'roles', function (DependentField $field, ?string $roles) {
-                if ($roles == 'ROLE_TRAINEE') {
-                    $field->add(DateType::class, [
-                        'label' => 'Date fin de stage',
-                        'mapped' => false,
-                        'attr' => ['class' => 'form-control'],
                     ]);
                 }
             })
@@ -162,9 +164,9 @@ class PersonType extends AbstractType
                     // Obtenez toutes les personnes associées à l'entreprise
                     $allPersons = $company->getPerson()->toArray();
 
-                    // Filtrez pour ne garder que celles avec le rôle ROLE_COMPANY_INTERNSHIP
+                    // Filtrez pour ne garder que celles avec le rôle ROLE_COMPANY_REFERENT
                     $filteredPersons = array_filter($allPersons, function ($person) {
-                        return in_array('ROLE_COMPANY_INTERNSHIP', $person->getRoles());
+                        return in_array('ROLE_COMPANY_REFERENT', $person->getRoles());
                     });
                     usort($filteredPersons, function ($a, $b) {
                         return strcmp($a->getlastName(), $b->getlastName());
@@ -187,12 +189,52 @@ class PersonType extends AbstractType
                                 array_map(function($person) { return $person->getId(); }, $filteredPersons)
                             ),
                             'choice_label' => function ($choice, $key, $value) {
-                                // Since the choices are now the person's ID, the label is the person's full name which is the key in this context
                                 return $key;
                             },
                             'mapped' => false,
                             'attr' => ['class' => 'form-control'],
                             'placeholder' => 'Choisir référent entreprise',
+                        ]);
+                    }
+                }
+            })
+        // Si stagiaire et si entreprise, afficher le maître de stage (correspondant à l'entreprise sélectionnée)
+            ->addDependent('traineeSupervisor', 'stagiaireCompany', function (DependentField $field, ?Company $company) {
+                if ($company != null) {
+                    // Obtenez toutes les personnes associées à l'entreprise
+                    $allPersons = $company->getPerson()->toArray();
+
+                    // Filtrez pour ne garder que celles avec le rôle ROLE_COMPANY_INTERNSHIP
+                    $filteredPersons = array_filter($allPersons, function ($person) {
+                        return in_array('ROLE_COMPANY_INTERNSHIP', $person->getRoles());
+                    });
+                    usort($filteredPersons, function ($a, $b) {
+                        return strcmp($a->getlastName(), $b->getlastName());
+                    });
+
+                    if (count($filteredPersons) == 0) {
+                        $field->add(ChoiceType::class, [
+                            'label' => 'Maître de stage : ',
+                            'choices' => [
+                                'Aucun maître de stage trouvé' => null,
+                            ],
+                            'mapped' => false,
+                            'attr' => ['class' => 'form-control'],
+                        ]);
+                    } else {
+                        $field->add(ChoiceType::class, [
+                            'label' => 'Maître de stage :',
+                            'choices' => array_combine(
+                                array_map(function($person) { return $person->getFullName(); }, $filteredPersons),
+                                array_map(function($person) { return $person->getId(); }, $filteredPersons)
+                            ),
+                            'choice_label' => function ($choice, $key, $value) {
+                                // Since the choices are now the person's ID, the label is the person's full name which is the key in this context
+                                return $key;
+                            },
+                            'mapped' => false,
+                            'attr' => ['class' => 'form-control'],
+                            'placeholder' => 'Choisir maître de stage',
                         ]);
                     }
                 }

@@ -48,6 +48,12 @@
                     <td>{{ form_widget(form.stagiaireRefEntrep) }}</td>
                 </tr>
             {% endif %}
+            {% if form.traineeSupervisor is defined %}
+                <tr>
+                    <th>{{ form_label(form.traineeSupervisor) }}</th>
+                    <td>{{ form_widget(form.traineeSupervisor) }}</td>
+                </tr>
+            {% endif %}
             {% if form.traineeSchool is defined %}
                 <tr>
                     <th>{{ form_label(form.traineeSchool) }}</th>
@@ -65,11 +71,14 @@
                     <th>{{ form_label(form.internshipSupervisor) }}</th>
                     <td>{{ form_widget(form.internshipSupervisor) }}</td>
                 </tr>
+{#            {% endif %}#}
+{#            {% if form.internshipSupervisor is defined %}#}
+
             {% endif %}
-            {% if form.schoolSupervisor is defined %}
+            {% if form.school is defined %}
                 <tr>
-                    <th>{{ form_label(form.schoolSupervisor) }}</th>
-                    <td>{{ form_widget(form.schoolSupervisor) }}</td>
+                    <th>{{ form_label(form.school) }}</th>
+                    <td>{{ form_widget(form.school) }}</td>
                 </tr>
             {% endif %}
             {% if form.manager is defined %}
