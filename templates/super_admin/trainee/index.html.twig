@@ -42,17 +42,17 @@
                     <td>Pas d'entreprise</td>
                 {% endif %}
                 {% if person.manager is defined and person.manager is not null %}
-                    <td>{{ person.manager.firstName }} {{ person.manager.lastName }}</td>
+                    <td><a href="{{ path('super_admin_app_person_show',{'id':person.manager.id}) }}">{{ person.manager.firstName }} {{ person.manager.lastName }}</a></td>
                 {% else %}
                     <td>Pas de Manager</td>
                 {% endif %}
                 {% if person.companyReferent is defined and person.companyReferent is not null %}
-                    <td>{{ person.companyReferent.firstName }} {{ person.companyReferent.lastName }}</td>
+                    <td><a href="{{ path('super_admin_app_person_show',{'id':person.companyReferent.id}) }}">{{ person.companyReferent.firstName }} {{ person.companyReferent.lastName }}</a></td>
                 {% else %}
                     <td>Pas de référent d'entreprise</td>
                 {% endif %}
                 {% if person.internshipSupervisor is defined and person.internshipSupervisor is not null %}
-                    <td>{{ person.internshipSupervisor.firstName }} {{ person.internshipSupervisor.lastName }}</td>
+                    <td><a href="{{ path('super_admin_app_person_show',{'id':person.internshipSupervisor.id}) }}">{{ person.internshipSupervisor.firstName }} {{ person.internshipSupervisor.lastName }}</a></td>
                 {% else %}
                     <td>Pas de maître de stage</td>
                 {% endif %}

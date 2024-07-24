@@ -23,10 +23,14 @@
                 <tr>
                     <td>{{ person.lastName }}</td>
                     <td>{{ person.firstName }}</td>
-                    {% if person.user.roles[0]=='ROLE_ADMIN' %}
-                        <td>Manager</td>
-                    {% else %}
+                    {% if person.roles[0]=='ROLE_ADMIN' %}
+                        <td>Chef d'entreprise</td>
+                    {% elseif person.roles[0]=='ROLE_COMPANY_INTERNSHIP' %}
                         <td>Superviseur interne</td>
+                    {% elseif person.roles[0]=='ROLE_COMPANY_REFERENT' %}
+                        <td>Référent entreprise</td>
+                    {% else %}
+                        <td>Aucun enregistrement</td>
                     {% endif %}
                     <td><a href="{{ path('super_admin_app_company_show', {'id':person.company.id}) }}">{{ person.company.name }}</a></td>
                     <td>{{ person.company.address.nbStreet }} {{ person.company.address.street }}, {{ person.company.address.zipCode }} {{ person.company.address.city }}</td>

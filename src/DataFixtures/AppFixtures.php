@@ -153,9 +153,33 @@ class AppFixtures extends Fixture
         }
 
         // person
+        // company_referent
+        for ($i = 0; $i < 5; ++$i) {
+            $person = new Person();
+            $person->setFirstName($this->faker->firstName());
+            $person->setLastName($this->faker->lastName());
+            $person->setRoles(['ROLE_COMPANY_REFERENT']);
+            $person->setCreatedAt($date);
+            $person->setCompany($listCompany[array_rand($listCompany)]);
+            $person->setManager($listManager[array_rand($listManager)]->getPerson());
+            $manager->persist($person);
+            $listPerson[] = $person;
+            $user = new User();
+            $user->setEmail('companyreferent'.$i + 1 .'@user.fr');
+            $user->setPassword($this->hasher->hashPassword($user, 'user'));
+            $user->setRoles(['ROLE_COMPANY_REFERENT']);
+            $user->setCanLogin(true);
+            $user->setPerson($person);
+            $user->setCreatedAt($date);
+            $user->setEverLoggedIn(false);
+            $manager->persist($user);
+            $listCompanyReferent[] = $user;
+        }
+
+        // person
         // trainee
 
-        $roles = ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN', 'ROLE_TRAINEE', 'ROLE_SCHOOL_INTERNSHIP', 'ROLE_COMPANY_INTERNSHIP'];
+        $roles = ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN', 'ROLE_TRAINEE', 'ROLE_SCHOOL_INTERNSHIP', 'ROLE_COMPANY_INTERNSHIP', 'ROLE_COMPANY_REFERENT'];
         for ($i = 0; $i < 30; ++$i) {
             $person = new Person();
             $person->setFirstName($this->faker->firstName());
@@ -165,7 +189,7 @@ class AppFixtures extends Fixture
             $person->setSchoolSupervisor($listSchoolInternship[array_rand($listSchoolInternship)]->getPerson());
             $person->setInternshipSupervisor($listCompanyInternship[array_rand($listCompanyInternship)]->getPerson());
             $person->setManager($listManager[array_rand($listManager)]->getPerson());
-
+            $person->setCompanyReferent($listCompanyReferent[array_rand($listCompanyReferent)]->getPerson());
             $manager->persist($person);
             $listPerson[] = $person;
 
