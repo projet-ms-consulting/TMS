@@ -31,7 +31,7 @@
                     {% if not is_granted('IS_AUTHENTICATED_FULLY') and not person is defined %}
                         <i class="fas fa-user"></i> Invité <i class="fas fa-caret-down"></i>
                     {% else %}
-                        <i class="fas fa-user"></i> {{ person.firstName }} <i class="fas fa-caret-down"></i>
+                        <i class="fas fa-user"></i> {{ connectedPerson.firstName }} <i class="fas fa-caret-down"></i>
                     {% endif %}
                 </a>
                 <ul class="sub-menu">

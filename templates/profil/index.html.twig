@@ -10,12 +10,12 @@
             <a href="{{ path('app_profil_edit') }}" class="btn btn-primary edit-profile-btn">Modifier mon profil</a>
         </div>
 
-        <p class="profile-info">Nom : {{ person.lastName }}</p>
-        <p class="profile-info">Prenom : {{ person.firstName }}</p>
+        <p class="profile-info">Nom : {{ connectedPerson.lastName }}</p>
+        <p class="profile-info">Prenom : {{ connectedPerson.firstName }}</p>
         <p class="profile-info">Email  : {{ user.email }}</p>
 
         <ul>
-            {% for file in person.files %}
+            {% for file in connectedPerson.files %}
                 <li>
                     <a href="{{ path('app_file_show', { id: file.id, name: file.realFileName }) }}" target="_blank" class="file-link">{{ file.realFileName }}</a>
                     - <span class="file-label">{{ file.label }}</span>

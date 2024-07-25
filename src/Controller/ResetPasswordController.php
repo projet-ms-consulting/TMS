@@ -34,7 +34,7 @@ class ResetPasswordController extends AbstractController
     }
 
     #[Route('/firstLogin', name: 'firstLogin')]
-    public function reset(Request $request, EntityManagerInterface $entityManager): Response
+    public function reset(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = $this->getUser();
         if ($user instanceof PasswordAuthenticatedUserInterface && false === $user->isEverLoggedIn()) {
@@ -45,9 +45,8 @@ class ResetPasswordController extends AbstractController
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $password = $form->getData()['password'];
-
                 // Encodez le nouveau mot de passe
-                $encodedPassword = $this->passwordHasher->hashPassword($user, $password);
+                $encodedPassword = $passwordHasher->hashPassword($user, $password);
 
                 // Mettez à jour le mot de passe de l'utilisateur dans la base de données
                 $user->setPassword($encodedPassword);
@@ -137,7 +136,7 @@ class ResetPasswordController extends AbstractController
                 $translator->trans($e->getReason(), [], 'ResetPasswordBundle')
             ));
 
-            return $this->redirectToRoute('app_forgot_password_request');
+            return $this->redirectToRoute('app_reset_forgot_password_request');
         }
 
         // Le jeton est valide ; permettre à l'utilisateur de modifier son mot de passe.
@@ -176,7 +175,7 @@ class ResetPasswordController extends AbstractController
 
         // Ne révélez pas si un compte utilisateur a été trouvé ou non.
         if (!$user) {
-            return $this->redirectToRoute('app_check_email');
+            return $this->redirectToRoute('app_reset_check_email');
         }
 
         try {
@@ -210,6 +209,6 @@ class ResetPasswordController extends AbstractController
         // Stockez l'objet jeton en session pour le récupérer via la route de vérification par courrier électronique.
         $this->setTokenObjectInSession($resetToken);
 
-        return $this->redirectToRoute('app_check_email');
+        return $this->redirectToRoute('app_reset_check_email');
     }
 }

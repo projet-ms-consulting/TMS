@@ -24,7 +24,7 @@ class ProfilController extends AbstractController
 
         return $this->render('profil/index.html.twig', [
             'user' => $user,
-            'person' => $person,
+            'connectedPerson' => $person,
         ]);
     }
 
@@ -93,7 +93,7 @@ class ProfilController extends AbstractController
 
         return $this->render('profil/edit.html.twig', [
             'form' => $form->createView(),
-            'person' => $person,
+            'connectedPerson' => $person,
         ]);
     }
 

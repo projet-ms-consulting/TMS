@@ -25,13 +25,14 @@ class AddressController extends AbstractController
         $user = $this->getUser();
         $personne = $user->getPerson();
 
+
         return $this->render('super_admin/address/index.html.twig', [
             'addresses' => $addresses,
             'page' => $page,
             'limit' => $limit,
             'sort' => $sort,
             'direction' => $direction,
-            'person' => $personne,
+            'connectedPerson' => $personne,
         ]);
     }
 
@@ -56,7 +57,7 @@ class AddressController extends AbstractController
         return $this->render('super_admin/address/new.html.twig', [
             'address' => $address,
             'form' => $form,
-            'person' => $personne,
+            'connectedPerson' => $personne,
         ]);
     }
 
@@ -68,7 +69,7 @@ class AddressController extends AbstractController
 
         return $this->render('super_admin/address/show.html.twig', [
             'address' => $address,
-            'person' => $personne,
+            'connectedPerson' => $personne,
         ]);
     }
 
@@ -90,7 +91,7 @@ class AddressController extends AbstractController
         return $this->render('super_admin/address/edit.html.twig', [
             'address' => $address,
             'form' => $form,
-            'person' => $personne,
+            'connectedPerson' => $personne,
         ]);
     }
 

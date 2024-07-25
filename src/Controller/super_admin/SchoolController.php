@@ -35,7 +35,7 @@ class SchoolController extends AbstractController
             'limit' => $limit,
             'sort' => $sort,
             'direction' => $direction,
-            'person' => $person,
+            'connectedPerson' => $person,
             'personne' => $personne,
         ]);
     }
@@ -61,7 +61,7 @@ class SchoolController extends AbstractController
         return $this->render('super_admin/school/new.html.twig', [
             'school' => $school,
             'form' => $form,
-            'person' => $personne,
+            'connectedPerson' => $personne,
         ]);
     }
 
@@ -72,7 +72,7 @@ class SchoolController extends AbstractController
         $personne = $user->getPerson();
         return $this->render('super_admin/school/show.html.twig', [
             'school' => $school,
-            'person' => $personne,
+            'connectedPerson' => $personne,
         ]);
     }
 
@@ -95,7 +95,7 @@ class SchoolController extends AbstractController
         return $this->render('super_admin/school/edit.html.twig', [
             'school' => $school,
             'form' => $form,
-            'person' => $personne,
+            'connectedPerson' => $personne,
         ]);
     }
 

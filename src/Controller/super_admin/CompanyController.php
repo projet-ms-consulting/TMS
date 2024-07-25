@@ -28,7 +28,7 @@ class CompanyController extends AbstractController
 
         return $this->render('super_admin/company/index.html.twig', [
             'companies' => $companies,
-            'person' => $personne,
+            'connectedPerson' => $personne,
         ]);
     }
 
@@ -74,7 +74,7 @@ class CompanyController extends AbstractController
         return $this->render('super_admin/company/new.html.twig', [
             'company' => $company,
             'form' => $form->createView(),
-            'person' => $person,
+            'connectedPerson' => $person,
         ]);
     }
 
@@ -86,7 +86,7 @@ class CompanyController extends AbstractController
 
         return $this->render('super_admin/company/show.html.twig', [
             'company' => $company,
-            'person' => $personne,
+            'connectedPerson' => $personne,
         ]);
     }
 
@@ -108,7 +108,7 @@ class CompanyController extends AbstractController
         return $this->render('super_admin/company/edit.html.twig', [
             'company' => $company,
             'form' => $form->createView(),
-            'person' => $personne,
+            'connectedPerson' => $personne,
         ]);
     }
 

@@ -6,9 +6,7 @@ use App\Entity\Files;
 use App\Entity\Person;
 use App\Entity\User;
 use App\Form\PersonType;
-use App\Repository\FilesRepository;
 use App\Repository\PersonRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -35,7 +33,7 @@ class PersonController extends AbstractController
 
         return $this->render('super_admin/person/index.html.twig', [
             'personne' => $person,
-            'person' => $personne,
+            'connectedPerson' => $personne,
         ]);
     }
 
@@ -72,10 +70,10 @@ class PersonController extends AbstractController
             if ($personForm->has('cv')) {
                 $cvFile = $personForm->get('cv')->getData();
                 if ($cvFile) {
-                    $cvFilename = 'CV.' . $personne->getFirstName() . '-' . $personne->getLastName() . '.' . $cvFile->guessExtension();
+                    $cvFilename = 'CV.'.$personne->getFirstName().'-'.$personne->getLastName().'.'.$cvFile->guessExtension();
                     $cvHash = hash('sha256', $cvFilename);
-                    $cvHashFile = $cvHash . '.' . $cvFile->guessExtension();
-                    $cvFile->move($this->getParameter('kernel.project_dir') . '/files/', $cvFilename);
+                    $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
+                    $cvFile->move($this->getParameter('kernel.project_dir').'/files/', $cvFilename);
 
                     $file = new Files();
                     $file->setLabel('CV')
@@ -91,10 +89,10 @@ class PersonController extends AbstractController
             if ($personForm->has('coverLetter')) {
                 $lmFile = $personForm->get('coverLetter')->getData();
                 if ($lmFile) {
-                    $lmFilename = 'LM.' . $personne->getFirstName() . '-' . $personne->getLastName() . '.' . $lmFile->guessExtension();
+                    $lmFilename = 'LM.'.$personne->getFirstName().'-'.$personne->getLastName().'.'.$lmFile->guessExtension();
                     $lmHash = hash('sha256', $lmFilename);
-                    $lmHashFile = $lmHash . '.' . $lmFile->guessExtension();
-                    $lmFile->move($this->getParameter('kernel.project_dir') . '/files/', $lmFilename);
+                    $lmHashFile = $lmHash.'.'.$lmFile->guessExtension();
+                    $lmFile->move($this->getParameter('kernel.project_dir').'/files/', $lmFilename);
 
                     $file = new Files();
                     $file->setLabel('LM')
@@ -110,10 +108,10 @@ class PersonController extends AbstractController
             if ($personForm->has('internshipAgreement')) {
                 $csFile = $personForm->get('internshipAgreement')->getData();
                 if ($csFile) {
-                    $csFilename = 'CS.' . $personne->getFirstName() . '-' . $personne->getLastName() . '.' . $csFile->guessExtension();
+                    $csFilename = 'CS.'.$personne->getFirstName().'-'.$personne->getLastName().'.'.$csFile->guessExtension();
                     $csHash = hash('sha256', $csFilename);
-                    $csHashFile = $csHash . '.' . $csFile->guessExtension();
-                    $csFile->move($this->getParameter('kernel.project_dir') . 'files/', $csFilename);
+                    $csHashFile = $csHash.'.'.$csFile->guessExtension();
+                    $csFile->move($this->getParameter('kernel.project_dir').'files/', $csFilename);
 
                     $file = new Files();
                     $file->setLabel('CS')
@@ -133,12 +131,13 @@ class PersonController extends AbstractController
 
             return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
         }
-            return $this->render('super_admin/person/new.html.twig', [
-                'person' => $person,
-                'personne' => $personne,
-                'files' => $personne->getFiles(),
-                'roles' => $personne->getRoles(),
-            ]);
+
+        return $this->render('super_admin/person/new.html.twig', [
+            'connectedPerson' => $person,
+            'personne' => $personne,
+            'files' => $personne->getFiles(),
+            'roles' => $personne->getRoles(),
+        ]);
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'])]
@@ -149,7 +148,7 @@ class PersonController extends AbstractController
 
         return $this->render('super_admin/person/show.html.twig', [
             'personne' => $personne,
-            'person' => $person,
+            'connectedPerson' => $person,
             'user' => $person->getUser(),
             'files' => $person->getFiles(),
         ]);
@@ -180,7 +179,7 @@ class PersonController extends AbstractController
         if ($personForm->isSubmitted() && $personForm->isValid()) {
             $personne->setUpdatedAt(new \DateTimeImmutable());
 
-           $this->getData($personForm, $personne, $entityManager);
+            $this->getData($personForm, $personne, $entityManager);
 
             if ($personForm->has('checkUser') && $personForm->get('checkUser')->getData()) {
                 $user = new User();
@@ -189,12 +188,12 @@ class PersonController extends AbstractController
                     ->setEmail($personForm->get('email')->getData())
                     ->setRoles($personForm->get('roles')->getData());
             }
-//            if ($request->files->get('person')['cv']) {
+            //            if ($request->files->get('person')['cv']) {
             if ($personForm->has('cv')) {
                 $oldFiles = $personne->getFiles();
                 foreach ($oldFiles as $oldFile) {
                     if ('CV' == $oldFile->getLabel()) {
-                        $filePath = ($this->getParameter('kernel.project_dir') . '/files/' . $oldFile->getFile());
+                        $filePath = ($this->getParameter('kernel.project_dir').'/files/'.$oldFile->getFile());
                         if (file_exists($oldFile->getFile())) {
                             unlink($filePath);
                         }
@@ -202,10 +201,10 @@ class PersonController extends AbstractController
                     }
                 }
                 $cvFile = $request->files->get('person')['cv'];
-                $cvFilename = 'CV.' . $personne->getFirstName() . '-' . $personne->getLastName() . '.' . $cvFile->guessExtension();
+                $cvFilename = 'CV.'.$personne->getFirstName().'-'.$personne->getLastName().'.'.$cvFile->guessExtension();
                 $cvHash = hash('sha256', $cvFilename);
-                $cvHashFile = $cvHash . '.' . $cvFile->guessExtension();
-                $cvFile->move($this->getParameter('kernel.project_dir') . '/files/', $cvFilename);
+                $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
+                $cvFile->move($this->getParameter('kernel.project_dir').'/files/', $cvFilename);
                 $file = new Files();
                 $file->setLabel('CV')
                     ->setFile($cvHashFile)
@@ -218,11 +217,11 @@ class PersonController extends AbstractController
             }
 
             if ($personForm->has('coverLetter')) {
-//            if ($request->files->get('person')['coverLetter']) {
+                //            if ($request->files->get('person')['coverLetter']) {
                 $oldFiles = $personne->getFiles();
                 foreach ($oldFiles as $oldFile) {
                     if ('LM' == $oldFile->getLabel()) {
-                        $filePath = ($this->getParameter('kernel.project_dir') . '/files/' . $oldFile->getFile());
+                        $filePath = ($this->getParameter('kernel.project_dir').'/files/'.$oldFile->getFile());
                         if (file_exists($oldFile->getFile())) {
                             unlink($filePath);
                         }
@@ -230,10 +229,10 @@ class PersonController extends AbstractController
                     }
                 }
                 $lmFile = $request->files->get('person')['coverLetter'];
-                $lmFilename = 'LM.' . $personne->getFirstName() . '-' . $personne->getLastName() . '.' . $lmFile->guessExtension();
+                $lmFilename = 'LM.'.$personne->getFirstName().'-'.$personne->getLastName().'.'.$lmFile->guessExtension();
                 $cvHash = hash('sha256', $lmFilename);
-                $cvHashFile = $cvHash . '.' . $lmFile->guessExtension();
-                $lmFile->move($this->getParameter('kernel.project_dir') . '/files/' . $lmFilename);
+                $cvHashFile = $cvHash.'.'.$lmFile->guessExtension();
+                $lmFile->move($this->getParameter('kernel.project_dir').'/files/'.$lmFilename);
                 $file = new Files();
                 $file->setLabel('LM')
                     ->setFile($cvHashFile)
@@ -245,13 +244,12 @@ class PersonController extends AbstractController
                 $entityManager->persist($file);
             }
 
-//            if ($request->files->get('person')['internshipAgreement']) {
+            //            if ($request->files->get('person')['internshipAgreement']) {
             if ($personForm->has('internshipAgreement')) {
-
                 $oldFiles = $personne->getFiles();
                 foreach ($oldFiles as $oldFile) {
                     if ('CS' == $oldFile->getLabel()) {
-                        $filePath = ($this->getParameter('kernel.project_dir') . '/files/' . $oldFile->getFile());
+                        $filePath = ($this->getParameter('kernel.project_dir').'/files/'.$oldFile->getFile());
                         if (file_exists($oldFile->getFile())) {
                             unlink($filePath);
                         }
@@ -259,10 +257,10 @@ class PersonController extends AbstractController
                     }
                 }
                 $csFile = $request->files->get('person')['internshipAgreement'];
-                $csFilename = 'CS.' . $personne->getFirstName() . '-' . $personne->getLastName() . '.' . $csFile->guessExtension();
+                $csFilename = 'CS.'.$personne->getFirstName().'-'.$personne->getLastName().'.'.$csFile->guessExtension();
                 $cvHash = hash('sha256', $csFilename);
-                $cvHashFile = $cvHash . '.' . $csFile->guessExtension();
-                $csFile->move($this->getParameter('kernel.project_dir') . '/files/' . $csFilename);
+                $cvHashFile = $cvHash.'.'.$csFile->guessExtension();
+                $csFile->move($this->getParameter('kernel.project_dir').'/files/'.$csFilename);
                 $file = new Files();
                 $file->setLabel('CS')
                     ->setFile($cvHashFile)
@@ -274,23 +272,21 @@ class PersonController extends AbstractController
                 $entityManager->persist($file);
             }
 
-//            $entityManager->persist($personne);
+            //            $entityManager->persist($personne);
             $entityManager->flush();
 
-                $this->addFlash('success', 'Modification réussie !');
+            $this->addFlash('success', 'Modification réussie !');
 
-                return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
         }
 
-            return $this->render('super_admin/person/edit.html.twig', [
-                'person' => $person,
-                'personne' => $personne,
-                'files' => $personne->getFiles(),
-                'user' => $personne->getUser(),
-            ]);
+        return $this->render('super_admin/person/edit.html.twig', [
+            'connectedPerson' => $person,
+            'personne' => $personne,
+            'files' => $personne->getFiles(),
+            'user' => $personne->getUser(),
+        ]);
     }
-
-
 
     #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, Person $person, EntityManagerInterface $entityManager): Response
@@ -310,11 +306,7 @@ class PersonController extends AbstractController
         return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
     }
 
-
     /**
-     * @param FormInterface $personForm
-     * @param Person $personne
-     * @param EntityManagerInterface $entityManager
      * @return mixed|string[]
      */
     public function getData(FormInterface $personForm, Person $personne, EntityManagerInterface $entityManager): mixed
@@ -344,8 +336,8 @@ class PersonController extends AbstractController
         if ($personForm->has('stagiaireRefEntrep')) {
             $companyReferentName = $personForm->get('stagiaireRefEntrep')->getData();
             // Récupérer l'ID du référent entreprise
-            $companyReferentId = is_numeric($companyReferentName) ? (int)$companyReferentName : null;
-            if ($companyReferentId !== null) {
+            $companyReferentId = is_numeric($companyReferentName) ? (int) $companyReferentName : null;
+            if (null !== $companyReferentId) {
                 // Rechercher l'objet Person correspondant à l'ID
                 $companyReferent = $entityManager->getRepository(Person::class)->find($companyReferentId);
                 if ($companyReferent) {
@@ -361,8 +353,8 @@ class PersonController extends AbstractController
         if ($personForm->has('traineeRefSchool')) {
             $schoolSupervisorName = $personForm->get('traineeRefSchool')->getData();
             // Récupérer l'ID du référent école
-            $schoolSupervisorId = is_numeric($schoolSupervisorName) ? (int)$schoolSupervisorName : null;
-            if ($schoolSupervisorId !== null) {
+            $schoolSupervisorId = is_numeric($schoolSupervisorName) ? (int) $schoolSupervisorName : null;
+            if (null !== $schoolSupervisorId) {
                 // Rechercher l'objet Person correspondant à l'ID
                 $schoolSupervisor = $entityManager->getRepository(Person::class)->find($schoolSupervisorId);
                 if ($schoolSupervisor) {
@@ -376,6 +368,7 @@ class PersonController extends AbstractController
             $roles = [$roles];
         }
         $personne->setRoles($roles);
+
         return $roles;
     }
 }

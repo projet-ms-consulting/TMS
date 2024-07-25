@@ -22,7 +22,7 @@ class ProjectController extends AbstractController
 
         return $this->render('super_admin/project/index.html.twig', [
             'projects' => $projectRepository->findAll(),
-            'person' => $personne,
+            'connectedPerson' => $personne,
         ]);
     }
 
@@ -44,7 +44,7 @@ class ProjectController extends AbstractController
         return $this->render('super_admin/project/new.html.twig', [
             'project' => $project,
             'form' => $form,
-            'person' => $personne,
+            'connectedPerson' => $personne,
         ]);
     }
 
@@ -56,7 +56,7 @@ class ProjectController extends AbstractController
 
         return $this->render('super_admin/project/show.html.twig', [
             'project' => $project,
-            'person' => $personne,
+            'connectedPerson' => $personne,
         ]);
     }
 
@@ -78,7 +78,7 @@ class ProjectController extends AbstractController
         return $this->render('super_admin/project/edit.html.twig', [
             'project' => $project,
             'form' => $form,
-            'person' => $personne,
+            'connectedPerson' => $personne,
         ]);
     }
 

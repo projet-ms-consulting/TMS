@@ -28,7 +28,7 @@ class CompanyEmployeeController extends AbstractController
 
         return $this->render('super_admin/company_employee/index.html.twig', [
             'personne' => $person,
-            'person' => $personne,
+            'connectedPerson' => $personne,
         ]);
     }
 
@@ -41,7 +41,7 @@ class CompanyEmployeeController extends AbstractController
         return $this->render('super_admin/company_employee/show.html.twig', [
             'personne' => $person,
             'user' => $person->getUser(),
-            'person' => $personne,
+            'connectedPerson' => $personne,
         ]);
     }
 
@@ -64,7 +64,7 @@ class CompanyEmployeeController extends AbstractController
         return $this->render('super_admin/company_employee/edit.html.twig', [
             'personne' => $person,
             'personForm' => $personForm,
-            'person' => $personne,
+            'connectedPerson' => $personne,
         ]);
     }
 

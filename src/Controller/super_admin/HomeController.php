@@ -18,7 +18,7 @@ class HomeController extends AbstractController
         $person = $user->getPerson();
 
         return $this->render('super_admin/home/index.html.twig', [
-            'person' => $person,
+            'connectedPerson' => $person,
         ]);
     }
 }

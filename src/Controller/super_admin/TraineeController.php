@@ -28,7 +28,7 @@ class TraineeController extends AbstractController
 
         return $this->render('super_admin/trainee/index.html.twig', [
             'personne' => $person,
-            'person' => $personne,
+            'connectedPerson' => $personne,
         ]);
     }
 
@@ -52,7 +52,7 @@ class TraineeController extends AbstractController
 
         return $this->render('super_admin/trainee/new.html.twig', [
             'personne' => $person,
-            'person' => $personne,
+            'connectedPerson' => $personne,
             'form' => $traineeForm,
         ]);
     }
@@ -65,7 +65,7 @@ class TraineeController extends AbstractController
 
         return $this->render('super_admin/trainee/show.html.twig', [
             'personne' => $person,
-            'person' => $personne,
+            'connectedPerson' => $personne,
         ]);
     }
 
@@ -86,7 +86,7 @@ class TraineeController extends AbstractController
         return $this->render('super_admin/trainee/edit.html.twig', [
             'personne' => $person,
             'form' => $traineeForm->createView(),
-            'person' => $personne,
+            'connectedPerson' => $personne,
         ]);
     }
 

@@ -22,7 +22,7 @@ class HomeController extends AbstractController
         }
 
         return $this->render('home/index.html.twig', [
-            'person' => $person,
+            'connectedPerson' => $person,
         ]);
     }
 }
