@@ -55,7 +55,7 @@ class ResetPasswordController extends AbstractController
                 $entityManager->flush();
 
                 // Redirigez l'utilisateur vers la page de connexion ou vers la page d'accueil
-                return $this->redirectToRoute('app_login');
+                return $this->redirectToRoute('app_accueil');
             }
 
             // Affichez la page de réinitialisation de mot de passe

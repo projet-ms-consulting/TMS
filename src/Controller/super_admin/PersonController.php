@@ -7,19 +7,32 @@ use App\Entity\Person;
 use App\Entity\User;
 use App\Form\PersonType;
 use App\Repository\PersonRepository;
+use App\Service\PasswordGenerator;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('super_admin/person', name: 'super_admin_app_person_')]
 class PersonController extends AbstractController
 {
+    private $passwordGenerator;
+    private $mailer;
+
+    public function __construct(PasswordGenerator $passwordGenerator, MailerInterface $mailer)
+    {
+        $this->passwordGenerator = $passwordGenerator;
+        $this->mailer = $mailer;
+    }
+
     #[Route('/index', name: 'index', methods: ['GET'])]
     public function index(PersonRepository $personRepository, Request $request): Response
     {
@@ -57,11 +70,11 @@ class PersonController extends AbstractController
                 $user->setCreatedAt(new \DateTimeImmutable())
                     ->setCanLogin($personForm->get('checkUser')->getData())
                     ->setEmail($personForm->get('email')->getData())
-                    ->setRoles($personForm->get('roles')->getData());
+                    ->setRoles([$personForm->get('roles')->getData()]);
 
-                $hashedPassword = $passwordHasher->hashPassword($user, $personForm->get('password')->getData());
+                $password = $this->passwordGenerator->generatePassword();
+                $hashedPassword = $passwordHasher->hashPassword($user, $password);
                 $user->setPassword($hashedPassword);
-
                 $personne->setUser($user);
                 $entityManager->persist($user);
             }
@@ -128,6 +141,20 @@ class PersonController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Création réussie !');
+            $email = (new TemplatedEmail())
+                ->from(new Address('noreply@msconsulting-europe.com', 'MS_Consulting'))
+                ->to($user->getEmail())
+                ->subject('Bienvenue sur TMS')
+                ->htmlTemplate('person/new.html.twig')
+                ->context(['user' => $user, 'password' => $password])
+            ;
+
+            try {
+                $this->mailer->send($email);
+                $this->addFlash('success', 'Email envoyé avec succès !');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Erreur lors de l\'envoi de l\'email : '.$e->getMessage());
+            }
 
             return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -275,7 +302,7 @@ class PersonController extends AbstractController
             $entityManager->flush();
             $this->addFlash('success', 'Modification réussie !');
 
-//            dd($personne);
+            //            dd($personne);
 
             return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -306,12 +333,6 @@ class PersonController extends AbstractController
         return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    /**
-     * @param FormInterface $personForm
-     * @param Person $personne
-     * @param EntityManagerInterface $entityManager
-     * @return mixed
-     */
     public function getData(FormInterface $personForm, Person $personne, EntityManagerInterface $entityManager): mixed
     {
         if ($personForm->has('companyReferent')) {
@@ -373,7 +394,7 @@ class PersonController extends AbstractController
                 }
             }
         }
+
         return $personne;
     }
-
 }
