@@ -71,6 +71,9 @@
                     <th>{{ form_label(form.internshipSupervisor) }}</th>
                     <td>{{ form_widget(form.internshipSupervisor) }}</td>
                 </tr>
+{#            {% endif %}#}
+{#            {% if form.internshipSupervisor is defined %}#}
+
             {% endif %}
             {% if form.school is defined %}
                 <tr>
@@ -122,7 +125,7 @@
     </table>
     <div class="btnForm">
         <a href="{{ path('super_admin_app_person_index') }}" class="btn-custom">Retour</a>
-        <button id="btn-submit" class="btn-custom">Créer</button>
+        <button id="btn-submit" class="btn-custom">Modifier</button>
     </div>
     {{ form_end(form) }}
 </div>
