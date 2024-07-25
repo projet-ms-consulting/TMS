@@ -12,7 +12,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -55,6 +54,7 @@ class PersonType extends AbstractType
                 'multiple' => false,
                 'attr' => ['class' => 'form-control'],
             ])
+
             // Si stagiaire, afficher champ date début de stage
             ->addDependent('startInternship', 'roles', function (DependentField $field, ?string $roles) {
                 if ($roles == 'ROLE_TRAINEE') {
@@ -377,27 +377,13 @@ class PersonType extends AbstractType
                         'mapped' => false,
                     ]);
                 }
-            })
-            // Si checkUser = true, afficher le champ mot de passe
-            ->addDependent('password', 'checkUser', function (DependentField $field, ?bool $checkUser) {
-                if ($checkUser) {
-                    $field->add(PasswordType::class, [
-                        'label' => 'Mot de passe : ',
-                        'help' => 'laissez vide, pour créer un mot de passe aléatoire',
-                        'attr' => [
-                            'placeholder' => 'laissez vide, pour créer un mot de passe aléatoire',
-                            'class' => 'form-control'],
-                        'required' => false,
-                        'mapped' => false,
-                    ]);
-                }
             });
     }
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Person::class,
-            'selected_person' => null,
+//            'selected_person' => null,
         ]);
     }
 }

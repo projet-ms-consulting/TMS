@@ -141,14 +141,14 @@ class PersonController extends AbstractController
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'])]
-    public function show(Person $personne, EntityManagerInterface $entityManager): Response
+    public function show(Person $person, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-        $person = $user->getPerson();
+        $personne = $user->getPerson();
 
         return $this->render('super_admin/person/show.html.twig', [
-            'personne' => $personne,
-            'connectedPerson' => $person,
+            'connectedPerson' => $personne,
+            'person' => $person,
             'user' => $person->getUser(),
             'files' => $person->getFiles(),
         ]);
@@ -170,11 +170,11 @@ class PersonController extends AbstractController
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Person $personne, EntityManagerInterface $entityManager): Response
     {
-        $personForm = $this->createForm(PersonType::class, $personne);
-        $personForm->handleRequest($request);
-
         $user = $this->getUser();
         $person = $user->getPerson();
+
+        $personForm = $this->createForm(PersonType::class, $personne);
+        $personForm->handleRequest($request);
 
         if ($personForm->isSubmitted() && $personForm->isValid()) {
             $personne->setUpdatedAt(new \DateTimeImmutable());
@@ -188,7 +188,7 @@ class PersonController extends AbstractController
                     ->setEmail($personForm->get('email')->getData())
                     ->setRoles($personForm->get('roles')->getData());
             }
-            //            if ($request->files->get('person')['cv']) {
+
             if ($personForm->has('cv')) {
                 $oldFiles = $personne->getFiles();
                 foreach ($oldFiles as $oldFile) {
@@ -244,7 +244,6 @@ class PersonController extends AbstractController
                 $entityManager->persist($file);
             }
 
-            //            if ($request->files->get('person')['internshipAgreement']) {
             if ($personForm->has('internshipAgreement')) {
                 $oldFiles = $personne->getFiles();
                 foreach ($oldFiles as $oldFile) {
@@ -271,11 +270,12 @@ class PersonController extends AbstractController
 
                 $entityManager->persist($file);
             }
+            $entityManager->persist($personne);
 
-            //            $entityManager->persist($personne);
             $entityManager->flush();
-
             $this->addFlash('success', 'Modification réussie !');
+
+//            dd($personne);
 
             return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -307,7 +307,10 @@ class PersonController extends AbstractController
     }
 
     /**
-     * @return mixed|string[]
+     * @param FormInterface $personForm
+     * @param Person $personne
+     * @param EntityManagerInterface $entityManager
+     * @return mixed
      */
     public function getData(FormInterface $personForm, Person $personne, EntityManagerInterface $entityManager): mixed
     {
@@ -332,6 +335,15 @@ class PersonController extends AbstractController
         if ($personForm->has('stagiaireCompany')) {
             $personne->setCompany($personForm->get('stagiaireCompany')->getData());
         }
+        if ($personForm->has('school')) {
+            $personne->setSchool($personForm->get('school')->getData());
+        }
+        if ($personForm->has('roles')) {
+            $personne->setRoles([$personForm->get('roles')->getData()]);
+        }
+        if ($personForm->has('traineeSchool')) {
+            $personne->setSchool($personForm->get('traineeSchool')->getData());
+        }
         // Attribuer le référent entreprise au stagiaire
         if ($personForm->has('stagiaireRefEntrep')) {
             $companyReferentName = $personForm->get('stagiaireRefEntrep')->getData();
@@ -346,14 +358,12 @@ class PersonController extends AbstractController
                 }
             }
         }
-        if ($personForm->has('traineeSchool')) {
-            $personne->setSchool($personForm->get('traineeSchool')->getData());
-        }
         // Attribuer le référent école au stagiaire
         if ($personForm->has('traineeRefSchool')) {
             $schoolSupervisorName = $personForm->get('traineeRefSchool')->getData();
             // Récupérer l'ID du référent école
             $schoolSupervisorId = is_numeric($schoolSupervisorName) ? (int) $schoolSupervisorName : null;
+
             if (null !== $schoolSupervisorId) {
                 // Rechercher l'objet Person correspondant à l'ID
                 $schoolSupervisor = $entityManager->getRepository(Person::class)->find($schoolSupervisorId);
@@ -363,12 +373,7 @@ class PersonController extends AbstractController
                 }
             }
         }
-        $roles = $personForm->get('roles')->getData();
-        if (is_string($roles)) {
-            $roles = [$roles];
-        }
-        $personne->setRoles($roles);
-
-        return $roles;
+        return $personne;
     }
+
 }

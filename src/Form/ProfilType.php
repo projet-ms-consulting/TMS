@@ -28,8 +28,8 @@ class ProfilType extends AbstractType
             ])
             ->add('firstName', TextType::class, [
                 'label' => 'Prénom',
-                'required' => true,
                 'mapped' => false,
+                'required' => true,
                 'data' => $options['data']->getPerson()->getFirstName(),
             ])
             ->add('lastName', TextType::class, [

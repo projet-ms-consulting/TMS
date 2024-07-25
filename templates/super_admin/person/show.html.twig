@@ -3,41 +3,129 @@
 {% block title %}Détails d'une personne{% endblock %}
 
 {% block body %}
-    <h1>{{ personne.firstName }} {{ personne.lastName | upper }}</h1>
+    <h1>{{ person.firstName }} {{ person.lastName | upper }}</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Nom : </th>
-                <td>{{ personne.lastName }}</td>
-            </tr>
-            <tr>
                 <th>Prénom : </th>
-                <td>{{ personne.firstName }}</td>
+                <td>{{ person.firstName }}</td>
             </tr>
             <tr>
-                {% if personne.user %}
-                    <th>Email : </th>
-                    <td>{{ personne.user.email }}</td>
+                <th>Nom : </th>
+                <td>{{ person.lastName }}</td>
+            </tr>
+            {% if person.roles[0]=="ROLE_ADMIN" %}
+                <tr>
+                    <th>Rôle : </th>
+                    <td>Chef d'entreprise</td>
+                </tr>
+                <tr>
+                    <th>Entreprise : </th>
+                    <td>{{ person.company.name }}</td>
+                </tr>
+                {% else %}
+                    {% if person.roles[0]=="ROLE_COMPANY_INTERNSHIP" %}
+                        <tr>
+                            <th>Rôle : </th>
+                            <td>Maître de stage :</td>
+                        </tr>
+                        <tr>
+                            <th>Entreprise : </th>
+                            <td>{{ person.company.name }}</td>
+                        </tr>
+                    {% else %}
+                        {% if person.roles[0]=="ROLE_COMPANY_REFERENT" %}
+                            <tr>
+                                <th>Rôle : </th>
+                                <td>Référent entreprise</td>
+                            <tr>
+                                <th>Entreprise : </th>
+                                <td>{{ person.company.name }}</td>
+                            </tr>
+                        {% else %}
+                            {% if person.roles[0]=="ROLE_SCHOOL_INTERNSHIP" %}
+                                <tr>
+                                    <th>Rôle : </th>
+                                    <td>Référent école</td>
+                                <tr>
+                                    <th>Ecole : </th>
+                                    <td>{{ person.school.name }}</td>
+                                </tr>
+                            {% else %}
+                                {% if person.roles[0]=="ROLE_TRAINEE" %}
+                                    <tr>
+                                        <th>Rôle : </th>
+                                        <td>Stagiaire</td>
+                                    <tr>
+                                        <th>Date début de stage : </th>
+                                    {% if person.startInternship is empty  %}
+                                        <td>Non renseigné</td>
+                                        {% else %}
+                                        <td>{{ person.startInternship }}</td>
+                                            {% endif %}
+                                    </tr>
+                                    <tr>
+                                        <th>Date fin de stage : </th>
+                                    {% if person.endInternship is empty  %}
+                                        <td>Non renseigné</td>
+                                    {% else %}
+                                        <td>{{ person.endInternship }}</td>
+                                    {% endif %}
+                                        
+                                    </tr>
+
+                                    <tr>
+                                        <th>Référent école : </th>
+                                        <td>{{ person.schoolSupervisor.fullName }}</td>
+                                    </tr>
+                                        {% if person.internshipSupervisor.fullName != person.companyReferent.fullName %}
+                                            <tr>
+                                                <th>Référent entreprise : </th>
+                                                <td>{{ person.internshipSupervisor.fullName }}</td>
+                                            </tr>
+                                        {% endif %}
+                                    <tr>
+                                        <th>Maître de stage : </th>
+                                        <td>{{ person.companyReferent.fullName }}</td>
+                                    </tr>
+                                {% else %}
+                                    <td>Autre</td>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            </tr>
+            <tr>
+                {% if person.user %}
+                    <th>Email de connexion : </th>
+                    <td>{{ person.user.email }}</td>
+                {% endif %}
+            </tr>
+            <tr>
+                {% if person.mailContact %}
+                    <th>Email de contact : </th>
+                    <td>{{ person.mailContact }}</td>
                 {% endif %}
             </tr>
             <tr>
                 <th>Créé le :</th>
-                <td>{{ personne.createdAt ? personne.createdAt|date('d/m/Y H:i')}}</td>
+                <td>{{ person.createdAt ? person.createdAt|date('d/m/Y H:i')}}</td>
             </tr>
             <tr>
-                {% if personne.updatedAt is not defined %}
+                {% if person.updatedAt is not defined %}
                     <th>Mis à jour le : </th>
-                    <td>{{ personne.updatedAt ? personne.updatedAt|date('d/m/Y H:i')}}</td>
+                    <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y H:i')}}</td>
                 {% endif %}
             </tr>
             <tr>
                 <th>Documents : </th>
-                {% if personne.files is empty %}
+                {% if person.files is empty %}
                     <td>Pas de document</td>
                 {% else %}
                     <td>
-                        {% for file in personne.files %}
+                        {% for file in person.files %}
                             <a href="{{ path('super_admin_app_person_show_file', {id: file.id}) }}" target="_blank">{{ file.label }}</a>
                         {% endfor %}
                     </td>
@@ -48,10 +136,10 @@
 
     <a href="{{ path('super_admin_app_person_index') }}">Retour</a>
 
-    {% if personne.user %}
-        <a href="{{ path('super_admin_app_person_edit', {'id': personne.id}) }}">Modifier</a>
+    {% if person.user %}
+        <a href="{{ path('super_admin_app_person_edit', {'id': person.id}) }}">Modifier</a>
     {% else %}
-        <a href="{{ path('super_admin_app_person_edit', {'id': personne.id}) }}">Modifier</a>
+        <a href="{{ path('super_admin_app_person_edit', {'id': person.id}) }}">Modifier</a>
     {% endif %}
 
     {{ include('super_admin/person/_delete_form.html.twig') }}
