@@ -25,7 +25,7 @@ class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler
             $user->setEverLoggedIn(true);
             // Vous devez persister l'entité utilisateur ici
 
-            $url = $this->urlGenerator->generate('app_reset_password_firstLogin');
+            $url = $this->urlGenerator->generate('app_reset_firstLogin');
         } else {
             $url = $this->urlGenerator->generate('app_accueil');
         }

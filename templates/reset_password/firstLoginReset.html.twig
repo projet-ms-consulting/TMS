@@ -1,18 +1,10 @@
 {% extends 'passwordBase.html.twig' %}
 
-{% block title %}Choisissez votre mot de passe{% endblock %}
+{% block title %}Réinitialisation de première connexion{% endblock %}
 
 {% block body %}
-    <h1>C'est votre première connexion, veuillez mettre un nouveau mot de passe.</h1>
-
-{#    {% if error %}#}
-{#        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>#}
-{#    {% endif %}#}
-
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit" class="btn btn-primary">Choisir le mot de passe</button>
-    {{ form_end(form) }}
-
-
+{{ form_start(form) }}
+{{ form_widget(form) }}
+    <button class="btn btn-primary">Réinitialisation du mot de passe</button>
+{{ form_end(form)}}
 {% endblock %}
