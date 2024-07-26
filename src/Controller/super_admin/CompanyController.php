@@ -42,16 +42,14 @@ class CompanyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $address = $data->getAddress();
+            $data = $request->request->all()['company'];
 
-            if ($address) {
-                $company->setAddress($address);
-            } else {
-                $nbStreet = $form->get('nbStreet')->getData();
-                $street = $form->get('street')->getData();
-                $city = $form->get('city')->getData();
-                $zipCode = $form->get('zipCode')->getData();
+            if ($data['checkAddress'] == 2) {
+                $nbStreet = $data['nbStreetNewAddress'];
+                $street = $data['streetNewAddress'];
+                $city = $data['cityNewAddress'];
+                $zipCode = $data['zipCodeNewAddress'];
+
 
                 $newAddress = new Address();
                 $newAddress->setNbStreet($nbStreet);
