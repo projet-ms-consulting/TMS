@@ -298,11 +298,11 @@ class PersonController extends AbstractController
                 $entityManager->persist($file);
             }
             $entityManager->persist($personne);
-
             $entityManager->flush();
+
             $this->addFlash('success', 'Modification réussie !');
 
-            //            dd($personne);
+//                        dd($personne);
 
             return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -335,6 +335,14 @@ class PersonController extends AbstractController
 
     public function getData(FormInterface $personForm, Person $personne, EntityManagerInterface $entityManager): mixed
     {
+        $personne->setCompany(null)
+            ->setSchool(null)
+            ->setStartInternship(null)
+            ->setEndInternship(null)
+            ->setSchoolSupervisor(null)
+            ->setCompanyReferent(null);
+//          ->setManager(null);
+
         if ($personForm->has('companyReferent')) {
             $personne->setCompany($personForm->get('companyReferent')->getData());
         }

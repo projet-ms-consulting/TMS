@@ -146,7 +146,7 @@ class Person
         return $this->startInternship;
     }
 
-    public function setStartInternship(\DateTimeInterface $startInternship): static
+    public function setStartInternship(?\DateTimeInterface $startInternship): static
     {
         $this->startInternship = $startInternship;
 

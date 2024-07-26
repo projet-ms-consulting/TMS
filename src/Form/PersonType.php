@@ -60,7 +60,7 @@ class PersonType extends AbstractType
                 if ($roles == 'ROLE_TRAINEE') {
                     $field->add(DateType::class, [
                         'label' => 'Date début de stage',
-                        'mapped' => false,
+//                        'mapped' => false,
                         'required' => false,
                         'attr' => ['class' => 'form-control'],
                     ]);
@@ -71,7 +71,7 @@ class PersonType extends AbstractType
                 if ($roles == 'ROLE_TRAINEE') {
                     $field->add(DateType::class, [
                         'label' => 'Date fin de stage',
-                        'mapped' => false,
+//                        'mapped' => false,
                         'required' => false,
                         'attr' => ['class' => 'form-control'],
                     ]);
