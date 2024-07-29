@@ -10,8 +10,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>{{ knp_pagination_sortable(personne, 'Prénom', 'p.firstName') }}</th>
-                <th>{{ knp_pagination_sortable(personne, 'Nom', 'p.lastName') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Nom et prénom', 'p.lastName') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Rôle', 'p.roles') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'S\'est déjà connecté ?', 'u.everLoggedIn') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Peut se connecter ?', 'u.canLogin') }}</th>
@@ -23,8 +22,7 @@
         {% for person in personne %}
             {% if person is not null %}
             <tr>
-                <td>{{ person.firstName }}</td>
-                <td>{{ person.lastName }}</td>
+                <td>{{ person.lastName }} {{ person.firstName }}</td>
                 {% if person.roles[0]=="ROLE_SUPER_ADMIN" %}
                     <td>Super Admin</td>
                 {% else %}

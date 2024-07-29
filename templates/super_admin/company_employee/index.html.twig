@@ -8,9 +8,8 @@
     <table class="table">
         <thead>
             <tr>
-                <th>{{ knp_pagination_sortable(personne, 'Prénom', 'p.firstName') }}</th>
-                <th>{{ knp_pagination_sortable(personne, 'Nom', 'p.lastName') }}</th>
-                <th>{{ knp_pagination_sortable(personne, 'Role', 'u.roles') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Nom et prénom', 'p.lastName') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Rôle', 'u.roles') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Entreprise', 'c.name') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Adresse de l\'entreprise', 'a.city') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Modifié le', 'p.updatedAt') }}</th>
@@ -21,8 +20,7 @@
         {% for person in personne %}
             {% if person is defined %}
                 <tr>
-                    <td>{{ person.lastName }}</td>
-                    <td>{{ person.firstName }}</td>
+                    <td>{{ person.lastName }} {{ person.firstName }}</td>
                     {% if person.roles[0]=='ROLE_ADMIN' %}
                         <td>Chef d'entreprise</td>
                     {% elseif person.roles[0]=='ROLE_COMPANY_INTERNSHIP' %}

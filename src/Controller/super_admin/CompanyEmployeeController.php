@@ -50,9 +50,7 @@ class CompanyEmployeeController extends AbstractController
     {
         $user = $this->getUser();
         $personne = $user->getPerson();
-        $personForm = $this->createForm(PersonType::class, $person, [
-            'context' => 'edit',
-        ]);
+        $personForm = $this->createForm(PersonType::class, $person);
         $personForm->handleRequest($request);
 
         if ($personForm->isSubmitted() && $personForm->isValid()) {
