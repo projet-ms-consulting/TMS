@@ -44,12 +44,11 @@ class CompanyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $request->request->all()['company'];
 
-            if ($data['checkAddress'] == 2) {
+            if (2 == $data['checkAddress']) {
                 $nbStreet = $data['nbStreetNewAddress'];
                 $street = $data['streetNewAddress'];
                 $city = $data['cityNewAddress'];
                 $zipCode = $data['zipCodeNewAddress'];
-
 
                 $newAddress = new Address();
                 $newAddress->setNbStreet($nbStreet);

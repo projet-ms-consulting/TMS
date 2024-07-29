@@ -30,14 +30,14 @@
                     {% endif %}
                 </td>
                 <td>
-                    {% for person in person %}
+                    {% for person in personne %}
                         {% if person.school is not null and school.id == person.school.id and person.company is null %}
                         <a href="{{ path('super_admin_app_person_show',{'id':person.id}) }}">{{ person.lastName }} {{ person.firstName }}</a> <br>
                         {% endif %}
                     {% endfor %}
                 </td>
                 <td>
-                    {% for person in person %}
+                    {% for person in personne %}
                         {% if person.company is not null and person.school is not null and school.id==person.school.id %}
                             <a href="{{ path('super_admin_app_person_show',{'id':person.id}) }}">{{ person.lastName }} {{ person.firstName }}</a> <br>
                         {% endif %}

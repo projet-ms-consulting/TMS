@@ -49,7 +49,7 @@ class CompanyType extends AbstractType
                 ],
             ])
             ->addDependent('address', 'checkAddress', function (DependentField $field, ?bool $checkAddress) {
-                if ($checkAddress === true) {
+                if (true === $checkAddress) {
                     $field->add(EntityType::class, [
                         'class' => Address::class,
                         'label' => 'Adresse',
@@ -66,7 +66,7 @@ class CompanyType extends AbstractType
                 }
             })
             ->addDependent('nbStreetNewAddress', 'checkAddress', function (DependentField $field, ?bool $checkAddress) {
-                if ($checkAddress === false) {
+                if (false === $checkAddress) {
                     $field->add(TextType::class, [
                         'label' => 'Numéro de Rue',
                         'mapped' => false,
@@ -81,7 +81,7 @@ class CompanyType extends AbstractType
                 }
             })
             ->addDependent('streetNewAddress', 'checkAddress', function (DependentField $field, ?bool $checkAddress) {
-                if ($checkAddress === false) {
+                if (false === $checkAddress) {
                     $field->add(TextType::class, [
                         'label' => 'Voirie',
                         'mapped' => false,
@@ -96,7 +96,7 @@ class CompanyType extends AbstractType
                 }
             })
             ->addDependent('zipCodeNewAddress', 'checkAddress', function (DependentField $field, ?bool $checkAddress) {
-                if ($checkAddress === false) {
+                if (false === $checkAddress) {
                     $field->add(TextType::class, [
                         'label' => 'Code postal',
                         'mapped' => false,
@@ -115,7 +115,7 @@ class CompanyType extends AbstractType
                 }
             })
             ->addDependent('cityNewAddress', 'checkAddress', function (DependentField $field, ?bool $checkAddress) {
-                if ($checkAddress === false) {
+                if (false === $checkAddress) {
                     $field->add(TextType::class, [
                         'label' => 'Ville',
                         'mapped' => false,
