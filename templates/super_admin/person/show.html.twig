@@ -35,9 +35,9 @@
                             <td>{{ person.company.name }}</td>
                         </tr>
                     {% else %}
+                        <tr>
+                        <th>Rôle : </th>
                         {% if person.roles[0]=="ROLE_COMPANY_REFERENT" %}
-                            <tr>
-                                <th>Rôle : </th>
                                 <td>Référent entreprise</td>
                             <tr>
                                 <th>Entreprise : </th>
@@ -45,8 +45,6 @@
                             </tr>
                         {% else %}
                             {% if person.roles[0]=="ROLE_SCHOOL_INTERNSHIP" %}
-                                <tr>
-                                    <th>Rôle : </th>
                                     <td>Référent école</td>
                                 <tr>
                                     <th>Ecole : </th>
@@ -54,8 +52,6 @@
                                 </tr>
                             {% else %}
                                 {% if person.roles[0]=="ROLE_TRAINEE" %}
-                                    <tr>
-                                        <th>Rôle : </th>
                                         <td>Stagiaire</td>
                                     <tr>
                                         <th>Date début de stage : </th>
@@ -72,9 +68,7 @@
                                     {% else %}
                                         <td>{{ person.endInternship }}</td>
                                     {% endif %}
-
                                     </tr>
-
                                     <tr>
                                         <th>Référent école : </th>
                                         <td>{{ person.schoolSupervisor.fullName }}</td>
@@ -86,6 +80,10 @@
                                             </tr>
                                         {% endif %}
                                     <tr>
+                                        <th>Chef d'entreprise : </th>
+                                        <td>{{ person.manager.fullName }}</td>
+                                    </tr>
+                                    <tr>
                                         <th>Maître de stage : </th>
                                         <td>{{ person.companyReferent.fullName }}</td>
                                     </tr>
@@ -96,7 +94,6 @@
                         {% endif %}
                     {% endif %}
                 {% endif %}
-            </tr>
             <tr>
                 {% if person.user %}
                     <th>Email de connexion : </th>

@@ -198,6 +198,45 @@ class PersonType extends AbstractType
                     }
                 }
             })
+            // Si stagiaire et si entreprise, afficher le manager (correspondant à l'entreprise sélectionnée)
+            ->addDependent('stagiaireManager', 'stagiaireCompany', function (DependentField $field, ?Company $company) {
+                if ($company != null) {
+                    // Obtenez toutes les personnes associées à l'entreprise
+                    $allPersons = $company->getPerson()->toArray();
+
+                    // Filtrez pour ne garder que celles avec le rôle ROLE_ADMIN
+                    $filteredPersons = array_filter($allPersons, function ($person) {
+                        return in_array('ROLE_ADMIN', $person->getRoles());
+                    });
+                    usort($filteredPersons, function ($a, $b) {
+                        return strcmp($a->getlastName(), $b->getlastName());
+                    });
+                    if (count($filteredPersons) == 0) {
+                        $field->add(ChoiceType::class, [
+                            'label' => 'Chef d\'entreprise : ',
+                            'choices' => [
+                                'Aucun chef d\'entreprise trouvé' => null,
+                            ],
+                            'mapped' => false,
+                            'attr' => ['class' => 'form-control'],
+                        ]);
+                    } else {
+                        $field->add(ChoiceType::class, [
+                            'label' => 'Chef d\'entreprise : ',
+                            'choices' => array_combine(
+                                array_map(function($person) { return $person->getFullName(); }, $filteredPersons),
+                                array_map(function($person) { return $person->getId(); }, $filteredPersons)
+                            ),
+                            'choice_label' => function ($choice, $key, $value) {
+                                return $key;
+                            },
+                            'mapped' => false,
+                            'attr' => ['class' => 'form-control'],
+                            'placeholder' => 'Choisir le chef d\'entreprise',
+                        ]);
+                    }
+                }
+            })
         // Si stagiaire et si entreprise, afficher le maître de stage (correspondant à l'entreprise sélectionnée)
             ->addDependent('traineeSupervisor', 'stagiaireCompany', function (DependentField $field, ?Company $company) {
                 if ($company != null) {

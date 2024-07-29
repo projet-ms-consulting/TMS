@@ -60,7 +60,7 @@
                 <td>{{ person.endInternship ? person.endInternship|date('d/m/Y')}}</td>
                 <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y')}}</td>
                 <td>
-                    <a href="{{ path('super_admin_app_trainee_show', {'id': person.id}) }}">Voir</a>
+                    <a href="{{ path('super_admin_app_trainee_show', {'id': person.id}) }}">Détails</a>
                     <a href="{{ path('super_admin_app_trainee_edit', {'id': person.id}) }}">Modifier</a>
                 </td>
             </tr>

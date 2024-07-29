@@ -402,6 +402,21 @@ class PersonController extends AbstractController
                 }
             }
         }
+        // Attribuer le chef d'entreprise au stagiaire
+        if ($personForm->has('stagiaireManager')) {
+            $managerName = $personForm->get('stagiaireManager')->getData();
+            // Récupérer l'ID du référent école
+            $managerId = is_numeric($managerName) ? (int) $managerName : null;
+
+            if (null !== $managerId) {
+                // Rechercher l'objet Person correspondant à l'ID
+                $manager = $entityManager->getRepository(Person::class)->find($managerId);
+                if ($manager) {
+                    // Définir le référent entreprise sur personne
+                    $personne->setSchoolSupervisor($manager);
+                }
+            }
+        }
 
         return $personne;
     }

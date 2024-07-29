@@ -42,6 +42,12 @@
                     <td>{{ form_widget(form.stagiaireCompany) }}</td>
                 </tr>
             {% endif %}
+            {% if form.stagiaireManager is defined %}
+                <tr>
+                    <th>{{ form_label(form.stagiaireManager) }}</th>
+                    <td>{{ form_widget(form.stagiaireManager) }}</td>
+                </tr>
+            {% endif %}
             {% if form.stagiaireRefEntrep is defined %}
                 <tr>
                     <th>{{ form_label(form.stagiaireRefEntrep) }}</th>
