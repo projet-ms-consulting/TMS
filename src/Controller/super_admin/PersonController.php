@@ -141,19 +141,19 @@ class PersonController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Création réussie !');
-            $email = (new TemplatedEmail())
-                ->from(new Address('noreply@msconsulting-europe.com', 'MS_Consulting'))
-                ->to($user->getEmail())
-                ->subject('Bienvenue sur TMS')
-                ->htmlTemplate('person/new.html.twig')
-                ->context(['user' => $user, 'password' => $password])
-            ;
-
-            try {
-                $this->mailer->send($email);
-                $this->addFlash('success', 'Email envoyé avec succès !');
-            } catch (\Exception $e) {
-                $this->addFlash('error', 'Erreur lors de l\'envoi de l\'email : '.$e->getMessage());
+            if ($personForm->has('checkUser') && $personForm->get('checkUser')->getData()) {
+                $email = (new TemplatedEmail())
+                    ->from(new Address('noreply@msconsulting-europe.com', 'MS_Consulting'))
+                    ->to($user->getEmail())
+                    ->subject('Bienvenue sur TMS')
+                    ->htmlTemplate('person/new.html.twig')
+                    ->context(['user' => $user, 'password' => $password]);
+                try {
+                    $this->mailer->send($email);
+                    $this->addFlash('success', 'Email envoyé avec succès !');
+                } catch (\Exception $e) {
+                    $this->addFlash('error', 'Erreur lors de l\'envoi de l\'email : ' . $e->getMessage());
+                }
             }
 
             return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
@@ -302,8 +302,6 @@ class PersonController extends AbstractController
 
             $this->addFlash('success', 'Modification réussie !');
 
-//                        dd($personne);
-
             return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -340,8 +338,8 @@ class PersonController extends AbstractController
             ->setStartInternship(null)
             ->setEndInternship(null)
             ->setSchoolSupervisor(null)
-            ->setCompanyReferent(null);
-//          ->setManager(null);
+            ->setCompanyReferent(null)
+            ->setManager(null);
 
         if ($personForm->has('companyReferent')) {
             $personne->setCompany($personForm->get('companyReferent')->getData());
@@ -417,7 +415,6 @@ class PersonController extends AbstractController
                 }
             }
         }
-
         return $personne;
     }
 }

@@ -8,8 +8,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>{{ knp_pagination_sortable(personne, 'Prénom', 'p.firstName') }}</th>
-                <th>{{ knp_pagination_sortable(personne, 'Nom', 'p.lastName') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Nom et prénom', 'p.lastName') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Ecole de référence', 's.name') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Adresse de l\'école', 'a.city') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Modifié le', 'p.updatedAt') }}</th>
@@ -20,8 +19,7 @@
             {% for person in personne %}
                 <tr>
                         {% if person is defined %}
-                            <td>{{ person.firstName }}</td>
-                            <td>{{ person.lastName }}</td>
+                            <td>{{ person.lastName }} {{ person.firstName }}</td>
                             <td><a href="{{ path('super_admin_school_show', {'id': person.school.id}) }}">{{ person.school.name }}</a></td>
                             <td>{{ person.school.address.nbStreet }} {{ person.school.address.street }}, {{ person.school.address.zipCode }} {{ person.school.address.city }}</td>
                             <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y')}}</td>

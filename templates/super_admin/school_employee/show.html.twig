@@ -3,7 +3,7 @@
 {% block title %}Détails de l'employé d'école{% endblock %}
 
 {% block body %}
-    <h1>Personnes</h1>
+    <h1>{{ personne.firstName }} {{ personne.lastName | upper }}</h1>
 
     <table class="table">
         <tbody>
@@ -33,10 +33,9 @@
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('super_admin_app_school_employee_index') }}">Retour</a>
-
-    <a href="{{ path('super_admin_app_school_employee_edit', {'id': personne.id}) }}">Modifier</a>
-
+<div class="center-btn-container">
+    <a href="{{ path('super_admin_app_school_employee_index') }}" class="btn btn-primary back-btn">Retour</a>
+    <a href="{{ path('super_admin_app_school_employee_edit', {'id': personne.id}) }}" class="btn btn-primary back-btn">Modifier</a>
+</div>
     {{ include('super_admin/school_employee/_delete_form.html.twig') }}
 {% endblock %}
