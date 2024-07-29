@@ -12,7 +12,6 @@
                 <th>{{ knp_pagination_sortable(personne, 'Ecole', 's.name') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Référent école', 'ss.lastName') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Entreprise', 'c.name') }}</th>
-                <th>{{ knp_pagination_sortable(personne, 'Manager', 'm.lastName') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Référent entreprise', 'cr.lastName') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Maître de stage', 'i.lastName') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Début de stage', 'p.startInternship') }}</th>
@@ -40,11 +39,6 @@
                     <td><a href="{{ path('super_admin_app_company_show', {'id':person.company.id}) }}">{{ person.company.name }}</a></td>
                 {% else %}
                     <td>Pas d'entreprise</td>
-                {% endif %}
-                {% if person.manager is defined and person.manager is not null %}
-                    <td><a href="{{ path('super_admin_app_person_show',{'id':person.manager.id}) }}">{{ person.manager.firstName }} {{ person.manager.lastName }}</a></td>
-                {% else %}
-                    <td>Pas de Manager</td>
                 {% endif %}
                 {% if person.companyReferent is defined and person.companyReferent is not null %}
                     <td><a href="{{ path('super_admin_app_person_show',{'id':person.companyReferent.id}) }}">{{ person.companyReferent.firstName }} {{ person.companyReferent.lastName }}</a></td>

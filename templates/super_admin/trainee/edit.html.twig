@@ -3,19 +3,10 @@
 {% block title %}Modifier un stagiaire{% endblock %}
 
 {% block body %}
-    <h1>Modifier</h1>
-    <div>
-        {{ form_start(form) }}
-            {{ form_row(form.startInternship)}}
-            {{ form_row(form.endInternship)}}
-{#            {{ form_row(form.firstName)}}#}
-{#            {{ form_row(form.lastName)}}#}
-{#            {{ form_row(form.school)}}#}
-{#            {{ form_row(form.company) }}#}
-        <button type="submit">Enregistrer</button>
-        {{ form_end(form) }}
-    </div>
 
+    <h1>Modifier</h1>
+    <h2>{{ personne.firstName }} {{ personne.lastName | upper }}</h2>
+    <twig:PersonEditForm :personne="personne"/>
     <a href="{{ path('super_admin_app_trainee_index') }}">Retour</a>
 
     {{ include('super_admin/trainee/_delete_form.html.twig') }}

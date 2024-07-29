@@ -57,10 +57,10 @@ class PersonType extends AbstractType
 
             // Si stagiaire, afficher champ date début de stage
             ->addDependent('startInternship', 'roles', function (DependentField $field, ?string $roles) {
-                if ($roles == 'ROLE_TRAINEE') {
+                if ('ROLE_TRAINEE' == $roles) {
                     $field->add(DateType::class, [
                         'label' => 'Date début de stage',
-//                        'mapped' => false,
+                        //                        'mapped' => false,
                         'required' => false,
                         'attr' => ['class' => 'form-control'],
                     ]);
@@ -68,10 +68,10 @@ class PersonType extends AbstractType
             })
             // Si stagiaire, afficher champ date fin de stage
             ->addDependent('endInternship', 'roles', function (DependentField $field, ?string $roles) {
-                if ($roles == 'ROLE_TRAINEE') {
+                if ('ROLE_TRAINEE' == $roles) {
                     $field->add(DateType::class, [
                         'label' => 'Date fin de stage',
-//                        'mapped' => false,
+                        //                        'mapped' => false,
                         'required' => false,
                         'attr' => ['class' => 'form-control'],
                     ]);
@@ -79,7 +79,7 @@ class PersonType extends AbstractType
             })
             // Si Référent entreprise, afficher le champ entreprise
             ->addDependent('companyReferent', 'roles', function (DependentField $field, ?string $roles) {
-                if ($roles == 'ROLE_COMPANY_REFERENT') {
+                if ('ROLE_COMPANY_REFERENT' == $roles) {
                     $field->add(EntityType::class, [
                         'class' => Company::class,
                         'label' => 'Entreprise',
@@ -87,15 +87,15 @@ class PersonType extends AbstractType
                         'mapped' => false,
                         'attr' => ['class' => 'form-control'],
                         'query_builder' => function (EntityRepository $er) {
-                        return $er ->createQueryBuilder('c')
-                            ->orderBy('c.name', 'ASC');
-                        }
+                            return $er->createQueryBuilder('c')
+                                ->orderBy('c.name', 'ASC');
+                        },
                     ]);
                 }
             })
             // Si Chef d'entreprise, afficher le champ entreprise
             ->addDependent('manager', 'roles', function (DependentField $field, ?string $roles) {
-                if ($roles == 'ROLE_ADMIN') {
+                if ('ROLE_ADMIN' == $roles) {
                     $field->add(EntityType::class, [
                         'class' => Company::class,
                         'label' => 'Entreprise',
@@ -103,15 +103,15 @@ class PersonType extends AbstractType
                         'mapped' => false,
                         'attr' => ['class' => 'form-control'],
                         'query_builder' => function (EntityRepository $er) {
-                            return $er ->createQueryBuilder('c')
+                            return $er->createQueryBuilder('c')
                                 ->orderBy('c.name', 'ASC');
-                        }
+                        },
                     ]);
                 }
             })
             // Si Maître de stage afficher entreprise
             ->addDependent('internshipSupervisor', 'roles', function (DependentField $field, ?string $roles) {
-                if ($roles == 'ROLE_COMPANY_INTERNSHIP') {
+                if ('ROLE_COMPANY_INTERNSHIP' == $roles) {
                     $field->add(EntityType::class, [
                         'class' => Company::class,
                         'label' => 'Entreprise',
@@ -119,15 +119,15 @@ class PersonType extends AbstractType
                         'mapped' => false,
                         'attr' => ['class' => 'form-control'],
                         'query_builder' => function (EntityRepository $er) {
-                            return $er ->createQueryBuilder('c')
+                            return $er->createQueryBuilder('c')
                                 ->orderBy('c.name', 'ASC');
-                        }
+                        },
                     ]);
                 }
             })
             // Si Référent école, afficher le champ école
             ->addDependent('school', 'roles', function (DependentField $field, ?string $roles) {
-                if ($roles == 'ROLE_SCHOOL_INTERNSHIP') {
+                if ('ROLE_SCHOOL_INTERNSHIP' == $roles) {
                     $field->add(EntityType::class, [
                         'class' => School::class,
                         'label' => 'Ecole',
@@ -135,15 +135,15 @@ class PersonType extends AbstractType
                         'mapped' => false,
                         'attr' => ['class' => 'form-control'],
                         'query_builder' => function (EntityRepository $er) {
-                            return $er ->createQueryBuilder('s')
+                            return $er->createQueryBuilder('s')
                                 ->orderBy('s.name', 'ASC');
-                        }
+                        },
                     ]);
                 }
             })
             // Si stagiaire, afficher le champ entreprise
             ->addDependent('stagiaireCompany', 'roles', function (DependentField $field, ?string $roles) {
-                if ($roles == 'ROLE_TRAINEE') {
+                if ('ROLE_TRAINEE' == $roles) {
                     $field->add(EntityType::class, [
                         'class' => Company::class,
                         'label' => 'Entreprise',
@@ -160,7 +160,7 @@ class PersonType extends AbstractType
             })
             // Si stagiaire et si entreprise, afficher référent entreprise (correspondant à l'entreprise sélectionnée)
             ->addDependent('stagiaireRefEntrep', 'stagiaireCompany', function (DependentField $field, ?Company $company) {
-                if ($company != null) {
+                if (null != $company) {
                     // Obtenez toutes les personnes associées à l'entreprise
                     $allPersons = $company->getPerson()->toArray();
 
@@ -172,7 +172,7 @@ class PersonType extends AbstractType
                         return strcmp($a->getlastName(), $b->getlastName());
                     });
 
-                    if (count($filteredPersons) == 0) {
+                    if (0 == count($filteredPersons)) {
                         $field->add(ChoiceType::class, [
                             'label' => 'Référent entreprise',
                             'choices' => [
@@ -185,8 +185,8 @@ class PersonType extends AbstractType
                         $field->add(ChoiceType::class, [
                             'label' => 'Référent entreprise',
                             'choices' => array_combine(
-                                array_map(function($person) { return $person->getFullName(); }, $filteredPersons),
-                                array_map(function($person) { return $person->getId(); }, $filteredPersons)
+                                array_map(function ($person) { return $person->getFullName(); }, $filteredPersons),
+                                array_map(function ($person) { return $person->getId(); }, $filteredPersons)
                             ),
                             'choice_label' => function ($choice, $key, $value) {
                                 return $key;
@@ -200,7 +200,7 @@ class PersonType extends AbstractType
             })
             // Si stagiaire et si entreprise, afficher le manager (correspondant à l'entreprise sélectionnée)
             ->addDependent('stagiaireManager', 'stagiaireCompany', function (DependentField $field, ?Company $company) {
-                if ($company != null) {
+                if (null != $company) {
                     // Obtenez toutes les personnes associées à l'entreprise
                     $allPersons = $company->getPerson()->toArray();
 
@@ -211,7 +211,7 @@ class PersonType extends AbstractType
                     usort($filteredPersons, function ($a, $b) {
                         return strcmp($a->getlastName(), $b->getlastName());
                     });
-                    if (count($filteredPersons) == 0) {
+                    if (0 == count($filteredPersons)) {
                         $field->add(ChoiceType::class, [
                             'label' => 'Chef d\'entreprise : ',
                             'choices' => [
@@ -224,8 +224,8 @@ class PersonType extends AbstractType
                         $field->add(ChoiceType::class, [
                             'label' => 'Chef d\'entreprise : ',
                             'choices' => array_combine(
-                                array_map(function($person) { return $person->getFullName(); }, $filteredPersons),
-                                array_map(function($person) { return $person->getId(); }, $filteredPersons)
+                                array_map(function ($person) { return $person->getFullName(); }, $filteredPersons),
+                                array_map(function ($person) { return $person->getId(); }, $filteredPersons)
                             ),
                             'choice_label' => function ($choice, $key, $value) {
                                 return $key;
@@ -239,7 +239,7 @@ class PersonType extends AbstractType
             })
         // Si stagiaire et si entreprise, afficher le maître de stage (correspondant à l'entreprise sélectionnée)
             ->addDependent('traineeSupervisor', 'stagiaireCompany', function (DependentField $field, ?Company $company) {
-                if ($company != null) {
+                if (null != $company) {
                     // Obtenez toutes les personnes associées à l'entreprise
                     $allPersons = $company->getPerson()->toArray();
 
@@ -251,7 +251,7 @@ class PersonType extends AbstractType
                         return strcmp($a->getlastName(), $b->getlastName());
                     });
 
-                    if (count($filteredPersons) == 0) {
+                    if (0 == count($filteredPersons)) {
                         $field->add(ChoiceType::class, [
                             'label' => 'Maître de stage : ',
                             'choices' => [
@@ -264,8 +264,8 @@ class PersonType extends AbstractType
                         $field->add(ChoiceType::class, [
                             'label' => 'Maître de stage :',
                             'choices' => array_combine(
-                                array_map(function($person) { return $person->getFullName(); }, $filteredPersons),
-                                array_map(function($person) { return $person->getId(); }, $filteredPersons)
+                                array_map(function ($person) { return $person->getFullName(); }, $filteredPersons),
+                                array_map(function ($person) { return $person->getId(); }, $filteredPersons)
                             ),
                             'choice_label' => function ($choice, $key, $value) {
                                 // Since the choices are now the person's ID, the label is the person's full name which is the key in this context
@@ -280,7 +280,7 @@ class PersonType extends AbstractType
             })
             // Si stagiaire, afficher le champ école
             ->addDependent('traineeSchool', 'roles', function (DependentField $field, ?string $roles) {
-                if ($roles == 'ROLE_TRAINEE') {
+                if ('ROLE_TRAINEE' == $roles) {
                     $field->add(EntityType::class, [
                         'class' => School::class,
                         'label' => 'École',
@@ -297,7 +297,7 @@ class PersonType extends AbstractType
             })
             // Si stagiaire et si école, afficher référent école (correspondant à l'école sélectionnée)
             ->addDependent('traineeRefSchool', 'traineeSchool', function (DependentField $field, ?School $school) {
-                if ($school != null) {
+                if (null != $school) {
                     // Obtenez toutes les personnes associées à l'école
                     $allPersons = $school->getPeople()->toArray();
 
@@ -310,7 +310,7 @@ class PersonType extends AbstractType
                         return strcmp($a->getFullName(), $b->getFullName());
                     });
 
-                    if (count($filteredPersons) == 0) {
+                    if (0 == count($filteredPersons)) {
                         $field->add(ChoiceType::class, [
                             'label' => 'Référent école',
                             'choices' => [
@@ -323,11 +323,11 @@ class PersonType extends AbstractType
                         $field->add(ChoiceType::class, [
                             'label' => 'Référent école',
                             'choices' => array_combine(
-                                array_map(function($person) { return $person->getFullName(); }, $filteredPersons),
-                                array_map(function($person) { return $person->getId(); }, $filteredPersons)
+                                array_map(function ($person) { return $person->getFullName(); }, $filteredPersons),
+                                array_map(function ($person) { return $person->getId(); }, $filteredPersons)
                             ),
                             'choice_label' => function ($choice, $key, $value) {
-                                //Puisque les choix sont désormais l'id de la personne, l'étiquette est le nom complet de la personne, ce qui est la clé dans ce contexte.
+                                // Puisque les choix sont désormais l'id de la personne, l'étiquette est le nom complet de la personne, ce qui est la clé dans ce contexte.
                                 return $key;
                             },
                             'mapped' => false,
@@ -339,7 +339,7 @@ class PersonType extends AbstractType
             })
             // Si stagiaire, afficher le champ CV
             ->addDependent('cv', 'roles', function (DependentField $field, ?string $roles) {
-                if ($roles == 'ROLE_TRAINEE') {
+                if ('ROLE_TRAINEE' == $roles) {
                     $field->add(FileType::class, [
                         'label' => 'CV :',
                         'mapped' => false,
@@ -349,7 +349,7 @@ class PersonType extends AbstractType
                                 'mimeTypes' => [
                                     'application/pdf',
                                     'image/jpeg',
-                                    'image/png',],
+                                    'image/png', ],
                                 'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
                             ]),
                         ],
@@ -359,7 +359,7 @@ class PersonType extends AbstractType
             })
             // Si stagiaire, afficher le champ Lettre de Motivation
             ->addDependent('coverLetter', 'roles', function (DependentField $field, ?string $roles) {
-                if ($roles == 'ROLE_TRAINEE') {
+                if ('ROLE_TRAINEE' == $roles) {
                     $field->add(FileType::class, [
                         'label' => 'Lettre de motivation :',
                         'mapped' => false,
@@ -369,7 +369,7 @@ class PersonType extends AbstractType
                                 'mimeTypes' => [
                                     'application/pdf',
                                     'image/jpeg',
-                                    'image/png',],
+                                    'image/png', ],
                                 'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
                             ]),
                         ],
@@ -379,7 +379,7 @@ class PersonType extends AbstractType
             })
             // Si stagiaire, afficher le champ Lettre de Convention de stage
             ->addDependent('internshipAgreement', 'roles', function (DependentField $field, ?string $roles) {
-                if ($roles == 'ROLE_TRAINEE') {
+                if ('ROLE_TRAINEE' == $roles) {
                     $field->add(FileType::class, [
                         'label' => 'Convention de stage :',
                         'mapped' => false,
@@ -389,7 +389,7 @@ class PersonType extends AbstractType
                                 'mimeTypes' => [
                                     'application/pdf',
                                     'image/jpeg',
-                                    'image/png',],
+                                    'image/png', ],
                                 'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
                             ]),
                         ],
@@ -418,11 +418,12 @@ class PersonType extends AbstractType
                 }
             });
     }
+
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Person::class,
-//            'selected_person' => null,
+            //            'selected_person' => null,
         ]);
     }
 }

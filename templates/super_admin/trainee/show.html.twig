@@ -3,8 +3,7 @@
 {% block title %}Détails d'un stagiaire{% endblock %}
 
 {% block body %}
-    <h1>{{ personne.firstName }} {{ personne.lastName | upper}}</h1>
-    <h2>Stagiaire</h2>
+    <h1>Profil du stagiaire {{ personne.firstName }} {{ personne.lastName | upper}}</h1>
 
     <table class="table">
         <tbody>
@@ -17,7 +16,35 @@
                 <td>{{ personne.firstName }}</td>
             </tr>
             <tr>
-                <th>Date de début de stage</th>
+                <th>Email de contact : </th>
+                <td>{{ personne.mailContact }}</td>
+            </tr>
+            <tr>
+                <th>Entreprise : </th>
+                <td><a href="{{ path('super_admin_app_company_show', {'id': personne.company.id}) }}">{{ personne.company.name }}</a></td>
+            </tr>
+            <tr>
+                <th>Chef d'entreprise : </th>
+                <td><a href="{{ path('super_admin_app_person_show',{'id':personne.manager.id}) }}">{{ personne.manager.fullName }}</a></td>
+            </tr>
+            <tr>
+                <th> Référent entreprise : </th>
+                <td><a href="{{ path('super_admin_app_person_show',{'id':personne.companyReferent.id}) }}">{{ personne.companyReferent.fullName }}</a></td>
+            </tr>
+            <tr>
+                <th>Maître de stage : </th>
+                <td><a href="{{ path('super_admin_app_person_show',{'id':personne.internshipSupervisor.id}) }}">{{ personne.internshipSupervisor.fullName}}</a></td>
+            </tr>
+            <tr>
+                <th>Ecole : </th>
+                <td><a href="{{ path('super_admin_school_show',{'id':personne.school.id}) }}">{{ personne.school.name }}</a></td>
+            </tr>
+            <tr>
+                <th>Référent école : </th>
+                <td><a href="{{ path('super_admin_app_school_employee_show',{'id':personne.schoolSupervisor.id}) }}">{{ personne.schoolSupervisor.fullName }}</a></td>
+            </tr>
+            <tr>
+                <th>Date de début de stage : </th>
                 <td>{{ personne.startInternship ? personne.startInternship|date('d/m/Y') : '' }}</td>
             </tr>
             <tr>
