@@ -3,6 +3,7 @@
 namespace App\Controller\super_admin;
 
 use App\Entity\School;
+use App\Form\SchoolEditType;
 use App\Form\SchoolType;
 use App\Repository\PersonRepository;
 use App\Repository\SchoolRepository;
@@ -76,28 +77,35 @@ class SchoolController extends AbstractController
         ]);
     }
 
+
     #[Route('super_admin/school/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, School $school, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(SchoolType::class, $school);
+        $form = $this->createForm(SchoolEditType::class, $school);
         $form->handleRequest($request);
-        $user = $this->getUser();
-        $personne = $user->getPerson();
+
         if ($form->isSubmitted() && $form->isValid()) {
+
             $school->setUpdatedAt(new \DateTimeImmutable());
+
+            $address = $school->getAddress();
+            if ($address) {
+                $address->setUpdatedAt(new \DateTimeImmutable());
+            }
+
             $entityManager->flush();
 
-            $this->addFlash('success', 'Ecole '.$school->getName().' modifié avec succes!');
-
+            $this->addFlash('success', 'École '.$school->getName().' mise à jour avec succès!');
             return $this->redirectToRoute('super_admin_school_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('super_admin/school/edit.html.twig', [
             'school' => $school,
-            'form' => $form,
-            'connectedPerson' => $personne,
+            'form' => $form->createView(),
+            'connectedPerson' => $this->getUser()->getPerson(),
         ]);
     }
+
 
     #[Route('/super_admin/school/delete/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, School $school, EntityManagerInterface $entityManager): Response
@@ -111,3 +119,4 @@ class SchoolController extends AbstractController
         return $this->redirectToRoute('super_admin_school_index', [], Response::HTTP_SEE_OTHER);
     }
 }
+

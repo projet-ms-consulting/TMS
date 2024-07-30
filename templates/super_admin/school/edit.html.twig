@@ -1,27 +1,35 @@
 {% extends 'super_admin.html.twig' %}
 
-{% block title %}Modifier une école{% endblock %}
+    {% block title %}Modifier une école{% endblock %}
 
-{% block body %}
-    <h1>Modifier l'école</h1>
-    <h2>{{ school.name }}</h2>
+    {% block stylesheets %}
+        {{ parent() }}
+        <link rel="stylesheet" href="{{ asset('styles/css/array.css') }}">
+    {% endblock %}
 
-    {{ form_start(form) }}
-    <table class="table">
-        <tr>
-            <th>Nom de l'école</th>
-            <td>{{ form_widget(form.name) }}</td>
-        </tr>
-        <tr>
-            <th>Adresse</th>
-            <td>{{ form_widget(form.address) }}</td>
-        </tr>
-    </table>
-    {{ form_end(form) }}
+    {% block body %}
+        <h1>Modifier une école
+{#            {{ school.name }}</h1>#}
 
-    <div class="btnForm">
-        <a href="{{ path('super_admin_school_index') }}" class="btn-custom">Retour</a>
-        <button class="btn-custom">Modifier</button>
-    </div>
-    {{ include('super_admin/school/_delete_form.html.twig') }}
-{% endblock %}
+        {{ form_start(form) }}
+        <table class="table">
+            <tr>
+                <th>{{ form_label(form.name) }}</th>
+                <td>{{ form_widget(form.name) }} {{ form_errors(form.address) }}</td>
+
+            </tr>
+
+            <tr>
+                <th>{{ form_label(form.address) }}</th>
+                <td>{{ form_widget(form.address) }} {{ form_errors(form.address) }}</td>
+            </tr>
+        </table>
+
+        <div class="button-container">
+            <a href="{{ path('super_admin_school_index') }}" class="btn btn-primary back-btn">Retour</a>
+            <button type="submit" class="btn btn-primary">Modifier</button>
+        </div>
+
+        {{ form_end(form) }}
+
+    {% endblock %}
