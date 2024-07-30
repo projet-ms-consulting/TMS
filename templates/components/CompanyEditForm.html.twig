@@ -1,0 +1,47 @@
+<div{{ attributes }}>
+
+    {{ form_start(form) }}
+    <table class="table">
+        <tr>
+            <th>{{ form_label(form.name) }}</th>
+            <td>{{ form_widget(form.name) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.companyType) }}</th>
+            <td>{{ form_widget(form.companyType) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.nbStreet) }}</th>
+            <td>{{ form_widget(form.nbStreet) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.street) }}</th>
+            <td>{{ form_widget(form.street) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.zipCode) }}</th>
+            <td>{{ form_widget(form.zipCode) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.city) }}</th>
+            <td>{{ form_widget(form.city) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.employee) }}</th>
+            <td>{{ form_widget(form.employee) }}</td>
+        </tr>
+
+        <tr>
+            <th>{{ form_label(form.address) }}</th>
+            <td>{{ form_widget(form.address) }}</td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <button id="btn-submit" class="btn">Enregistrer</button>
+            </td>
+        </tr>
+    </table>
+        {{ form_end(form) }}
+
+</div>

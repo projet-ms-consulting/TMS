@@ -10,54 +10,10 @@
 {% block body %}
     <h1>Modifier l'entreprise {{ company.name }}</h1>
 
-    {{ form_start(form) }}
-    <table class="table">
-        <tr>
-            <th>{{ form_label(form.name) }}</th>
-            <td>{{ form_widget(form.name) }}</td>
-        </tr>
-        <tr>
-            <th>{{ form_label(form.companyType) }}</th>
-            <td>{{ form_widget(form.companyType) }}</td>
-        </tr>
-        <tr>
-            <th>{{ form_label(form.nbStreetNewAddress) }}</th>
-            <td>{{ form_widget(form.nbStreetNewAddress) }}</td>
-        </tr>
-        <tr>
-            <th>{{ form_label(form.streetNewAddress) }}</th>
-            <td>{{ form_widget(form.streetNewAddress) }}</td>
-        </tr>
-        <tr>
-            <th>{{ form_label(form.zipCodeNewAddress) }}</th>
-            <td>{{ form_widget(form.zipCodeNewAddress) }}</td>
-        </tr>
-        <tr>
-            <th>{{ form_label(form.cityNewAddress) }}</th>
-            <td>{{ form_widget(form.cityNewAddress) }}</td>
-        </tr>
-        <tr>
-            <th>{{ form_label(form.employeeNumber) }}</th>
-            <td>{{ form_widget(form.employeeNumber) }}</td>
-        </tr>
-
-        <tr>
-            <th>{{ form_label(form.address) }}</th>
-            <td>{{ form_widget(form.address) }}</td>
-        </tr>
-
-        <tr>
-            <td colspan="2">
-                <button id="btn-submit" class="btn">Enregistrer</button>
-            </td>
-        </tr>
-    </table>
-    {{ form_end(form) }}
+    <twig:CompanyEditForm />
 
 <div class="center-btn-container">
     <a href="{{ path('super_admin_app_company_index') }}" class="btn btn-primary back-btn">Retour</a>
 
-
-{#   {{ include('super_admin/company/_delete_form.html.twig')'' }}#}
 
 {% endblock %}

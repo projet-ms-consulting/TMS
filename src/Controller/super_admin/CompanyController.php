@@ -44,6 +44,16 @@ class CompanyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $request->request->all()['company'];
 
+            if (0 == $data['checkAddress']) {
+
+                $newAddress = new Address();;
+                $newAddress->setCreatedAt(new \DateTimeImmutable());
+
+                $entityManager->persist($newAddress);
+                $company->setAddress($newAddress);
+            }
+            
+
             if (2 == $data['checkAddress']) {
                 $nbStreet = $data['nbStreetNewAddress'];
                 $street = $data['streetNewAddress'];
