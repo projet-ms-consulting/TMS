@@ -10,7 +10,34 @@
 {% block body %}
     <h1>Modifier l'entreprise {{ company.name }}</h1>
 
-    <twig:CompanyEditForm />
+    {{ form_start(form) }}
+    <table class="table">
+        <tr>
+            <th>{{ form_label(form.name) }}</th>
+            <td>{{ form_widget(form.name) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.companyType) }}</th>
+            <td>{{ form_widget(form.companyType) }}</td>
+        </tr>
+
+        <tr>
+            <th>{{ form_label(form.address) }}</th>
+            <td>{{ form_widget(form.address) }}</td>
+        </tr>
+
+{#        <tr>#}
+{#            <th>{{ form_label(form.employee) }}</th>#}
+{#            <td>{{ form_widget(form.employee) }}</td>#}
+{#        </tr>#}
+
+        <tr>
+            <td colspan="2">
+                <button id="btn-submit" class="btn">Enregistrer</button>
+            </td>
+        </tr>
+    </table>
+    {{ form_end(form) }}
 
 <div class="center-btn-container">
     <a href="{{ path('super_admin_app_company_index') }}" class="btn btn-primary back-btn">Retour</a>

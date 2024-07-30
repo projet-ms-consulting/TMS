@@ -102,13 +102,19 @@ class CompanyController extends AbstractController
     public function edit(Request $request, Company $company, EntityManagerInterface $entityManager): Response
     {
         $address = $company->getAddress();
+        $nbStreet = $company->getAddress()->getNbStreet();
+        $street = $company->getAddress()->getStreet();
+        $zipCode = $company->getAddress()->getZipCode();
+        $city = $company->getAddress()->getCity();
         $user = $this->getUser();
         $personne = $user->getPerson();
         $form = $this->createForm(CompanyEditType::class, $company);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $company->setUpdatedAt(new \DateTimeImmutable());
+            $address->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->flush();
 
             return $this->redirectToRoute('super_admin_app_company_index', [], Response::HTTP_SEE_OTHER);
