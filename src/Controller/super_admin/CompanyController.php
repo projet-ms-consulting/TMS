@@ -4,6 +4,7 @@ namespace App\Controller\super_admin;
 
 use App\Entity\Address;
 use App\Entity\Company;
+use App\Form\CompanyEditType;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -100,9 +101,10 @@ class CompanyController extends AbstractController
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Company $company, EntityManagerInterface $entityManager): Response
     {
+        $address = $company->getAddress();
         $user = $this->getUser();
         $personne = $user->getPerson();
-        $form = $this->createForm(CompanyType::class, $company);
+        $form = $this->createForm(CompanyEditType::class, $company);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -116,6 +118,7 @@ class CompanyController extends AbstractController
             'company' => $company,
             'form' => $form->createView(),
             'connectedPerson' => $personne,
+            'address' => $address,
         ]);
     }
 

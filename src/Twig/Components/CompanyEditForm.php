@@ -9,6 +9,7 @@ use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 
+
 #[AsLiveComponent]
 final class CompanyEditForm extends AbstractController
 {

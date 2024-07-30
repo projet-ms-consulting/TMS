@@ -21,11 +21,17 @@
         <div class="form-group">
             {{ form_row(form.nbStreetNewAddress, {'attr': {'class': 'form-control'}}) }}
         </div>
+        <div class="form-error">
+            {{ form_errors(form.name) }}
+        </div>
     {% endif %}
 
     {% if form.streetNewAddress is defined %}
         <div class="form-group">
             {{ form_row(form.streetNewAddress, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-error">
+            {{ form_errors(form.name) }}
         </div>
     {% endif %}
 
@@ -33,11 +39,17 @@
         <div class="form-group">
             {{ form_row(form.zipCodeNewAddress, {'attr': {'class': 'form-control'}}) }}
         </div>
+        <div class="form-error">
+            {{ form_errors(form.name) }}
+        </div>
     {% endif %}
 
     {% if form.cityNewAddress is defined %}
         <div class="form-group">
             {{ form_row(form.cityNewAddress, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-error">
+            {{ form_errors(form.name) }}
         </div>
     {% endif %}
 
