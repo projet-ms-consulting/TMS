@@ -167,6 +167,21 @@ class PersonRepository extends ServiceEntityRepository
         );
     }
 
+    public function findByRole(string $role)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT * FROM person p
+            WHERE JSON_CONTAINS(p.roles, :role)
+        ';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['role' => json_encode($role)]);
+
+        return $stmt->fetchAllAssociative();
+    }
+
 
 
 
