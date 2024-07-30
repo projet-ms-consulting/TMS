@@ -19,9 +19,11 @@ class ProjectController extends AbstractController
     {
         $user = $this->getUser();
         $personne = $user->getPerson();
+        $projects = $projectRepository->findAll();
+
 
         return $this->render('super_admin/project/index.html.twig', [
-            'projects' => $projectRepository->findAll(),
+            'projects' => $projects,
             'connectedPerson' => $personne,
         ]);
     }
@@ -87,7 +89,7 @@ class ProjectController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$project->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($project->getPerson());
-            $entityManager->remove($project->getOtherLinks());
+            $entityManager->remove($project->getLinks());
             $entityManager->remove($project);
             $entityManager->flush();
         }

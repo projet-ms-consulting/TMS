@@ -1,4 +1,72 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_row(form.name) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.person) }}
+
+<div id="links-collection" data-prototype="{{ form_widget(form.links.vars.prototype)|e('html_attr') }}">
+    {% for link in form.links %}
+        <div>
+            {{ form_row(link.type) }}
+            {{ form_row(link.url) }}
+        </div>
+    {% endfor %}
+</div>
+<button type="button" id="add-link-button">Ajouter un lien</button>
+
 {{ form_end(form) }}
+
+<script>
+    document.getElementById('add-link-button').addEventListener('click', function() {
+        const collectionHolder = document.getElementById('links-collection');
+        const prototype = collectionHolder.dataset.prototype;
+        const index = collectionHolder.children.length;
+
+        if (index >= 5) {
+            alert('Vous ne pouvez pas ajouter plus de 5 liens.');
+            return;
+        }
+
+        const newForm = prototype.replace(/__name__/g, index);
+        const div = document.createElement('div');
+        div.classList.add('link-item');
+        div.innerHTML = newForm;
+        collectionHolder.appendChild(div);
+
+        // Update the options for the new link type select
+        updateLinkTypeOptions();
+    });
+
+    function updateLinkTypeOptions() {
+        const linkItems = document.querySelectorAll('.link-item');
+        const selectedTypes = [];
+
+        linkItems.forEach(item => {
+            const typeSelect = item.querySelector('select[name*="type"]');
+            if (typeSelect) {
+                selectedTypes.push(typeSelect.value);
+            }
+        });
+
+        linkItems.forEach(item => {
+            const typeSelect = item.querySelector('select[name*="type"]');
+            if (typeSelect) {
+                const options = typeSelect.querySelectorAll('option');
+                options.forEach(option => {
+                    if (selectedTypes.includes(option.value) && option.value !== '' && option.value !== 'autre') {
+                        option.disabled = true;
+                    } else {
+                        option.disabled = false;
+                    }
+                });
+            }
+        });
+    }
+
+    // Initial update of link type options
+    updateLinkTypeOptions();
+
+    // Update options when a link type is changed
+    document.querySelectorAll('select[name*="type"]').forEach(select => {
+        select.addEventListener('change', updateLinkTypeOptions);
+    });
+</script>

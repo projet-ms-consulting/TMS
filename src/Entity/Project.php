@@ -38,7 +38,7 @@ class Project
     /**
      * @var Collection<int, Links>
      */
-    #[ORM\OneToMany(targetEntity: Links::class, mappedBy: 'Project')]
+    #[ORM\OneToMany(targetEntity: Links::class, mappedBy: 'Project', cascade: ['persist', 'remove'])]
     private Collection $links;
 
     public function __construct()
@@ -128,12 +128,12 @@ class Project
     /**
      * @return Collection<int, Links>
      */
-    public function getOtherLinks(): Collection
+    public function getLinks(): Collection
     {
         return $this->links;
     }
 
-    public function addOtherLink(Links $link): static
+    public function addLink(Links $link): static
     {
         if (!$this->links->contains($link)) {
             $this->links->add($link);
@@ -143,7 +143,7 @@ class Project
         return $this;
     }
 
-    public function removeOtherLink(Links $link): static
+    public function removeLink(Links $link): static
     {
         if ($this->links->removeElement($link)) {
             // set the owning side to null (unless already changed)

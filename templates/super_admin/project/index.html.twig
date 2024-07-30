@@ -12,7 +12,7 @@
                 <th>Nom</th>
                 <th>Description</th>
                 <th>Participants</th>
-                <th>Git</th>
+                <th>Liens</th>
                 <th>UpdatedAt</th>
                 <th>Actions</th>
             </tr>
@@ -23,7 +23,7 @@
                 <td>{{ project.name }}</td>
                 <td>{{ project.description }}</td>
                 <td>{{ project.person }}</td>
-                <td>{{ project.git }}</td>
+                <td>{{ project.links }}</td>
                 <td>{{ project.updatedAt ? project.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('super_admin_project_show', {'id': project.id}) }}">Détails</a>
