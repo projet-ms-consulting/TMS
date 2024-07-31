@@ -7,43 +7,126 @@ use App\Entity\Address;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfonycasts\DynamicForms\DependentField;
+use Symfonycasts\DynamicForms\DynamicFormBuilder;
+
 
 class SchoolType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
+        $dynamicBuilder = new DynamicFormBuilder($builder);
+
+        $school = $options['data'] ?? null;
+        $hasAddress = $school && $school->getAddress();
+
+        $dynamicBuilder
             ->add('name', TextType::class, [
                 'label' => 'Nom de l\'école',
-                'attr' => ['class' => 'form-control']
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z0-9\s\-]+$/',
+                        'message' => 'Le nom de l\'école n\'est pas valide.',
+                    ]),
+                ],
             ])
-            ->add('address', EntityType::class, [
-                'label' => 'Adresse',
-                'class' => Address::class,
-                'choice_label' => function (Address $address) {
-                    return $address->getFullAddress();
-                },
-                'placeholder' => 'Choisissez une adresse',
-                'query_builder' => function (EntityRepository $er) use ($options) {
-                    $currentAddress = $options['data']->getAddress();
 
-                    $qb = $er->createQueryBuilder('a');
-                    $qb->leftJoin('a.school', 's')
-                        ->where('s.address IS NULL');
-
-                    if ($currentAddress) {
-                        $qb->orWhere('a.id = :currentAddressId')
-                            ->setParameter('currentAddressId', $currentAddress->getId());
-                    }
-
-                    return $qb;
-                },
-                'attr' => ['class' => 'form-control']
+            ->add('checkAddress', ChoiceType::class, [
+                'label' => 'Avez-vous déjà créé une adresse ?',
+                'mapped' => false,
+                'data' => $hasAddress,
+                'choices' => [
+                    'Je ne veux pas d\'adresse' => null,
+                    'Oui' => true,
+                    'Non' => false,
+                ],
             ])
-        ;
+            ->addDependent('address', 'checkAddress', function (DependentField $field, ?bool $checkAddress) {
+                if (true === $checkAddress) {
+                    $field->add(EntityType::class, [
+                        'class' => Address::class,
+                        'label' => 'Adresse',
+                        'choice_label' => function (Address $address) {
+                            return $address->getFullAddress();
+                        },
+                        'placeholder' => 'Choisissez une adresse',
+                        'required' => true,
+                        'query_builder' => function (EntityRepository $er) {
+                            return $er->createQueryBuilder('a')
+                                ->orderBy('a.city', 'ASC');
+                        },
+                    ]);
+                }
+            })
+            ->addDependent('nbStreetNewAddress', 'checkAddress', function (DependentField $field, ?bool $checkAddress) {
+                if (false === $checkAddress) {
+                    $field->add(TextType::class, [
+                        'label' => 'Numéro de Rue',
+                        'mapped' => false,
+                        'required' => true,
+                        'constraints' => [
+                            new Regex([
+                                'pattern' => '/^\d+[a-zA-Z]?$/',
+                                'message' => 'Le numéro de rue n\'est pas valide.',
+                            ]),
+                        ],
+                    ]);
+                }
+            })
+            ->addDependent('streetNewAddress', 'checkAddress', function (DependentField $field, ?bool $checkAddress) {
+                if (false === $checkAddress) {
+                    $field->add(TextType::class, [
+                        'label' => 'Voirie',
+                        'mapped' => false,
+                        'required' => true,
+                        'constraints' => [
+                            new Regex([
+                                'pattern' => '/^[a-zA-Z0-9\s\-]+$/',
+                                'message' => 'Le nom de la voirie n\'est pas valide.',
+                            ]),
+                        ],
+                    ]);
+                }
+            })
+            ->addDependent('zipCodeNewAddress', 'checkAddress', function (DependentField $field, ?bool $checkAddress) {
+                if (false === $checkAddress) {
+                    $field->add(TextType::class, [
+                        'label' => 'Code postal',
+                        'mapped' => false,
+                        'required' => true,
+                        'attr' => [
+                            'min' => 10000,
+                            'max' => 99999,
+                        ],
+                        'constraints' => [
+                            new Regex([
+                                'pattern' => '/^\d{5}$/',
+                                'message' => 'Le code postal n\'est pas valide.',
+                            ]),
+                        ],
+                    ]);
+                }
+            })
+            ->addDependent('cityNewAddress', 'checkAddress', function (DependentField $field, ?bool $checkAddress) {
+                if (false === $checkAddress) {
+                    $field->add(TextType::class, [
+                        'label' => 'Ville',
+                        'mapped' => false,
+                        'required' => true,
+                        'constraints' => [
+                            new Regex([
+                                'pattern' => '/^[a-zA-Z\s\-]+$/',
+                                'message' => 'La ville n\'est pas valide.',
+                            ]),
+                        ],
+                    ]);
+                }
+            });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

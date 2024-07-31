@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Liste des écoles</h1>
 
-    <a href="{{ path('super_admin_school_new') }}" class="btn-custom">Créer une école</a>
+    <a href="{{ path('super_admin_app_school_new') }}" class="btn-custom">Créer une école</a>
 
     <table class="table">
         <thead>
@@ -51,8 +51,8 @@
                     {% endif %}
                 </td>
                 <td>
-                    <a href="{{ path('super_admin_school_show', {'id': school.id}) }}">Détails</a>
-                    <a href="{{ path('super_admin_school_edit', {'id': school.id}) }}">Modifier</a>
+                    <a href="{{ path('super_admin_app_school_show', {'id': school.id}) }}">Détails</a>
+                    <a href="{{ path('super_admin_app_school_edit', {'id': school.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
