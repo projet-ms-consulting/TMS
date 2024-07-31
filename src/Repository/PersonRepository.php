@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Person;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -35,7 +37,7 @@ class PersonRepository extends ServiceEntityRepository
     }
 
     // Filtre des personnes internes à l'entreprise
-    public function filterCompanyEmployeePersons(): array
+    public function filterCompanyEmployeePersons(): Query
     {
         return $this->createQueryBuilder('p')
             ->innerJoin('p.user', 'u')
@@ -44,19 +46,20 @@ class PersonRepository extends ServiceEntityRepository
             ->setParameter('role1', '%"ROLE_COMPANY_INTERNSHIP"%')
             ->setParameter('role2', '%"ROLE_ADMIN"%')
             ->setParameter('excludedRole', '%"ROLE_TRAINEE"%')
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
     }
 
     // Filtre des personnes stagiaires
-    public function filterTraineePersons(): array
+    public function filterTraineePersonsPerCompany($companyId): Query
     {
         return $this->createQueryBuilder('p')
             ->innerJoin('p.user', 'u')
+            ->leftJoin('p.company', 'c')
             ->where('u.roles LIKE :role')
+            ->andWhere('c.id = :companyId')
             ->setParameter('role', '%"ROLE_TRAINEE"%')
-            ->getQuery()
-            ->getResult();
+            ->setParameter('companyId', $companyId)
+            ->getQuery();
     }
 
     public function paginatePerson(int $page, int $limit): PaginationInterface
@@ -167,20 +170,6 @@ class PersonRepository extends ServiceEntityRepository
         );
     }
 
-    public function findByRole(string $role)
-    {
-        $conn = $this->getEntityManager()->getConnection();
-
-        $sql = '
-            SELECT * FROM person p
-            WHERE JSON_CONTAINS(p.roles, :role)
-        ';
-
-        $stmt = $conn->prepare($sql);
-        $stmt->execute(['role' => json_encode($role)]);
-
-        return $stmt->fetchAllAssociative();
-    }
 
 
 

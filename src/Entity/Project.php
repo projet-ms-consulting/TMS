@@ -22,24 +22,25 @@ class Project
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-
-    #[ORM\Column(nullable: false)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    /**
-     * @var Collection<int, Person>
-     */
-    #[ORM\ManyToMany(targetEntity: Person::class, inversedBy: 'projects')]
+
+    #[ORM\JoinTable(name: 'project_person')]
+    #[ORM\JoinColumn(name: 'project_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'person_id', referencedColumnName: 'id')]
     private Collection $person;
 
-    /**
-     * @var Collection<int, Links>
-     */
-    #[ORM\OneToMany(targetEntity: Links::class, mappedBy: 'Project', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: Links::class, mappedBy: 'project', cascade: ['persist', 'remove'])]
     private Collection $links;
+
+    #[ORM\ManyToOne(targetEntity: Company::class, inversedBy: 'projects')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+    private ?Company $company = null;
 
     public function __construct()
     {
@@ -57,7 +58,7 @@ class Project
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -69,20 +70,19 @@ class Project
         return $this->description;
     }
 
-    public function setDescription(?string $description): static
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
         return $this;
     }
 
-
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -94,7 +94,7 @@ class Project
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -109,7 +109,7 @@ class Project
         return $this->person;
     }
 
-    public function addPerson(Person $person): static
+    public function addPerson(Person $person): self
     {
         if (!$this->person->contains($person)) {
             $this->person->add($person);
@@ -118,7 +118,7 @@ class Project
         return $this;
     }
 
-    public function removePerson(Person $person): static
+    public function removePerson(Person $person): self
     {
         $this->person->removeElement($person);
 
@@ -133,7 +133,7 @@ class Project
         return $this->links;
     }
 
-    public function addLink(Links $link): static
+    public function addLink(Links $link): self
     {
         if (!$this->links->contains($link)) {
             $this->links->add($link);
@@ -143,7 +143,7 @@ class Project
         return $this;
     }
 
-    public function removeLink(Links $link): static
+    public function removeLink(Links $link): self
     {
         if ($this->links->removeElement($link)) {
             // set the owning side to null (unless already changed)
@@ -151,6 +151,18 @@ class Project
                 $link->setProject(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): self
+    {
+        $this->company = $company;
 
         return $this;
     }

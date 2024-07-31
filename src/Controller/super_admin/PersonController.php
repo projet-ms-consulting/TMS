@@ -13,6 +13,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -416,5 +417,25 @@ class PersonController extends AbstractController
             }
         }
         return $personne;
+    }
+    #[Route('/get-persons', name: 'get_persons', methods: ['GET'])]
+    public function getPersons(Request $request, PersonRepository $personRepository): JsonResponse
+    {
+        $companyId = $request->query->get('companyId');
+        if (!$companyId) {
+            return new JsonResponse([]); // Retourne un tableau vide si aucun companyId n'est fourni
+        }
+
+        $persons = $personRepository->filterTraineePersonsPerCompany($companyId)->getQuery()->getResult();
+
+        $personData = [];
+        foreach ($persons as $person) {
+            $personData[] = [
+                'id' => $person->getId(),
+                'fullName' => $person->getFullName(),
+            ];
+        }
+
+        return new JsonResponse($personData);
     }
 }
