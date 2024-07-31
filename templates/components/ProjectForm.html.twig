@@ -1,0 +1,14 @@
+<div{{ attributes }}>
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.company) }}
+
+    {% if form.person is defined %}
+        {{ form_row(form.person) }}
+    {% endif %}
+    {{ form_row(form.linkGit) }}
+
+    <button type="button" id="add-link-button">Ajouter un lien</button>
+    {{ form_end(form) }}
+</div>

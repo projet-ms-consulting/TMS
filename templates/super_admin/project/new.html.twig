@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Créer un nouveau Projet</h1>
 
-    {{ include('super_admin/project/_form.html.twig') }}
+    <twig:ProjectForm />
 
     <a href="{{ path('super_admin_project_index') }}">Retour</a>
 {% endblock %}

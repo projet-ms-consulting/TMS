@@ -4,3 +4,7 @@ controllers:
         namespace: App\Controller
     type: attribute
 
+get_persons:
+    path: /get-persons
+    controller: App\Controller\super_admin\PersonController::getPersons
+    methods: GET
