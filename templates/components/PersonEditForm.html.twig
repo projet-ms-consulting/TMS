@@ -42,6 +42,12 @@
                     <td>{{ form_widget(form.stagiaireCompany) }}</td>
                 </tr>
             {% endif %}
+            {% if form.stagiaireManager is defined %}
+                <tr>
+                    <th>{{ form_label(form.stagiaireManager) }}</th>
+                    <td>{{ form_widget(form.stagiaireManager) }}</td>
+                </tr>
+            {% endif %}
             {% if form.stagiaireRefEntrep is defined %}
                 <tr>
                     <th>{{ form_label(form.stagiaireRefEntrep) }}</th>
@@ -110,12 +116,6 @@
                 <tr>
                     <th>{{ form_label(form.email) }}</th>
                     <td>{{ form_widget(form.email) }}</td>
-                </tr>
-            {% endif %}
-            {% if form.password is defined %}
-                <tr>
-                    <th>{{ form_label(form.password) }}</th>
-                    <td>{{ form_widget(form.password) }}</td>
                 </tr>
             {% endif %}
         </tbody>

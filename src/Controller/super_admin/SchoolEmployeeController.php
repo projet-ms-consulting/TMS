@@ -4,6 +4,7 @@ namespace App\Controller\super_admin;
 
 use App\Entity\Person;
 use App\Form\PersonType;
+use App\Form\SchoolEmployeeType;
 use App\Repository\PersonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -48,12 +49,12 @@ class SchoolEmployeeController extends AbstractController
     {
         $user = $this->getUser();
         $personne = $user->getPerson();
-        $personForm = $this->createForm(PersonType::class, $person, [
-            'context' => 'edit',
-        ]);
-        $personForm->handleRequest($request);
+        $form = $this->createForm(SchoolEmployeeType::class, $person);
+        $form->handleRequest($request);
 
-        if ($personForm->isSubmitted() && $personForm->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
+            $person->setUpdatedAt(new \DateTimeImmutable())
+                ->setRoles($form->get('roles')->getData());
             $entityManager->flush();
 
             return $this->redirectToRoute('super_admin_app_school_employee_index', [], Response::HTTP_SEE_OTHER);
@@ -61,7 +62,7 @@ class SchoolEmployeeController extends AbstractController
 
         return $this->render('super_admin/school_employee/edit.html.twig', [
             'personne' => $person,
-            'personForm' => $personForm,
+            'form' => $form,
             'connectedPerson' => $personne,
         ]);
     }

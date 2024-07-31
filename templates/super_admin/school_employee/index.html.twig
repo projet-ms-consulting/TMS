@@ -20,7 +20,7 @@
                 <tr>
                         {% if person is defined %}
                             <td>{{ person.lastName }} {{ person.firstName }}</td>
-                            <td><a href="{{ path('super_admin_school_show', {'id': person.school.id}) }}">{{ person.school.name }}</a></td>
+                            <td><a href="{{ path('super_admin_app_school_show', {'id': person.school.id}) }}">{{ person.school.name }}</a></td>
                             <td>{{ person.school.address.nbStreet }} {{ person.school.address.street }}, {{ person.school.address.zipCode }} {{ person.school.address.city }}</td>
                             <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y')}}</td>
                             <td>

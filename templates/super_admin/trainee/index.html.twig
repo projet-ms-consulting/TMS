@@ -1,6 +1,6 @@
 {% extends 'super_admin.html.twig' %}
 
-{% block title %}Index Stagiaire{% endblock %}
+{% block title %}Liste des Stagiaires{% endblock %}
 
 {% block body %}
     <h1>Liste des Stagiaires</h1>
@@ -26,7 +26,7 @@
             <tr>
                 <td>{{ person.lastName }} {{ person.firstName }}</td>
                 {% if person.school is defined and person.school is not null %}
-                    <td><a href="{{ path('super_admin_school_show', {'id': person.school.id}) }}">{{ person.school.name }}</a></td>
+                    <td><a href="{{ path('super_admin_app_school_show', {'id': person.school.id}) }}">{{ person.school.name }}</a></td>
                 {% else %}
                     <td>Pas d'école</td>
                 {% endif %}

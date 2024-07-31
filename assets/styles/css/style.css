@@ -253,3 +253,13 @@ label.required:after {
   margin-top: 5px;
   margin-bottom: 10px;
 }
+.alert-success {
+  color: green;
+  padding: 2vh;
+  border-radius: 5px;
+  margin: 1vh auto;
+  width: 30%;
+  text-align: center;
+  border: 1px solid transparent;
+  background-color: #a2d7af;
+}

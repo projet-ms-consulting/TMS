@@ -28,7 +28,7 @@
                     {% if person.roles[0]=="ROLE_COMPANY_INTERNSHIP" %}
                         <tr>
                             <th>Rôle : </th>
-                            <td>Maître de stage :</td>
+                            <td>Maître de stage</td>
                         </tr>
                         <tr>
                             <th>Entreprise : </th>
@@ -58,7 +58,7 @@
                                     {% if person.startInternship is empty  %}
                                         <td>Non renseigné</td>
                                         {% else %}
-                                        <td>{{ person.startInternship }}</td>
+                                        <td>{{ person.startInternship ? person.startInternship|date('d/m/Y') }}</td>
                                             {% endif %}
                                     </tr>
                                     <tr>
@@ -66,27 +66,35 @@
                                     {% if person.endInternship is empty  %}
                                         <td>Non renseigné</td>
                                     {% else %}
-                                        <td>{{ person.endInternship }}</td>
+                                        <td>{{ person.endInternship ? person.endInternship|date('d/m/Y') }}</td>
                                     {% endif %}
                                     </tr>
+                                    {% if person.schoolSupervisor is not null %}
                                     <tr>
                                         <th>Référent école : </th>
                                         <td>{{ person.schoolSupervisor.fullName }}</td>
                                     </tr>
+                                    {% endif %}
+                                    {% if person.internshipSupervisor is not null and person.companyReferent is not null %}
                                         {% if person.internshipSupervisor.fullName != person.companyReferent.fullName %}
                                             <tr>
                                                 <th>Référent entreprise : </th>
                                                 <td>{{ person.internshipSupervisor.fullName }}</td>
                                             </tr>
                                         {% endif %}
+                                    {% endif %}
+                                    {% if person.manager is not null %}
                                     <tr>
                                         <th>Chef d'entreprise : </th>
                                         <td>{{ person.manager.fullName }}</td>
                                     </tr>
+                                    {% endif %}
+                                    {% if person.companyReferent is not null %}
                                     <tr>
                                         <th>Maître de stage : </th>
                                         <td>{{ person.companyReferent.fullName }}</td>
                                     </tr>
+                                    {% endif %}
                                 {% else %}
                                     <td>Autre</td>
                                 {% endif %}

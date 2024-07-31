@@ -3,6 +3,7 @@
 namespace App\Controller\super_admin;
 
 use App\Entity\Person;
+use App\Form\CompanyEmployeeType;
 use App\Form\PersonType;
 use App\Repository\PersonRepository;
 use App\Repository\UserRepository;
@@ -50,10 +51,12 @@ class CompanyEmployeeController extends AbstractController
     {
         $user = $this->getUser();
         $personne = $user->getPerson();
-        $personForm = $this->createForm(PersonType::class, $person);
-        $personForm->handleRequest($request);
+        $form = $this->createForm(CompanyEmployeeType::class, $person);
+        $form->handleRequest($request);
 
-        if ($personForm->isSubmitted() && $personForm->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
+            $person->setUpdatedAt(new \DateTimeImmutable())
+                    ->setRoles($form->get('roles')->getData());
             $entityManager->flush();
 
             return $this->redirectToRoute('super_admin_app_company_employee_index', [], Response::HTTP_SEE_OTHER);
@@ -61,7 +64,7 @@ class CompanyEmployeeController extends AbstractController
 
         return $this->render('super_admin/company_employee/edit.html.twig', [
             'personne' => $person,
-            'personForm' => $personForm,
+            'form' => $form,
             'connectedPerson' => $personne,
         ]);
     }
