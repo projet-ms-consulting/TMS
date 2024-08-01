@@ -3,6 +3,7 @@
 namespace App\Controller\super_admin;
 
 use App\Entity\Person;
+use App\Entity\User;
 use App\Form\CompanyEmployeeType;
 use App\Form\PersonType;
 use App\Repository\PersonRepository;
@@ -51,13 +52,19 @@ class CompanyEmployeeController extends AbstractController
     {
         $user = $this->getUser();
         $personne = $user->getPerson();
+
         $form = $this->createForm(CompanyEmployeeType::class, $person);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
             $person->setUpdatedAt(new \DateTimeImmutable())
-                    ->setRoles($form->get('roles')->getData());
+                    ->setRoles([$form->get('roles')->getData()])
+                    ->setUser($person->getUser());
+
             $entityManager->flush();
+
+            $this->addFlash('success', 'Modification effectuée!');
 
             return $this->redirectToRoute('super_admin_app_company_employee_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -81,6 +88,7 @@ class CompanyEmployeeController extends AbstractController
             }
             $entityManager->flush();
         }
+        $this->addFlash('success', 'Suppression réussie !');
 
         return $this->redirectToRoute('super_admin_app_company_employee_index', [], Response::HTTP_SEE_OTHER);
     }

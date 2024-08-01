@@ -54,8 +54,12 @@ class SchoolEmployeeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $person->setUpdatedAt(new \DateTimeImmutable())
-                ->setRoles($form->get('roles')->getData());
+                    ->setRoles([$form->get('roles')->getData()])
+                    ->setUser($person->getUser());
+
             $entityManager->flush();
+
+            $this->addFlash('success', 'Modification effectuée!');
 
             return $this->redirectToRoute('super_admin_app_school_employee_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -78,6 +82,7 @@ class SchoolEmployeeController extends AbstractController
             }
             $entityManager->flush();
         }
+        $this->addFlash('success', 'Suppression réussie !');
 
         return $this->redirectToRoute('super_admin_app_school_employee_index', [], Response::HTTP_SEE_OTHER);
     }

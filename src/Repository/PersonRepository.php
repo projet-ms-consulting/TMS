@@ -89,7 +89,7 @@ class PersonRepository extends ServiceEntityRepository
             ->leftJoin('s.address', 'a')
             ->addSelect('a')
             ->leftJoin('p.user', 'u')
-            ->where('u.roles LIKE :role')
+            ->where('u.roles LIKE :role OR p.roles LIKE :role')
             ->setParameter('role', '%"ROLE_SCHOOL_INTERNSHIP"%');
 
         $query = $qb->getQuery();
@@ -117,6 +117,7 @@ class PersonRepository extends ServiceEntityRepository
             ->addSelect('a')
             ->leftJoin('p.user', 'u')
             ->where('u.roles LIKE :role OR u.roles LIKE :role2 OR u.roles LIKE :role3')
+            ->Where('p.roles LIKE :role OR p.roles LIKE :role2 OR p.roles LIKE :role3')
             ->setParameter('role', '%"ROLE_COMPANY_INTERNSHIP"%')
             ->setParameter('role2', '%"ROLE_ADMIN"%')
             ->setParameter('role3', '%"ROLE_COMPANY_REFERENT"%');
@@ -152,7 +153,7 @@ class PersonRepository extends ServiceEntityRepository
             ->leftJoin('p.manager', 'm')
             ->addSelect('m')
             ->leftJoin('p.companyReferent', 'cr')
-            ->where('u.roles LIKE :role')
+            ->where('u.roles LIKE :role OR p.roles LIKE :role')
             ->setParameter('role', '%"ROLE_TRAINEE"%')
             ->getQuery()
             ->getResult();

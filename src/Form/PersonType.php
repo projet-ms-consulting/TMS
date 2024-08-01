@@ -72,7 +72,6 @@ class PersonType extends AbstractType
                         'label' => 'Date fin de stage',
                         'required' => false,
                         'attr' => ['class' => 'form-control'],
-                        'data' => isset($options['data']) && !empty($options['data']->getEndInternship()) ? $options['data']->getEndInternship() : null,
                     ]);
                 }
             })
@@ -85,7 +84,6 @@ class PersonType extends AbstractType
                         'choice_label' => 'name',
                         'mapped' => false,
                         'attr' => ['class' => 'form-control'],
-//                        'data' => isset($options['data']) && !empty($options['data']->getCompany()) ? $options['data']->getCompany() : null,
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('c')
                                 ->orderBy('c.name', 'ASC');
@@ -99,6 +97,7 @@ class PersonType extends AbstractType
                     $field->add(EntityType::class, [
                         'class' => Company::class,
                         'label' => 'Entreprise',
+                        'placeholder' => 'Choisir une entreprise',
                         'choice_label' => 'name',
                         'mapped' => false,
                         'attr' => ['class' => 'form-control'],
@@ -115,6 +114,7 @@ class PersonType extends AbstractType
                     $field->add(EntityType::class, [
                         'class' => Company::class,
                         'label' => 'Entreprise',
+                        'placeholder' => 'Choisir une entreprise',
                         'choice_label' => 'name',
                         'mapped' => false,
                         'attr' => ['class' => 'form-control'],
@@ -131,6 +131,7 @@ class PersonType extends AbstractType
                     $field->add(EntityType::class, [
                         'class' => School::class,
                         'label' => 'Ecole',
+                        'placeholder' => 'Choisir une école',
                         'choice_label' => 'name',
                         'attr' => ['class' => 'form-control'],
                         'data' => isset($options['data']) && !empty($options['data']->getSchool()) ? $options['data']->getSchool() : null,
@@ -232,7 +233,7 @@ class PersonType extends AbstractType
                             },
                             'mapped' => false,
                             'attr' => ['class' => 'form-control'],
-                            'placeholder' => 'Choisir le chef d\'entreprise',
+                            'placeholder' => 'Choisir chef d\'entreprise',
                         ]);
                     }
                 }

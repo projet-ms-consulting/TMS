@@ -4,10 +4,8 @@ namespace App\Controller\super_admin;
 
 use App\Entity\Files;
 use App\Entity\Person;
-use App\Form\PersonType;
 use App\Form\TraineeType;
 use App\Repository\PersonRepository;
-use App\Repository\SchoolRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,31 +32,6 @@ class TraineeController extends AbstractController
         ]);
     }
 
-//    #[Route('/new/', name: 'new', methods: ['GET', 'POST'])]
-//    public function new(Request $request, EntityManagerInterface $entityManager, PersonRepository $personRepository): Response
-//    {
-//        $idPerson = intval($request->query->get('id'));
-//        $user = $this->getUser();
-//        $personne = $user->getPerson();
-//        $person = $personRepository->find($idPerson);
-//
-//        $traineeForm = $this->createForm(PersonType::class, $person);
-//        $traineeForm->handleRequest($request);
-//
-//        if ($traineeForm->isSubmitted() && $traineeForm->isValid()) {
-//            $entityManager->persist($person);
-//            $entityManager->flush();
-//
-//            return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
-//        }
-//
-//        return $this->render('super_admin/trainee/new.html.twig', [
-//            'personne' => $person,
-//            'connectedPerson' => $personne,
-//            'form' => $traineeForm,
-//        ]);
-//    }
-
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Person $person): Response
     {
@@ -76,6 +49,7 @@ class TraineeController extends AbstractController
     {
         $user = $this->getUser();
         $personne = $user->getPerson();
+
         $traineeForm = $this->createForm(TraineeType::class, $person);
         $traineeForm->handleRequest($request);
 
@@ -172,6 +146,8 @@ class TraineeController extends AbstractController
             $entityManager->persist($person);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Modification réussie !');
+
             return $this->redirectToRoute('super_admin_app_trainee_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -193,6 +169,8 @@ class TraineeController extends AbstractController
             }
             $entityManager->flush();
         }
+
+        $this->addFlash('success', 'Suppression réussie !');
 
         return $this->redirectToRoute('super_admin_app_trainee_index', [], Response::HTTP_SEE_OTHER);
     }

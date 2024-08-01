@@ -168,16 +168,16 @@ class PersonController extends AbstractController
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'])]
-    public function show(Person $person, EntityManagerInterface $entityManager): Response
+    public function show(Person $personne, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-        $personne = $user->getPerson();
+        $person = $user->getPerson();
 
         return $this->render('super_admin/person/show.html.twig', [
-            'connectedPerson' => $personne,
-            'person' => $person,
-            'user' => $person->getUser(),
-            'files' => $person->getFiles(),
+            'connectedPerson' => $person,
+            'personne' => $personne,
+            'user' => $personne->getUser(),
+            'files' => $personne->getFiles(),
         ]);
     }
 
@@ -302,11 +302,12 @@ class PersonController extends AbstractController
                     $entityManager->persist($file);
                 }
             }
+
             $entityManager->persist($personne);
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Modification réussie !');
+            $this->addFlash('success', 'Modification effectuée!');
 
             return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -331,8 +332,8 @@ class PersonController extends AbstractController
             }
             $entityManager->flush();
 
-            $this->addFlash('success', 'Suppression réussie !');
         }
+        $this->addFlash('success', 'Suppression réussie !');
 
         return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
     }
