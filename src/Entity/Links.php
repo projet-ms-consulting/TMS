@@ -13,31 +13,18 @@ class Links
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Links')]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    private ?Project $Project = null;
-
     #[ORM\Column(length: 255, nullable: false)]
     private ?string $label = null;
 
     #[ORM\Column(length: 255, nullable: false)]
     private ?string $link = null;
 
+    #[ORM\ManyToOne(inversedBy: 'links')]
+    private ?Project $project = null;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getProject(): ?Project
-    {
-        return $this->Project;
-    }
-
-    public function setProject(?Project $Project): static
-    {
-        $this->Project = $Project;
-
-        return $this;
     }
 
     public function getLabel(): ?string
@@ -60,6 +47,18 @@ class Links
     public function setLink(?string $link): static
     {
         $this->link = $link;
+
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): static
+    {
+        $this->project = $project;
 
         return $this;
     }

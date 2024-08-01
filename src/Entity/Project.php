@@ -28,9 +28,6 @@ class Project
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\OneToMany(targetEntity: Links::class, mappedBy: 'project', cascade: ['persist', 'remove'])]
-    private Collection $links;
-
     /**
      * @var Collection<int, Person>
      */
@@ -40,6 +37,12 @@ class Project
     #[ORM\ManyToOne(inversedBy: 'projects')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Company $company = null;
+
+    /**
+     * @var Collection<int, Links>
+     */
+    #[ORM\OneToMany(targetEntity: Links::class, mappedBy: 'project')]
+    private Collection $links;
 
     public function __construct()
     {
@@ -101,36 +104,6 @@ class Project
     }
 
     /**
-     * @return Collection<int, Links>
-     */
-    public function getLinks(): Collection
-    {
-        return $this->links;
-    }
-
-    public function addLink($url, $label): self
-    {
-        $this->links[] = [
-            'url' => $url,
-            'label' => $label,
-        ];
-
-        return $this;
-    }
-
-    public function removeLink(Links $link): self
-    {
-        if ($this->links->removeElement($link)) {
-            // set the owning side to null (unless already changed)
-            if ($link->getProject() === $this) {
-                $link->setProject(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Person>
      */
     public function getParticipant(): Collection
@@ -162,6 +135,36 @@ class Project
     public function setCompany(?Company $company): static
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Links>
+     */
+    public function getLinks(): Collection
+    {
+        return $this->links;
+    }
+
+    public function addLink(Links $link): static
+    {
+        if (!$this->links->contains($link)) {
+            $this->links->add($link);
+            $link->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLink(Links $link): static
+    {
+        if ($this->links->removeElement($link)) {
+            // set the owning side to null (unless already changed)
+            if ($link->getProject() === $this) {
+                $link->setProject(null);
+            }
+        }
 
         return $this;
     }

@@ -22,8 +22,14 @@
             <tr>
                 <td>{{ project.name }}</td>
                 <td>{{ project.description }}</td>
-                <td>{{ project.person }}</td>
-                <td>{{ project.links }}</td>
+                <td>{% for participant in project.participant %}
+                        {{ participant.firstName }}{% if not loop.last %}, {% endif %}
+                    {% endfor %}</td>
+                <td>
+                    {% for link in project.links %}
+                        <a href="{{ link.link }}" target="_blank">{{ link.label }}</a>{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
                 <td>{{ project.updatedAt ? project.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('super_admin_project_show', {'id': project.id}) }}">Détails</a>

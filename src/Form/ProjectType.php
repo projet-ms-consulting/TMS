@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfonycasts\DynamicForms\DependentField;
 use Symfonycasts\DynamicForms\DynamicFormBuilder;
 
@@ -31,7 +32,7 @@ class ProjectType extends AbstractType
                 'placeholder' => 'Sélectionnez une entreprise',
                 'required' => true,
             ])
-            ->addDependent('person', 'company', function (DependentField $field, ?Company $company) {
+            ->addDependent('participant', 'company', function (DependentField $field, ?Company $company) {
                 if ($company) {
                     $field->add(EntityType::class, [
                         'class' => Person::class,
@@ -57,6 +58,12 @@ class ProjectType extends AbstractType
                 'label' => 'Lien git',
                 'mapped' => false,
                 'required' => false,
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^https:\/\/github\.com\/[a-zA-Z0-9\-_]+\/[a-zA-Z0-9\-_]+$/',
+                        'message' => 'Le lien git n\'est pas valide.',
+                    ]),
+                ],
             ])
         ;
     }

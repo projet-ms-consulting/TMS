@@ -2,6 +2,7 @@
 
 namespace App\Controller\super_admin;
 
+use App\Entity\Links;
 use App\Entity\Project;
 use App\Form\ProjectType;
 use App\Repository\ProjectRepository;
@@ -38,19 +39,16 @@ class ProjectController extends AbstractController
         $user = $this->getUser();
         $personne = $user->getPerson();
         if ($form->isSubmitted() && $form->isValid()) {
-            $project->setCompany($form->get('company')->getData());
-            $project->setName($form->get('name')->getData());
-            $project->setDescription($form->get('description')->getData());
 
-            if ($form->has('company')) {
-                $persons = $form->get('person')->getData();
-                foreach ($persons as $person) {
-                    $project->addParticipant($person);
-                }
+            if ($form->get('linkGit')->getData() != null) {
+                $link = new Links();
+                $link->setLabel('Github');
+                $link->setLink($form->get('linkGit')->getData());
+                $link->setProject($project);
+                $entityManager->persist($link);
             }
-            if ($form->has('linkGit')) {
-                $project->addLink($form->get('linkGit')->getData(), 'git');
-            }
+
+            $project->setCreatedAt(new \DateTimeImmutable());
             $entityManager->persist($project);
             $entityManager->flush();
 
