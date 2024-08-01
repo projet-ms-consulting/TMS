@@ -16,7 +16,6 @@ class CompanyEditType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom de l\'entreprise',
-                'required' => false,
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-Z0-9\s\-]+$/',
@@ -28,7 +27,10 @@ class CompanyEditType extends AbstractType
                 'label' => 'Type d\'entreprise',
                 'required' => false,
             ])
-            ->add('address', AddressType::class);
+            ->add('address', AddressType::class, [
+                'data' => $options['data']->getAddress(),
+                'mapped' => false,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -28,24 +28,23 @@ class Project
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-
-    #[ORM\JoinTable(name: 'project_person')]
-    #[ORM\JoinColumn(name: 'project_id', referencedColumnName: 'id')]
-    #[ORM\InverseJoinColumn(name: 'person_id', referencedColumnName: 'id')]
-    private Collection $person;
-
     #[ORM\OneToMany(targetEntity: Links::class, mappedBy: 'project', cascade: ['persist', 'remove'])]
     private Collection $links;
 
-    #[ORM\ManyToOne(targetEntity: Company::class, inversedBy: 'projects')]
+    /**
+     * @var Collection<int, Person>
+     */
+    #[ORM\ManyToMany(targetEntity: Person::class, inversedBy: 'projects')]
+    private Collection $participant;
+
+    #[ORM\ManyToOne(inversedBy: 'projects')]
     #[ORM\JoinColumn(nullable: false)]
-    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private ?Company $company = null;
 
     public function __construct()
     {
-        $this->person = new ArrayCollection();
         $this->links = new ArrayCollection();
+        $this->participant = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -102,30 +101,6 @@ class Project
     }
 
     /**
-     * @return Collection<int, Person>
-     */
-    public function getPerson(): Collection
-    {
-        return $this->person;
-    }
-
-    public function addPerson(Person $person): self
-    {
-        if (!$this->person->contains($person)) {
-            $this->person->add($person);
-        }
-
-        return $this;
-    }
-
-    public function removePerson(Person $person): self
-    {
-        $this->person->removeElement($person);
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Links>
      */
     public function getLinks(): Collection
@@ -155,12 +130,36 @@ class Project
         return $this;
     }
 
+    /**
+     * @return Collection<int, Person>
+     */
+    public function getParticipant(): Collection
+    {
+        return $this->participant;
+    }
+
+    public function addParticipant(Person $participant): static
+    {
+        if (!$this->participant->contains($participant)) {
+            $this->participant->add($participant);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(Person $participant): static
+    {
+        $this->participant->removeElement($participant);
+
+        return $this;
+    }
+
     public function getCompany(): ?Company
     {
         return $this->company;
     }
 
-    public function setCompany(?Company $company): self
+    public function setCompany(?Company $company): static
     {
         $this->company = $company;
 

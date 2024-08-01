@@ -5,7 +5,6 @@
 {% block body %}
     <h1>Entreprises</h1>
 
-
     <a href="{{ path('super_admin_app_company_new') }} " class="btn-custom">Créer une nouvelle entreprise</a>
 
     <table class="table">
@@ -25,7 +24,13 @@
             <tr>
                 <td>{{ company.name }}</td>
                 <td>{{ company.companyType }}</td>
-                <td><a href="{{ path('super_admin_address_show', {'id': company.address.id}) }}">{{ company.address.fullAddress }}</a></td>
+                <td>
+                    {% if company.address != null %}
+                        <a href="{{ path('super_admin_address_show', {'id': company.address.id}) }}">{{ company.address.fullAddress }}</a>
+                        {% else %}
+                        Aucune adresse
+                    {% endif %}
+                </td>
                 <td>{{ company.employeeNumber }}</td>
                 <td>{{ company.createdAt ? company.createdAt|date('d/m/Y') : '' }}</td>
                 <td>{{ company.updatedAt ? company.updatedAt|date('d/m/Y H:i') : '' }}</td>

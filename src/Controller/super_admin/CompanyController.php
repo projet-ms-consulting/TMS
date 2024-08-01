@@ -45,16 +45,6 @@ class CompanyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $request->request->all()['company'];
 
-            if (0 == $data['checkAddress']) {
-
-                $newAddress = new Address();;
-                $newAddress->setCreatedAt(new \DateTimeImmutable());
-
-                $entityManager->persist($newAddress);
-                $company->setAddress($newAddress);
-            }
-            
-
             if (2 == $data['checkAddress']) {
                 $nbStreet = $data['nbStreetNewAddress'];
                 $street = $data['streetNewAddress'];
@@ -102,19 +92,50 @@ class CompanyController extends AbstractController
     public function edit(Request $request, Company $company, EntityManagerInterface $entityManager): Response
     {
         $address = $company->getAddress();
-        $nbStreet = $company->getAddress()->getNbStreet();
-        $street = $company->getAddress()->getStreet();
-        $zipCode = $company->getAddress()->getZipCode();
-        $city = $company->getAddress()->getCity();
+
         $user = $this->getUser();
         $personne = $user->getPerson();
-        $form = $this->createForm(CompanyEditType::class, $company);
 
+        $form = $this->createForm(CompanyEditType::class, $company);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $data = $request->request->all()['company_edit'];
+
+            $nbStreet = $data['address']['nbStreet'];
+            $street = $data['address']['street'];
+            $city = $data['address']['city'];
+            $zipCode = $data['address']['zipCode'];
+
+            if ($nbStreet != "" || $street != "" || $city != "" || $zipCode != "") {
+                if ($address == null) {
+                    $address = new Address();
+                    $newAddress = true;
+                    $address->setCreatedAt(new \DateTimeImmutable());
+                } else {
+                    $newAddress = false;
+                    $address->setUpdatedAt(new \DateTimeImmutable());
+                }
+                if ($nbStreet != "") {
+                    $address->setNbStreet($nbStreet);
+                }
+                if ($street != "") {
+                    $address->setStreet($street);
+                }
+                if ($city != "") {
+                    $address->setCity($city);
+                }
+                if ($zipCode != "") {
+                    $address->setZipCode($zipCode);
+                }
+                if ($newAddress) {
+                    $company->setAddress($address);
+                }
+                $entityManager->persist($address);
+            }
+
             $company->setUpdatedAt(new \DateTimeImmutable());
-            $address->setUpdatedAt(new \DateTimeImmutable());
+            $entityManager->persist($company);
             $entityManager->flush();
 
             return $this->redirectToRoute('super_admin_app_company_index', [], Response::HTTP_SEE_OTHER);

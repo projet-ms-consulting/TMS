@@ -31,7 +31,8 @@ class Company
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
     private ?string $employeeNumber = null;
 
-    #[ORM\ManyToOne(inversedBy: 'companies')]
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'companies')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Address $address = null;
 
     /**
@@ -44,7 +45,6 @@ class Company
      * @var Collection<int, Project>
      */
     #[ORM\OneToMany(targetEntity: Project::class, mappedBy: 'company', orphanRemoval: true)]
-    #[ORM\Column(nullable: true)]
     private Collection $projects;
 
     public function __construct()

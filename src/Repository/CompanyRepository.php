@@ -27,9 +27,8 @@ class CompanyRepository extends ServiceEntityRepository
     {
         return $this->paginator->paginate(
             $this->createQueryBuilder('c')
-                ->select('c')
-                ->innerJoin('c.address', 'a')
-                ->addSelect('a'),
+                ->leftJoin('c.address', 'a')
+                ->select('a', 'c'),
             $page,
             $limit,
             [

@@ -46,12 +46,6 @@ class Person
     #[ORM\OneToMany(targetEntity: Files::class, mappedBy: 'person', orphanRemoval: true)]
     private Collection $files;
 
-    /**
-     * @var Collection<int, Project>
-     */
-    #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'person')]
-    private Collection $projects;
-
     #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'internshipSupervisors')]
     #[ORM\JoinColumn(name: 'internship_supervisor_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     private ?Person $internshipSupervisor = null;
@@ -100,16 +94,22 @@ class Person
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $mailContact = null;
 
+    /**
+     * @var Collection<int, Project>
+     */
+    #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'participant')]
+    private Collection $projects;
+
 
     public function __construct()
     {
         $this->socialNetworks = new ArrayCollection();
         $this->files = new ArrayCollection();
-        $this->projects = new ArrayCollection();
         $this->internshipSupervisors = new ArrayCollection();
         $this->schoolSupervisors = new ArrayCollection();
         $this->managers = new ArrayCollection();
         $this->companyReferents = new ArrayCollection();
+        $this->projects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -244,33 +244,6 @@ class Person
             if ($file->getPerson() === $this) {
                 $file->setPerson(null);
             }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Project>
-     */
-    public function getProjects(): Collection
-    {
-        return $this->projects;
-    }
-
-    public function addProject(Project $project): static
-    {
-        if (!$this->projects->contains($project)) {
-            $this->projects->add($project);
-            $project->addPerson($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProject(Project $project): static
-    {
-        if ($this->projects->removeElement($project)) {
-            $project->removePerson($this);
         }
 
         return $this;
@@ -513,6 +486,33 @@ class Person
     public function setMailContact(?string $mailContact): static
     {
         $this->mailContact = $mailContact;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Project>
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(Project $project): static
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects->add($project);
+            $project->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(Project $project): static
+    {
+        if ($this->projects->removeElement($project)) {
+            $project->removeParticipant($this);
+        }
 
         return $this;
     }
