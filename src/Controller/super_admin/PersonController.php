@@ -88,7 +88,7 @@ class PersonController extends AbstractController
                     $this->mailer->send($email);
                     $this->addFlash('success', 'Email envoyé avec succès !');
                 } catch (\Exception $e) {
-                    $this->addFlash('error', 'Erreur lors de l\'envoi de l\'email : ' . $e->getMessage());
+                    $this->addFlash('error', 'Erreur lors de l\'envoi de l\'email : '.$e->getMessage());
                 }
             }
 
@@ -200,7 +200,7 @@ class PersonController extends AbstractController
         $user = $this->getUser();
         $person = $user->getPerson();
 
-        $personForm = $this->createForm(PersonType::class, $personne,);
+        $personForm = $this->createForm(PersonType::class, $personne);
         $personForm->handleRequest($request);
 
         if ($personForm->isSubmitted() && $personForm->isValid()) {
@@ -229,10 +229,10 @@ class PersonController extends AbstractController
                 }
                 $cvFile = $request->files->get('cv');
                 if ($cvFile) {
-                    $cvFilename = 'CV.' . $personne->getFirstName() . '-' . $personne->getLastName() . '.' . $cvFile->guessExtension();
+                    $cvFilename = 'CV.'.$personne->getFirstName().'-'.$personne->getLastName().'.'.$cvFile->guessExtension();
                     $cvHash = hash('sha256', $cvFilename);
-                    $cvHashFile = $cvHash . '.' . $cvFile->guessExtension();
-                    $cvFile->move($this->getParameter('kernel.project_dir') . '/files/', $cvFilename);
+                    $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
+                    $cvFile->move($this->getParameter('kernel.project_dir').'/files/', $cvFilename);
                     $file = new Files();
                     $file->setLabel('CV')
                         ->setFile($cvHashFile)
@@ -258,10 +258,10 @@ class PersonController extends AbstractController
                 }
                 $lmFile = $request->files->get('coverLetter');
                 if ($lmFile) {
-                    $lmFilename = 'LM.' . $personne->getFirstName() . '-' . $personne->getLastName() . '.' . $lmFile->guessExtension();
+                    $lmFilename = 'LM.'.$personne->getFirstName().'-'.$personne->getLastName().'.'.$lmFile->guessExtension();
                     $cvHash = hash('sha256', $lmFilename);
-                    $cvHashFile = $cvHash . '.' . $lmFile->guessExtension();
-                    $lmFile->move($this->getParameter('kernel.project_dir') . '/files/' . $lmFilename);
+                    $cvHashFile = $cvHash.'.'.$lmFile->guessExtension();
+                    $lmFile->move($this->getParameter('kernel.project_dir').'/files/'.$lmFilename);
                     $file = new Files();
                     $file->setLabel('LM')
                         ->setFile($cvHashFile)
@@ -287,10 +287,10 @@ class PersonController extends AbstractController
                 }
                 $csFile = $request->files->get('internshipAgreement');
                 if ($csFile) {
-                    $csFilename = 'CS.' . $personne->getFirstName() . '-' . $personne->getLastName() . '.' . $csFile->guessExtension();
+                    $csFilename = 'CS.'.$personne->getFirstName().'-'.$personne->getLastName().'.'.$csFile->guessExtension();
                     $cvHash = hash('sha256', $csFilename);
-                    $cvHashFile = $cvHash . '.' . $csFile->guessExtension();
-                    $csFile->move($this->getParameter('kernel.project_dir') . '/files/' . $csFilename);
+                    $cvHashFile = $cvHash.'.'.$csFile->guessExtension();
+                    $csFile->move($this->getParameter('kernel.project_dir').'/files/'.$csFilename);
                     $file = new Files();
                     $file->setLabel('CS')
                         ->setFile($cvHashFile)
@@ -421,8 +421,10 @@ class PersonController extends AbstractController
                 }
             }
         }
+
         return $personne;
     }
+
     #[Route('/get-persons', name: 'get_persons', methods: ['GET'])]
     public function getPersons(Request $request, PersonRepository $personRepository): JsonResponse
     {

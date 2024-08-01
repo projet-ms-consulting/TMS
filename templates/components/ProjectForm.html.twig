@@ -9,6 +9,9 @@
     {% endif %}
     {{ form_row(form.linkGit) }}
 
-    <button type="button" id="add-link-button">Ajouter un lien</button>
+    <div class="btnForm">
+        <a href="{{ path('super_admin_project_index') }}" class="btn btn-primary back-btn">Retour</a>
+        <button id="btn-submit" class="btn btn-primary back-btn">Créer</button>
+    </div>
     {{ form_end(form) }}
 </div>

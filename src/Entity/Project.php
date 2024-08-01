@@ -29,10 +29,6 @@ class Project
     private ?\DateTimeImmutable $updatedAt = null;
 
 
-    #[ORM\JoinTable(name: 'project_person')]
-    #[ORM\JoinColumn(name: 'project_id', referencedColumnName: 'id')]
-    #[ORM\InverseJoinColumn(name: 'person_id', referencedColumnName: 'id')]
-    private Collection $person;
 
     #[ORM\OneToMany(targetEntity: Links::class, mappedBy: 'project', cascade: ['persist', 'remove'])]
     private Collection $links;
@@ -42,10 +38,16 @@ class Project
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private ?Company $company = null;
 
+    /**
+     * @var Collection<int, Person>
+     */
+    #[ORM\ManyToMany(targetEntity: Person::class, inversedBy: 'projects')]
+    private Collection $Participant;
+
     public function __construct()
     {
-        $this->person = new ArrayCollection();
         $this->links = new ArrayCollection();
+        $this->Participant = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -101,29 +103,6 @@ class Project
         return $this;
     }
 
-    /**
-     * @return Collection<int, Person>
-     */
-    public function getPerson(): Collection
-    {
-        return $this->person;
-    }
-
-    public function addPerson(Person $person): self
-    {
-        if (!$this->person->contains($person)) {
-            $this->person->add($person);
-        }
-
-        return $this;
-    }
-
-    public function removePerson(Person $person): self
-    {
-        $this->person->removeElement($person);
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Links>
@@ -133,12 +112,12 @@ class Project
         return $this->links;
     }
 
-    public function addLink(Links $link): self
+    public function addLink($url, $label): self
     {
-        if (!$this->links->contains($link)) {
-            $this->links->add($link);
-            $link->setProject($this);
-        }
+        $this->links[] = [
+            'url' => $url,
+            'label' => $label,
+        ];
 
         return $this;
     }
@@ -163,6 +142,30 @@ class Project
     public function setCompany(?Company $company): self
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Person>
+     */
+    public function getParticipant(): Collection
+    {
+        return $this->Participant;
+    }
+
+    public function addParticipant(Person $participant): static
+    {
+        if (!$this->Participant->contains($participant)) {
+            $this->Participant->add($participant);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(Person $participant): static
+    {
+        $this->Participant->removeElement($participant);
 
         return $this;
     }
