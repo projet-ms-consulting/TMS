@@ -41,12 +41,6 @@ class Project
     #[ORM\JoinColumn(nullable: false)]
     private ?Company $company = null;
 
-    /**
-     * @var Collection<int, Person>
-     */
-    #[ORM\ManyToMany(targetEntity: Person::class, inversedBy: 'projects')]
-    private Collection $Participant;
-
     public function __construct()
     {
         $this->links = new ArrayCollection();
@@ -168,30 +162,6 @@ class Project
     public function setCompany(?Company $company): static
     {
         $this->company = $company;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Person>
-     */
-    public function getParticipant(): Collection
-    {
-        return $this->Participant;
-    }
-
-    public function addParticipant(Person $participant): static
-    {
-        if (!$this->Participant->contains($participant)) {
-            $this->Participant->add($participant);
-        }
-
-        return $this;
-    }
-
-    public function removeParticipant(Person $participant): static
-    {
-        $this->Participant->removeElement($participant);
 
         return $this;
     }
