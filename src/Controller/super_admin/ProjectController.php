@@ -2,15 +2,11 @@
 
 namespace App\Controller\super_admin;
 
-use App\Entity\Links;
 use App\Entity\Project;
 use App\Form\ProjectType;
-use App\Repository\LinksRepository;
-use App\Repository\PersonRepository;
 use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -25,7 +21,6 @@ class ProjectController extends AbstractController
         $personne = $user->getPerson();
         $projects = $projectRepository->findAll();
 
-
         return $this->render('super_admin/project/index.html.twig', [
             'projects' => $projects,
             'connectedPerson' => $personne,
@@ -36,11 +31,26 @@ class ProjectController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $project = new Project();
+
         $form = $this->createForm(ProjectType::class, $project);
         $form->handleRequest($request);
+
         $user = $this->getUser();
         $personne = $user->getPerson();
         if ($form->isSubmitted() && $form->isValid()) {
+            $project->setCompany($form->get('company')->getData());
+            $project->setName($form->get('name')->getData());
+            $project->setDescription($form->get('description')->getData());
+
+            if ($form->has('company')) {
+                $persons = $form->get('person')->getData();
+                foreach ($persons as $person) {
+                    $project->addParticipant($person);
+                }
+            }
+            if ($form->has('linkGit')) {
+                $project->addLink($form->get('linkGit')->getData(), 'git');
+            }
             $entityManager->persist($project);
             $entityManager->flush();
 
@@ -100,6 +110,4 @@ class ProjectController extends AbstractController
 
         return $this->redirectToRoute('super_admin_project_index', [], Response::HTTP_SEE_OTHER);
     }
-
-
 }
