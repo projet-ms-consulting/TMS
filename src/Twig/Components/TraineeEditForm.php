@@ -2,6 +2,7 @@
 
 namespace App\Twig\Components;
 
+use App\Entity\Person;
 use App\Form\PersonType;
 use App\Form\TraineeType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,8 +17,16 @@ final class TraineeEditForm extends AbstractController
     use ComponentWithFormTrait;
     use DefaultActionTrait;
 
+    public Person $personne;
+
+    public function __construct()
+    {
+        // Initialisation de $personne avec une nouvelle instance de Person
+        $this->personne = new Person();
+    }
+
     protected function instantiateForm(): FormInterface
     {
-        return $this->createForm(TraineeType::class);
+        return $this->createForm(TraineeType::class, $this->personne);
     }
 }

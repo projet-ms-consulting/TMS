@@ -1,77 +1,83 @@
 <div{{ attributes }}>
 
-    {{ form_start(traineeForm) }}
+    {{ form_start(form) }}
     <table class="table">
         <tbody>
         <tr>
-            <th>{{ form_label(traineeForm.firstName) }}</th>
+            <th>{{ form_label(form.firstName) }}</th>
             <td>
-                {{ form_widget(traineeForm.firstName) }}
-                {{ form_errors(traineeForm.firstName) }}
+                {{ form_widget(form.firstName) }}
+                {{ form_errors(form.firstName) }}
             </td>
         </tr>
         <tr>
-            <th>{{ form_label(traineeForm.lastName) }}</th>
+            <th>{{ form_label(form.lastName) }}</th>
             <td>
-                {{ form_widget(traineeForm.lastName) }}
-                {{ form_errors(traineeForm.lastName) }}
+                {{ form_widget(form.lastName) }}
+                {{ form_errors(form.lastName) }}
             </td>
         </tr>
         <tr>
-            <th>{{ form_label(traineeForm.mailContact) }}</th>
-            <td>{{ form_widget(traineeForm.mailContact) }}</td>
+            <th>{{ form_label(form.mailContact) }}</th>
+            <td>{{ form_widget(form.mailContact) }}</td>
         </tr>
         <tr>
-            <th>{{ form_label(traineeForm.startInternship) }}</th>
+            <th>{{ form_label(form.startInternship) }}</th>
             <td>
-                {{ form_widget(traineeForm.startInternship) }}
-                {{ form_errors(traineeForm.startInternship) }}
+                {{ form_widget(form.startInternship) }}
+                {{ form_errors(form.startInternship) }}
             </td>
         </tr>
         <tr>
-            <th>{{ form_label(traineeForm.endInternship) }}</th>
+            <th>{{ form_label(form.endInternship) }}</th>
             <td>
-                {{ form_widget(traineeForm.endInternship) }}
-                {{ form_errors(traineeForm.endInternship) }}
+                {{ form_widget(form.endInternship) }}
+                {{ form_errors(form.endInternship) }}
             </td>
         </tr>
         <tr>
-            <th>{{ form_label(traineeForm.company) }}</th>
-            <td>{{ form_widget(traineeForm.company) }}</td>
+            <th>{{ form_label(form.company) }}</th>
+            <td>{{ form_widget(form.company) }}</td>
         </tr>
-        {% if traineeForm.companyReferent is defined %}
+        {% if form.companyReferent is defined %}
             <tr>
-                <th>{{ form_label(traineeForm.companyReferent) }}</th>
-                <td>{{ form_widget(traineeForm.companyReferent) }}</td>
+                <th>{{ form_label(form.companyReferent) }}</th>
+                <td>{{ form_widget(form.companyReferent) }}</td>
             </tr>
         {% endif %}
+        {% if form.manager is defined %}
         <tr>
-            <th>{{ form_label(traineeForm.manager) }}</th>
-            <td>{{ form_widget(traineeForm.manager) }}</td>
+            <th>{{ form_label(form.manager) }}</th>
+            <td>{{ form_widget(form.manager) }}</td>
+        </tr>
+        {% endif %}
+        {% if form.internshipSupervisor is defined %}
+        <tr>
+            <th>{{ form_label(form.internshipSupervisor) }}</th>
+            <td>{{ form_widget(form.internshipSupervisor) }}</td>
+        </tr>
+        {% endif %}
+        <tr>
+            <th>{{ form_label(form.school) }}</th>
+            <td>{{ form_widget(form.school) }}</td>
+        </tr>
+        {% if form.schoolSupervisor is defined %}
+        <tr>
+            <th>{{ form_label(form.schoolSupervisor) }}</th>
+            <td>{{ form_widget(form.schoolSupervisor) }}</td>
+        </tr>
+        {% endif %}
+        <tr>
+            <th>{{ form_label(form.cv) }}</th>
+            <td>{{ form_widget(form.cv) }}</td>
         </tr>
         <tr>
-            <th>{{ form_label(traineeForm.internshipSupervisor) }}</th>
-            <td>{{ form_widget(traineeForm.internshipSupervisor) }}</td>
+            <th>{{ form_label(form.coverLetter) }}</th>
+            <td>{{ form_widget(form.coverLetter) }}</td>
         </tr>
         <tr>
-            <th>{{ form_label(traineeForm.school) }}</th>
-            <td>{{ form_widget(traineeForm.school) }}</td>
-        </tr>
-        <tr>
-            <th>{{ form_label(traineeForm.schoolSupervisor) }}</th>
-            <td>{{ form_widget(traineeForm.schoolSupervisor) }}</td>
-        </tr>
-        <tr>
-            <th>{{ form_label(traineeForm.cv) }}</th>
-            <td>{{ form_widget(traineeForm.cv) }}</td>
-        </tr>
-        <tr>
-            <th>{{ form_label(traineeForm.coverLetter) }}</th>
-            <td>{{ form_widget(traineeForm.coverLetter) }}</td>
-        </tr>
-        <tr>
-            <th>{{ form_label(traineeForm.internshipAgreement) }}</th>
-            <td>{{ form_widget(traineeForm.internshipAgreement) }}</td>
+            <th>{{ form_label(form.internshipAgreement) }}</th>
+            <td>{{ form_widget(form.internshipAgreement) }}</td>
         </tr>
         </tbody>
     </table>
@@ -79,6 +85,6 @@
         <a href="{{ path('super_admin_app_trainee_index') }}" class="btn btn-primary back-btn">Retour</a>
         <button id="btn-submit" class="btn btn-primary back-btn">Modifier</button>
     </div>
-    {{ form_end(traineeForm) }}
+    {{ form_end(form) }}
 
 </div>

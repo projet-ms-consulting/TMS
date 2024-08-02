@@ -7,7 +7,7 @@
     <h1>Modifier</h1>
     <h2>{{ personne.firstName }} {{ personne.lastName | upper }}</h2>
 
-    <twig:TraineeEditForm />
+    <twig:TraineeEditForm :personne="personne" />
 
     {{ include('super_admin/trainee/_delete_form.html.twig') }}
 

@@ -95,6 +95,10 @@ class TraineeType extends AbstractType
                 'choice_label' => 'name',
                 'placeholder' => 'Choisir une entreprise',
                 'attr' => ['class' => 'form-control'],
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->orderBy('c.name', 'ASC');
+                },
             ])
             ->addDependent('companyReferent', 'company', function (DependentField $field, ?Company $company) {
                 if (null != $company) {
