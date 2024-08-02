@@ -34,6 +34,7 @@
                 <td>
                     <a href="{{ path('super_admin_project_show', {'id': project.id}) }}">Détails</a>
                     <a href="{{ path('super_admin_project_edit', {'id': project.id}) }}">Modifier</a>
+                    <a href="{{ path('super_admin_project_link',{'id':project.id}) }}">Ajouter des liens</a>
                 </td>
             </tr>
         {% else %}

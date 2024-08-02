@@ -1,0 +1,20 @@
+<div{{ attributes }}>
+    {{ form_start(form) }}
+    {{ form_row(form.labelChoice) }}
+    {% if form.linkGit is defined %}
+        {{ form_row(form.linkGit) }}
+    {% endif %}
+    {% if form.linkTrello is defined %}
+    {{ form_row(form.linkTrello) }}
+    {% endif %}
+    {% if form.linkOther is defined %}
+    {{ form_row(form.linkOther) }}
+    {% endif %}
+
+    <div class="button-container">
+        <button type="submit" class="btn btn-primary">Sauvegarder</button>
+        <a href="{{ path('super_admin_project_index') }}" class="btn btn-primary back-btn">Retour</a>
+    </div>
+
+    {{ form_end(form) }}
+</div>

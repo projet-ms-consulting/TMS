@@ -2,7 +2,7 @@
 
 namespace App\Twig\Components;
 
-use App\Form\ProjectType;
+use App\Form\ProjectLinksType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
@@ -10,13 +10,13 @@ use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 
 #[AsLiveComponent]
-final class ProjectForm extends AbstractController
+final class ProjectLinksForm extends AbstractController
 {
     use ComponentWithFormTrait;
     use DefaultActionTrait;
 
     protected function instantiateForm(): FormInterface
     {
-        return $this->createForm(ProjectType::class);
+        return $this->createForm(ProjectLinksType::class);
     }
 }

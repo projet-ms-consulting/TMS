@@ -4,6 +4,7 @@ namespace App\Controller\super_admin;
 
 use App\Entity\Links;
 use App\Entity\Project;
+use App\Form\ProjectLinksType;
 use App\Form\ProjectType;
 use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,8 +40,7 @@ class ProjectController extends AbstractController
         $user = $this->getUser();
         $personne = $user->getPerson();
         if ($form->isSubmitted() && $form->isValid()) {
-
-            if ($form->get('linkGit')->getData() != null) {
+            if (null != $form->get('linkGit')->getData()) {
                 $link = new Links();
                 $link->setLabel('Github');
                 $link->setLink($form->get('linkGit')->getData());
@@ -100,12 +100,57 @@ class ProjectController extends AbstractController
     public function delete(Request $request, Project $project, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$project->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($project->getPerson());
+            $entityManager->remove($project->getParticipant());
             $entityManager->remove($project->getLinks());
             $entityManager->remove($project);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('super_admin_project_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/newlink/{id}', name: 'link', methods: ['GET', 'POST'])]
+    public function link(Request $request, EntityManagerInterface $entityManager, Project $project): Response
+    {
+        $form = $this->createForm(ProjectLinksType::class);
+        $form->handleRequest($request);
+
+        $user = $this->getUser();
+        $personne = $user->getPerson();
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ('Github' === $form->get('labelChoice')->getData()) {
+                $link = new Links();
+                $link->setLabel('Github');
+                $link->setLink($form->get('linkGit')->getData());
+                $link->setProject($project);
+                $entityManager->persist($link);
+            }
+            if ('Trello' === $form->get('labelChoice')->getData()) {
+                $link = new Links();
+                $link->setLabel('Trello');
+                $link->setLink($form->get('linkTrello')->getData());
+                $link->setProject($project);
+                $entityManager->persist($link);
+            }
+            if ('Autre' === $form->get('labelChoice')->getData()) {
+                $link = new Links();
+                $link->setLabel('Autre');
+                $link->setLink($form->get('linkOther')->getData());
+                $link->setProject($project);
+                $entityManager->persist($link);
+            }
+
+            $project->setUpdatedAt(new \DateTimeImmutable());
+            $entityManager->persist($project);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('super_admin_project_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('super_admin/project/newLink.html.twig', [
+            'project' => $project,
+            'form' => $form,
+            'connectedPerson' => $personne,
+        ]);
     }
 }
