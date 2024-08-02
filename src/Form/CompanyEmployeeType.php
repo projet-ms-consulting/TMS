@@ -13,6 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class CompanyEmployeeType extends AbstractType
 {
@@ -22,10 +24,34 @@ class CompanyEmployeeType extends AbstractType
             ->add('lastName', null, [
                 'label' => 'Nom : ',
                 'attr' => ['class' => 'form-control'],
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
+                        'message' => 'Le nom ne doit contenir que des lettres.'
+                    ]),
+                    new Length([
+                        'min' => 2,
+                        'max' => 30,
+                        'minMessage' => 'Le nom doit contenir au moins {{ limit }} caractères',
+                        'maxMessage' => 'Le nom ne doit pas contenir plus de {{ limit }} caractères',
+                    ])
+                ],
             ])
             ->add('firstName', null, [
                 'label' => 'Prénom : ',
                 'attr' => ['class' => 'form-control'],
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
+                        'message' => 'Le nom ne doit contenir que des lettres.'
+                    ]),
+                    new Length([
+                        'min' => 2,
+                        'max' => 30,
+                        'minMessage' => 'Le nom doit contenir au moins {{ limit }} caractères',
+                        'maxMessage' => 'Le nom ne doit pas contenir plus de {{ limit }} caractères',
+                    ])
+                ],
             ])
             ->add('mailContact', EmailType::class, [
                 'label' => 'Email de contact : ',

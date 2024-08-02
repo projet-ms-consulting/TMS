@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class SchoolEmployeeType extends AbstractType
 {
@@ -22,10 +23,22 @@ class SchoolEmployeeType extends AbstractType
             ->add('lastName', null, [
                 'label' => 'Nom : ',
                 'attr' => ['class' => 'form-control'],
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
+                        'message' => 'Le nom ne doit contenir que des lettres.'
+                    ]),
+                ],
             ])
             ->add('firstName', null, [
                 'label' => 'Prénom : ',
                 'attr' => ['class' => 'form-control'],
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
+                        'message' => 'Le nom ne doit contenir que des lettres.'
+                    ]),
+                ],
             ])
             ->add('mailContact', EmailType::class, [
                 'label' => 'Email de contact : ',

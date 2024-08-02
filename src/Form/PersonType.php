@@ -15,6 +15,9 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Range;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfonycasts\DynamicForms\DependentField;
 use Symfonycasts\DynamicForms\DynamicFormBuilder;
 
@@ -28,10 +31,34 @@ class PersonType extends AbstractType
             ->add('lastName', null, [
                 'label' => 'Nom : ',
                 'attr' => ['class' => 'form-control'],
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
+                        'message' => 'Le nom ne doit contenir que des lettres.'
+                    ]),
+                    new Length([
+                        'min' => 2,
+                        'max' => 30,
+                        'minMessage' => 'Le nom doit contenir au moins {{ limit }} caractères',
+                        'maxMessage' => 'Le nom ne doit pas contenir plus de {{ limit }} caractères',
+                    ])
+                ],
             ])
             ->add('firstName', null, [
                 'label' => 'Prénom : ',
                 'attr' => ['class' => 'form-control'],
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
+                        'message' => 'Le nom ne doit contenir que des lettres.'
+                    ]),
+                    new Length([
+                        'min' => 2,
+                        'max' => 30,
+                        'minMessage' => 'Le nom doit contenir au moins {{ limit }} caractères',
+                        'maxMessage' => 'Le nom ne doit pas contenir plus de {{ limit }} caractères',
+                    ])
+                ],
             ])
             ->add('mailContact', EmailType::class, [
                 'label' => 'Email de contact : ',
@@ -62,7 +89,14 @@ class PersonType extends AbstractType
                         'label' => 'Date début de stage',
                         'required' => false,
                         'attr' => ['class' => 'form-control'],
-                    ]) ;
+                        'constraints' => [
+                            new Range([
+                                'min' => (new \DateTimeImmutable())->modify('-3 months'),
+                                'max' => (new \DateTimeImmutable())->modify('+1 year'),
+                                'notInRangeMessage' => 'La date doit être entre le {{ min }} et le {{ max }}',
+                            ]),
+                        ],
+                    ]);
                 }
             })
             // Si stagiaire, afficher champ date fin de stage
@@ -72,6 +106,13 @@ class PersonType extends AbstractType
                         'label' => 'Date fin de stage',
                         'required' => false,
                         'attr' => ['class' => 'form-control'],
+                        'constraints' => [
+                            new Range([
+                                'min' => (new \DateTimeImmutable()),
+                                'max' => (new \DateTimeImmutable())->modify('+1 year'),
+                                'notInRangeMessage' => 'La date doit être entre le {{ min }} et le {{ max }}',
+                            ]),
+                        ],
                     ]);
                 }
             })

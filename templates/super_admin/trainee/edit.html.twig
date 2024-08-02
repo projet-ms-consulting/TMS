@@ -7,72 +7,7 @@
     <h1>Modifier</h1>
     <h2>{{ personne.firstName }} {{ personne.lastName | upper }}</h2>
 
-{{ form_start(traineeForm) }}
-<table class="table">
-    <tbody>
-    <tr>
-        <th>{{ form_label(traineeForm.firstName) }}</th>
-        <td>{{ form_widget(traineeForm.firstName) }}</td>
-    </tr>
-    <tr>
-        <th>{{ form_label(traineeForm.lastName) }}</th>
-        <td>{{ form_widget(traineeForm.lastName) }}</td>
-    </tr>
-    <tr>
-        <th>{{ form_label(traineeForm.mailContact) }}</th>
-        <td>{{ form_widget(traineeForm.mailContact) }}</td>
-    </tr>
-    <tr>
-        <th>{{ form_label(traineeForm.startInternship) }}</th>
-        <td>{{ form_widget(traineeForm.startInternship) }}</td>
-    </tr>
-    <tr>
-        <th>{{ form_label(traineeForm.endInternship) }}</th>
-        <td>{{ form_widget(traineeForm.endInternship) }}</td>
-    </tr>
-    <tr>
-        <th>{{ form_label(traineeForm.company) }}</th>
-        <td>{{ form_widget(traineeForm.company) }}</td>
-    </tr>
-    <tr>
-        <th>{{ form_label(traineeForm.companyReferent) }}</th>
-        <td>{{ form_widget(traineeForm.companyReferent) }}</td>
-    </tr>
-    <tr>
-        <th>{{ form_label(traineeForm.manager) }}</th>
-        <td>{{ form_widget(traineeForm.manager) }}</td>
-    </tr>
-    <tr>
-        <th>{{ form_label(traineeForm.internshipSupervisor) }}</th>
-        <td>{{ form_widget(traineeForm.internshipSupervisor) }}</td>
-    </tr>
-    <tr>
-        <th>{{ form_label(traineeForm.school) }}</th>
-        <td>{{ form_widget(traineeForm.school) }}</td>
-    </tr>
-    <tr>
-        <th>{{ form_label(traineeForm.schoolSupervisor) }}</th>
-        <td>{{ form_widget(traineeForm.schoolSupervisor) }}</td>
-    </tr>
-    <tr>
-        <th>{{ form_label(traineeForm.cv) }}</th>
-        <td>{{ form_widget(traineeForm.cv) }}</td>
-    </tr>
-    <tr>
-        <th>{{ form_label(traineeForm.coverLetter) }}</th>
-        <td>{{ form_widget(traineeForm.coverLetter) }}</td>
-    </tr>
-    <tr>
-        <th>{{ form_label(traineeForm.internshipAgreement) }}</th>
-        <td>{{ form_widget(traineeForm.internshipAgreement) }}</td>
-    </tr>
-    </tbody>
-</table>
-    <div class="btnForm">
-        <a href="{{ path('super_admin_app_trainee_index') }}" class="btn btn-primary back-btn">Retour</a>
-        <button id="btn-submit" class="btn btn-primary back-btn">Modifier</button>
-    </div>
-    {{ form_end(traineeForm) }}
+    <twig:TraineeEditForm />
 
     {{ include('super_admin/trainee/_delete_form.html.twig') }}
 
