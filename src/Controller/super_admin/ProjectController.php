@@ -40,6 +40,16 @@ class ProjectController extends AbstractController
         $user = $this->getUser();
         $personne = $user->getPerson();
         if ($form->isSubmitted() && $form->isValid()) {
+            $project->setCompany($form->get('company')->getData());
+            $project->setName($form->get('name')->getData());
+            $project->setDescription($form->get('description')->getData());
+
+            if ($form->has('company')) {
+                $persons = $form->get('participant')->getData();
+                foreach ($persons as $person) {
+                    $project->addParticipant($person);
+                }
+            }
             if (null != $form->get('linkGit')->getData()) {
                 $link = new Links();
                 $link->setLabel('Github');
