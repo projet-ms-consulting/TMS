@@ -5,7 +5,12 @@
 {% block body %}
     <h1>Modification du projet</h1>
 
-    <twig:ProjectForm />
+    {{ form_start(form) }}
+    {{ form_widget(form.name) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.participant) }}
+    {{ form_row(form.link) }}
+    {{ form_end }}
 
     <a href="{{ path('super_admin_project_index') }}">Retour</a>
 
