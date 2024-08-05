@@ -16,7 +16,6 @@ class ProjectEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $company = $options['data']->getCompany() ?? null;
-        $links = $options['data']->getLinks() ?? null;
         $builder
             ->add('name')
             ->add('description')
@@ -40,15 +39,14 @@ class ProjectEditType extends AbstractType
             ])
             ->add('links', EntityType::class, [
                 'class' => Links::class,
-                'choice_label' => function (Links $links) {
-                    return $links->getLink();
-                },
-                'label' => 'Liens du projet',
-                'query_builder' => function (EntityRepository $er) use ($company) {
+                'choice_label' => 'label',
+                'label' => 'Liens',
+                'multiple' => true,
+                'expanded' => true,
+                'query_builder' => function (EntityRepository $er) use ($options) {
                     return $er->createQueryBuilder('l')
-                        ->innerJoin('l.project', 'p')
-                        ->where('p.company = :company')
-                        ->setParameter('company', $company)
+                        ->where('l.project = :project')
+                        ->setParameter('project', $options['data'])
                         ->orderBy('l.id', 'ASC');
                 },
             ])
