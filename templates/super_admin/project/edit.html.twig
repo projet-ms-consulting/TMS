@@ -6,10 +6,10 @@
     <h1>Modification du projet</h1>
 
     {{ form_start(form) }}
-    {{ form_widget(name) }}
-    {{ form_row(description) }}
-    {{ form_row(participant) }}
-    {{ form_row(link) }}
+    {{ form_widget(form.name) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.participant) }}
+    {{ form_row(form.link) }}
     {{ form_end }}
 
     <a href="{{ path('super_admin_project_index') }}">Retour</a>

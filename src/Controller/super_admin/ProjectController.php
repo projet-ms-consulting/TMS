@@ -4,6 +4,7 @@ namespace App\Controller\super_admin;
 
 use App\Entity\Links;
 use App\Entity\Project;
+use App\Form\ProjectEditType;
 use App\Form\ProjectLinksType;
 use App\Form\ProjectType;
 use App\Repository\ProjectRepository;
@@ -102,7 +103,7 @@ class ProjectController extends AbstractController
         $user = $this->getUser();
         $personne = $user->getPerson();
 
-        $form = $this->createForm(ProjectType::class, $project);
+        $form = $this->createForm(ProjectEditType::class, $project);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -113,7 +114,7 @@ class ProjectController extends AbstractController
 
         return $this->render('super_admin/project/edit.html.twig', [
             'project' => $project,
-            'form' => $form,
+            'form' => $form->createView(),
             'connectedPerson' => $personne,
         ]);
     }

@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\Entity\Company;
 use App\Entity\Links;
 use App\Entity\Person;
 use App\Entity\Project;
@@ -16,7 +15,8 @@ class ProjectEditType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $company = $options['company'];
+        $company = $options['data']->getCompany() ?? null;
+        $links = $options['data']->getLinks() ?? null;
         $builder
             ->add('name')
             ->add('description')
@@ -38,12 +38,19 @@ class ProjectEditType extends AbstractType
                         ->orderBy('p.id', 'ASC');
                 },
             ])
-            ->add('link', EntityType::class, [
+            ->add('links', EntityType::class, [
                 'class' => Links::class,
                 'choice_label' => function (Links $links) {
                     return $links->getLink();
                 },
-                'label' => 'Lien du projet',
+                'label' => 'Liens du projet',
+                'query_builder' => function (EntityRepository $er) use ($company) {
+                    return $er->createQueryBuilder('l')
+                        ->innerJoin('l.project', 'p')
+                        ->where('p.company = :company')
+                        ->setParameter('company', $company)
+                        ->orderBy('l.id', 'ASC');
+                },
             ])
         ;
     }
@@ -52,7 +59,6 @@ class ProjectEditType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Project::class,
-            'company' => Project::class->getCompany(),
         ]);
     }
 }
