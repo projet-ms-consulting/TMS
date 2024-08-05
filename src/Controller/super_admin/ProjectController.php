@@ -77,10 +77,22 @@ class ProjectController extends AbstractController
     {
         $user = $this->getUser();
         $personne = $user->getPerson();
+        $links = $project->getLinks();
+        $participants = $project->getParticipant();
+
+        foreach ($participants as $participant) {
+            $participant->getFullName();
+        }
+        foreach ($links as $link) {
+            $link->getLabel();
+            $link->getLink();
+        }
 
         return $this->render('super_admin/project/show.html.twig', [
             'project' => $project,
             'connectedPerson' => $personne,
+            'links' => $links,
+            'participants' => $participants,
         ]);
     }
 

@@ -3,7 +3,7 @@
 {% block title %}Détail d'un projet{% endblock %}
 
 {% block body %}
-    <h1>Détails Projet</h1>
+    <h1>Détails du projet {{ project.name }}</h1>
 
     <table class="table">
         <tbody>
@@ -17,11 +17,19 @@
             </tr>
             <tr>
                 <th>Participants</th>
-                <td>{{ project.person }}</td>
+                <td>
+                {% for participant in project.participant %}
+                    {{ participant.fullName }}<br>
+                {% endfor %}
+                </td>
             </tr>
             <tr>
                 <th>Git</th>
-                <td>{{ project.git }}</td>
+                <td>
+                {% for link in project.links %}
+                    {{ link.label }} : <a href="{{ link.link }}">{{ link.link }}</a>{{ include('super_admin/links/_delete_form.html.twig') }}<br>
+                {% endfor %}
+                </td>
             </tr>
             <tr>
                 <th>CreatedAt</th>
