@@ -227,7 +227,7 @@ class PersonController extends AbstractController
                         $entityManager->remove($oldFile);
                     }
                 }
-                $cvFile = $request->files->get('cv');
+                $cvFile = $personForm->get('cv')->getData();
                 if ($cvFile) {
                     $cvFilename = 'CV.'.$personne->getFirstName().'-'.$personne->getLastName().'.'.$cvFile->guessExtension();
                     $cvHash = hash('sha256', $cvFilename);
@@ -256,7 +256,7 @@ class PersonController extends AbstractController
                         $entityManager->remove($oldFile);
                     }
                 }
-                $lmFile = $request->files->get('coverLetter');
+                $lmFile = $personForm->get('coverLetter')->getData();
                 if ($lmFile) {
                     $lmFilename = 'LM.'.$personne->getFirstName().'-'.$personne->getLastName().'.'.$lmFile->guessExtension();
                     $cvHash = hash('sha256', $lmFilename);
@@ -285,7 +285,7 @@ class PersonController extends AbstractController
                         $entityManager->remove($oldFile);
                     }
                 }
-                $csFile = $request->files->get('internshipAgreement');
+                $csFile = $personForm->get('internshipAgreement')->getData();
                 if ($csFile) {
                     $csFilename = 'CS.'.$personne->getFirstName().'-'.$personne->getLastName().'.'.$csFile->guessExtension();
                     $cvHash = hash('sha256', $csFilename);
@@ -346,7 +346,8 @@ class PersonController extends AbstractController
             ->setEndInternship(null)
             ->setSchoolSupervisor(null)
             ->setCompanyReferent(null)
-            ->setManager(null);
+            ->setManager(null)
+            ->setInternshipSupervisor(null);
 
         if ($personForm->has('companyReferent')) {
             $personne->setCompany($personForm->get('companyReferent')->getData());
@@ -419,6 +420,21 @@ class PersonController extends AbstractController
                 if ($manager) {
                     // Définir le référent entreprise sur personne
                     $personne->setManager($manager);
+                }
+            }
+        }
+        // Attribuer le maître de stage au stagiaire
+        if ($personForm->has('traineeSupervisor')) {
+            $internshipSupervisorName = $personForm->get('traineeSupervisor')->getData();
+            // Récupérer l'ID du maître de stage
+            $internshipSupervisorId = is_numeric($internshipSupervisorName) ? (int) $internshipSupervisorName : null;
+
+            if (null !== $internshipSupervisorId) {
+                // Rechercher l'objet Person correspondant à l'ID
+                $internshipSupervisor = $entityManager->getRepository(Person::class)->find($internshipSupervisorId);
+                if ($internshipSupervisor) {
+                    // Définir le maître de stage sur personne
+                    $personne->setManager($internshipSupervisor);
                 }
             }
         }

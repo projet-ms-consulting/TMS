@@ -3,7 +3,6 @@
 namespace App\Controller\super_admin;
 
 use App\Entity\Person;
-use App\Form\PersonType;
 use App\Form\SchoolEmployeeType;
 use App\Repository\PersonRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -53,9 +52,8 @@ class SchoolEmployeeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $person->setUpdatedAt(new \DateTimeImmutable())
-                    ->setRoles([$form->get('roles')->getData()])
-                    ->setUser($person->getUser());
+            $person->setUpdatedAt(new \DateTimeImmutable());
+            $person->getUser()?->setUpdatedAt(new \DateTimeImmutable());
 
             $entityManager->flush();
 

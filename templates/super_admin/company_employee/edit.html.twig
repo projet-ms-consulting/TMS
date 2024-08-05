@@ -12,11 +12,17 @@
         <tbody>
         <tr>
             <th>{{ form_label(form.firstName) }}</th>
-            <td>{{ form_widget(form.firstName) }}</td>
+            <td>
+                {{ form_widget(form.firstName) }}
+                {{ form_errors(form.firstName) }}
+            </td>
         </tr>
         <tr>
             <th>{{ form_label(form.lastName) }}</th>
-            <td>{{ form_widget(form.lastName) }}</td>
+            <td>
+                {{ form_widget(form.lastName) }}
+                {{ form_errors(form.lastName) }}
+            </td>
         </tr>
         <tr>
             <th>{{ form_label(form.mailContact) }}</th>
@@ -25,10 +31,6 @@
         <tr>
             <th>{{ form_label(form.roles) }}</th>
             <td>{{ form_widget(form.roles) }}</td>
-        </tr>
-        <tr>
-            <th>{{ form_label(form.company) }}</th>
-            <td>{{ form_widget(form.company) }}</td>
         </tr>
         </tbody>
     </table>

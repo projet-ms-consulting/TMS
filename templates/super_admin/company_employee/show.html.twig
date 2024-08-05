@@ -16,25 +16,41 @@
                 <td>{{ personne.firstName }}</td>
             </tr>
             <tr>
+                <th>Email de contact : </th>
+                {% if personne.mailContact is not null %}
+                    <td>{{ personne.mailContact }}</td>
+                {% else %}
+                    <td>Non renseigné</td>
+                {% endif %}
+            </tr>
+            {% if personne.user %}
+                <tr>
+                    <th>Email de connexion : </th>
+                    <td>{{ personne.user.email}}</td>
+                </tr>
+            {% endif %}
+            <tr>
                 <th>Entreprise :  </th>
                 <td>{{ personne.company.name }}</td>
             </tr>
             <tr>
                 <th>Rôle : </th>
                 {% if is_granted('ROLE_ADMIN',user) %}
-                <td>Manager</td>
+                    <td>Manager</td>
                 {% else %}
-                <td>Superviseur interne</td>
+                    <td>Superviseur interne</td>
                 {% endif %}
             </tr>
             <tr>
                 <th>Créé le :</th>
                 <td>{{ personne.createdAt ? personne.createdAt|date('d/m/Y')}}</td>
             </tr>
-            <tr>
-                <th>Mis à jour le : </th>
-                <td>{{ personne.updatedAt ? personne.updatedAt|date('d/m/Y')}}</td>
-            </tr>
+            {% if personne.updatedAt is not null %}
+                <tr>
+                    <th>Mis à jour le : </th>
+                    <td>{{ personne.updatedAt ? personne.updatedAt|date('d/m/Y')}}</td>
+                </tr>
+            {% endif %}
         </tbody>
     </table>
 <div class="center-btn-container">

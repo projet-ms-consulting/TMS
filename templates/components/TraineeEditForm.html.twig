@@ -67,18 +67,36 @@
             <td>{{ form_widget(form.schoolSupervisor) }}</td>
         </tr>
         {% endif %}
+            <tr>
+                <th>{{ form_label(form.modifCv) }}</th>
+                <td>{{ form_widget(form.modifCv) }}</td>
+            </tr>
+        {% if form.cv is defined %}
+            <tr>
+                <th>{{ form_label(form.cv) }}</th>
+                <td>{{ form_widget(form.cv) }}</td>
+            </tr>
+        {% endif %}
         <tr>
-            <th>{{ form_label(form.cv) }}</th>
-            <td>{{ form_widget(form.cv) }}</td>
+            <th>{{ form_label(form.modifCoverLetter) }}</th>
+            <td>{{ form_widget(form.modifCoverLetter) }}</td>
         </tr>
+        {% if form.coverLetter is defined %}
+            <tr>
+                <th>{{ form_label(form.coverLetter) }}</th>
+                <td>{{ form_widget(form.coverLetter) }}</td>
+            </tr>
+        {% endif %}
         <tr>
-            <th>{{ form_label(form.coverLetter) }}</th>
-            <td>{{ form_widget(form.coverLetter) }}</td>
+            <th>{{ form_label(form.modifInternshipAgreement) }}</th>
+            <td>{{ form_widget(form.modifInternshipAgreement) }}</td>
         </tr>
-        <tr>
-            <th>{{ form_label(form.internshipAgreement) }}</th>
-            <td>{{ form_widget(form.internshipAgreement) }}</td>
-        </tr>
+        {% if form.internshipAgreement is defined %}
+            <tr>
+                <th>{{ form_label(form.internshipAgreement) }}</th>
+                <td>{{ form_widget(form.internshipAgreement) }}</td>
+            </tr>
+        {% endif %}
         </tbody>
     </table>
     <div class="btnForm">

@@ -56,11 +56,24 @@ class CompanyEmployeeController extends AbstractController
         $form = $this->createForm(CompanyEmployeeType::class, $person);
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $person->setUpdatedAt(new \DateTimeImmutable())
-                    ->setRoles([$form->get('roles')->getData()])
-                    ->setUser($person->getUser());
+            $person->setCompanyReferent(null)
+                    ->setManager(null)
+                    ->setInternshipSupervisor(null)
+                    ->setUpdatedAt(new \DateTimeImmutable())
+                    ->setRoles([$form->get('roles')->getData()]);
+            if ($person->getRoles()[0] == 'ROLE_COMPANY_REFERENT') {
+                $person->setCompanyReferent($person);
+            }
+            if ($person->getRoles()[0] == 'ROLE_SCHOOL_INTERNSHIP') {
+                $person->setInternshipSupervisor($person);
+            }
+            if ($person->getRoles()[0] == 'ROLE_ADMIN') {
+                $person->setManager($person);
+            }
+
+            $person->getUser()?->setRoles([$form->get('roles')->getData()]);
+            $person->getUser()?->setUpdatedAt(new \DateTimeImmutable());
 
             $entityManager->flush();
 

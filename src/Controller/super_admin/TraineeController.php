@@ -10,6 +10,7 @@ use App\Repository\CompanyRepository;
 use App\Repository\PersonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -56,52 +57,68 @@ class TraineeController extends AbstractController
         $traineeForm->handleRequest($request);
 
         if ($traineeForm->isSubmitted() && $traineeForm->isValid()) {
-            $person->setUpdatedAt(new \DateTimeImmutable());
-            $person->setStartInternship($traineeForm->getData()->getStartInternship())
-                    ->setEndInternship($traineeForm->getData()->getEndInternship());
 
+            $person->setSchoolSupervisor(null)
+                    ->setCompanyReferent(null)
+                    ->setManager(null)
+                    ->setInternshipSupervisor(null);
+
+            $person->setUpdatedAt(new \DateTimeImmutable())
+                    ->setStartInternship($traineeForm->getData()->getStartInternship())
+                    ->setEndInternship($traineeForm->getData()->getEndInternship())
+                    ->setCompany($traineeForm->getData()->getCompany())
+                    ->setSchool($traineeForm->getData()->getSchool())
+                    ->setCompanyReferent($traineeForm->get('companyReferent')->getData())
+                    ->setInternshipSupervisor($traineeForm->get('internshipSupervisor')->getData())
+                    ->setSchoolSupervisor($traineeForm->get('schoolSupervisor')->getData())
+                    ->setManager($traineeForm->get('manager')->getData());
+
+            // *************  Supprimer le CV s'il y en a déjà un ***************
             if ($traineeForm->has('cv')) {
                 $oldFiles = $person->getFiles();
                 foreach ($oldFiles as $oldFile) {
                     if ('CV' == $oldFile->getLabel()) {
-                        $filePath = ($this->getParameter('kernel.project_dir').'/files/'.$oldFile->getFile());
+                        $filePath = ($this->getParameter('kernel.project_dir') . '/files/' . $oldFile->getFile());
                         if (file_exists($oldFile->getFile())) {
                             unlink($filePath);
                         }
                         $entityManager->remove($oldFile);
                     }
-                    $cvFile = $request->files->get('cv');
-                    if ($cvFile) {
-                        $cvFilename = 'CV.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $cvFile->guessExtension();
-                        $cvHash = hash('sha256', $cvFilename);
-                        $cvHashFile = $cvHash . '.' . $cvFile->guessExtension();
-                        $cvFile->move($this->getParameter('kernel.project_dir') . '/files/', $cvFilename);
-                        $file = new Files();
-                        $file->setLabel('CV')
-                            ->setFile($cvHashFile)
-                            ->setCreatedAt(new \DateTimeImmutable())
-                            ->setUpdatedAt(new \DateTimeImmutable())
-                            ->setPerson($person)
-                            ->setRealFileName($cvFilename);
+                }
+                // *************  Et ajouter le nouveau ***************
+                $cvFile = $traineeForm->get('cv')->getData();
+                if ($cvFile) {
+                    $cvFilename = 'CV.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $cvFile->guessExtension();
+                    $cvHash = hash('sha256', $cvFilename);
+                    $cvHashFile = $cvHash . '.' . $cvFile->guessExtension();
+                    $cvFile->move($this->getParameter('kernel.project_dir') . '/files/', $cvFilename);
+                    $file = new Files();
+                    $file->setLabel('CV')
+                        ->setFile($cvHashFile)
+                        ->setCreatedAt(new \DateTimeImmutable())
+                        ->setUpdatedAt(new \DateTimeImmutable())
+                        ->setPerson($person)
+                        ->setRealFileName($cvFilename);
 
-                        $entityManager->persist($file);
-                    }
+                    $entityManager->persist($file);
                 }
             }
+            // *************  Supprimer la lettre de motivation s'il y en a déjà une et ajouter le nouveau ***************
             if ($traineeForm->has('coverLetter')) {
                 $oldFiles = $person->getFiles();
                 foreach ($oldFiles as $oldFile) {
                     if ('LM' == $oldFile->getLabel()) {
-                        $filePath = ($this->getParameter('kernel.project_dir').'/files/'.$oldFile->getFile());
+                        $filePath = ($this->getParameter('kernel.project_dir') . '/files/' . $oldFile->getFile());
                         if (file_exists($oldFile->getFile())) {
                             unlink($filePath);
                         }
                         $entityManager->remove($oldFile);
                     }
                 }
-                $lmFile = $request->files->get('coverLetter');
+                // *************  Et ajouter la nouvelle ***************
+                $lmFile = $traineeForm->get('coverLetter')->getData();
                 if ($lmFile) {
-                    $lmFilename = 'LM.' . $personne->getFirstName() . '-' . $person->getLastName() . '.' . $lmFile->guessExtension();
+                    $lmFilename = 'LM.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $lmFile->guessExtension();
                     $cvHash = hash('sha256', $lmFilename);
                     $cvHashFile = $cvHash . '.' . $lmFile->guessExtension();
                     $lmFile->move($this->getParameter('kernel.project_dir') . '/files/' . $lmFilename);
@@ -116,18 +133,20 @@ class TraineeController extends AbstractController
                     $entityManager->persist($file);
                 }
             }
+            // *************  Supprimer la convention de stage s'il y en a déjà une ***************
             if ($traineeForm->has('internshipAgreement')) {
                 $oldFiles = $person->getFiles();
                 foreach ($oldFiles as $oldFile) {
                     if ('CS' == $oldFile->getLabel()) {
-                        $filePath = ($this->getParameter('kernel.project_dir').'/files/'.$oldFile->getFile());
+                        $filePath = ($this->getParameter('kernel.project_dir') . '/files/' . $oldFile->getFile());
                         if (file_exists($oldFile->getFile())) {
                             unlink($filePath);
                         }
                         $entityManager->remove($oldFile);
                     }
                 }
-                $csFile = $request->files->get('internshipAgreement');
+                // *************  Et ajouter la nouvelle ***************
+                $csFile = $traineeForm->get('internshipAgreement')->getData();
                 if ($csFile) {
                     $csFilename = 'CS.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $csFile->guessExtension();
                     $cvHash = hash('sha256', $csFilename);
@@ -144,8 +163,7 @@ class TraineeController extends AbstractController
                     $entityManager->persist($file);
                 }
             }
-
-            $entityManager->persist($person);
+//            $entityManager->persist($person);
             $entityManager->flush();
 
             $this->addFlash('success', 'Modification réussie !');

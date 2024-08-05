@@ -60,7 +60,6 @@ class CompanyEmployeeType extends AbstractType
             ])
             ->add('roles', ChoiceType::class, [
                 'label' => 'Rôle :',
-                'placeholder' => 'Choisir un rôle',
                 'choices' => [
                     'Chef d\'entreprise' => 'ROLE_ADMIN',
                     'Maître de stage' => 'ROLE_COMPANY_INTERNSHIP',
@@ -71,15 +70,7 @@ class CompanyEmployeeType extends AbstractType
                 'multiple' => false,
                 'attr' => ['class' => 'form-control'],
                 'data' => isset($options['data']) && !empty($options['data']->getRoles()) ? $options['data']->getRoles()[0] : null,
-            ])
-            ->add('company', EntityType::class, [
-                'class' => Company::class,
-                'label' => 'Entreprise : ',
-                'placeholder' => 'Entreprise',
-                'choice_label' => 'name',
-                'attr' => ['class' => 'form-control'],
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

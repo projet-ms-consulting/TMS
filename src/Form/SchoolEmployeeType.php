@@ -45,26 +45,6 @@ class SchoolEmployeeType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
-            ->add('roles', ChoiceType::class, [
-                'label' => 'Rôle :',
-                'placeholder' => 'Choisir un rôle',
-                'choices' => [
-                    'Référent école' => 'ROLE_SCHOOL_INTERNSHIP',
-                    'Maître de stage' => 'ROLE_COMPANY_INTERNSHIP',
-                ],
-                'mapped' => false,
-                'expanded' => false,
-                'multiple' => false,
-                'attr' => ['class' => 'form-control'],
-                'data' => isset($options['data']) && !empty($options['data']->getRoles()) ? $options['data']->getRoles()[0] : null,
-            ])
-            ->add('school', EntityType::class, [
-                'class' => School::class,
-                'label' => 'École : ',
-                'placeholder' => 'École',
-                'choice_label' => 'name',
-                'attr' => ['class' => 'form-control'],
-            ])
         ;
     }
 
