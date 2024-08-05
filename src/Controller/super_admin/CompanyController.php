@@ -92,7 +92,6 @@ class CompanyController extends AbstractController
     public function edit(Request $request, Company $company, EntityManagerInterface $entityManager): Response
     {
         $address = $company->getAddress();
-
         $user = $this->getUser();
         $personne = $user->getPerson();
 

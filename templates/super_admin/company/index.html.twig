@@ -46,5 +46,9 @@
         {% endfor %}
         </tbody>
     </table>
-    {{ knp_pagination_render(companies) }}
+
+    <div class="pagination-container">
+        {{ knp_pagination_render(companies) }}
+    </div>
+
 {% endblock %}

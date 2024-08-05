@@ -22,6 +22,7 @@ class ProjectLinksType extends AbstractType
             ->add('labelChoice', ChoiceType::class, [
                 'label' => 'Lien',
                 'choices' => [
+                    'Choisissez un lien' => null,
                     'Github' => 'Github',
                     'Trello' => 'Trello',
                     'Autre' => 'Autre',
@@ -36,7 +37,7 @@ class ProjectLinksType extends AbstractType
                         'required' => false,
                         'constraints' => [
                             new Regex([
-                                'pattern' => '/^https:\/\/github\.com(\/[a-zA-Z0-9\-_])+(\/[a-zA-Z0-9\-_])+$/',
+                                'pattern' => '/^https:\/\/github\.com(\/[a-zA-Z0-9\-_]+)+$/',
                                 'message' => 'Le lien git n\'est pas valide.',
                             ]),
                         ],
@@ -51,7 +52,7 @@ class ProjectLinksType extends AbstractType
                         'required' => false,
                         'constraints' => [
                             new Regex([
-                                'pattern' => '/^https:\/\/trello\.com\/([a-zA-Z0-9\-_])+(\/[a-zA-Z0-9\-_])+$/',
+                                'pattern' => '/^https:\/\/trello\.com(\/[a-zA-Z0-9\-_]+)+$/',
                                 'message' => 'Le lien trello n\'est pas valide.',
                             ]),
                         ],
@@ -66,7 +67,7 @@ class ProjectLinksType extends AbstractType
                         'required' => false,
                         'constraints' => [
                             new Regex([
-                                'pattern' => '^https:\/\/[a-zA-Z0-9-]+\.(com|fr|org)(\/[a-zA-Z0-9\-_]+)*$',
+                                'pattern' => '/^https:\/\/[^\s]*\.[^\s]*$/',
                                 'message' => 'Le lien n\'est pas valide.',
                             ]),
                         ],

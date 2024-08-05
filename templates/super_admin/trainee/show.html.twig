@@ -8,15 +8,15 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Nom : </th>
+                <th>Nom</th>
                 <td>{{ personne.lastName }}</td>
             </tr>
             <tr>
-                <th>Prénom : </th>
+                <th>Prénom</th>
                 <td>{{ personne.firstName }}</td>
             </tr>
             <tr>
-                <th>Email de contact : </th>
+                <th>Email de contact</th>
                 {% if personne.mailContact is not null %}
                     <td>{{ personne.mailContact }}</td>
                 {% else %}
@@ -24,7 +24,7 @@
                 {% endif %}
             </tr>
             <tr>
-                <th>Date de début de stage : </th>
+                <th>Date de début de stage</th>
                 {% if personne.startInternship is not null %}
                     <td>{{ personne.startInternship ? personne.startInternship|date('d/m/Y') : '' }}</td>
                 {% else %}
@@ -40,11 +40,11 @@
                 {% endif %}
             </tr>
             <tr>
-                <th>Entreprise : </th>
+                <th>Entreprise</th>
                 <td><a href="{{ path('super_admin_app_company_show', {'id': personne.company.id}) }}">{{ personne.company.name }}</a></td>
             </tr>
             <tr>
-                <th>Chef d'entreprise : </th>
+                <th>Chef d'entreprise</th>
                 {% if personne.manager is not null %}
                     <td><a href="{{ path('super_admin_app_person_show', {'id': personne.manager.id}) }}">{{ personne.manager.fullName }}</a></td>
                 {% else %}
@@ -52,7 +52,7 @@
                 {% endif %}
             </tr>
             <tr>
-                <th> Référent entreprise : </th>
+                <th> Référent entreprise</th>
                 {% if personne.companyReferent is not null %}
                     <td><a href="{{ path('super_admin_app_person_show',{'id':personne.companyReferent.id}) }}">{{ personne.companyReferent.fullName }}</a></td>
                 {% else %}
@@ -60,7 +60,7 @@
                 {% endif %}
             </tr>
             <tr>
-                <th>Maître de stage : </th>
+                <th>Maître de stage</th>
                 {% if personne.internshipSupervisor is not null %}
                     <td><a href="{{ path('super_admin_app_person_show',{'id':personne.internshipSupervisor.id}) }}">{{ personne.internshipSupervisor.fullName}}</a></td>
                 {% else %}
@@ -68,11 +68,11 @@
                 {% endif %}
             </tr>
             <tr>
-                <th>Ecole : </th>
+                <th>Ecole</th>
                 <td><a href="{{ path('super_admin_app_school_show',{'id':personne.school.id}) }}">{{ personne.school.name }}</a></td>
             </tr>
             <tr>
-                <th>Référent école : </th>
+                <th>Référent école</th>
                 {% if personne.schoolSupervisor is not null %}
                     <td><a href="{{ path('super_admin_app_school_employee_show',{'id':personne.schoolSupervisor.id}) }}">{{ personne.schoolSupervisor.fullName }}</a></td>
                 {% else %}
@@ -80,7 +80,7 @@
                 {% endif %}
             </tr>
             <tr>
-                <th>Documents : </th>
+                <th>Documents</th>
                 {% if personne.files is empty %}
                     <td>Pas de document</td>
                 {% else %}

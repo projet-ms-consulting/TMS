@@ -60,7 +60,7 @@
                 {% endif %}
                 <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y')}}</td>
                 <td>
-                    <a href="{{ path('super_admin_app_person_show', {'id': person.id}) }}">Détails</a>
+                    <a href="{{ path('super_admin_app_person_show', {'id': person.id}) }}">Détails</a><br>
                     <a href="{{ path('super_admin_app_person_edit', {'id': person.id}) }}">Modifier</a>
                 </td>
             </tr>
