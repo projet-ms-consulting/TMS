@@ -60,7 +60,7 @@ class ProjectType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new Regex([
-                        'pattern' => '/^https:\/\/github\.com(\/[a-zA-Z0-9\-_]+)+\.git$/',
+                        'pattern' => '/^https:\/\/github\.com(\/[a-zA-Z0-9\-_]+)+$/',
                         'message' => 'Le lien git n\'est pas valide.',
                     ]),
                 ],

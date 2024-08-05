@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Company;
+use App\Entity\Links;
 use App\Entity\Person;
 use App\Entity\Project;
 use Doctrine\ORM\EntityRepository;
@@ -19,12 +20,6 @@ class ProjectEditType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('updatedAt', null, [
-                'widget' => 'single_text',
-            ])
             ->add('participant', EntityType::class, [
                 'class' => Person::class,
                 'choice_label' => function (Person $person) {
@@ -44,9 +39,11 @@ class ProjectEditType extends AbstractType
                 },
             ])
             ->add('link', EntityType::class, [
-                'class' => Project::class,
-                'choice_label' => 'name',
-                'label' => 'Linked projects',
+                'class' => Links::class,
+                'choice_label' => function (Links $links) {
+                    return $links->getLink();
+                },
+                'label' => 'Lien du projet',
             ])
         ;
     }
