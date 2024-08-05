@@ -114,7 +114,7 @@ class ProjectController extends AbstractController
 
         return $this->render('super_admin/project/edit.html.twig', [
             'project' => $project,
-            'form' => $form->createView(),
+            'form' => $form,
             'connectedPerson' => $personne,
         ]);
     }
