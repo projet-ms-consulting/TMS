@@ -1,3 +1,4 @@
+
 .form-group {
     margin-bottom: 20px;
 }
@@ -13,126 +14,6 @@
     border: 2px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-}
-
-.btn-primary {
-    background-color: dimgrey;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    display: block;
-    margin: 0 auto;
-}
-
-.btn-primary:hover {
-    background-color: goldenrod;
-}
-
-.form-group label {
-    color: whitesmoke;
-}
-
-.table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border-radius: 15px;
-    overflow: hidden;
-    table-layout: auto;
-}
-
-.table th {
-    font-family: "Apple SD Gothic Neo";
-    font-size: larger;
-    background: dimgrey;
-    color: whitesmoke;
-    padding: 12px;
-    text-align: center;
-    border: 2px solid grey;
-    width: auto;
-}
-
-.table td {
-    background-color: #333333;
-    color: whitesmoke;
-    padding: 12px;
-    text-align: left;
-    border: 2px solid dimgrey;
-}
-
-.table td a {
-    color: whitesmoke;
-    text-decoration: none;
-    font-size: large;
-}
-
-.table td a:hover {
-    color: whitesmoke;
-    text-decoration: underline;
-}
-
-.table tr:hover td {
-    color: whitesmoke;
-    background-color: #3e3e3e;
-    transition: color 0.5s, background-color 0.5s;
-}
-
-.table td {
-    background-color: #333333;
-    color: whitesmoke;
-    padding: 12px;
-    text-align: left;
-    border: 2px solid dimgrey;
-}
-
-.table td a {
-    color: whitesmoke;
-    text-decoration: none;
-    font-size: large;
-}
-
-.table.table-show {
-    max-width: 60%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border-radius: 15px;
-    overflow: hidden;
-    table-layout: auto;
-    border: 2px solid dimgrey;
-
-}
-
-.table.table-show th, .table.table-show td {
-    padding: 12px;
-    border: 2px solid grey;
-}
-
-.table.table-show th {
-    font-family: "Apple SD Gothic Neo";
-    font-size: larger;
-    background: dimgrey;
-    color: whitesmoke;
-    text-align: center;
-    width: auto;
-    border: 2px solid grey;
-}
-
-.table.table-show td {
-    background-color: #333333;
-    color: whitesmoke;
-    text-align: left;
-    border: 2px solid grey ;
-}
-
-
-
-input, select, textarea {
-    color: black !important;
 }
 
 .btn-primary {
@@ -171,3 +52,83 @@ input, select, textarea {
 }
 
 
+.table {
+    text-align: center;
+    width: auto;
+    max-width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    border-radius: 4px;
+    overflow: hidden;
+    table-layout: fixed;
+}
+
+.table th, .table td {
+    padding: 12px;
+    border: 1px solid grey;
+    width: auto;
+}
+
+.table th {
+    font-family: "Apple SD Gothic Neo";
+    font-size: larger;
+    background: dimgrey;
+    color: whitesmoke;
+    text-align: center;
+}
+
+.table td {
+    background-color: #333333;
+    color: whitesmoke;
+    text-align: left;
+}
+
+.table td a {
+    color: whitesmoke;
+    text-decoration: none;
+    font-size: large;
+}
+
+.table td a:hover {
+    color: whitesmoke;
+    text-decoration: underline;
+}
+
+.table tr:hover td {
+    color: whitesmoke;
+    background-color: #3e3e3e;
+    transition: color 0.5s, background-color 0.5s;
+}
+
+.table.table-show {
+    max-width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    border-radius: 4px;
+    overflow: hidden;
+    /*border: 2px solid dimgrey;*/
+}
+
+.table.table-show th, .table.table-show td {
+    padding: 12px;
+    border: 1px solid grey;
+}
+
+.table.table-show th {
+    font-family: "Apple SD Gothic Neo";
+    font-size: larger;
+    background: dimgrey;
+    color: whitesmoke;
+    text-align: center;
+}
+
+.table.table-show td {
+    background-color: #333333;
+    color: whitesmoke;
+    text-align: left;
+}
+
+
+input, select, textarea {
+    color: black !important;
+}

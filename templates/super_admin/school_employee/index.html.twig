@@ -24,7 +24,7 @@
                             <td>{{ person.school.address.nbStreet }} {{ person.school.address.street }}, {{ person.school.address.zipCode }} {{ person.school.address.city }}</td>
                             <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y')}}</td>
                             <td>
-                                <a href="{{ path('super_admin_app_school_employee_show', {'id': person.id}) }}">Détails</a>
+                                <a href="{{ path('super_admin_app_school_employee_show', {'id': person.id}) }}">Détails</a><br>
                                 <a href="{{ path('super_admin_app_school_employee_edit', {'id': person.id}) }}">Modifier</a>
                             </td>
                         {% else %}

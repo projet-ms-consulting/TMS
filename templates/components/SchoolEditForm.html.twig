@@ -1,0 +1,61 @@
+<div{{ attributes }}>
+
+    {{ form_start(form) }}
+
+    <div class="form-group">
+        {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(form.checkAddress, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    {% if form.address is defined %}
+        <div class="form-group">
+            {{ form_row(form.address, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    {% endif %}
+
+    {% if form.nbStreetNewAddress is defined %}
+        <div class="form-group">
+            {{ form_row(form.nbStreetNewAddress, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-error">
+            {{ form_errors(form.name) }}
+        </div>
+    {% endif %}
+
+    {% if form.streetNewAddress is defined %}
+        <div class="form-group">
+            {{ form_row(form.streetNewAddress, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-error">
+            {{ form_errors(form.name) }}
+        </div>
+    {% endif %}
+
+    {% if form.zipCodeNewAddress is defined %}
+        <div class="form-group">
+            {{ form_row(form.zipCodeNewAddress, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-error">
+            {{ form_errors(form.name) }}
+        </div>
+    {% endif %}
+
+    {% if form.cityNewAddress is defined %}
+        <div class="form-group">
+            {{ form_row(form.cityNewAddress, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-error">
+            {{ form_errors(form.name) }}
+        </div>
+    {% endif %}
+
+    <div class="center-btn-container">
+        <a href="{{ path('super_admin_app_school_index') }}" class="btn btn-primary back-btn">Retour</a>
+        <button type="submit" class="btn btn-primary">Créer</button>
+    </div>
+    {{ form_end(form) }}
+
+</div>
