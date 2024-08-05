@@ -107,7 +107,13 @@ label.required:after {
 
 .btnForm {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btnForm .btn {
+  display: inline-block;
 }
 
 .btn-custom {

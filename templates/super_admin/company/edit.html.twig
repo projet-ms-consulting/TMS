@@ -30,17 +30,15 @@
 {#            <th>{{ form_label(form.employee) }}</th>#}
 {#            <td>{{ form_widget(form.employee) }}</td>#}
 {#        </tr>#}
-
-        <tr>
-            <td colspan="2">
-                <button id="btn-submit" class="btn">Enregistrer</button>
-            </td>
-        </tr>
     </table>
-    {{ form_end(form) }}
 
-<div class="center-btn-container">
-    <a href="{{ path('super_admin_app_company_index') }}" class="btn btn-primary back-btn">Retour</a>
-</div>
+    <div class="btnForm">
+        <a href="{{ path('super_admin_app_company_index') }}" class="btn btn-primary back-btn">Retour</a>
+        <button id="btn-submit" class="btn btn-primary back-btn">Modifier</button>
+
+    </div>
+    {{ form_end(form) }}
+    {{ include('super_admin/school/_delete_form.html.twig') }}
 
 {% endblock %}
+
