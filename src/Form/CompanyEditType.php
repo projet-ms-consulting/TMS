@@ -30,6 +30,7 @@ class CompanyEditType extends AbstractType
             ->add('address', AddressType::class, [
                 'data' => $options['data']->getAddress(),
                 'mapped' => false,
+                'label' => 'Adresse',
             ])
             ->add('employeeNumber', TextType::class, [
                 'label' => 'Nombre d\'employés',

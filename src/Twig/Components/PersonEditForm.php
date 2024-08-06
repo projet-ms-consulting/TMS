@@ -18,12 +18,12 @@ final class PersonEditForm extends AbstractController
 
     public Person $personne;
 
-
     public function __construct()
     {
         // Initialisation de $personne avec une nouvelle instance de Person
         $this->personne = new Person();
     }
+
     protected function instantiateForm(): FormInterface
     {
         return $this->createForm(PersonType::class, $this->personne);

@@ -30,7 +30,6 @@ class PersonType extends AbstractType
         $builder
             ->add('lastName', null, [
                 'label' => 'Nom : ',
-                'attr' => ['class' => 'form-control'],
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
@@ -46,7 +45,6 @@ class PersonType extends AbstractType
             ])
             ->add('firstName', null, [
                 'label' => 'Prénom : ',
-                'attr' => ['class' => 'form-control'],
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
@@ -63,7 +61,6 @@ class PersonType extends AbstractType
             ->add('mailContact', EmailType::class, [
                 'label' => 'Email de contact : ',
                 'required' => false,
-                'attr' => ['class' => 'form-control'],
             ])
             ->add('roles', ChoiceType::class, [
                 'label' => 'Rôle :',
@@ -79,7 +76,6 @@ class PersonType extends AbstractType
                 'mapped' => false,
                 'expanded' => false,
                 'multiple' => false,
-                'attr' => ['class' => 'form-control'],
                 'data' => isset($options['data']) && !empty($options['data']->getRoles()) ? $options['data']->getRoles()[0] : null,
             ])
             // Si stagiaire, afficher champ date début de stage
@@ -88,7 +84,6 @@ class PersonType extends AbstractType
                     $field->add(DateType::class, [
                         'label' => 'Date début de stage',
                         'required' => false,
-                        'attr' => ['class' => 'form-control'],
                         'constraints' => [
                             new Range([
                                 'min' => (new \DateTimeImmutable())->modify('-3 months'),
@@ -105,7 +100,6 @@ class PersonType extends AbstractType
                     $field->add(DateType::class, [
                         'label' => 'Date fin de stage',
                         'required' => false,
-                        'attr' => ['class' => 'form-control'],
                         'constraints' => [
                             new Range([
                                 'min' => (new \DateTimeImmutable()),
@@ -124,7 +118,6 @@ class PersonType extends AbstractType
                         'label' => 'Entreprise',
                         'choice_label' => 'name',
                         'mapped' => false,
-                        'attr' => ['class' => 'form-control'],
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('c')
                                 ->orderBy('c.name', 'ASC');
@@ -141,7 +134,6 @@ class PersonType extends AbstractType
                         'placeholder' => 'Choisir une entreprise',
                         'choice_label' => 'name',
                         'mapped' => false,
-                        'attr' => ['class' => 'form-control'],
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('c')
                                 ->orderBy('c.name', 'ASC');
@@ -158,7 +150,6 @@ class PersonType extends AbstractType
                         'placeholder' => 'Choisir une entreprise',
                         'choice_label' => 'name',
                         'mapped' => false,
-                        'attr' => ['class' => 'form-control'],
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('c')
                                 ->orderBy('c.name', 'ASC');
@@ -174,7 +165,6 @@ class PersonType extends AbstractType
                         'label' => 'Ecole',
                         'placeholder' => 'Choisir une école',
                         'choice_label' => 'name',
-                        'attr' => ['class' => 'form-control'],
                         'data' => isset($options['data']) && !empty($options['data']->getSchool()) ? $options['data']->getSchool() : null,
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('s')
@@ -192,7 +182,6 @@ class PersonType extends AbstractType
                         'choice_label' => 'name',
                         'placeholder' => 'Choisir une entreprise',
                         'mapped' => false,
-                        'attr' => ['class' => 'form-control'],
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('c')
                                 ->orderBy('c.name', 'ASC');
@@ -205,7 +194,6 @@ class PersonType extends AbstractType
                 if ($company) {
                     $field->add(EntityType::class, [
                         'class' => Person::class,
-                        'attr' => ['class' => 'form-control'],
                         'mapped' => false,
                         'label' => 'Référent de l\'entreprise : ',
                         'choice_label' => function (Person $person) {
@@ -228,7 +216,6 @@ class PersonType extends AbstractType
                 if ($company) {
                     $field->add(EntityType::class, [
                         'class' => Person::class,
-                        'attr' => ['class' => 'form-control'],
                         'mapped' => false,
                         'label' => 'Chef de l\'entreprise : ',
                         'choice_label' => function (Person $person) {
@@ -252,7 +239,6 @@ class PersonType extends AbstractType
             if ($company) {
                 $field->add(EntityType::class, [
                     'class' => Person::class,
-                    'attr' => ['class' => 'form-control'],
                     'mapped' => false,
                     'label' => 'Maître de stage : ',
                     'choice_label' => function (Person $person) {
@@ -279,7 +265,6 @@ class PersonType extends AbstractType
                         'choice_label' => 'name',
                         'placeholder' => 'Choisir une école',
                         'mapped' => false,
-                        'attr' => ['class' => 'form-control'],
                         'data' => isset($options['data']) && !empty($options['data']->getSchool()) ? $options['data']->getSchool() : null,
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('s')
@@ -293,7 +278,6 @@ class PersonType extends AbstractType
                 if ($school) {
                     $field->add(EntityType::class, [
                         'class' => Person::class,
-                        'attr' => ['class' => 'form-control'],
                         'mapped' => false,
                         'label' => 'Référent de l\'école : ',
                         'placeholder' => 'Choisir un référent école',
@@ -328,7 +312,6 @@ class PersonType extends AbstractType
                                 'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
                             ]),
                         ],
-                        'attr' => ['class' => 'form-control'],
                     ]);
                 }
             })
@@ -348,7 +331,6 @@ class PersonType extends AbstractType
                                 'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
                             ]),
                         ],
-                        'attr' => ['class' => 'form-control'],
                     ]);
                 }
             })
@@ -368,7 +350,6 @@ class PersonType extends AbstractType
                                 'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF, JPEG ou PNG valide',
                             ]),
                         ],
-                        'attr' => ['class' => 'form-control'],
                     ]);
                 }
             })
@@ -381,14 +362,12 @@ class PersonType extends AbstractType
                     'Non' => false,
                 ],
                 'mapped' => false,
-                'attr' => ['class' => 'form-control'],
             ])
             // Si checkUser = true, afficher le champ email
             ->addDependent('email', 'checkUser', function (DependentField $field, ?bool $checkUser) {
                 if ($checkUser) {
                     $field->add(EmailType::class, [
                         'label' => 'Email de connexion : ',
-                        'attr' => ['class' => 'form-control'],
                         'mapped' => false,
                     ]);
                 }

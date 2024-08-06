@@ -86,7 +86,12 @@
                 {% else %}
                     <td>
                         {% for file in personne.files %}
-                            <a href="{{ path('super_admin_app_person_show_file', {id: file.id}) }}" target="_blank">{{ file.realFileName }}</a><br>
+                            <a href="{{ path('super_admin_app_person_show_file', {id: file.id}) }}" target="_blank">{{ file.realFileName }}</a>
+                            <form action="{{ path('super_admin_app_trainee_delete_file', { id: file.id }) }}" method="post" style="display: inline;">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ file.id) }}">
+                                <button type="submit" class="delete-cv-btn" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce fichier ?');"><i class="fa-solid fa-xmark" title="Supprimer"></i></button>
+                            </form>
+                            <br>
                         {% endfor %}
                     </td>
                 {% endif %}

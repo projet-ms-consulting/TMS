@@ -41,7 +41,6 @@ class SchoolEmployeeType extends AbstractType
             ->add('mailContact', EmailType::class, [
                 'label' => 'Email de contact : ',
                 'required' => false,
-                'attr' => ['class' => 'form-control'],
             ])
         ;
     }

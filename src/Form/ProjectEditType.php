@@ -37,19 +37,6 @@ class ProjectEditType extends AbstractType
                         ->orderBy('p.id', 'ASC');
                 },
             ])
-            ->add('links', EntityType::class, [
-                'class' => Links::class,
-                'choice_label' => 'label',
-                'label' => 'Liens',
-                'multiple' => true,
-                'expanded' => true,
-                'query_builder' => function (EntityRepository $er) use ($options) {
-                    return $er->createQueryBuilder('l')
-                        ->where('l.project = :project')
-                        ->setParameter('project', $options['data'])
-                        ->orderBy('l.id', 'ASC');
-                },
-            ])
         ;
     }
 

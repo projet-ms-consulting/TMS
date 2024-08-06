@@ -31,7 +31,6 @@ class TraineeType extends AbstractType
         $builder
             ->add('lastName', null, [
                 'label' => 'Nom : ',
-//                'attr' => ['class' => 'form-control'],
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
@@ -47,7 +46,6 @@ class TraineeType extends AbstractType
             ])
             ->add('firstName', null, [
                 'label' => 'Prénom : ',
-//                'attr' => ['class' => 'form-control'],
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
@@ -69,7 +67,6 @@ class TraineeType extends AbstractType
             ->add('startInternship', DateType::class, [
                 'label' => 'Date début de stage',
                 'required' => false,
-//                'attr' => ['class' => 'form-control'],
                 'constraints' => [
                     new Range([
                         'min' => (new \DateTimeImmutable())->modify('-3 months'),
@@ -81,7 +78,6 @@ class TraineeType extends AbstractType
             ->add('endInternship', null, [
                 'label' => 'Date fin de stage',
                 'required' => false,
-//                'attr' => ['class' => 'form-control'],
                 'constraints' => [
                     new Range([
                         'min' => (new \DateTimeImmutable()),
@@ -95,7 +91,6 @@ class TraineeType extends AbstractType
                 'label' => 'Entreprise : ',
                 'choice_label' => 'name',
                 'placeholder' => 'Choisir une entreprise',
-//                'attr' => ['class' => 'form-control'],
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                         ->orderBy('c.name', 'ASC');
@@ -118,7 +113,6 @@ class TraineeType extends AbstractType
                                 ->setParameter('company', $company)
                                 ->orderBy('p.id', 'ASC');
                         },
-//                        'attr' => ['class' => 'form-control'],
                     ]);
                 }
             })
@@ -139,7 +133,6 @@ class TraineeType extends AbstractType
                                 ->setParameter('company', $company)
                                 ->orderBy('p.id', 'ASC');
                         },
-//                        'attr' => ['class' => 'form-control'],
                     ]);
                 }
             })
@@ -160,7 +153,6 @@ class TraineeType extends AbstractType
                                 ->setParameter('company', $company)
                                 ->orderBy('p.id', 'ASC');
                         },
-//                        'attr' => ['class' => 'form-control'],
                     ]);
                 }
             })
@@ -169,7 +161,6 @@ class TraineeType extends AbstractType
                 'label' => 'École',
                 'choice_label' => 'name',
                 'placeholder' => 'Choisir une école',
-//                'attr' => ['class' => 'form-control'],
             ])
             ->addDependent('schoolSupervisor', 'school', function (DependentField $field, ?School $school) {
                 if ($school) {
@@ -188,7 +179,6 @@ class TraineeType extends AbstractType
                                 ->setParameter('school', $school)
                                 ->orderBy('p.id', 'ASC');
                         },
-//                        'attr' => ['class' => 'form-control'],
                     ]);
                 }
             })
@@ -198,7 +188,6 @@ class TraineeType extends AbstractType
                     'Non' => false,
                     'Oui' => true,
                 ],
-//                'attr' => ['class' => 'form-control'],
                 'mapped' => false,
             ])
             ->addDependent('cv', 'modifCv', function (DependentField $field, ?bool $modifCv) {
@@ -216,7 +205,6 @@ class TraineeType extends AbstractType
                                 'mimeTypesMessage' => 'Veuillez sélectionner un fichier PDF, JPEG ou PNG valide',
                             ]),
                         ],
-//                        'attr' => ['class' => 'form-control'],
                     ]);
                 }
             })
@@ -226,7 +214,6 @@ class TraineeType extends AbstractType
                     'Non' => false,
                     'Oui' => true,
                 ],
-//                'attr' => ['class' => 'form-control'],
                 'mapped' => false,
             ])
             ->addDependent('coverLetter', 'modifCoverLetter', function (DependentField $field, ?bool $modifCoverLetter) {
@@ -244,7 +231,6 @@ class TraineeType extends AbstractType
                                 'mimeTypesMessage' => 'Veuillez sélectionner un fichier PDF, JPEG ou PNG valide',
                             ]),
                         ],
-//                        'attr' => ['class' => 'form-control'],
                     ]);
                 }
             })
@@ -254,7 +240,6 @@ class TraineeType extends AbstractType
                     'Non' => false,
                     'Oui' => true,
                 ],
-//                'attr' => ['class' => 'form-control'],
                 'mapped' => false,
             ])
             ->addDependent('internshipAgreement', 'modifInternshipAgreement', function (DependentField $field, ?bool $modifInternshipAgreement) {
@@ -272,7 +257,6 @@ class TraineeType extends AbstractType
                                 'mimeTypesMessage' => 'Veuillez sélectionner un fichier PDF, JPEG ou PNG valide',
                             ]),
                         ],
-//                        'attr' => ['class' => 'form-control'],
                     ]);
                 }
             });
@@ -282,7 +266,6 @@ class TraineeType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Person::class,
-            'company' => null,
         ]);
     }
 }
