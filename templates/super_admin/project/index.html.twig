@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Liste des projets</h1>
 
-    <a href="{{ path('super_admin_project_new') }}">Créer un nouveau project</a>
+    <a href="{{ path('super_admin_project_new') }}" class="btn-custom">Créer un nouveau project</a>
     <table class="table">
         <thead>
             <tr>
@@ -32,8 +32,8 @@
                 </td>
                 <td>{{ project.updatedAt ? project.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('super_admin_project_show', {'id': project.id}) }}">Détails</a>
-                    <a href="{{ path('super_admin_project_edit', {'id': project.id}) }}">Modifier</a>
+                    <a href="{{ path('super_admin_project_show', {'id': project.id}) }}">Détails</a><br>
+                    <a href="{{ path('super_admin_project_edit', {'id': project.id}) }}">Modifier</a><br>
                     <a href="{{ path('super_admin_project_link',{'id':project.id}) }}">Ajouter des liens</a>
                 </td>
             </tr>

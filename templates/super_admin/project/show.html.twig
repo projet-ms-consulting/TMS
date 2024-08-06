@@ -42,9 +42,10 @@
         </tbody>
     </table>
 
-    <a href="{{ path('super_admin_project_index') }}">Retour</a>
-
-    <a href="{{ path('super_admin_project_edit', {'id': project.id}) }}">Modifier</a>
+    <div class="button-container">
+        <a href="{{ path('super_admin_project_index') }}" class="btn btn-primary back-btn">Retour</a>
+        <a href="{{ path('super_admin_project_edit', {'id': project.id}) }}" class="btn btn-primary back-btn">Modifier</a>
+    </div>
 
     {{ include('super_admin/project/_delete_form.html.twig') }}
 {% endblock %}

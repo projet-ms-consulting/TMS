@@ -1,4 +1,52 @@
-<div{{ attributes }}>
 
-    <twig:SchoolEditForm />
-</div>
+    <div{{ attributes }}>
+        {{ form_start(form) }}
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>{{ form_label(form.name) }}</th>
+                <td>{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}</td>
+            </tr>
+            <tr>
+                <th>{{ form_label(form.checkAddress) }}</th>
+                <td>{{ form_widget(form.checkAddress, {'attr': {'class': 'form-control'}}) }}</td>
+            </tr>
+            {% if form.address is defined %}
+                <tr>
+                    <th>{{ form_label(form.address) }}</th>
+                    <td>{{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}</td>
+                </tr>
+            {% endif %}
+            {% if form.nbStreetNewAddress is defined %}
+                <tr>
+                    <th>{{ form_label(form.nbStreetNewAddress) }}</th>
+                    <td>{{ form_widget(form.nbStreetNewAddress, {'attr': {'class': 'form-control'}}) }}</td>
+                </tr>
+            {% endif %}
+            {% if form.streetNewAddress is defined %}
+                <tr>
+                    <th>{{ form_label(form.streetNewAddress) }}</th>
+                    <td>{{ form_widget(form.streetNewAddress, {'attr': {'class': 'form-control'}}) }}</td>
+                </tr>
+            {% endif %}
+            {% if form.zipCodeNewAddress is defined %}
+                <tr>
+                    <th>{{ form_label(form.zipCodeNewAddress) }}</th>
+                    <td>{{ form_widget(form.zipCodeNewAddress, {'attr': {'class': 'form-control'}}) }}</td>
+                </tr>
+            {% endif %}
+            {% if form.cityNewAddress is defined %}
+                <tr>
+                    <th>{{ form_label(form.cityNewAddress) }}</th>
+                    <td>{{ form_widget(form.cityNewAddress, {'attr': {'class': 'form-control'}}) }}</td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+
+        <div class="btnForm">
+            <a href="{{ path('super_admin_app_school_index') }}" class="btn btn-primary back-btn">Retour</a>
+            <button type="submit" class="btn btn-primary">Créer</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
