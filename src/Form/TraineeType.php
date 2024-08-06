@@ -114,7 +114,7 @@ class TraineeType extends AbstractType
                                 ->innerJoin('p.user', 'u')
                                 ->where('u.roles LIKE :role')
                                 ->andWhere('p.company = :company')
-                                ->setParameter('role', '%"ROLE_MANAGER"%')
+                                ->setParameter('role', '%"ROLE_ADMIN"%')
                                 ->setParameter('company', $company)
                                 ->orderBy('p.id', 'ASC');
                         },
@@ -135,7 +135,7 @@ class TraineeType extends AbstractType
                                 ->innerJoin('p.user', 'u')
                                 ->where('u.roles LIKE :role')
                                 ->andWhere('p.company = :company')
-                                ->setParameter('role', '%"ROLE_INTERNSHIP_SUPERVISOR"%')
+                                ->setParameter('role', '%"ROLE_COMPANY_INTERNSHIP"%')
                                 ->setParameter('company', $company)
                                 ->orderBy('p.id', 'ASC');
                         },

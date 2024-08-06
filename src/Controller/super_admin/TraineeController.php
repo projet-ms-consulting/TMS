@@ -2,15 +2,13 @@
 
 namespace App\Controller\super_admin;
 
-use App\Entity\Company;
+
 use App\Entity\Files;
 use App\Entity\Person;
 use App\Form\TraineeType;
-use App\Repository\CompanyRepository;
 use App\Repository\PersonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -119,12 +117,12 @@ class TraineeController extends AbstractController
                 $lmFile = $traineeForm->get('coverLetter')->getData();
                 if ($lmFile) {
                     $lmFilename = 'LM.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $lmFile->guessExtension();
-                    $cvHash = hash('sha256', $lmFilename);
-                    $cvHashFile = $cvHash . '.' . $lmFile->guessExtension();
+                    $lmHash = hash('sha256', $lmFilename);
+                    $lmHashFile = $lmHash . '.' . $lmFile->guessExtension();
                     $lmFile->move($this->getParameter('kernel.project_dir') . '/files/' . $lmFilename);
                     $file = new Files();
                     $file->setLabel('LM')
-                        ->setFile($cvHashFile)
+                        ->setFile($lmHashFile)
                         ->setCreatedAt(new \DateTimeImmutable())
                         ->setUpdatedAt(new \DateTimeImmutable())
                         ->setPerson($person)
@@ -149,12 +147,12 @@ class TraineeController extends AbstractController
                 $csFile = $traineeForm->get('internshipAgreement')->getData();
                 if ($csFile) {
                     $csFilename = 'CS.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $csFile->guessExtension();
-                    $cvHash = hash('sha256', $csFilename);
-                    $cvHashFile = $cvHash . '.' . $csFile->guessExtension();
+                    $csHash = hash('sha256', $csFilename);
+                    $csHashFile = $csHash . '.' . $csFile->guessExtension();
                     $csFile->move($this->getParameter('kernel.project_dir') . '/files/' . $csFilename);
                     $file = new Files();
                     $file->setLabel('CS')
-                        ->setFile($cvHashFile)
+                        ->setFile($csHashFile)
                         ->setCreatedAt(new \DateTimeImmutable())
                         ->setUpdatedAt(new \DateTimeImmutable())
                         ->setPerson($person)
