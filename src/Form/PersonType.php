@@ -33,14 +33,14 @@ class PersonType extends AbstractType
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
-                        'message' => 'Le nom ne doit contenir que des lettres.'
+                        'message' => 'Le nom ne doit contenir que des lettres.',
                     ]),
                     new Length([
                         'min' => 2,
                         'max' => 30,
                         'minMessage' => 'Le nom doit contenir au moins {{ limit }} caractères',
                         'maxMessage' => 'Le nom ne doit pas contenir plus de {{ limit }} caractères',
-                    ])
+                    ]),
                 ],
             ])
             ->add('firstName', null, [
@@ -48,14 +48,14 @@ class PersonType extends AbstractType
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
-                        'message' => 'Le nom ne doit contenir que des lettres.'
+                        'message' => 'Le nom ne doit contenir que des lettres.',
                     ]),
                     new Length([
                         'min' => 2,
                         'max' => 30,
                         'minMessage' => 'Le nom doit contenir au moins {{ limit }} caractères',
                         'maxMessage' => 'Le nom ne doit pas contenir plus de {{ limit }} caractères',
-                    ])
+                    ]),
                 ],
             ])
             ->add('mailContact', EmailType::class, [
@@ -202,7 +202,7 @@ class PersonType extends AbstractType
                         'query_builder' => function (EntityRepository $er) use ($company) {
                             return $er->createQueryBuilder('p')
                                 ->innerJoin('p.user', 'u')
-                                ->where('u.roles LIKE :role')
+                                ->where('p.roles LIKE :role')
                                 ->andWhere('p.company = :company')
                                 ->setParameter('role', '%"ROLE_COMPANY_REFERENT"%')
                                 ->setParameter('company', $company)
@@ -224,37 +224,36 @@ class PersonType extends AbstractType
                         'query_builder' => function (EntityRepository $er) use ($company) {
                             return $er->createQueryBuilder('p')
                                 ->innerJoin('p.user', 'u')
-                                ->where('u.roles LIKE :role')
+                                ->where('p.roles LIKE :role')
                                 ->andWhere('p.company = :company')
                                 ->setParameter('role', '%"ROLE_ADMIN"%')
                                 ->setParameter('company', $company)
                                 ->orderBy('p.id', 'ASC');
                         },
-
                     ]);
                 }
             })
         // Si stagiaire et si entreprise, afficher le maître de stage (correspondant à l'entreprise sélectionnée)
             ->addDependent('traineeSupervisor', 'stagiaireCompany', function (DependentField $field, ?Company $company) {
-            if ($company) {
-                $field->add(EntityType::class, [
-                    'class' => Person::class,
-                    'mapped' => false,
-                    'label' => 'Maître de stage : ',
-                    'choice_label' => function (Person $person) {
-                        return $person->getFullName();
-                    },
-                    'query_builder' => function (EntityRepository $er) use ($company) {
-                        return $er->createQueryBuilder('p')
-                            ->innerJoin('p.user', 'u')
-                            ->where('u.roles LIKE :role')
-                            ->andWhere('p.company = :company')
-                            ->setParameter('role', '%"ROLE_COMPANY_INTERNSHIP"%')
-                            ->setParameter('company', $company)
-                            ->orderBy('p.id', 'ASC');
-                    },
-                ]);
-            }
+                if ($company) {
+                    $field->add(EntityType::class, [
+                        'class' => Person::class,
+                        'mapped' => false,
+                        'label' => 'Maître de stage : ',
+                        'choice_label' => function (Person $person) {
+                            return $person->getFullName();
+                        },
+                        'query_builder' => function (EntityRepository $er) use ($company) {
+                            return $er->createQueryBuilder('p')
+                                ->innerJoin('p.user', 'u')
+                                ->where('p.roles LIKE :role')
+                                ->andWhere('p.company = :company')
+                                ->setParameter('role', '%"ROLE_COMPANY_INTERNSHIP"%')
+                                ->setParameter('company', $company)
+                                ->orderBy('p.id', 'ASC');
+                        },
+                    ]);
+                }
             })
             // Si stagiaire, afficher le champ école
             ->addDependent('traineeSchool', 'roles', function (DependentField $field, ?string $roles) {
@@ -287,7 +286,7 @@ class PersonType extends AbstractType
                         'query_builder' => function (EntityRepository $er) use ($school) {
                             return $er->createQueryBuilder('p')
                                 ->innerJoin('p.user', 'u')
-                                ->where('u.roles LIKE :role')
+                                ->where('p.roles LIKE :role')
                                 ->andWhere('p.school = :school')
                                 ->setParameter('role', '%"ROLE_SCHOOL_INTERNSHIP"%')
                                 ->setParameter('school', $school)

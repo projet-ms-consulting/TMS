@@ -58,11 +58,11 @@
                     <a href="{{ path('super_admin_app_trainee_edit', {'id': person.id}) }}">Modifier</a>
                 </td>
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="10">Aucun enregistrement ! </td>
-            </tr>
-        {% endif %}
+            {% else %}
+                <tr>
+                    <td colspan="10">Aucun enregistrement ! </td>
+                </tr>
+            {% endif %}
         {% endfor %}
 
         </tbody>
