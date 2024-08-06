@@ -29,7 +29,9 @@ class SchoolEditType extends AbstractType
             ])
 
             ->add('address', AddressType::class, [
-                'required' => false,
+                'data' => $options['data']->getAddress(),
+                'mapped' => false,
+                'label' => 'Adresse',
             ]);
     }
 

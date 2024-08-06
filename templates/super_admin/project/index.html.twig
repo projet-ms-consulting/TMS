@@ -11,9 +11,10 @@
             <tr>
                 <th>Nom</th>
                 <th>Description</th>
+                <th>Entreprise</th>
                 <th>Participants</th>
                 <th>Liens</th>
-                <th>UpdatedAt</th>
+                <th>Modifié le</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -22,8 +23,9 @@
             <tr>
                 <td>{{ project.name }}</td>
                 <td>{{ project.description }}</td>
+                <td><a href="{{ path('super_admin_app_company_show', {'id' : project.company.id}) }}">{{ project.company.name }}</a></td>
                 <td>{% for participant in project.participant %}
-                        {{ participant.firstName }}{% if not loop.last %}, {% endif %}
+                        <a href="{{ path('super_admin_app_trainee_show',{'id' : participant.id}) }}">{{ participant.fullName }}</a>{% if not loop.last %}, {% endif %}
                     {% endfor %}</td>
                 <td>
                     {% for link in project.links %}
