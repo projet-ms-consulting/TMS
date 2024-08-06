@@ -201,7 +201,6 @@ class PersonType extends AbstractType
                         },
                         'query_builder' => function (EntityRepository $er) use ($company) {
                             return $er->createQueryBuilder('p')
-                                ->innerJoin('p.user', 'u')
                                 ->where('p.roles LIKE :role')
                                 ->andWhere('p.company = :company')
                                 ->setParameter('role', '%"ROLE_COMPANY_REFERENT"%')
@@ -223,7 +222,6 @@ class PersonType extends AbstractType
                         },
                         'query_builder' => function (EntityRepository $er) use ($company) {
                             return $er->createQueryBuilder('p')
-                                ->innerJoin('p.user', 'u')
                                 ->where('p.roles LIKE :role')
                                 ->andWhere('p.company = :company')
                                 ->setParameter('role', '%"ROLE_ADMIN"%')
@@ -245,7 +243,6 @@ class PersonType extends AbstractType
                         },
                         'query_builder' => function (EntityRepository $er) use ($company) {
                             return $er->createQueryBuilder('p')
-                                ->innerJoin('p.user', 'u')
                                 ->where('p.roles LIKE :role')
                                 ->andWhere('p.company = :company')
                                 ->setParameter('role', '%"ROLE_COMPANY_INTERNSHIP"%')
@@ -285,7 +282,6 @@ class PersonType extends AbstractType
                         },
                         'query_builder' => function (EntityRepository $er) use ($school) {
                             return $er->createQueryBuilder('p')
-                                ->innerJoin('p.user', 'u')
                                 ->where('p.roles LIKE :role')
                                 ->andWhere('p.school = :school')
                                 ->setParameter('role', '%"ROLE_SCHOOL_INTERNSHIP"%')
