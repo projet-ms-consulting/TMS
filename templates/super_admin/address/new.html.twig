@@ -1,3 +1,24 @@
+{#{% extends 'super_admin.html.twig' %}#}
+
+{#{% block title %}Nouvelle Adresse{% endblock %}#}
+
+{#{% block body %}#}
+{#    <h1>Créer une nouvelle adresse</h1>#}
+
+{#    {{ form_start(form) }}#}
+{#    {{ form_widget(form) }}#}
+
+
+{#    <div class="btnForm">#}
+{#        <a href="{{ path('super_admin_address_index') }} "class="btn btn-primary">Retour</a>#}
+{#        <button class="btn btn-primary">Créer</button>#}
+{#    </div>#}
+{#    {{ form_end(form) }}#}
+
+
+{#{% endblock %}#}
+
+
 {% extends 'super_admin.html.twig' %}
 
 {% block title %}Nouvelle Adresse{% endblock %}
@@ -5,10 +26,21 @@
 {% block body %}
     <h1>Créer une nouvelle adresse</h1>
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">Créer</button>
-    {{ form_end(form) }}
+        {{ form_start(form) }}
+        <table class="table">
+            <tbody>
+            {% for field in form %}
+                <tr>
+                    <th>{{ form_label(field) }}</th>
+                    <td>{{ form_widget(field, {'attr': {'class': 'form-control'}}) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-    <a href="{{ path('super_admin_address_index') }}">Retour</a>
+        <div class="btnForm">
+            <a href="{{ path('super_admin_address_index') }}" class="btn btn-primary back-btn">Retour</a>
+            <button type="submit" class="btn btn-primary">Créer</button>
+        </div>
+        {{ form_end(form) }}
 {% endblock %}
