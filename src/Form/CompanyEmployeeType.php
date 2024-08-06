@@ -23,7 +23,6 @@ class CompanyEmployeeType extends AbstractType
         $builder
             ->add('lastName', null, [
                 'label' => 'Nom : ',
-                'attr' => ['class' => 'form-control'],
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
@@ -39,7 +38,6 @@ class CompanyEmployeeType extends AbstractType
             ])
             ->add('firstName', null, [
                 'label' => 'Prénom : ',
-                'attr' => ['class' => 'form-control'],
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
@@ -56,7 +54,6 @@ class CompanyEmployeeType extends AbstractType
             ->add('mailContact', EmailType::class, [
                 'label' => 'Email de contact : ',
                 'required' => false,
-                'attr' => ['class' => 'form-control'],
             ])
             ->add('roles', ChoiceType::class, [
                 'label' => 'Rôle :',
@@ -68,7 +65,6 @@ class CompanyEmployeeType extends AbstractType
                 'mapped' => false,
                 'expanded' => false,
                 'multiple' => false,
-                'attr' => ['class' => 'form-control'],
                 'data' => isset($options['data']) && !empty($options['data']->getRoles()) ? $options['data']->getRoles()[0] : null,
             ]);
     }

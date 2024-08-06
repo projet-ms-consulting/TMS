@@ -22,7 +22,6 @@ class SchoolEmployeeType extends AbstractType
         $builder
             ->add('lastName', null, [
                 'label' => 'Nom : ',
-                'attr' => ['class' => 'form-control'],
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
@@ -32,7 +31,6 @@ class SchoolEmployeeType extends AbstractType
             ])
             ->add('firstName', null, [
                 'label' => 'Prénom : ',
-                'attr' => ['class' => 'form-control'],
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
@@ -43,7 +41,6 @@ class SchoolEmployeeType extends AbstractType
             ->add('mailContact', EmailType::class, [
                 'label' => 'Email de contact : ',
                 'required' => false,
-                'attr' => ['class' => 'form-control'],
             ])
         ;
     }
