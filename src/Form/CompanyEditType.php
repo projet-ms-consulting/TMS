@@ -30,6 +30,17 @@ class CompanyEditType extends AbstractType
             ->add('address', AddressType::class, [
                 'data' => $options['data']->getAddress(),
                 'mapped' => false,
+            ])
+            ->add('employeeNumber', TextType::class, [
+                'label' => 'Nombre d\'employés',
+                'data' => $options['data']->getEmployeeNumber(),
+                'required' => false,
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[0-9]+$/',
+                        'message' => 'Veuillez entrer un nombre',
+                    ]),
+                ],
             ]);
     }
 
@@ -40,4 +51,3 @@ class CompanyEditType extends AbstractType
         ]);
     }
 }
-

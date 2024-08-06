@@ -105,9 +105,10 @@ class CompanyController extends AbstractController
             $street = $data['address']['street'];
             $city = $data['address']['city'];
             $zipCode = $data['address']['zipCode'];
+            $employeeNumber = $data['employeeNumber'];
 
-            if ($nbStreet != "" || $street != "" || $city != "" || $zipCode != "") {
-                if ($address == null) {
+            if ('' != $nbStreet || '' != $street || '' != $city || '' != $zipCode) {
+                if (null == $address) {
                     $address = new Address();
                     $newAddress = true;
                     $address->setCreatedAt(new \DateTimeImmutable());
@@ -115,22 +116,26 @@ class CompanyController extends AbstractController
                     $newAddress = false;
                     $address->setUpdatedAt(new \DateTimeImmutable());
                 }
-                if ($nbStreet != "") {
+                if ('' != $nbStreet) {
                     $address->setNbStreet($nbStreet);
                 }
-                if ($street != "") {
+                if ('' != $street) {
                     $address->setStreet($street);
                 }
-                if ($city != "") {
+                if ('' != $city) {
                     $address->setCity($city);
                 }
-                if ($zipCode != "") {
+                if ('' != $zipCode) {
                     $address->setZipCode($zipCode);
                 }
                 if ($newAddress) {
                     $company->setAddress($address);
                 }
                 $entityManager->persist($address);
+            }
+
+            if ('' != $employeeNumber) {
+                $company->setEmployeeNumber($employeeNumber);
             }
 
             $company->setUpdatedAt(new \DateTimeImmutable());

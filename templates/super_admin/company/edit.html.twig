@@ -26,10 +26,10 @@
             <td>{{ form_widget(form.address) }}</td>
         </tr>
 
-{#        <tr>#}
-{#            <th>{{ form_label(form.employee) }}</th>#}
-{#            <td>{{ form_widget(form.employee) }}</td>#}
-{#        </tr>#}
+        <tr>
+            <th>{{ form_label(form.employeeNumber) }}</th>
+            <td>{{ form_widget(form.employeeNumber) }}</td>
+        </tr>
     </table>
 
     <div class="btnForm">
@@ -38,7 +38,7 @@
 
     </div>
     {{ form_end(form) }}
-    {{ include('super_admin/school/_delete_form.html.twig') }}
+    {{ include('super_admin/company/_delete_form.html.twig') }}
 
 {% endblock %}
 
