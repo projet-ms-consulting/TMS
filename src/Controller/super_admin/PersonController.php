@@ -63,9 +63,25 @@ class PersonController extends AbstractController
 
         if ($personForm->isSubmitted() && $personForm->isValid()) {
             $personne->setCreatedAt(new \DateTimeImmutable());
-
             $this->getData($personForm, $personne, $entityManager);
 
+            if ($personForm->has('roles') && 'ROLE_STAGIAIRE' == $personForm->get('roles')->getData()) {
+                $personne->setStartInternship($personForm->getData()->getStartInternship())
+                    ->setEndInternship($personForm->getData()->getEndInternship())
+                    ->setCompany($personForm->getData()->getCompany())
+                    ->setSchool($personForm->getData()->getSchool())
+                    ->setCompanyReferent($personForm->get('companyReferent')->getData())
+                    ->setInternshipSupervisor($personForm->get('internshipSupervisor')->getData())
+                    ->setSchoolSupervisor($personForm->get('schoolSupervisor')->getData())
+                    ->setManager($personForm->get('manager')->getData());
+            } elseif ($personForm->has('roles')) {
+                if ('ROLE_ADMIN' == $personForm->get('roles')->getData() || 'ROLE_COMPANY_REFERENT' == $personForm->get('roles')->getData() || 'ROLE_COMPANY_INTERNSHIP' == $personForm->get('roles')->getData()) {
+                    $personne->setCompany($personForm->getData()->getCompany());
+                } elseif ($personForm->has('roles') && 'ROLE_SCHOOL' == $personForm->get('roles')->getData()) {
+                    $personne->setSchool($personForm->getData()->getSchool());
+                }
+            }
+            
             if ($personForm->has('checkUser') && $personForm->get('checkUser')->getData()) {
                 $user = new User();
                 $user->setCreatedAt(new \DateTimeImmutable())
@@ -331,7 +347,6 @@ class PersonController extends AbstractController
                 $entityManager->remove($user);
             }
             $entityManager->flush();
-
         }
         $this->addFlash('success', 'Suppression réussie !');
 
