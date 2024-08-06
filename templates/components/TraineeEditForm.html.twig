@@ -74,7 +74,9 @@
         {% if form.cv is defined %}
             <tr>
                 <th>{{ form_label(form.cv) }}</th>
-                <td>{{ form_widget(form.cv) }}</td>
+                <td>
+                    {{ form_widget(form.cv) }}
+                </td>
             </tr>
         {% endif %}
         <tr>

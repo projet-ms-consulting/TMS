@@ -62,13 +62,13 @@ class CompanyEmployeeController extends AbstractController
                     ->setInternshipSupervisor(null)
                     ->setUpdatedAt(new \DateTimeImmutable())
                     ->setRoles([$form->get('roles')->getData()]);
-            if ($person->getRoles()[0] == 'ROLE_COMPANY_REFERENT') {
+            if ($person->getRoles()[0] == "ROLE_COMPANY_REFERENT") {
                 $person->setCompanyReferent($person);
             }
-            if ($person->getRoles()[0] == 'ROLE_SCHOOL_INTERNSHIP') {
+            if ($person->getRoles()[0] == "ROLE_COMPANY_INTERNSHIP") {
                 $person->setInternshipSupervisor($person);
             }
-            if ($person->getRoles()[0] == 'ROLE_ADMIN') {
+            if ($person->getRoles()[0] == "ROLE_ADMIN") {
                 $person->setManager($person);
             }
 

@@ -202,123 +202,73 @@ class PersonType extends AbstractType
             })
             // Si stagiaire et si entreprise, afficher référent entreprise (correspondant à l'entreprise sélectionnée)
             ->addDependent('stagiaireRefEntrep', 'stagiaireCompany', function (DependentField $field, ?Company $company) {
-                if (null != $company) {
-                    // Obtenez toutes les personnes associées à l'entreprise
-                    $allPersons = $company->getPerson()->toArray();
-
-                    // Filtrez pour ne garder que celles avec le rôle ROLE_COMPANY_REFERENT
-                    $filteredPersons = array_filter($allPersons, function ($person) {
-                        return in_array('ROLE_COMPANY_REFERENT', $person->getRoles());
-                    });
-                    usort($filteredPersons, function ($a, $b) {
-                        return strcmp($a->getlastName(), $b->getlastName());
-                    });
-
-                    if (0 == count($filteredPersons)) {
-                        $field->add(ChoiceType::class, [
-                            'label' => 'Référent entreprise',
-                            'choices' => [
-                                'Aucun référent entreprise trouvé' => null,
-                            ],
-                            'mapped' => false,
-                            'attr' => ['class' => 'form-control'],
-                        ]);
-                    } else {
-                        $field->add(ChoiceType::class, [
-                            'label' => 'Référent entreprise',
-                            'choices' => array_combine(
-                                array_map(function ($person) { return $person->getFullName(); }, $filteredPersons),
-                                array_map(function ($person) { return $person->getId(); }, $filteredPersons)
-                            ),
-                            'choice_label' => function ($choice, $key, $value) {
-                                return $key;
-                            },
-                            'mapped' => false,
-                            'attr' => ['class' => 'form-control'],
-                            'placeholder' => 'Choisir référent entreprise',
-                        ]);
-                    }
+                if ($company) {
+                    $field->add(EntityType::class, [
+                        'class' => Person::class,
+                        'attr' => ['class' => 'form-control'],
+                        'mapped' => false,
+                        'label' => 'Référent de l\'entreprise : ',
+                        'choice_label' => function (Person $person) {
+                            return $person->getFullName();
+                        },
+                        'query_builder' => function (EntityRepository $er) use ($company) {
+                            return $er->createQueryBuilder('p')
+                                ->innerJoin('p.user', 'u')
+                                ->where('u.roles LIKE :role')
+                                ->andWhere('p.company = :company')
+                                ->setParameter('role', '%"ROLE_COMPANY_REFERENT"%')
+                                ->setParameter('company', $company)
+                                ->orderBy('p.id', 'ASC');
+                        },
+                    ]);
                 }
             })
             // Si stagiaire et si entreprise, afficher le manager (correspondant à l'entreprise sélectionnée)
             ->addDependent('stagiaireManager', 'stagiaireCompany', function (DependentField $field, ?Company $company) {
-                if (null != $company) {
-                    // Obtenez toutes les personnes associées à l'entreprise
-                    $allPersons = $company->getPerson()->toArray();
+                if ($company) {
+                    $field->add(EntityType::class, [
+                        'class' => Person::class,
+                        'attr' => ['class' => 'form-control'],
+                        'mapped' => false,
+                        'label' => 'Chef de l\'entreprise : ',
+                        'choice_label' => function (Person $person) {
+                            return $person->getFullName();
+                        },
+                        'query_builder' => function (EntityRepository $er) use ($company) {
+                            return $er->createQueryBuilder('p')
+                                ->innerJoin('p.user', 'u')
+                                ->where('u.roles LIKE :role')
+                                ->andWhere('p.company = :company')
+                                ->setParameter('role', '%"ROLE_ADMIN"%')
+                                ->setParameter('company', $company)
+                                ->orderBy('p.id', 'ASC');
+                        },
 
-                    // Filtrez pour ne garder que celles avec le rôle ROLE_ADMIN
-                    $filteredPersons = array_filter($allPersons, function ($person) {
-                        return in_array('ROLE_ADMIN', $person->getRoles());
-                    });
-                    usort($filteredPersons, function ($a, $b) {
-                        return strcmp($a->getlastName(), $b->getlastName());
-                    });
-                    if (0 == count($filteredPersons)) {
-                        $field->add(ChoiceType::class, [
-                            'label' => 'Chef d\'entreprise : ',
-                            'choices' => [
-                                'Aucun chef d\'entreprise trouvé' => null,
-                            ],
-                            'mapped' => false,
-                            'attr' => ['class' => 'form-control'],
-                        ]);
-                    } else {
-                        $field->add(ChoiceType::class, [
-                            'label' => 'Chef d\'entreprise : ',
-                            'choices' => array_combine(
-                                array_map(function ($person) { return $person->getFullName(); }, $filteredPersons),
-                                array_map(function ($person) { return $person->getId(); }, $filteredPersons)
-                            ),
-                            'choice_label' => function ($choice, $key, $value) {
-                                return $key;
-                            },
-                            'mapped' => false,
-                            'attr' => ['class' => 'form-control'],
-                            'placeholder' => 'Choisir chef d\'entreprise',
-                        ]);
-                    }
+                    ]);
                 }
             })
         // Si stagiaire et si entreprise, afficher le maître de stage (correspondant à l'entreprise sélectionnée)
             ->addDependent('traineeSupervisor', 'stagiaireCompany', function (DependentField $field, ?Company $company) {
-                if (null != $company) {
-                    // Obtenez toutes les personnes associées à l'entreprise
-                    $allPersons = $company->getPerson()->toArray();
-
-                    // Filtrez pour ne garder que celles avec le rôle ROLE_COMPANY_INTERNSHIP
-                    $filteredPersons = array_filter($allPersons, function ($person) {
-                        return in_array('ROLE_COMPANY_INTERNSHIP', $person->getRoles());
-                    });
-                    usort($filteredPersons, function ($a, $b) {
-                        return strcmp($a->getlastName(), $b->getlastName());
-                    });
-
-                    if (0 == count($filteredPersons)) {
-                        $field->add(ChoiceType::class, [
-                            'label' => 'Maître de stage : ',
-                            'choices' => [
-                                'Aucun maître de stage trouvé' => null,
-                            ],
-                            'mapped' => false,
-                            'attr' => ['class' => 'form-control'],
-                        ]);
-                    } else {
-                        $field->add(ChoiceType::class, [
-                            'label' => 'Maître de stage :',
-                            'choices' => array_combine(
-                                array_map(function ($person) { return $person->getFullName(); }, $filteredPersons),
-                                array_map(function ($person) { return $person->getId(); }, $filteredPersons)
-                            ),
-                            'choice_label' => function ($choice, $key, $value) {
-                                // Since the choices are now the person's ID, the label is the person's full name which is the key in this context
-                                return $key;
-                            },
-                            'mapped' => false,
-                            'attr' => ['class' => 'form-control'],
-                            'placeholder' => 'Choisir maître de stage',
-                        ]);
-                    }
-                }
+            if ($company) {
+                $field->add(EntityType::class, [
+                    'class' => Person::class,
+                    'attr' => ['class' => 'form-control'],
+                    'mapped' => false,
+                    'label' => 'Maître de stage : ',
+                    'choice_label' => function (Person $person) {
+                        return $person->getFullName();
+                    },
+                    'query_builder' => function (EntityRepository $er) use ($company) {
+                        return $er->createQueryBuilder('p')
+                            ->innerJoin('p.user', 'u')
+                            ->where('u.roles LIKE :role')
+                            ->andWhere('p.company = :company')
+                            ->setParameter('role', '%"ROLE_COMPANY_INTERNSHIP"%')
+                            ->setParameter('company', $company)
+                            ->orderBy('p.id', 'ASC');
+                    },
+                ]);
+            }
             })
             // Si stagiaire, afficher le champ école
             ->addDependent('traineeSchool', 'roles', function (DependentField $field, ?string $roles) {
@@ -340,44 +290,26 @@ class PersonType extends AbstractType
             })
             // Si stagiaire et si école, afficher référent école (correspondant à l'école sélectionnée)
             ->addDependent('traineeRefSchool', 'traineeSchool', function (DependentField $field, ?School $school) {
-                if (null != $school) {
-                    // Obtenez toutes les personnes associées à l'école
-                    $allPersons = $school->getPeople()->toArray();
-
-                    // Filtrez pour ne garder que celles avec le rôle ROLE_COMPANY_INTERNSHIP
-                    $filteredPersons = array_filter($allPersons, function ($person) {
-                        return in_array('ROLE_SCHOOL_INTERNSHIP', $person->getRoles());
-                    });
-                    // Trier les personnes filtrées par nom complet par ordre alphabétique
-                    usort($filteredPersons, function ($a, $b) {
-                        return strcmp($a->getFullName(), $b->getFullName());
-                    });
-
-                    if (0 == count($filteredPersons)) {
-                        $field->add(ChoiceType::class, [
-                            'label' => 'Référent école',
-                            'choices' => [
-                                'Aucun référent école trouvé' => null,
-                            ],
-                            'mapped' => false,
-                            'attr' => ['class' => 'form-control'],
-                        ]);
-                    } else {
-                        $field->add(ChoiceType::class, [
-                            'label' => 'Référent école',
-                            'choices' => array_combine(
-                                array_map(function ($person) { return $person->getFullName(); }, $filteredPersons),
-                                array_map(function ($person) { return $person->getId(); }, $filteredPersons)
-                            ),
-                            'choice_label' => function ($choice, $key, $value) {
-                                // Puisque les choix sont désormais l'id de la personne, l'étiquette est le nom complet de la personne, ce qui est la clé dans ce contexte.
-                                return $key;
-                            },
-                            'mapped' => false,
-                            'placeholder' => 'Choisir référent école',
-                            'attr' => ['class' => 'form-control'],
-                        ]);
-                    }
+                if ($school) {
+                    $field->add(EntityType::class, [
+                        'class' => Person::class,
+                        'attr' => ['class' => 'form-control'],
+                        'mapped' => false,
+                        'label' => 'Référent de l\'école : ',
+                        'placeholder' => 'Choisir un référent école',
+                        'choice_label' => function (Person $person) {
+                            return $person->getFullName();
+                        },
+                        'query_builder' => function (EntityRepository $er) use ($school) {
+                            return $er->createQueryBuilder('p')
+                                ->innerJoin('p.user', 'u')
+                                ->where('u.roles LIKE :role')
+                                ->andWhere('p.school = :school')
+                                ->setParameter('role', '%"ROLE_SCHOOL_INTERNSHIP"%')
+                                ->setParameter('school', $school)
+                                ->orderBy('p.id', 'ASC');
+                        },
+                    ]);
                 }
             })
             // Si stagiaire, afficher le champ CV

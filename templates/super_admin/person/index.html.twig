@@ -19,58 +19,55 @@
             </tr>
         </thead>
         <tbody>
-        {% for person in personne %}
-            {% if person is not null %}
-            <tr>
-                <td>{{ person.lastName }} {{ person.firstName }}</td>
-                {% if person.roles[0]=="ROLE_SUPER_ADMIN" %}
-                    <td>Super Admin</td>
-                {% else %}
-                    {% if person.roles[0]=="ROLE_ADMIN" %}
-                        <td>Chef d'entreprise</td>
-                    {% else %}
-                        {% if person.roles[0]=="ROLE_COMPANY_INTERNSHIP" %}
+            {% for person in personne %}
+                {% if person is not null %}
+                    <tr>
+                        <td>{{ person.lastName }} {{ person.firstName }}</td>
+                        {% if person.roles[0] == "ROLE_SUPER_ADMIN" %}
+                            <td>Super Admin</td>
+                        {% elseif person.roles[0] == "ROLE_ADMIN" %}
+                            <td>Chef d'entreprise</td>
+                        {% elseif person.roles[0] == "ROLE_COMPANY_INTERNSHIP" %}
                             <td>Maître de stage</td>
+                        {% elseif person.roles[0] == "ROLE_COMPANY_REFERENT" %}
+                            <td>Référent entreprise</td>
+                        {% elseif person.roles[0] == "ROLE_SCHOOL_INTERNSHIP" %}
+                            <td>Référent école</td>
+                        {% elseif person.roles[0] == "ROLE_TRAINEE" %}
+                            <td>Stagiaire</td>
                         {% else %}
-                            {% if person.roles[0]=="ROLE_COMPANY_REFERENT" %}
-                                <td>Référent entreprise</td>
-                            {% else %}
-                                {% if person.roles[0]=="ROLE_SCHOOL_INTERNSHIP" %}
-                                    <td>Référent école</td>
-                                {% else %}
-                                    {% if person.roles[0]=="ROLE_TRAINEE" %}
-                                        <td>Stagiaire</td>
-                                    {% else %}
-                                        <td>Autre</td>
-                                    {% endif %}
-                                {% endif %}
-                            {% endif %}
+                            <td>Autre</td>
                         {% endif %}
-                    {% endif %}
-                {% endif %}
-                {% if person.user != null and person.user.everLoggedIn %}
-                    <td>Oui</td>
+                        {% if person.user != null and person.user.everLoggedIn %}
+                            <td>Oui</td>
+                        {% else %}
+                            <td>Non</td>
+                        {% endif %}
+                        {% if person.user != null and person.user.canLogin %}
+                            <td>Oui</td>
+                        {% else %}
+                            <td>Non</td>
+                        {% endif %}
+                        <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y') }}</td>
+                        <td>
+                            <a href="{{ path('super_admin_app_person_show', {'id': person.id}) }}">Détails</a><br>
+                            {% if person.roles[0] == "ROLE_ADMIN" or person.roles[0] == "ROLE_COMPANY_INTERNSHIP" or person.roles[0] == "ROLE_COMPANY_REFERENT" %}
+                                <a href="{{ path('super_admin_app_company_employee_edit', {'id': person.id}) }}">Modifier</a>
+                            {% elseif person.roles[0] == "ROLE_SCHOOL_INTERNSHIP" %}
+                                <a href="{{ path('super_admin_app_school_employee_edit', {'id': person.id}) }}">Modifier</a>
+                            {% elseif person.roles[0] == "ROLE_TRAINEE" %}
+                                <a href="{{ path('super_admin_app_trainee_edit', {'id': person.id}) }}">Modifier</a>
+                            {% endif %}
+                        </td>
+                    </tr>
                 {% else %}
-                    <td>Non</td>
+                    <tr>
+                        <td colspan="8">Aucun enregistrement ! </td>
+                    </tr>
                 {% endif %}
-                {% if person.user != null and person.user.canLogin %}
-                    <td>Oui</td>
-                {% else %}
-                    <td>Non</td>
-                {% endif %}
-                <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y')}}</td>
-                <td>
-                    <a href="{{ path('super_admin_app_person_show', {'id': person.id}) }}">Détails</a><br>
-                    <a href="{{ path('super_admin_app_person_edit', {'id': person.id}) }}">Modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">Aucun enregistrement ! </td>
-            </tr>
-        {% endif %}
-        {% endfor %}
+            {% endfor %}
         </tbody>
     </table>
     {{ knp_pagination_render(personne) }}
 {% endblock %}
+

@@ -6,6 +6,7 @@ use App\Entity\Files;
 use App\Entity\Person;
 use App\Entity\User;
 use App\Form\PersonType;
+use App\Repository\FilesRepository;
 use App\Repository\PersonRepository;
 use App\Service\PasswordGenerator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -182,12 +183,12 @@ class PersonController extends AbstractController
     }
 
     #[Route('/file/{id}', name: 'show_file', methods: ['GET'])]
-    public function showFile(EntityManagerInterface $entityManager, $id): BinaryFileResponse
+    public function showFile(int $id, FilesRepository $filesRepository): Response
     {
-        $file = $entityManager->getRepository(Files::class)->find($id);
+        $file = $filesRepository->find($id);
 
         if (!$file) {
-            throw $this->createNotFoundException('File not found');
+            throw $this->createNotFoundException('Fichier non trouvé');
         }
         $filePath = $this->getParameter('kernel.project_dir').'/files/'.$file->getRealFileName();
 
