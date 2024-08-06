@@ -29,6 +29,7 @@ class ProjectType extends AbstractType
                 'class' => Company::class,
                 'choice_label' => 'name',
                 'label' => 'Entreprise',
+//                'attr' => ['class' => 'form-control'],
                 'placeholder' => 'Sélectionnez une entreprise',
                 'required' => true,
             ])
@@ -40,6 +41,7 @@ class ProjectType extends AbstractType
                             return $person->getFullName();
                         },
                         'label' => 'Participants',
+//                        'attr' => ['class' => 'form-control'],
                         'multiple' => true,
                         'expanded' => true, // Transforme en checkboxes
                         'query_builder' => function (EntityRepository $er) use ($company) {
@@ -56,6 +58,7 @@ class ProjectType extends AbstractType
             })
             ->add('linkGit', TextType::class, [
                 'label' => 'Lien git',
+//                'attr' => ['class' => 'form-control'],
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
