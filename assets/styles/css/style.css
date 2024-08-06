@@ -287,7 +287,7 @@ label.required:after {
   border-radius: 4px;
 }
 
-.pagination a.active {
+.pagination .current {
   display: inline-block;
   padding: 8px;
   background-color: dimgray;
