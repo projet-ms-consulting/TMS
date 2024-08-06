@@ -9,13 +9,19 @@
 
 .table-form {
     text-align: center;
-    width: auto;
-    max-width: 80%;
+    width: 100%;
+    /*max-width: 80%;*/
     margin: 20px auto;
     border-collapse: collapse;
     border-radius: 4px;
     overflow: hidden;
     table-layout: fixed;
+}
+
+.table input, .table select, .table textarea {
+    color: black !important;
+    width: 100%;
+    padding: 8px;
 }
 
 .table {

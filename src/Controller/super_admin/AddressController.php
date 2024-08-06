@@ -74,14 +74,17 @@ class AddressController extends AbstractController
     }
 
     #[Route('super_admin/address/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Address $address, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Address $address, int $id, EntityManagerInterface $entityManager, AddressRepository $addressRepository): Response
     {
+        $address = $addressRepository->find($id);
         $form = $this->createForm(AddressType::class, $address);
         $form->handleRequest($request);
         $user = $this->getUser();
         $personne = $user->getPerson();
         if ($form->isSubmitted() && $form->isValid()) {
+
             $address->setUpdatedAt(new \DateTimeImmutable());
+            $entityManager->persist($address);
             $entityManager->flush();
             $this->addFlash('success', 'Adresse '.$address->getFullAddress().' modifié avec succes!');
 

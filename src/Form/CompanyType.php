@@ -27,7 +27,6 @@ class CompanyType extends AbstractType
         $dynamicBuilder
             ->add('name', TextType::class, [
                 'label' => 'Nom de l\'entreprise',
-//                'attr' => ['class' => 'form-control'],
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-Z0-9\s\-]+$/',
@@ -37,12 +36,10 @@ class CompanyType extends AbstractType
             ])
             ->add('companyType', TextType::class, [
                 'label' => 'Type d\'entreprise',
-//                'attr' => ['class' => 'form-control'],
                 'required' => false,
             ])
             ->add('checkAddress', ChoiceType::class, [
                 'label' => 'Avez-vous déjà créé une adresse ?',
-//                'attr' => ['class' => 'form-control'],
                 'mapped' => false,
                 'data' => $hasAddress,
                 'choices' => [
@@ -56,7 +53,6 @@ class CompanyType extends AbstractType
                     $field->add(EntityType::class, [
                         'class' => Address::class,
                         'label' => 'Adresse',
-//                        'attr' => ['class' => 'form-control'],
                         'choice_label' => function (Address $address) {
                             return $address->getFullAddress();
                         },
@@ -73,7 +69,6 @@ class CompanyType extends AbstractType
                 if (false === $checkAddress) {
                     $field->add(TextType::class, [
                         'label' => 'Numéro de Rue',
-//                        'attr' => ['class' => 'form-control'],
                         'mapped' => false,
                         'required' => true,
                         'constraints' => [
@@ -89,7 +84,6 @@ class CompanyType extends AbstractType
                 if (false === $checkAddress) {
                     $field->add(TextType::class, [
                         'label' => 'Voirie',
-//                        'attr' => ['class' => 'form-control'],
                         'mapped' => false,
                         'required' => true,
                         'constraints' => [
@@ -105,13 +99,12 @@ class CompanyType extends AbstractType
                 if (false === $checkAddress) {
                     $field->add(TextType::class, [
                         'label' => 'Code postal',
-//                        'attr' => ['class' => 'form-control'],
                         'mapped' => false,
                         'required' => true,
-//                        'attr' => [
-//                            'min' => 10000,
-//                            'max' => 99999,
-//                        ],
+                        'attr' => [
+                            'min' => 10000,
+                            'max' => 99999,
+                        ],
                         'constraints' => [
                             new Regex([
                                 'pattern' => '/^\d{5}$/',
@@ -125,7 +118,6 @@ class CompanyType extends AbstractType
                 if (false === $checkAddress) {
                     $field->add(TextType::class, [
                         'label' => 'Ville',
-//                        'attr' => ['class' => 'form-control'],
                         'mapped' => false,
                         'required' => true,
                         'constraints' => [
