@@ -282,7 +282,6 @@ class TraineeType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Person::class,
-            'company' => null,
         ]);
     }
 }

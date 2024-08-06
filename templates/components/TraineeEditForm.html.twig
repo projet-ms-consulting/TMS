@@ -69,7 +69,9 @@
         {% endif %}
             <tr>
                 <th>{{ form_label(form.modifCv) }}</th>
-                <td>{{ form_widget(form.modifCv) }}</td>
+                <td>
+                    {{ form_widget(form.modifCv) }}
+                </td>
             </tr>
         {% if form.cv is defined %}
             <tr>

@@ -116,7 +116,7 @@
             <th>Documents :</th>
                 <td>
                     {% for file in personne.files %}
-                        <a href="{{path('app_file_show', { id: file.id, name: file.realFileName })}}" target="_blank">{{ file.label }}</a>
+                        <a href="{{path('super_admin_app_person_show_file', { id: file.id })}}" target="_blank">{{ file.realFileName }}</a><br>
                     {% endfor %}
                 </td>
             {% endif %}
