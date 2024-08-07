@@ -396,64 +396,26 @@ class PersonController extends AbstractController
         }
         // Attribuer le référent entreprise au stagiaire
         if ($personForm->has('stagiaireRefEntrep')) {
-            $companyReferentName = $personForm->get('stagiaireRefEntrep')->getData();
-            // Récupérer l'ID du référent entreprise
-            $companyReferentId = is_numeric($companyReferentName) ? (int) $companyReferentName : null;
-            if (null !== $companyReferentId) {
-                // Rechercher l'objet Person correspondant à l'ID
-                $companyReferent = $entityManager->getRepository(Person::class)->find($companyReferentId);
-                if ($companyReferent) {
-                    // Définir le référent entreprise sur personne
-                    $personne->setCompanyReferent($companyReferent);
-                }
-            }
+            $companyReferent = $personForm->get('stagiaireRefEntrep')->getData();
+            $personne->setCompanyReferent($companyReferent);
         }
+
         // Attribuer le référent école au stagiaire
         if ($personForm->has('traineeRefSchool')) {
-            $schoolSupervisorName = $personForm->get('traineeRefSchool')->getData();
-            // Récupérer l'ID du référent école
-            $schoolSupervisorId = is_numeric($schoolSupervisorName) ? (int) $schoolSupervisorName : null;
-
-            if (null !== $schoolSupervisorId) {
-                // Rechercher l'objet Person correspondant à l'ID
-                $schoolSupervisor = $entityManager->getRepository(Person::class)->find($schoolSupervisorId);
-                if ($schoolSupervisor) {
-                    // Définir le référent entreprise sur personne
-                    $personne->setSchoolSupervisor($schoolSupervisor);
-                }
-            }
+            $schoolSupervisor = $personForm->get('traineeRefSchool')->getData();
+            $personne->setSchoolSupervisor($schoolSupervisor);
         }
+
         // Attribuer le chef d'entreprise au stagiaire
         if ($personForm->has('stagiaireManager')) {
-            $managerName = $personForm->get('stagiaireManager')->getData();
-            // Récupérer l'ID du référent école
-            $managerId = is_numeric($managerName) ? (int) $managerName : null;
-
-            if (null !== $managerId) {
-                // Rechercher l'objet Person correspondant à l'ID
-                $manager = $entityManager->getRepository(Person::class)->find($managerId);
-                if ($manager) {
-                    // Définir le référent entreprise sur personne
-                    $personne->setManager($manager);
-                }
-            }
+            $manager = $personForm->get('stagiaireManager')->getData();
+            $personne->setManager($manager);
         }
         // Attribuer le maître de stage au stagiaire
         if ($personForm->has('traineeSupervisor')) {
-            $internshipSupervisorName = $personForm->get('traineeSupervisor')->getData();
-            // Récupérer l'ID du maître de stage
-            $internshipSupervisorId = is_numeric($internshipSupervisorName) ? (int) $internshipSupervisorName : null;
-
-            if (null !== $internshipSupervisorId) {
-                // Rechercher l'objet Person correspondant à l'ID
-                $internshipSupervisor = $entityManager->getRepository(Person::class)->find($internshipSupervisorId);
-                if ($internshipSupervisor) {
-                    // Définir le maître de stage sur personne
-                    $personne->setManager($internshipSupervisor);
-                }
-            }
+            $internshipSupervisor = $personForm->get('traineeSupervisor')->getData();
+            $personne->setManager($internshipSupervisor);
         }
-
         return $personne;
     }
 

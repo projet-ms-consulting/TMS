@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -208,8 +209,16 @@ class PersonType extends AbstractType
                                 ->orderBy('p.id', 'ASC');
                         },
                     ]);
+                } else {
+                    $field->add(ChoiceType::class, [
+                        'mapped' => false,
+                        'label' => 'Référent de l\'entreprise : ',
+                        'choices' => ['Aucun référent trouvé' => null]
+                    ]);
                 }
             })
+
+
             // Si stagiaire et si entreprise, afficher le manager (correspondant à l'entreprise sélectionnée)
             ->addDependent('stagiaireManager', 'stagiaireCompany', function (DependentField $field, ?Company $company) {
                 if ($company) {
@@ -228,6 +237,12 @@ class PersonType extends AbstractType
                                 ->setParameter('company', $company)
                                 ->orderBy('p.id', 'ASC');
                         },
+                    ]);
+                } else {
+                    $field->add(ChoiceType::class, [
+                        'mapped' => false,
+                        'label' => 'Chef de l\'entreprise : ',
+                        'choices' => ['Aucun chef d\'entreprise trouvé' => null]
                     ]);
                 }
             })
@@ -249,6 +264,12 @@ class PersonType extends AbstractType
                                 ->setParameter('company', $company)
                                 ->orderBy('p.id', 'ASC');
                         },
+                    ]);
+                } else {
+                    $field->add(ChoiceType::class, [
+                        'mapped' => false,
+                        'label' => 'Maître de stage : ',
+                        'choices' => ['Aucun Maître de stage trouvé' => null]
                     ]);
                 }
             })
@@ -288,6 +309,12 @@ class PersonType extends AbstractType
                                 ->setParameter('school', $school)
                                 ->orderBy('p.id', 'ASC');
                         },
+                    ]);
+                } else {
+                    $field->add(ChoiceType::class, [
+                        'mapped' => false,
+                        'label' => 'Référent de l\'école : ',
+                        'choices' => ['Aucun référent trouvé' => null]
                     ]);
                 }
             })

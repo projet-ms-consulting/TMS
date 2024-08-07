@@ -8,8 +8,10 @@ use App\Form\TraineeType;
 use App\Repository\PersonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('super_admin/trainee', name: 'super_admin_app_trainee_')]
@@ -227,7 +229,7 @@ class TraineeController extends AbstractController
         ]);
     }
 
-    #[Route('/delete/{id}', name: 'delete_file', methods: ['POST'])]
+    #[Route('/delete/file/{id}', name: 'delete_file', methods: ['POST'])]
     public function deleteFile(Request $request, EntityManagerInterface $entityManager, $id): Response
     {
         $file = $entityManager->getRepository(Files::class)->find($id);
