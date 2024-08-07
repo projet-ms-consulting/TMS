@@ -65,7 +65,7 @@ class PersonController extends AbstractController
             $personne->setCreatedAt(new \DateTimeImmutable());
             $this->getData($personForm, $personne, $entityManager);
 
-            if ($personForm->has('roles') && 'ROLE_STAGIAIRE' == $personForm->get('roles')->getData()) {
+            if ($personForm->has('roles') && 'ROLE_TRAINEE' == $personForm->get('roles')->getData()) {
                 $personne->setStartInternship($personForm->getData()->getStartInternship())
                     ->setEndInternship($personForm->getData()->getEndInternship())
                     ->setCompany($personForm->getData()->getCompany())
@@ -77,7 +77,7 @@ class PersonController extends AbstractController
             } elseif ($personForm->has('roles')) {
                 if ('ROLE_ADMIN' == $personForm->get('roles')->getData() || 'ROLE_COMPANY_REFERENT' == $personForm->get('roles')->getData() || 'ROLE_COMPANY_INTERNSHIP' == $personForm->get('roles')->getData()) {
                     $personne->setCompany($personForm->getData()->getCompany());
-                } elseif ($personForm->has('roles') && 'ROLE_SCHOOL' == $personForm->get('roles')->getData()) {
+                } elseif ($personForm->has('roles') && 'ROLE_SCHOOL_INTERNSHIP' == $personForm->get('roles')->getData()) {
                     $personne->setSchool($personForm->getData()->getSchool());
                 }
             }
