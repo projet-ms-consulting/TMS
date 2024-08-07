@@ -12,7 +12,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -119,6 +118,7 @@ class PersonType extends AbstractType
                         'label' => 'Entreprise',
                         'choice_label' => 'name',
                         'mapped' => false,
+                        'required' => true,
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('c')
                                 ->orderBy('c.name', 'ASC');
@@ -135,6 +135,7 @@ class PersonType extends AbstractType
                         'placeholder' => 'Choisir une entreprise',
                         'choice_label' => 'name',
                         'mapped' => false,
+                        'required' => true,
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('c')
                                 ->orderBy('c.name', 'ASC');
@@ -151,6 +152,7 @@ class PersonType extends AbstractType
                         'placeholder' => 'Choisir une entreprise',
                         'choice_label' => 'name',
                         'mapped' => false,
+                        'required' => true,
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('c')
                                 ->orderBy('c.name', 'ASC');
@@ -164,6 +166,7 @@ class PersonType extends AbstractType
                     $field->add(EntityType::class, [
                         'class' => School::class,
                         'label' => 'Ecole',
+                        'required' => true,
                         'placeholder' => 'Choisir une école',
                         'choice_label' => 'name',
                         'data' => isset($options['data']) && !empty($options['data']->getSchool()) ? $options['data']->getSchool() : null,
@@ -180,6 +183,7 @@ class PersonType extends AbstractType
                     $field->add(EntityType::class, [
                         'class' => Company::class,
                         'label' => 'Entreprise',
+                        'required' => true,
                         'choice_label' => 'name',
                         'placeholder' => 'Choisir une entreprise',
                         'mapped' => false,

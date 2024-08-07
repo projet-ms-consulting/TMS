@@ -64,7 +64,7 @@ class PersonController extends AbstractController
         if ($personForm->isSubmitted() && $personForm->isValid()) {
             $personne->setCreatedAt(new \DateTimeImmutable());
             $this->getData($personForm, $personne, $entityManager);
-            
+
             if ($personForm->has('checkUser') && $personForm->get('checkUser')->getData()) {
                 $user = new User();
                 $user->setCreatedAt(new \DateTimeImmutable())
@@ -181,7 +181,7 @@ class PersonController extends AbstractController
     }
 
     #[Route('/file/{id}', name: 'show_file', methods: ['GET'])]
-    public function showFile(EntityManagerInterface $entityManager, $id): Response
+    public function showFile(EntityManagerInterface $entityManager, $id): BinaryFileResponse
     {
         $file = $entityManager->getRepository(Files::class)->find($id);
 
@@ -348,16 +348,16 @@ class PersonController extends AbstractController
             ->setInternshipSupervisor(null);
 
         if ($personForm->has('companyReferent')) {
+            $personne->setCompanyReferent($personne);
             $personne->setCompany($personForm->get('companyReferent')->getData());
         }
         if ($personForm->has('manager')) {
+            $personne->setManager($personne);
             $personne->setCompany($personForm->get('manager')->getData());
         }
         if ($personForm->has('internshipSupervisor')) {
+            $personne->setInternshipSupervisor($personne);
             $personne->setCompany($personForm->get('internshipSupervisor')->getData());
-        }
-        if ($personForm->has('schoolSupervisor')) {
-            $personne->setSchool($personForm->get('schoolSupervisor')->getData());
         }
         if ($personForm->has('startInternship')) {
             $personne->setStartInternship($personForm->get('startInternship')->getData());
@@ -369,6 +369,7 @@ class PersonController extends AbstractController
             $personne->setCompany($personForm->get('stagiaireCompany')->getData());
         }
         if ($personForm->has('school')) {
+            $personne->setSchoolSupervisor($personne);
             $personne->setSchool($personForm->get('school')->getData());
         }
         if ($personForm->has('roles')) {

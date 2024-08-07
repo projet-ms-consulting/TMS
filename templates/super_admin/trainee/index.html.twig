@@ -12,6 +12,7 @@
                 <th>{{ knp_pagination_sortable(personne, 'Ecole', 's.name') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Référent école', 'ss.lastName') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Entreprise', 'c.name') }}</th>
+                <th>{{ knp_pagination_sortable(personne, 'Chef d\'entreprise', 'c.lastName') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Référent entreprise', 'cr.lastName') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Maître de stage', 'i.lastName') }}</th>
                 <th>{{ knp_pagination_sortable(personne, 'Début de stage', 'p.startInternship') }}</th>
@@ -40,13 +41,22 @@
                 {% else %}
                     <td>Pas d'entreprise</td>
                 {% endif %}
+                {% if person.manager is defined and person.manager is not null %}
+                    <td><a href="{{ path('super_admin_app_person_show',{'id':person.manager.id}) }}">{{ person.manager.firstName }} {{ person.manager.lastName }}</a></td>
+                {% else %}
+                    <td>Pas de chef d'entreprise</td>
+                {% endif %}
                 {% if person.companyReferent is defined and person.companyReferent is not null %}
                     <td><a href="{{ path('super_admin_app_person_show',{'id':person.companyReferent.id}) }}">{{ person.companyReferent.firstName }} {{ person.companyReferent.lastName }}</a></td>
+                {% elseif person.manager is defined and person.manager is not null %}
+                    <td><a href="{{ path('super_admin_app_person_show',{'id':person.manager.id}) }}">{{ person.manager.firstName }} {{ person.manager.lastName }}</a></td>
                 {% else %}
-                    <td>Pas de référent d'entreprise</td>
+                    <td>Pas de référent entreprise</td>
                 {% endif %}
                 {% if person.internshipSupervisor is defined and person.internshipSupervisor is not null %}
                     <td><a href="{{ path('super_admin_app_person_show',{'id':person.internshipSupervisor.id}) }}">{{ person.internshipSupervisor.firstName }} {{ person.internshipSupervisor.lastName }}</a></td>
+                {% elseif person.manager is defined and person.manager is not null %}
+                    <td><a href="{{ path('super_admin_app_person_show',{'id':person.manager.id}) }}">{{ person.manager.firstName }} {{ person.manager.lastName }}</a></td>
                 {% else %}
                     <td>Pas de maître de stage</td>
                 {% endif %}
