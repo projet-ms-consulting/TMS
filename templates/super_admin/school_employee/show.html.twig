@@ -8,15 +8,15 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Nom : </th>
+                <th>Nom</th>
                 <td>{{ personne.lastName }}</td>
             </tr>
             <tr>
-                <th>Prénom : </th>
+                <th>Prénom</th>
                 <td>{{ personne.firstName }}</td>
             </tr>
                 <tr>
-                    <th>Email de contact : </th>
+                    <th>Email de contact</th>
                         {% if personne.mailContact %}
                             <td>{{ personne.mailContact }}</td>
                         {% else %}
@@ -25,28 +25,30 @@
                 </tr>
             {% if personne.user %}
                 <tr>
-                    <th>Email de connexion : </th>
+                    <th>Email de connexion</th>
                     <td>{{ personne.user.email}}</td>
                 </tr>
             {% endif %}
             <tr>
-                <th>Ecole de référence : </th>
+                <th>Ecole de référence</th>
                 <td>{{ personne.school.name}}</td>
             </tr>
             <tr>
-                <th>Adresse de l'école : </th>
+                <th>Adresse de l'école</th>
                 <td>{{ personne.school.address.fullAddress }}</td>
             </tr>
             <tr>
-                <th>Créé le :</th>
+                <th>Créé le</th>
                 <td>{{ personne.createdAt ? personne.createdAt|date('d/m/Y')}}</td>
             </tr>
             {% if personne.updatedAt is not null %}
                 <tr>
-                    <th>Mis à jour le : </th>
+                    <th>Mis à jour le</th>
                     <td>{{ personne.updatedAt ? personne.updatedAt|date('d/m/Y')}}</td>
                 </tr>
             {% endif %}
+
+
         </tbody>
     </table>
 <div class="center-btn-container">
