@@ -77,7 +77,7 @@ class PersonController extends AbstractController
             } elseif ($personForm->has('roles')) {
                 if ('ROLE_ADMIN' == $personForm->get('roles')->getData() || 'ROLE_COMPANY_REFERENT' == $personForm->get('roles')->getData() || 'ROLE_COMPANY_INTERNSHIP' == $personForm->get('roles')->getData()) {
                     $personne->setCompany($personForm->getData()->getCompany());
-                } elseif ($personForm->has('roles') && 'ROLE_SCHOOL' == $personForm->get('roles')->getData()) {
+                } elseif ($personForm->has('roles') && 'ROLE_SCHOOL_INTERNSHIP' == $personForm->get('roles')->getData()) {
                     $personne->setSchool($personForm->getData()->getSchool());
                 }
             }
