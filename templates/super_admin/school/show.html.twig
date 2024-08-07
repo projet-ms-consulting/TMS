@@ -23,12 +23,16 @@
                 </td>
             </tr>
             <tr>
+                <th>Créée le</th>
+                <td>{{ school.createdAt|date('Y-m-d H:i:s')}} </td>
+            </tr>
+            <tr>
                 <th>Dernière modification</th>
                 <td>
                     {% if school.updatedAt != null %}
                         {{ school.updatedAt|date('Y-m-d H:i:s') }}
                     {% else %}
-                        crée le{{ school.createdAt|date('Y-m-d H:i:s')}}
+                        Pas de modification
                     {% endif %}
                 </td>
             </tr>

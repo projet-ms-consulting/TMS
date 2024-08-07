@@ -7,6 +7,7 @@ use App\Entity\Company;
 use App\Form\CompanyEditType;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
+use App\Repository\PersonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CompanyController extends AbstractController
 {
     #[Route('/index', name: 'index', methods: ['GET'])]
-    public function index(CompanyRepository $companyRepository, Request $request): Response
+    public function index(CompanyRepository $companyRepository, Request $request, PersonRepository $personRepository): Response
     {
         $page = $request->query->getInt('page', 1);
         $limit = $request->query->getInt('limit', 8);
@@ -26,10 +27,12 @@ class CompanyController extends AbstractController
         $companies = $companyRepository->paginateCompany($page, $limit);
         $user = $this->getUser();
         $personne = $user->getPerson();
+        $person = $personRepository->findAll();
 
         return $this->render('super_admin/company/index.html.twig', [
             'companies' => $companies,
             'connectedPerson' => $personne,
+            'personne' => $person,
         ]);
     }
 

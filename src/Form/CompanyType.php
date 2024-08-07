@@ -60,6 +60,10 @@ class CompanyType extends AbstractType
                         'required' => true,
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('a')
+                                ->leftJoin('App\Entity\School', 's', 'WITH', 's.address = a.id')
+                                ->leftJoin('App\Entity\Company', 'c', 'WITH', 'c.address = a.id')
+                                ->where('s.id IS NULL')
+                                ->andWhere('c.id IS NULL')
                                 ->orderBy('a.city', 'ASC');
                         },
                     ]);

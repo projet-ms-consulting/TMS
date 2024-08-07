@@ -46,8 +46,7 @@ class ProjectType extends AbstractType
                         'expanded' => true, // Transforme en checkboxes
                         'query_builder' => function (EntityRepository $er) use ($company) {
                             return $er->createQueryBuilder('p')
-                                ->innerJoin('p.user', 'u')
-                                ->where('u.roles LIKE :role')
+                                ->where('p.roles LIKE :role')
                                 ->andWhere('p.company = :company')
                                 ->setParameter('role', '%"ROLE_TRAINEE"%')
                                 ->setParameter('company', $company)

@@ -28,13 +28,15 @@ class CompanyRepository extends ServiceEntityRepository
         return $this->paginator->paginate(
             $this->createQueryBuilder('c')
                 ->leftJoin('c.address', 'a')
+                ->leftJoin('App\Entity\Person', 'cm', 'WITH', 'cm.company = c AND cm.school IS NULL')
+                ->leftJoin('App\Entity\Person', 'ct', 'WITH', 'ct.company = c AND ct.school IS NOT NULL')
                 ->select('a', 'c'),
             $page,
             $limit,
             [
                 'defaultSortFieldName' => 'c.id',
                 'defaultSortDirection' => 'asc',
-                'sortFieldWhitelist' => ['c.id', 'c.name', 'c.createdAt', 'c.updatedAt', 'a.nbStreet', 'a.street', 'a.zipCode', 'a.city', 'c.companyType', 'c.employeeNumber'],
+                'sortFieldWhitelist' => ['c.id', 'c.name', 'c.createdAt', 'c.updatedAt', 'a.nbStreet', 'a.street', 'a.zipCode', 'a.city', 'c.companyType', 'c.employeeNumber', 'cm.lastName', 'ct.lastName'],
             ]
         );
     }
