@@ -32,9 +32,6 @@
                 <td>{{ personne.company.name }}</td>
             </tr>
             <tr>
-                <th>Rôle</th>
-                {% if is_granted('ROLE_ADMIN', user) %}
-                    <td>Manager</td>
                 <th>Rôle :</th>
                 {% if personne.roles[0]=='ROLE_ADMIN' %}
                     <td>Chef d'entreprise</td>
