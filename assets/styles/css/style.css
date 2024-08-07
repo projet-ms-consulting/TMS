@@ -214,7 +214,6 @@ label.required:after {
 .delete-cv-btn:hover {
   background-color: #c82333;
   color: #fff;
-  border: 2px solid #c82333;
 }
 
 .file-link {

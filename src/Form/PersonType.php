@@ -30,7 +30,7 @@ class PersonType extends AbstractType
 
         $builder
             ->add('lastName', null, [
-                'label' => 'Nom : ',
+                'label' => 'Nom',
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
@@ -45,7 +45,7 @@ class PersonType extends AbstractType
                 ],
             ])
             ->add('firstName', null, [
-                'label' => 'Prénom : ',
+                'label' => 'Prénom',
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
@@ -60,11 +60,11 @@ class PersonType extends AbstractType
                 ],
             ])
             ->add('mailContact', EmailType::class, [
-                'label' => 'Email de contact : ',
+                'label' => 'Email de contact',
                 'required' => false,
             ])
             ->add('roles', ChoiceType::class, [
-                'label' => 'Rôle :',
+                'label' => 'Rôle',
                 'placeholder' => 'Choisir un rôle',
                 'choices' => [
                     'Super Admin' => 'ROLE_SUPER_ADMIN',
