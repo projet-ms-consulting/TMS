@@ -218,7 +218,6 @@ class PersonType extends AbstractType
                 }
             })
 
-
             // Si stagiaire et si entreprise, afficher le manager (correspondant à l'entreprise sélectionnée)
             ->addDependent('stagiaireManager', 'stagiaireCompany', function (DependentField $field, ?Company $company) {
                 if ($company) {

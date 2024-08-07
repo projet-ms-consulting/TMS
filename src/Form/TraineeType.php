@@ -89,6 +89,7 @@ class TraineeType extends AbstractType
             ->add('company', EntityType::class, [
                 'class' => Company::class,
                 'label' => 'Entreprise : ',
+                'required' => true,
                 'choice_label' => 'name',
                 'placeholder' => 'Choisir une entreprise',
                 'query_builder' => function (EntityRepository $er) {
@@ -158,6 +159,7 @@ class TraineeType extends AbstractType
                 'label' => 'École',
                 'choice_label' => 'name',
                 'placeholder' => 'Choisir une école',
+                'required' => true,
             ])
             ->addDependent('schoolSupervisor', 'school', function (DependentField $field, ?School $school) {
                 if ($school) {
