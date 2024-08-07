@@ -31,7 +31,7 @@
             <td>{% if company.updatedAt != null %}
                     {{ company.updatedAt|date('Y-m-d H:i:s') }}
                 {% else %}
-                    créé le : {{ company.createdAt|date('Y-m-d H:i:s')}}
+                    créé le{{ company.createdAt|date('Y-m-d H:i:s')}}
                 {% endif %}
             </td>
         </tr>

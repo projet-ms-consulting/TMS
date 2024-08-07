@@ -8,30 +8,33 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Nom :</th>
+                <th>Nom</th>
                 <td>{{ personne.lastName }}</td>
             </tr>
             <tr>
-                <th>Prénom :</th>
+                <th>Prénom</th>
                 <td>{{ personne.firstName }}</td>
             </tr>
             {% if personne.mailContact and personne.user and personne.mailContact != personne.user.email %}
                 <tr>
-                    <th>Email de contact :</th>
+                    <th>Email de contact</th>
                     <td>{{ personne.mailContact }}</td>
                 </tr>
             {% endif %}
             {% if personne.user %}
                 <tr>
-                    <th>Email de connexion :</th>
+                    <th>Email de connexion</th>
                     <td>{{ personne.user.email }}</td>
                 </tr>
             {% endif %}
             <tr>
-                <th>Entreprise :</th>
+                <th>Entreprise</th>
                 <td>{{ personne.company.name }}</td>
             </tr>
             <tr>
+                <th>Rôle</th>
+                {% if is_granted('ROLE_ADMIN', user) %}
+                    <td>Manager</td>
                 <th>Rôle :</th>
                 {% if personne.roles[0]=='ROLE_ADMIN' %}
                     <td>Chef d'entreprise</td>
@@ -44,12 +47,12 @@
                 {% endif %}
             </tr>
             <tr>
-                <th>Créé le :</th>
+                <th>Créé le</th>
                 <td>{{ personne.createdAt ? personne.createdAt|date('d/m/Y') }}</td>
             </tr>
             {% if personne.updatedAt is not null %}
                 <tr>
-                    <th>Mis à jour le :</th>
+                    <th>Mis à jour le</th>
                     <td>{{ personne.updatedAt ? personne.updatedAt|date('d/m/Y') }}</td>
                 </tr>
             {% endif %}

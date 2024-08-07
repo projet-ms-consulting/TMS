@@ -26,6 +26,9 @@
                             <td>
                                 <a href="{{ path('super_admin_app_school_employee_show', {'id': person.id}) }}">Détails</a><br>
                                 <a href="{{ path('super_admin_app_school_employee_edit', {'id': person.id}) }}">Modifier</a>
+                                {% if person.user is null %}
+                                    <br><a href="{{ path('app_create_account',{'id' : person.id })}}">Créer un compte</a>
+                                {% endif %}
                             </td>
                         {% else %}
                             <td colspan="6">Aucun enregistrement ! </td>

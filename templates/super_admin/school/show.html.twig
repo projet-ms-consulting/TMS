@@ -28,7 +28,7 @@
                     {% if school.updatedAt != null %}
                         {{ school.updatedAt|date('Y-m-d H:i:s') }}
                     {% else %}
-                        crée le : {{ school.createdAt|date('Y-m-d H:i:s')}}
+                        crée le{{ school.createdAt|date('Y-m-d H:i:s')}}
                     {% endif %}
                 </td>
             </tr>

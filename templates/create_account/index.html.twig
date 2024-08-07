@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un compte{% endblock %}
+
+{% block body %}
+    <h1>Créer un compte pour {{ personne.fullName }}</h1>
+
+    {{ form_start(form) }}
+
+    <table class="table">
+        <tbody>
+        <div class="form-group">
+            <tr>
+                <th>{{ form_label(form.email) }}</th>
+                <td>{{ form_widget(form.email, { 'attr': { 'class': 'form-control' } }) }}</td>
+            </tr>
+        </div>
+
+    </table>
+
+    <div class="button-container">
+        <button type="submit" class="btn btn-primary">Créer le compte</button>
+        <a href="{{ path('super_admin_app_person_index') }}" class="btn btn-primary back-btn">Retour</a>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}
