@@ -81,7 +81,7 @@ class PersonController extends AbstractController
                     $personne->setSchool($personForm->getData()->getSchool());
                 }
             }
-            
+
             if ($personForm->has('checkUser') && $personForm->get('checkUser')->getData()) {
                 $user = new User();
                 $user->setCreatedAt(new \DateTimeImmutable())
