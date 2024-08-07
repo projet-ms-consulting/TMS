@@ -64,23 +64,6 @@ class PersonController extends AbstractController
         if ($personForm->isSubmitted() && $personForm->isValid()) {
             $personne->setCreatedAt(new \DateTimeImmutable());
             $this->getData($personForm, $personne, $entityManager);
-
-            if ($personForm->has('roles') && 'ROLE_TRAINEE' == $personForm->get('roles')->getData()) {
-                $personne->setStartInternship($personForm->getData()->getStartInternship())
-                    ->setEndInternship($personForm->getData()->getEndInternship())
-                    ->setCompany($personForm->getData()->getCompany())
-                    ->setSchool($personForm->getData()->getSchool())
-                    ->setCompanyReferent($personForm->get('companyReferent')->getData())
-                    ->setInternshipSupervisor($personForm->get('internshipSupervisor')->getData())
-                    ->setSchoolSupervisor($personForm->get('schoolSupervisor')->getData())
-                    ->setManager($personForm->get('manager')->getData());
-            } elseif ($personForm->has('roles')) {
-                if ('ROLE_ADMIN' == $personForm->get('roles')->getData() || 'ROLE_COMPANY_REFERENT' == $personForm->get('roles')->getData() || 'ROLE_COMPANY_INTERNSHIP' == $personForm->get('roles')->getData()) {
-                    $personne->setCompany($personForm->getData()->getCompany());
-                } elseif ($personForm->has('roles') && 'ROLE_SCHOOL_INTERNSHIP' == $personForm->get('roles')->getData()) {
-                    $personne->setSchool($personForm->getData()->getSchool());
-                }
-            }
             
             if ($personForm->has('checkUser') && $personForm->get('checkUser')->getData()) {
                 $user = new User();
@@ -198,7 +181,7 @@ class PersonController extends AbstractController
     }
 
     #[Route('/file/{id}', name: 'show_file', methods: ['GET'])]
-    public function showFile(EntityManagerInterface $entityManager, $id): BinaryFileResponse
+    public function showFile(EntityManagerInterface $entityManager, $id): Response
     {
         $file = $entityManager->getRepository(Files::class)->find($id);
 
@@ -414,7 +397,7 @@ class PersonController extends AbstractController
         // Attribuer le maître de stage au stagiaire
         if ($personForm->has('traineeSupervisor')) {
             $internshipSupervisor = $personForm->get('traineeSupervisor')->getData();
-            $personne->setManager($internshipSupervisor);
+            $personne->setInternshipSupervisor($internshipSupervisor);
         }
         return $personne;
     }

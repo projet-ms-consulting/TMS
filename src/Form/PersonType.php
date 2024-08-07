@@ -196,7 +196,9 @@ class PersonType extends AbstractType
                     $field->add(EntityType::class, [
                         'class' => Person::class,
                         'mapped' => false,
+                        'required' => false,
                         'label' => 'Référent de l\'entreprise : ',
+                        'placeholder' => 'Choisir référent de l\'entreprise',
                         'choice_label' => function (Person $person) {
                             return $person->getFullName();
                         },
@@ -209,12 +211,6 @@ class PersonType extends AbstractType
                                 ->orderBy('p.id', 'ASC');
                         },
                     ]);
-                } else {
-                    $field->add(ChoiceType::class, [
-                        'mapped' => false,
-                        'label' => 'Référent de l\'entreprise : ',
-                        'choices' => ['Aucun référent trouvé' => null]
-                    ]);
                 }
             })
 
@@ -225,7 +221,9 @@ class PersonType extends AbstractType
                     $field->add(EntityType::class, [
                         'class' => Person::class,
                         'mapped' => false,
+                        'required' => false,
                         'label' => 'Chef de l\'entreprise : ',
+                        'placeholder' => 'Choisir chef de l\'entreprise',
                         'choice_label' => function (Person $person) {
                             return $person->getFullName();
                         },
@@ -238,12 +236,6 @@ class PersonType extends AbstractType
                                 ->orderBy('p.id', 'ASC');
                         },
                     ]);
-                } else {
-                    $field->add(ChoiceType::class, [
-                        'mapped' => false,
-                        'label' => 'Chef de l\'entreprise : ',
-                        'choices' => ['Aucun chef d\'entreprise trouvé' => null]
-                    ]);
                 }
             })
         // Si stagiaire et si entreprise, afficher le maître de stage (correspondant à l'entreprise sélectionnée)
@@ -252,7 +244,9 @@ class PersonType extends AbstractType
                     $field->add(EntityType::class, [
                         'class' => Person::class,
                         'mapped' => false,
+                        'required' => false,
                         'label' => 'Maître de stage : ',
+                        'placeholder' => 'Choisir un maître de stage',
                         'choice_label' => function (Person $person) {
                             return $person->getFullName();
                         },
@@ -264,12 +258,6 @@ class PersonType extends AbstractType
                                 ->setParameter('company', $company)
                                 ->orderBy('p.id', 'ASC');
                         },
-                    ]);
-                } else {
-                    $field->add(ChoiceType::class, [
-                        'mapped' => false,
-                        'label' => 'Maître de stage : ',
-                        'choices' => ['Aucun Maître de stage trouvé' => null]
                     ]);
                 }
             })
@@ -296,6 +284,7 @@ class PersonType extends AbstractType
                     $field->add(EntityType::class, [
                         'class' => Person::class,
                         'mapped' => false,
+                        'required' => false,
                         'label' => 'Référent de l\'école : ',
                         'placeholder' => 'Choisir un référent école',
                         'choice_label' => function (Person $person) {
@@ -309,12 +298,6 @@ class PersonType extends AbstractType
                                 ->setParameter('school', $school)
                                 ->orderBy('p.id', 'ASC');
                         },
-                    ]);
-                } else {
-                    $field->add(ChoiceType::class, [
-                        'mapped' => false,
-                        'label' => 'Référent de l\'école : ',
-                        'choices' => ['Aucun référent trouvé' => null]
                     ]);
                 }
             })

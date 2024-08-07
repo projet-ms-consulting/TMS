@@ -45,7 +45,7 @@
             </tr>
             <tr>
                 <th>Chef d'entreprise</th>
-                {% if personne.manager is not null %}
+                {% if personne.manager %}
                     <td><a href="{{ path('super_admin_app_person_show', {'id': personne.manager.id}) }}">{{ personne.manager.fullName }}</a></td>
                 {% else %}
                    <td>Pas de chef d'entreprise</td>
@@ -53,7 +53,7 @@
             </tr>
             <tr>
                 <th> Référent entreprise</th>
-                {% if personne.companyReferent is not null %}
+                {% if personne.companyReferent %}
                     <td><a href="{{ path('super_admin_app_person_show',{'id':personne.companyReferent.id}) }}">{{ personne.companyReferent.fullName }}</a></td>
                 {% else %}
                     <td>Pas de référent entreprise</td>
@@ -61,7 +61,7 @@
             </tr>
             <tr>
                 <th>Maître de stage</th>
-                {% if personne.internshipSupervisor is not null %}
+                {% if personne.internshipSupervisor %}
                     <td><a href="{{ path('super_admin_app_person_show',{'id':personne.internshipSupervisor.id}) }}">{{ personne.internshipSupervisor.fullName}}</a></td>
                 {% else %}
                     <td>Pas de maître de stage</td>
