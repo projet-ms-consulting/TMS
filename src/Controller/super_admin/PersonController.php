@@ -65,7 +65,7 @@ class PersonController extends AbstractController
             $personne->setCreatedAt(new \DateTimeImmutable());
             $this->getData($personForm, $personne, $entityManager);
 
-            if ($personForm->has('roles') && 'ROLE_STAGIAIRE' == $personForm->get('roles')->getData()) {
+            if ($personForm->has('roles') && 'ROLE_TRAINEE' == $personForm->get('roles')->getData()) {
                 $personne->setStartInternship($personForm->getData()->getStartInternship())
                     ->setEndInternship($personForm->getData()->getEndInternship())
                     ->setCompany($personForm->getData()->getCompany())
