@@ -12,7 +12,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -119,6 +118,7 @@ class PersonType extends AbstractType
                         'label' => 'Entreprise',
                         'choice_label' => 'name',
                         'mapped' => false,
+                        'required' => true,
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('c')
                                 ->orderBy('c.name', 'ASC');
@@ -135,6 +135,7 @@ class PersonType extends AbstractType
                         'placeholder' => 'Choisir une entreprise',
                         'choice_label' => 'name',
                         'mapped' => false,
+                        'required' => true,
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('c')
                                 ->orderBy('c.name', 'ASC');
@@ -151,6 +152,7 @@ class PersonType extends AbstractType
                         'placeholder' => 'Choisir une entreprise',
                         'choice_label' => 'name',
                         'mapped' => false,
+                        'required' => true,
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('c')
                                 ->orderBy('c.name', 'ASC');
@@ -164,6 +166,7 @@ class PersonType extends AbstractType
                     $field->add(EntityType::class, [
                         'class' => School::class,
                         'label' => 'Ecole',
+                        'required' => true,
                         'placeholder' => 'Choisir une école',
                         'choice_label' => 'name',
                         'data' => isset($options['data']) && !empty($options['data']->getSchool()) ? $options['data']->getSchool() : null,
@@ -180,6 +183,7 @@ class PersonType extends AbstractType
                     $field->add(EntityType::class, [
                         'class' => Company::class,
                         'label' => 'Entreprise',
+                        'required' => true,
                         'choice_label' => 'name',
                         'placeholder' => 'Choisir une entreprise',
                         'mapped' => false,
@@ -196,7 +200,9 @@ class PersonType extends AbstractType
                     $field->add(EntityType::class, [
                         'class' => Person::class,
                         'mapped' => false,
+                        'required' => false,
                         'label' => 'Référent de l\'entreprise : ',
+                        'placeholder' => 'Choisir référent de l\'entreprise',
                         'choice_label' => function (Person $person) {
                             return $person->getFullName();
                         },
@@ -209,15 +215,8 @@ class PersonType extends AbstractType
                                 ->orderBy('p.id', 'ASC');
                         },
                     ]);
-                } else {
-                    $field->add(ChoiceType::class, [
-                        'mapped' => false,
-                        'label' => 'Référent de l\'entreprise : ',
-                        'choices' => ['Aucun référent trouvé' => null]
-                    ]);
                 }
             })
-
 
             // Si stagiaire et si entreprise, afficher le manager (correspondant à l'entreprise sélectionnée)
             ->addDependent('stagiaireManager', 'stagiaireCompany', function (DependentField $field, ?Company $company) {
@@ -225,7 +224,9 @@ class PersonType extends AbstractType
                     $field->add(EntityType::class, [
                         'class' => Person::class,
                         'mapped' => false,
+                        'required' => false,
                         'label' => 'Chef de l\'entreprise : ',
+                        'placeholder' => 'Choisir chef de l\'entreprise',
                         'choice_label' => function (Person $person) {
                             return $person->getFullName();
                         },
@@ -238,12 +239,6 @@ class PersonType extends AbstractType
                                 ->orderBy('p.id', 'ASC');
                         },
                     ]);
-                } else {
-                    $field->add(ChoiceType::class, [
-                        'mapped' => false,
-                        'label' => 'Chef de l\'entreprise : ',
-                        'choices' => ['Aucun chef d\'entreprise trouvé' => null]
-                    ]);
                 }
             })
         // Si stagiaire et si entreprise, afficher le maître de stage (correspondant à l'entreprise sélectionnée)
@@ -252,7 +247,9 @@ class PersonType extends AbstractType
                     $field->add(EntityType::class, [
                         'class' => Person::class,
                         'mapped' => false,
+                        'required' => false,
                         'label' => 'Maître de stage : ',
+                        'placeholder' => 'Choisir un maître de stage',
                         'choice_label' => function (Person $person) {
                             return $person->getFullName();
                         },
@@ -264,12 +261,6 @@ class PersonType extends AbstractType
                                 ->setParameter('company', $company)
                                 ->orderBy('p.id', 'ASC');
                         },
-                    ]);
-                } else {
-                    $field->add(ChoiceType::class, [
-                        'mapped' => false,
-                        'label' => 'Maître de stage : ',
-                        'choices' => ['Aucun Maître de stage trouvé' => null]
                     ]);
                 }
             })
@@ -296,6 +287,7 @@ class PersonType extends AbstractType
                     $field->add(EntityType::class, [
                         'class' => Person::class,
                         'mapped' => false,
+                        'required' => false,
                         'label' => 'Référent de l\'école : ',
                         'placeholder' => 'Choisir un référent école',
                         'choice_label' => function (Person $person) {
@@ -309,12 +301,6 @@ class PersonType extends AbstractType
                                 ->setParameter('school', $school)
                                 ->orderBy('p.id', 'ASC');
                         },
-                    ]);
-                } else {
-                    $field->add(ChoiceType::class, [
-                        'mapped' => false,
-                        'label' => 'Référent de l\'école : ',
-                        'choices' => ['Aucun référent trouvé' => null]
                     ]);
                 }
             })

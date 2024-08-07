@@ -46,6 +46,7 @@ class TraineeController extends AbstractController
         ]);
     }
 
+
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Person $person, EntityManagerInterface $entityManager): Response
     {
@@ -95,7 +96,7 @@ class TraineeController extends AbstractController
                         $cvFilename = 'CV.'.$person->getFirstName().'-'.$person->getLastName().'.'.$cvFile->guessExtension();
                         $cvHash = hash('sha256', $cvFilename);
                         $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
-                        $cvFile->move($this->getParameter('kernel.project_dir').'/files/', $cvHashFile);
+                        $cvFile->move($this->getParameter('kernel.project_dir').'/files/', $cvFilename);
 
                         $existingCv->setFile($cvHashFile)
                             ->setUpdatedAt(new \DateTimeImmutable())
@@ -105,7 +106,7 @@ class TraineeController extends AbstractController
                         $cvFilename = 'CV.'.$person->getFirstName().'-'.$person->getLastName().'.'.$cvFile->guessExtension();
                         $cvHash = hash('sha256', $cvFilename);
                         $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
-                        $cvFile->move($this->getParameter('kernel.project_dir').'/files/', $cvHashFile);
+                        $cvFile->move($this->getParameter('kernel.project_dir').'/files/', $cvFilename);
 
                         $file = new Files();
                         $file->setLabel('CV')

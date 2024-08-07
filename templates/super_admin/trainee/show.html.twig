@@ -7,106 +7,99 @@
 
     <table class="table">
         <tbody>
-        <tr>
-            <th>Nom</th>
-            <td>{{ personne.lastName }}</td>
-        </tr>
-        <tr>
-            <th>Prénom</th>
-            <td>{{ personne.firstName }}</td>
-        </tr>
-        <tr>
-            <th>Email de contact</th>
-            {% if personne.mailContact is not null %}
-                <td>{{ personne.mailContact }}</td>
-            {% else %}
-                <td>Non renseignée</td>
-            {% endif %}
-        </tr>
-        <tr>
-            <th>Date de début de stage</th>
-            {% if personne.startInternship is not null %}
-                <td>{{ personne.startInternship ? personne.startInternship|date('d/m/Y') : '' }}</td>
-            {% else %}
-                <td>Non renseignée</td>
-            {% endif %}
-        </tr>
-        <tr>
-            <th>Date de fin de stage</th>
-            {% if personne.endInternship is not null %}
-                <td>{{ personne.endInternship ? personne.endInternship|date('d/m/Y') : '' }}</td>
-            {% else %}
-                <td>Non renseignée</td>
-            {% endif %}
-        </tr>
-        <tr>
-            <th>Entreprise</th>
-            <td><a href="{{ path('super_admin_app_company_show', {'id': personne.company.id}) }}">{{ personne.company.name }}</a></td>
-        </tr>
-        <tr>
-            <th>Chef d'entreprise</th>
-            {% if personne.manager is not null %}
-                <td><a href="{{ path('super_admin_app_person_show', {'id': personne.manager.id}) }}">{{ personne.manager.fullName }}</a></td>
-            {% else %}
-                <td>Pas de chef d'entreprise</td>
-            {% endif %}
-        </tr>
-        <tr>
-            <th> Référent entreprise</th>
-            {% if personne.companyReferent is not null %}
-                <td><a href="{{ path('super_admin_app_person_show',{'id':personne.companyReferent.id}) }}">{{ personne.companyReferent.fullName }}</a></td>
-            {% else %}
-                <td>Pas de référent entreprise</td>
-            {% endif %}
-        </tr>
-        <tr>
-            <th>Maître de stage</th>
-            {% if personne.internshipSupervisor is not null %}
-                <td><a href="{{ path('super_admin_app_person_show',{'id':personne.internshipSupervisor.id}) }}">{{ personne.internshipSupervisor.fullName}}</a></td>
-            {% else %}
-                <td>Pas de maître de stage</td>
-            {% endif %}
-        </tr>
-        <tr>
-            <th>Ecole</th>
-            <td><a href="{{ path('super_admin_app_school_show',{'id':personne.school.id}) }}">{{ personne.school.name }}</a></td>
-        </tr>
-        <tr>
-            <th>Référent école</th>
-            {% if personne.schoolSupervisor is not null %}
-                <td><a href="{{ path('super_admin_app_school_employee_show',{'id':personne.schoolSupervisor.id}) }}">{{ personne.schoolSupervisor.fullName }}</a></td>
-            {% else %}
-                <td>Pas de référent école</td>
-            {% endif %}
-        </tr>
-        <tr>
-            <th>Documents</th>
-            {% if personne.files is empty %}
-                <td>Pas de document</td>
-            {% else %}
-                <td>
-                    {% for file in personne.files %}
-                        <a href="{{ path('super_admin_app_person_show_file', {id: file.id}) }}" target="_blank">{{ file.realFileName }}</a>
-                        <form action="{{ path('super_admin_app_trainee_delete_file', { id: file.id }) }}" method="post" style="display: inline;">
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ file.id) }}">
-                            <button type="submit" class="delete-cv-btn" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce fichier ?');"><i class="fa-solid fa-xmark" title="Supprimer"></i></button>
-                        </form>
-                        <br>
-                    {% endfor %}
-                </td>
-            {% endif %}
-        </tr>
-
-        <tr>
-            <th>Dernière modification</th>
-            <td>
-                {% if personne.updatedAt is not null %}
-                    {{ personne.updatedAt|date('Y-m-d H:i:s') }}
+            <tr>
+                <th>Nom</th>
+                <td>{{ personne.lastName }}</td>
+            </tr>
+            <tr>
+                <th>Prénom</th>
+                <td>{{ personne.firstName }}</td>
+            </tr>
+            <tr>
+                <th>Email de contact</th>
+                {% if personne.mailContact is not null %}
+                    <td>{{ personne.mailContact }}</td>
                 {% else %}
-                    créé le {{ personne.createdAt|date('Y-m-d H:i:s')}}
+                    <td>Non renseignée</td>
                 {% endif %}
-            </td>
-        </tr>
+            </tr>
+            <tr>
+                <th>Date de début de stage</th>
+                {% if personne.startInternship is not null %}
+                    <td>{{ personne.startInternship ? personne.startInternship|date('d/m/Y') : '' }}</td>
+                {% else %}
+                    <td>Non renseignée</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th>Date de fin de stage</th>
+                {% if personne.endInternship is not null %}
+                    <td>{{ personne.endInternship ? personne.endInternship|date('d/m/Y') : '' }}</td>
+                {% else %}
+                    <td>Non renseignée</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th>Entreprise</th>
+                <td><a href="{{ path('super_admin_app_company_show', {'id': personne.company.id}) }}">{{ personne.company.name }}</a></td>
+            </tr>
+            <tr>
+                <th>Chef d'entreprise</th>
+                {% if personne.manager %}
+                    <td><a href="{{ path('super_admin_app_person_show', {'id': personne.manager.id}) }}">{{ personne.manager.fullName }}</a></td>
+                {% else %}
+                   <td>Pas de chef d'entreprise</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th> Référent entreprise</th>
+                {% if personne.companyReferent is defined and personne.companyReferent is not null %}
+                    <td><a href="{{ path('super_admin_app_person_show',{'id':personne.companyReferent.id}) }}">{{ personne.companyReferent.fullName }}</a></td>
+                {% elseif personne.manager is defined and personne.manager is not null %}
+                    <td><a href="{{ path('super_admin_app_person_show',{'id':personne.manager.id}) }}">{{ personne.manager.firstName }} {{ personne.manager.lastName }}</a></td>
+                {% else %}
+                    <td>Pas de référent entreprise</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th>Maître de stage</th>
+                {% if personne.internshipSupervisor is defined and personne.internshipSupervisor is not null %}
+                    <td><a href="{{ path('super_admin_app_person_show',{'id':personne.internshipSupervisor.id}) }}">{{ personne.internshipSupervisor.fullName}}</a></td>
+                {% elseif personne.manager is defined and personne.manager is not null %}
+                    <td><a href="{{ path('super_admin_app_person_show',{'id':personne.manager.id}) }}">{{ personne.manager.firstName }} {{ personne.manager.lastName }}</a></td>
+                {% else %}
+                    <td>Pas de maître de stage</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th>Ecole</th>
+                <td><a href="{{ path('super_admin_app_school_show',{'id':personne.school.id}) }}">{{ personne.school.name }}</a></td>
+            </tr>
+            <tr>
+                <th>Référent école</th>
+                {% if personne.schoolSupervisor is not null %}
+                    <td><a href="{{ path('super_admin_app_school_employee_show',{'id':personne.schoolSupervisor.id}) }}">{{ personne.schoolSupervisor.fullName }}</a></td>
+                {% else %}
+                    <td>Pas de référent école</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th>Documents</th>
+                {% if personne.files is empty %}
+                    <td>Pas de document</td>
+                {% else %}
+                    <td>
+                        {% for file in personne.files %}
+                            <a href="{{ path('super_admin_app_person_show_file', {id: file.id}) }}" target="_blank">{{ file.realFileName }}</a>
+                            <form action="{{ path('super_admin_app_trainee_delete_file', { id: file.id }) }}" method="post" style="display: inline;">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ file.id) }}">
+                                <button type="submit" class="delete-cv-btn" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce fichier ?');"><i class="fa-solid fa-xmark" title="Supprimer"></i></button>
+                            </form>
+                            <br>
+                        {% endfor %}
+                    </td>
+                {% endif %}
+            </tr>
         </tbody>
     </table>
     <div class="center-btn-container">

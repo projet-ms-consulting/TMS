@@ -36,29 +36,34 @@ class CreateAccountController extends AbstractController
         $form = $this->createForm(CreateAccountType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $newUser = new User();
-            $newUser->setCreatedAt(new \DateTimeImmutable())
+            $user = new User();
+            $user->setCreatedAt(new \DateTimeImmutable())
                 ->setCanLogin(1)
                 ->setEmail($form->get('email')->getData())
                 ->setRoles($personne->getRoles());
 
             $password = $this->passwordGenerator->generatePassword();
-            $hashedPassword = $passwordHasher->hashPassword($newUser, $password);
-            $newUser->setPassword($hashedPassword);
-            $personne->setUser($newUser);
-
+            $hashedPassword = $passwordHasher->hashPassword($user, $password);
+            $user->setPassword($hashedPassword);
+            $personne->setUser($user);
             $email = (new TemplatedEmail())
                 ->from(new Address('noreply@msconsulting-europe.com', 'MS_Consulting'))
-                ->to($newUser->getEmail())
+                ->to($user->getEmail())
                 ->subject('Bienvenue sur TMS')
                 ->htmlTemplate('person/new.html.twig')
-                ->context(['user' => $newUser, 'password' => $password]);
+                ->context(['user' => $user, 'password' => $password]);
             try {
                 $this->mailer->send($email);
                 $this->addFlash('success', 'Email envoyé avec succès !');
             } catch (\Exception $e) {
                 $this->addFlash('error', 'Erreur lors de l\'envoi de l\'email : '.$e->getMessage());
             }
+            $this->addFlash('success', 'Création réussie !');
+
+            $personne->setUpdatedAt(new \DateTimeImmutable());
+            $entityManager->persist($personne);
+            $entityManager->persist($user);
+            $entityManager->flush();
 
             return $this->redirectToRoute('super_admin_app_person_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -70,5 +75,4 @@ class CreateAccountController extends AbstractController
             'form' => $form,
         ]);
     }
-
 }

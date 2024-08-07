@@ -1,20 +1,34 @@
 <div{{ attributes }}>
     {{ form_start(form) }}
-    {{ form_row(form.labelChoice) }}
-    {% if form.linkGit is defined %}
-        {{ form_row(form.linkGit) }}
-    {% endif %}
-    {% if form.linkTrello is defined %}
-    {{ form_row(form.linkTrello) }}
-    {% endif %}
-    {% if form.linkOther is defined %}
-    {{ form_row(form.linkOther) }}
-    {% endif %}
-
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>{{ form_label(form.labelChoice) }}</th>
+                <td>{{ form_widget(form.labelChoice)}}</td>
+            </tr>
+            {% if form.linkGit is defined %}
+                <tr>
+                    <th>{{ form_label(form.linkGit) }}</th>
+                    <td>{{ form_widget(form.linkGit) }}</td>
+                </tr>
+            {% endif %}
+            {% if form.linkTrello is defined %}
+                <tr>
+                    <th>{{ form_label(form.linkTrello) }}</th>
+                    <td>{{ form_widget(form.linkTrello) }}</td>
+                </tr>
+            {% endif %}
+            {% if form.linkOther is defined %}
+                <tr>
+                    <th>{{ form_label(form.linkOther) }}</th>
+                    <td>{{ form_widget(form.linkOther) }}</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
     <div class="button-container">
         <button type="submit" class="btn btn-primary">Sauvegarder</button>
         <a href="{{ path('super_admin_project_index') }}" class="btn btn-primary back-btn">Retour</a>
     </div>
-
     {{ form_end(form) }}
 </div>

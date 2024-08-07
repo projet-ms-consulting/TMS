@@ -9,12 +9,12 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Entreprise</th>
+                <th>{{ knp_pagination_sortable(projects, 'Nom', 'p.name') }}</th>
+                <th>{{ knp_pagination_sortable(projects, 'Description', 'p.description') }}</th>
+                <th>{{ knp_pagination_sortable(projects, 'Entreprise', 'c.name') }}</th>
                 <th>Participants</th>
                 <th>Liens</th>
-                <th>Modifié le</th>
+                <th>{{ knp_pagination_sortable(projects, 'Modifié le', 'p.updatedAt') }}</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -46,6 +46,6 @@
         {% endfor %}
         </tbody>
     </table>
-
+    {{ knp_pagination_render(projects) }}
 
 {% endblock %}

@@ -20,10 +20,12 @@
             {% if personne.roles[0] == "ROLE_ADMIN" %}
             <td>Chef d'entreprise</td>
         </tr>
+        {% if personne.company is not null %}
         <tr>
             <th>Entreprise</th>
             <td>{{ personne.company.name }}</td>
         </tr>
+        {% endif %}
         {% elseif personne.roles[0] == "ROLE_COMPANY_INTERNSHIP" %}
             <td>Maître de stage</td>
             <tr>
@@ -32,10 +34,12 @@
             </tr>
         {% elseif personne.roles[0] == "ROLE_COMPANY_REFERENT" %}
             <td>Référent entreprise</td>
+        {% if personne.company is not null %}
             <tr>
                 <th>Entreprise</th>
                 <td>{{ personne.company.name }}</td>
             </tr>
+            {% endif %}
         {% elseif personne.roles[0] == "ROLE_SCHOOL_INTERNSHIP" %}
             <td>Référent école</td>
             <tr>

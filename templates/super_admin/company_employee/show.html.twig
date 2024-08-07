@@ -32,11 +32,15 @@
                 <td>{{ personne.company.name }}</td>
             </tr>
             <tr>
-                <th>Rôle</th>
-                {% if is_granted('ROLE_ADMIN', user) %}
-                    <td>Manager</td>
+                <th>Rôle :</th>
+                {% if personne.roles[0]=='ROLE_ADMIN' %}
+                    <td>Chef d'entreprise</td>
+                {% elseif personne.roles[0]=='ROLE_COMPANY_INTERNSHIP' %}
+                    <td>Maître de stage</td>
+                {% elseif personne.roles[0]=='ROLE_COMPANY_REFERENT' %}
+                    <td>Référent entreprise</td>
                 {% else %}
-                    <td>Superviseur interne</td>
+                    <td>Aucun enregistrement</td>
                 {% endif %}
             </tr>
             <tr>

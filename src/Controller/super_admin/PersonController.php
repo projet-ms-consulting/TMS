@@ -65,23 +65,6 @@ class PersonController extends AbstractController
             $personne->setCreatedAt(new \DateTimeImmutable());
             $this->getData($personForm, $personne, $entityManager);
 
-            if ($personForm->has('roles') && 'ROLE_TRAINEE' == $personForm->get('roles')->getData()) {
-                $personne->setStartInternship($personForm->getData()->getStartInternship())
-                    ->setEndInternship($personForm->getData()->getEndInternship())
-                    ->setCompany($personForm->getData()->getCompany())
-                    ->setSchool($personForm->getData()->getSchool())
-                    ->setCompanyReferent($personForm->get('companyReferent')->getData())
-                    ->setInternshipSupervisor($personForm->get('internshipSupervisor')->getData())
-                    ->setSchoolSupervisor($personForm->get('schoolSupervisor')->getData())
-                    ->setManager($personForm->get('manager')->getData());
-            } elseif ($personForm->has('roles')) {
-                if ('ROLE_ADMIN' == $personForm->get('roles')->getData() || 'ROLE_COMPANY_REFERENT' == $personForm->get('roles')->getData() || 'ROLE_COMPANY_INTERNSHIP' == $personForm->get('roles')->getData()) {
-                    $personne->setCompany($personForm->getData()->getCompany());
-                } elseif ($personForm->has('roles') && 'ROLE_SCHOOL_INTERNSHIP' == $personForm->get('roles')->getData()) {
-                    $personne->setSchool($personForm->getData()->getSchool());
-                }
-            }
-
             if ($personForm->has('checkUser') && $personForm->get('checkUser')->getData()) {
                 $user = new User();
                 $user->setCreatedAt(new \DateTimeImmutable())
@@ -365,16 +348,16 @@ class PersonController extends AbstractController
             ->setInternshipSupervisor(null);
 
         if ($personForm->has('companyReferent')) {
+            $personne->setCompanyReferent($personne);
             $personne->setCompany($personForm->get('companyReferent')->getData());
         }
         if ($personForm->has('manager')) {
+            $personne->setManager($personne);
             $personne->setCompany($personForm->get('manager')->getData());
         }
         if ($personForm->has('internshipSupervisor')) {
+            $personne->setInternshipSupervisor($personne);
             $personne->setCompany($personForm->get('internshipSupervisor')->getData());
-        }
-        if ($personForm->has('schoolSupervisor')) {
-            $personne->setSchool($personForm->get('schoolSupervisor')->getData());
         }
         if ($personForm->has('startInternship')) {
             $personne->setStartInternship($personForm->get('startInternship')->getData());
@@ -386,6 +369,7 @@ class PersonController extends AbstractController
             $personne->setCompany($personForm->get('stagiaireCompany')->getData());
         }
         if ($personForm->has('school')) {
+            $personne->setSchoolSupervisor($personne);
             $personne->setSchool($personForm->get('school')->getData());
         }
         if ($personForm->has('roles')) {
@@ -414,7 +398,7 @@ class PersonController extends AbstractController
         // Attribuer le maître de stage au stagiaire
         if ($personForm->has('traineeSupervisor')) {
             $internshipSupervisor = $personForm->get('traineeSupervisor')->getData();
-            $personne->setManager($internshipSupervisor);
+            $personne->setInternshipSupervisor($internshipSupervisor);
         }
         return $personne;
     }
