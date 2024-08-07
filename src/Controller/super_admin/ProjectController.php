@@ -18,11 +18,13 @@ use Symfony\Component\Routing\Attribute\Route;
 class ProjectController extends AbstractController
 {
     #[Route('/', name: 'index', methods: ['GET'])]
-    public function index(ProjectRepository $projectRepository): Response
+    public function index(ProjectRepository $projectRepository, Request $request): Response
     {
+        $page = $request->query->getInt('page', 1);
+        $limit = $request->query->getInt('limit', 8);
         $user = $this->getUser();
         $personne = $user->getPerson();
-        $projects = $projectRepository->findAll();
+        $projects = $projectRepository->paginateProject($page, $limit);
 
         return $this->render('super_admin/project/index.html.twig', [
             'projects' => $projects,
