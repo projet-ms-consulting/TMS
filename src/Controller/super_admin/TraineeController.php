@@ -2,11 +2,9 @@
 
 namespace App\Controller\super_admin;
 
-
 use App\Entity\Files;
 use App\Entity\Person;
 use App\Form\TraineeType;
-use App\Repository\FilesRepository;
 use App\Repository\PersonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -58,7 +56,6 @@ class TraineeController extends AbstractController
         $traineeForm->handleRequest($request);
 
         if ($traineeForm->isSubmitted() && $traineeForm->isValid()) {
-
             $person->setSchoolSupervisor(null)
                     ->setCompanyReferent(null)
                     ->setManager(null)
@@ -89,26 +86,26 @@ class TraineeController extends AbstractController
 
                     if ($existingCv) {
                         // Supprimer le cv existant
-                        $filePath = $this->getParameter('kernel.project_dir') . '/files/' . $existingCv->getFile();
+                        $filePath = $this->getParameter('kernel.project_dir').'/files/'.$existingCv->getFile();
                         if (file_exists($filePath)) {
                             unlink($filePath);
                         }
 
                         // Update cv
-                        $cvFilename = 'CV.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $cvFile->guessExtension();
+                        $cvFilename = 'CV.'.$person->getFirstName().'-'.$person->getLastName().'.'.$cvFile->guessExtension();
                         $cvHash = hash('sha256', $cvFilename);
-                        $cvHashFile = $cvHash . '.' . $cvFile->guessExtension();
-                        $cvFile->move($this->getParameter('kernel.project_dir') . '/files/', $cvHashFile);
+                        $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
+                        $cvFile->move($this->getParameter('kernel.project_dir').'/files/', $cvHashFile);
 
                         $existingCv->setFile($cvHashFile)
                             ->setUpdatedAt(new \DateTimeImmutable())
                             ->setRealFileName($cvFilename);
                     } else {
                         // Ajouter CV s'il n'existe pas
-                        $cvFilename = 'CV.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $cvFile->guessExtension();
+                        $cvFilename = 'CV.'.$person->getFirstName().'-'.$person->getLastName().'.'.$cvFile->guessExtension();
                         $cvHash = hash('sha256', $cvFilename);
-                        $cvHashFile = $cvHash . '.' . $cvFile->guessExtension();
-                        $cvFile->move($this->getParameter('kernel.project_dir') . '/files/', $cvHashFile);
+                        $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
+                        $cvFile->move($this->getParameter('kernel.project_dir').'/files/', $cvHashFile);
 
                         $file = new Files();
                         $file->setLabel('CV')
@@ -137,26 +134,26 @@ class TraineeController extends AbstractController
 
                     if ($existingLm) {
                         // Supprimer la lettre de motivation existante
-                        $filePath = $this->getParameter('kernel.project_dir') . '/files/' . $existingLm->getFile();
+                        $filePath = $this->getParameter('kernel.project_dir').'/files/'.$existingLm->getFile();
                         if (file_exists($filePath)) {
                             unlink($filePath);
                         }
 
                         // Update LM
-                        $lmFilename = 'LM.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $lmFile->guessExtension();
+                        $lmFilename = 'LM.'.$person->getFirstName().'-'.$person->getLastName().'.'.$lmFile->guessExtension();
                         $lmHash = hash('sha256', $lmFilename);
-                        $lmHashFile = $lmHash . '.' . $lmFile->guessExtension();
-                        $lmFile->move($this->getParameter('kernel.project_dir') . '/files/', $lmHashFile);
+                        $lmHashFile = $lmHash.'.'.$lmFile->guessExtension();
+                        $lmFile->move($this->getParameter('kernel.project_dir').'/files/', $lmHashFile);
 
                         $existingLm->setFile($lmHashFile)
                             ->setUpdatedAt(new \DateTimeImmutable())
                             ->setRealFileName($lmFilename);
                     } else {
                         // Ajouter LM si elle n'existe pas
-                        $lmFilename = 'LM.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $lmFile->guessExtension();
+                        $lmFilename = 'LM.'.$person->getFirstName().'-'.$person->getLastName().'.'.$lmFile->guessExtension();
                         $lmHash = hash('sha256', $lmFilename);
-                        $lmHashFile = $lmHash . '.' . $lmFile->guessExtension();
-                        $lmFile->move($this->getParameter('kernel.project_dir') . '/files/', $lmHashFile);
+                        $lmHashFile = $lmHash.'.'.$lmFile->guessExtension();
+                        $lmFile->move($this->getParameter('kernel.project_dir').'/files/', $lmHashFile);
 
                         $file = new Files();
                         $file->setLabel('LM')
@@ -185,26 +182,26 @@ class TraineeController extends AbstractController
 
                     if ($existingCs) {
                         // Supprimer la CS existante
-                        $filePath = $this->getParameter('kernel.project_dir') . '/files/' . $existingCs->getFile();
+                        $filePath = $this->getParameter('kernel.project_dir').'/files/'.$existingCs->getFile();
                         if (file_exists($filePath)) {
                             unlink($filePath);
                         }
 
                         // Update CS
-                        $csFilename = 'CS.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $csFile->guessExtension();
+                        $csFilename = 'CS.'.$person->getFirstName().'-'.$person->getLastName().'.'.$csFile->guessExtension();
                         $csHash = hash('sha256', $csFilename);
-                        $csHashFile = $csHash . '.' . $csFile->guessExtension();
-                        $csFile->move($this->getParameter('kernel.project_dir') . '/files/', $csHashFile);
+                        $csHashFile = $csHash.'.'.$csFile->guessExtension();
+                        $csFile->move($this->getParameter('kernel.project_dir').'/files/', $csHashFile);
 
                         $existingCs->setFile($csHashFile)
                             ->setUpdatedAt(new \DateTimeImmutable())
                             ->setRealFileName($csFilename);
                     } else {
                         // Ajouter CS si elle n'existe pas
-                        $csFilename = 'CS.' . $person->getFirstName() . '-' . $person->getLastName() . '.' . $csFile->guessExtension();
+                        $csFilename = 'CS.'.$person->getFirstName().'-'.$person->getLastName().'.'.$csFile->guessExtension();
                         $csHash = hash('sha256', $csFilename);
-                        $csHashFile = $csHash . '.' . $csFile->guessExtension();
-                        $csFile->move($this->getParameter('kernel.project_dir') . '/files/', $csHashFile);
+                        $csHashFile = $csHash.'.'.$csFile->guessExtension();
+                        $csFile->move($this->getParameter('kernel.project_dir').'/files/', $csHashFile);
 
                         $file = new Files();
                         $file->setLabel('CS')
@@ -232,14 +229,14 @@ class TraineeController extends AbstractController
         ]);
     }
 
-    #[Route('/delete/{id}', name: 'delete_file', methods: ['POST'])]
+    #[Route('/delete/file/{id}', name: 'delete_file', methods: ['POST'])]
     public function deleteFile(Request $request, EntityManagerInterface $entityManager, $id): Response
     {
         $file = $entityManager->getRepository(Files::class)->find($id);
 
-        if ($this->isCsrfTokenValid('delete' . $file->getId(), $request->request->get('_token'))) {
-            if ($file->getLabel() == 'CV' || $file->getLabel() == 'LM' || $file->getLabel() == 'CS') {
-                $filePath = $this->getParameter('kernel.project_dir') . '/files/' . $file->getFile();
+        if ($this->isCsrfTokenValid('delete'.$file->getId(), $request->request->get('_token'))) {
+            if ('CV' == $file->getLabel() || 'LM' == $file->getLabel() || 'CS' == $file->getLabel()) {
+                $filePath = $this->getParameter('kernel.project_dir').'/files/'.$file->getFile();
                 if (file_exists($filePath)) {
                     unlink($filePath);
                 }

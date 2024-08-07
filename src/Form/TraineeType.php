@@ -106,8 +106,7 @@ class TraineeType extends AbstractType
                         'label' => 'Chef de l\'entreprise : ',
                         'query_builder' => function (EntityRepository $er) use ($company) {
                             return $er->createQueryBuilder('p')
-                                ->innerJoin('p.user', 'u')
-                                ->where('u.roles LIKE :role')
+                                ->where('p.roles LIKE :role')
                                 ->andWhere('p.company = :company')
                                 ->setParameter('role', '%"ROLE_ADMIN"%')
                                 ->setParameter('company', $company)
@@ -126,8 +125,7 @@ class TraineeType extends AbstractType
                         'label' => 'Maître de stage : ',
                         'query_builder' => function (EntityRepository $er) use ($company) {
                             return $er->createQueryBuilder('p')
-                                ->innerJoin('p.user', 'u')
-                                ->where('u.roles LIKE :role')
+                                ->where('p.roles LIKE :role')
                                 ->andWhere('p.company = :company')
                                 ->setParameter('role', '%"ROLE_COMPANY_INTERNSHIP"%')
                                 ->setParameter('company', $company)
@@ -146,8 +144,7 @@ class TraineeType extends AbstractType
                         'label' => 'Référent de l\'entreprise : ',
                         'query_builder' => function (EntityRepository $er) use ($company) {
                             return $er->createQueryBuilder('p')
-                                ->innerJoin('p.user', 'u')
-                                ->where('u.roles LIKE :role')
+                                ->where('p.roles LIKE :role')
                                 ->andWhere('p.company = :company')
                                 ->setParameter('role', '%"ROLE_COMPANY_REFERENT"%')
                                 ->setParameter('company', $company)
@@ -172,8 +169,7 @@ class TraineeType extends AbstractType
                         'label' => 'Référent de l\'école : ',
                         'query_builder' => function (EntityRepository $er) use ($school) {
                             return $er->createQueryBuilder('p')
-                                ->innerJoin('p.user', 'u')
-                                ->where('u.roles LIKE :role')
+                                ->where('p.roles LIKE :role')
                                 ->andWhere('p.school = :school')
                                 ->setParameter('role', '%"ROLE_SCHOOL_INTERNSHIP"%')
                                 ->setParameter('school', $school)

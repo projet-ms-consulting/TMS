@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -33,14 +34,14 @@ class PersonType extends AbstractType
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
-                        'message' => 'Le nom ne doit contenir que des lettres.'
+                        'message' => 'Le nom ne doit contenir que des lettres.',
                     ]),
                     new Length([
                         'min' => 2,
                         'max' => 30,
                         'minMessage' => 'Le nom doit contenir au moins {{ limit }} caractères',
                         'maxMessage' => 'Le nom ne doit pas contenir plus de {{ limit }} caractères',
-                    ])
+                    ]),
                 ],
             ])
             ->add('firstName', null, [
@@ -48,14 +49,14 @@ class PersonType extends AbstractType
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
-                        'message' => 'Le nom ne doit contenir que des lettres.'
+                        'message' => 'Le nom ne doit contenir que des lettres.',
                     ]),
                     new Length([
                         'min' => 2,
                         'max' => 30,
                         'minMessage' => 'Le nom doit contenir au moins {{ limit }} caractères',
                         'maxMessage' => 'Le nom ne doit pas contenir plus de {{ limit }} caractères',
-                    ])
+                    ]),
                 ],
             ])
             ->add('mailContact', EmailType::class, [
@@ -201,16 +202,23 @@ class PersonType extends AbstractType
                         },
                         'query_builder' => function (EntityRepository $er) use ($company) {
                             return $er->createQueryBuilder('p')
-                                ->innerJoin('p.user', 'u')
-                                ->where('u.roles LIKE :role')
+                                ->where('p.roles LIKE :role')
                                 ->andWhere('p.company = :company')
                                 ->setParameter('role', '%"ROLE_COMPANY_REFERENT"%')
                                 ->setParameter('company', $company)
                                 ->orderBy('p.id', 'ASC');
                         },
                     ]);
+                } else {
+                    $field->add(ChoiceType::class, [
+                        'mapped' => false,
+                        'label' => 'Référent de l\'entreprise : ',
+                        'choices' => ['Aucun référent trouvé' => null]
+                    ]);
                 }
             })
+
+
             // Si stagiaire et si entreprise, afficher le manager (correspondant à l'entreprise sélectionnée)
             ->addDependent('stagiaireManager', 'stagiaireCompany', function (DependentField $field, ?Company $company) {
                 if ($company) {
@@ -223,38 +231,47 @@ class PersonType extends AbstractType
                         },
                         'query_builder' => function (EntityRepository $er) use ($company) {
                             return $er->createQueryBuilder('p')
-                                ->innerJoin('p.user', 'u')
-                                ->where('u.roles LIKE :role')
+                                ->where('p.roles LIKE :role')
                                 ->andWhere('p.company = :company')
                                 ->setParameter('role', '%"ROLE_ADMIN"%')
                                 ->setParameter('company', $company)
                                 ->orderBy('p.id', 'ASC');
                         },
-
+                    ]);
+                } else {
+                    $field->add(ChoiceType::class, [
+                        'mapped' => false,
+                        'label' => 'Chef de l\'entreprise : ',
+                        'choices' => ['Aucun chef d\'entreprise trouvé' => null]
                     ]);
                 }
             })
         // Si stagiaire et si entreprise, afficher le maître de stage (correspondant à l'entreprise sélectionnée)
             ->addDependent('traineeSupervisor', 'stagiaireCompany', function (DependentField $field, ?Company $company) {
-            if ($company) {
-                $field->add(EntityType::class, [
-                    'class' => Person::class,
-                    'mapped' => false,
-                    'label' => 'Maître de stage : ',
-                    'choice_label' => function (Person $person) {
-                        return $person->getFullName();
-                    },
-                    'query_builder' => function (EntityRepository $er) use ($company) {
-                        return $er->createQueryBuilder('p')
-                            ->innerJoin('p.user', 'u')
-                            ->where('u.roles LIKE :role')
-                            ->andWhere('p.company = :company')
-                            ->setParameter('role', '%"ROLE_COMPANY_INTERNSHIP"%')
-                            ->setParameter('company', $company)
-                            ->orderBy('p.id', 'ASC');
-                    },
-                ]);
-            }
+                if ($company) {
+                    $field->add(EntityType::class, [
+                        'class' => Person::class,
+                        'mapped' => false,
+                        'label' => 'Maître de stage : ',
+                        'choice_label' => function (Person $person) {
+                            return $person->getFullName();
+                        },
+                        'query_builder' => function (EntityRepository $er) use ($company) {
+                            return $er->createQueryBuilder('p')
+                                ->where('p.roles LIKE :role')
+                                ->andWhere('p.company = :company')
+                                ->setParameter('role', '%"ROLE_COMPANY_INTERNSHIP"%')
+                                ->setParameter('company', $company)
+                                ->orderBy('p.id', 'ASC');
+                        },
+                    ]);
+                } else {
+                    $field->add(ChoiceType::class, [
+                        'mapped' => false,
+                        'label' => 'Maître de stage : ',
+                        'choices' => ['Aucun Maître de stage trouvé' => null]
+                    ]);
+                }
             })
             // Si stagiaire, afficher le champ école
             ->addDependent('traineeSchool', 'roles', function (DependentField $field, ?string $roles) {
@@ -286,13 +303,18 @@ class PersonType extends AbstractType
                         },
                         'query_builder' => function (EntityRepository $er) use ($school) {
                             return $er->createQueryBuilder('p')
-                                ->innerJoin('p.user', 'u')
-                                ->where('u.roles LIKE :role')
+                                ->where('p.roles LIKE :role')
                                 ->andWhere('p.school = :school')
                                 ->setParameter('role', '%"ROLE_SCHOOL_INTERNSHIP"%')
                                 ->setParameter('school', $school)
                                 ->orderBy('p.id', 'ASC');
                         },
+                    ]);
+                } else {
+                    $field->add(ChoiceType::class, [
+                        'mapped' => false,
+                        'label' => 'Référent de l\'école : ',
+                        'choices' => ['Aucun référent trouvé' => null]
                     ]);
                 }
             })
