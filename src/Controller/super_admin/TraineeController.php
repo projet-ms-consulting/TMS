@@ -144,7 +144,7 @@ class TraineeController extends AbstractController
                         $lmFilename = 'LM.'.$person->getFirstName().'-'.$person->getLastName().'.'.$lmFile->guessExtension();
                         $lmHash = hash('sha256', $lmFilename);
                         $lmHashFile = $lmHash.'.'.$lmFile->guessExtension();
-                        $lmFile->move($this->getParameter('kernel.project_dir').'/files/', $lmHashFile);
+                        $lmFile->move($this->getParameter('kernel.project_dir').'/files/', $lmFilename);
 
                         $existingLm->setFile($lmHashFile)
                             ->setUpdatedAt(new \DateTimeImmutable())
@@ -154,7 +154,7 @@ class TraineeController extends AbstractController
                         $lmFilename = 'LM.'.$person->getFirstName().'-'.$person->getLastName().'.'.$lmFile->guessExtension();
                         $lmHash = hash('sha256', $lmFilename);
                         $lmHashFile = $lmHash.'.'.$lmFile->guessExtension();
-                        $lmFile->move($this->getParameter('kernel.project_dir').'/files/', $lmHashFile);
+                        $lmFile->move($this->getParameter('kernel.project_dir').'/files/', $lmFilename);
 
                         $file = new Files();
                         $file->setLabel('LM')
@@ -192,7 +192,7 @@ class TraineeController extends AbstractController
                         $csFilename = 'CS.'.$person->getFirstName().'-'.$person->getLastName().'.'.$csFile->guessExtension();
                         $csHash = hash('sha256', $csFilename);
                         $csHashFile = $csHash.'.'.$csFile->guessExtension();
-                        $csFile->move($this->getParameter('kernel.project_dir').'/files/', $csHashFile);
+                        $csFile->move($this->getParameter('kernel.project_dir').'/files/', $csFilename);
 
                         $existingCs->setFile($csHashFile)
                             ->setUpdatedAt(new \DateTimeImmutable())
@@ -202,7 +202,7 @@ class TraineeController extends AbstractController
                         $csFilename = 'CS.'.$person->getFirstName().'-'.$person->getLastName().'.'.$csFile->guessExtension();
                         $csHash = hash('sha256', $csFilename);
                         $csHashFile = $csHash.'.'.$csFile->guessExtension();
-                        $csFile->move($this->getParameter('kernel.project_dir').'/files/', $csHashFile);
+                        $csFile->move($this->getParameter('kernel.project_dir').'/files/', $csFilename);
 
                         $file = new Files();
                         $file->setLabel('CS')
