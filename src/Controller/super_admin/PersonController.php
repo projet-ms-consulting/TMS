@@ -6,6 +6,7 @@ use App\Entity\Files;
 use App\Entity\Person;
 use App\Entity\User;
 use App\Form\PersonType;
+use App\Repository\FilesRepository;
 use App\Repository\PersonRepository;
 use App\Service\PasswordGenerator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -179,17 +180,24 @@ class PersonController extends AbstractController
         ]);
     }
 
-    #[Route('/file/{id}', name: 'show_file', methods: ['GET'])]
-    public function showFile(EntityManagerInterface $entityManager, $id): BinaryFileResponse
+    #[Route('/file/{id}/{name}', name: 'show_file', methods: ['GET'])]
+    public function showFile(int $id, string $name, FilesRepository $filesRepository): Response
     {
-        $file = $entityManager->getRepository(Files::class)->find($id);
+        $file = $filesRepository->find($id);
 
-        if (!$file) {
-            throw $this->createNotFoundException('Fichier non trouvé');
+        if (!$file || $file->getRealFileName() !== $name) {
+            throw $this->createNotFoundException('Fichier non trouvé.');
         }
-        $filePath = $this->getParameter('kernel.project_dir').'/files/'.$file->getRealFileName();
 
-        return $this->file($filePath, $file->getRealFileName(), ResponseHeaderBag::DISPOSITION_INLINE);
+        $filePath = $this->getParameter('kernel.project_dir').'/files/'.$file->getPerson()->getId().'/'.$file->getFile();
+
+        if (!file_exists($filePath)) {
+            throw $this->createNotFoundException('Le fichier demandé n\'existe pas.');
+        }
+
+        $mimeType = mime_content_type($filePath);
+
+        return $this->file($filePath, $file->getFile(), ResponseHeaderBag::DISPOSITION_INLINE, ['Content-Type' => $mimeType]);
     }
 
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]

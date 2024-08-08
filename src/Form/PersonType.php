@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
@@ -86,7 +87,7 @@ class PersonType extends AbstractType
                         'required' => false,
                         'constraints' => [
                             new Range([
-                                'min' => (new \DateTimeImmutable())->modify('-3 months'),
+                                'min' => (new \DateTimeImmutable())->modify('-4 year'),
                                 'max' => (new \DateTimeImmutable())->modify('+1 year'),
                                 'notInRangeMessage' => 'La date doit être entre le {{ min }} et le {{ max }}',
                             ]),
@@ -102,7 +103,7 @@ class PersonType extends AbstractType
                         'required' => false,
                         'constraints' => [
                             new Range([
-                                'min' => (new \DateTimeImmutable()),
+                                'min' => (new \DateTimeImmutable())->modify('-4 year')->modify('+1 day'),
                                 'max' => (new \DateTimeImmutable())->modify('+1 year'),
                                 'notInRangeMessage' => 'La date doit être entre le {{ min }} et le {{ max }}',
                             ]),

@@ -73,7 +73,7 @@
             {% if personne.internshipSupervisor is not null and personne.companyReferent is not null %}
                 {% if personne.internshipSupervisor.fullName != personne.companyReferent.fullName %}
                     <tr>
-                        <th>Référent entreprise</th>
+                        <th>Maître de stage</th>
                         <td>{{ personne.internshipSupervisor.fullName }}</td>
                     </tr>
                 {% endif %}
@@ -86,7 +86,7 @@
             {% endif %}
             {% if personne.companyReferent is not null %}
                 <tr>
-                    <th>Maître de stage</th>
+                    <th>Référent entreprise</th>
                     <td>{{ personne.companyReferent.fullName }}</td>
                 </tr>
             {% endif %}
@@ -120,7 +120,7 @@
             <th>Documents</th>
                 <td>
                     {% for file in personne.files %}
-                        <a href="{{path('super_admin_app_person_show_file', { id: file.id })}}" target="_blank">{{ file.realFileName }}</a><br>
+                        <a href="{{path('super_admin_app_person_show_file', {id: file.id, name: file.realFileName})}}" target="_blank">{{ file.realFileName }}</a><br>
                     {% endfor %}
                 </td>
             {% endif %}
