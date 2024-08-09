@@ -62,7 +62,7 @@ class TraineeType extends AbstractType
             ->add('mailContact', EmailType::class, [
                 'label' => 'Email de contact : ',
                 'required' => false,
-//                'attr' => ['class' => 'form-control'],
+
             ])
             ->add('startInternship', DateType::class, [
                 'label' => 'Date début de stage',
@@ -105,6 +105,7 @@ class TraineeType extends AbstractType
                             return $person->getFullName();
                         },
                         'label' => 'Chef de l\'entreprise : ',
+                        'required' => false,
                         'query_builder' => function (EntityRepository $er) use ($company) {
                             return $er->createQueryBuilder('p')
                                 ->where('p.roles LIKE :role')
@@ -124,6 +125,7 @@ class TraineeType extends AbstractType
                             return $person->getFullName();
                         },
                         'label' => 'Maître de stage : ',
+                        'required' => false,
                         'query_builder' => function (EntityRepository $er) use ($company) {
                             return $er->createQueryBuilder('p')
                                 ->where('p.roles LIKE :role')
@@ -143,6 +145,7 @@ class TraineeType extends AbstractType
                             return $person->getFullName();
                         },
                         'label' => 'Référent de l\'entreprise : ',
+                        'required' => false,
                         'query_builder' => function (EntityRepository $er) use ($company) {
                             return $er->createQueryBuilder('p')
                                 ->where('p.roles LIKE :role')
@@ -169,6 +172,7 @@ class TraineeType extends AbstractType
                             return $person->getFullName();
                         },
                         'label' => 'Référent de l\'école : ',
+                        'required' => false,
                         'query_builder' => function (EntityRepository $er) use ($school) {
                             return $er->createQueryBuilder('p')
                                 ->where('p.roles LIKE :role')
@@ -187,6 +191,7 @@ class TraineeType extends AbstractType
                     'Oui' => true,
                 ],
                 'mapped' => false,
+                'required' => false,
             ])
             ->addDependent('cv', 'modifCv', function (DependentField $field, ?bool $modifCv) {
                 if ($modifCv) {
@@ -213,6 +218,7 @@ class TraineeType extends AbstractType
                     'Oui' => true,
                 ],
                 'mapped' => false,
+                'required' => false,
             ])
             ->addDependent('coverLetter', 'modifCoverLetter', function (DependentField $field, ?bool $modifCoverLetter) {
                 if ($modifCoverLetter) {
@@ -239,6 +245,7 @@ class TraineeType extends AbstractType
                     'Oui' => true,
                 ],
                 'mapped' => false,
+                'required' => false,
             ])
             ->addDependent('internshipAgreement', 'modifInternshipAgreement', function (DependentField $field, ?bool $modifInternshipAgreement) {
                 if ($modifInternshipAgreement) {
