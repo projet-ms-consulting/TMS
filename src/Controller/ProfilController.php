@@ -3,11 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Files;
+use App\Entity\Person;
 use App\Form\ProfilType;
 use App\Repository\FilesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -52,27 +52,45 @@ class ProfilController extends AbstractController
             }
 
             if ($cvFile) {
-                $originalFilename = pathinfo($cvFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $newFilename = $originalFilename.'-'.md5(uniqid()).'.'.$cvFile->guessExtension();
-
-                try {
-                    $cvFile->move(
-                        $this->getParameter('kernel.project_dir').'/files/'.$person->getId(),
-                        $newFilename
-                    );
-
-                    $cv = new Files();
-                    $cv->setLabel($cvType);
-                    $cv->setFile($newFilename);
-                    $cv->setRealFileName($cvFile->getClientOriginalName());
-                    $cv->setCreatedAt(new \DateTimeImmutable());
-                    $cv->setPerson($person);
-
-                    $entityManager->persist($cv);
-                } catch (FileException|\UnexpectedValueException $e) {
-                    $this->addFlash('error', $e->getMessage());
-
-                    return $this->redirectToRoute('app_profil_edit');
+                if ('CV' == $cvType) {
+                    $label = 'CV';
+                    $file = $this->editFile($label, $person, $entityManager);
+                    $fileGiven = $form->get('cv')->getData();
+                    if ($fileGiven) {
+                        $file = new Files();
+                        $file = $this->newFile($label, $person, $file, $fileGiven);
+                        $entityManager->persist($file);
+                    }
+                } elseif ('Lettre de motivation' == $cvType) {
+                    $label = 'LM';
+                    $file = $this->editFile($label, $person, $entityManager);
+                    $fileGiven = $form->get('cv')->getData();
+                    if ($fileGiven) {
+                        $file = new Files();
+                        $file = $this->newFile($label, $person, $file, $fileGiven);
+                        $entityManager->persist($file);
+                    }
+                } elseif ('Convention de stage' == $cvType) {
+                    $label = 'CS';
+                    $file = $this->editFile($label, $person, $entityManager);
+                    if (null != $file) {
+                        $entityManager->remove($file);
+                    }
+                    $fileGiven = $form->get('cv')->getData();
+                    if ($fileGiven) {
+                        $file = new Files();
+                        $file = $this->newFile($label, $person, $file, $fileGiven);
+                        $entityManager->persist($file);
+                    }
+                } else {
+                    $label = 'Autre';
+                    $file = $this->editFile($label, $person, $entityManager);
+                    $fileGiven = $form->get('cv')->getData();
+                    if ($fileGiven) {
+                        $file = new Files();
+                        $file = $this->newFile($label, $person, $file, $fileGiven);
+                        $entityManager->persist($file);
+                    }
                 }
             }
 
@@ -106,7 +124,7 @@ class ProfilController extends AbstractController
             throw $this->createNotFoundException('Le CV avec l\'id '.$id.' n\'existe pas.');
         }
 
-        $filePath = $this->getParameter('kernel.project_dir').'/files/'.$cv->getPerson()->getId().'/'.$cv->getFile();
+        $filePath = $this->getParameter('kernel.project_dir').'/files/'.$cv->getPerson()->getId().'/'.$cv->getRealFileName();
 
         if (file_exists($filePath)) {
             unlink($filePath);
@@ -131,7 +149,7 @@ class ProfilController extends AbstractController
             throw $this->createNotFoundException('Fichier non trouvé.');
         }
 
-        $filePath = $this->getParameter('kernel.project_dir').'/files/'.$file->getPerson()->getId().'/'.$file->getFile();
+        $filePath = $this->getParameter('kernel.project_dir').'/files/'.$file->getPerson()->getId().'/'.$file->getRealFileName();
 
         if (!file_exists($filePath)) {
             throw $this->createNotFoundException('Le fichier demandé n\'existe pas.');
@@ -140,5 +158,38 @@ class ProfilController extends AbstractController
         $mimeType = mime_content_type($filePath);
 
         return $this->file($filePath, $file->getFile(), ResponseHeaderBag::DISPOSITION_INLINE, ['Content-Type' => $mimeType]);
+    }
+
+    public function newFile(string $label, Person $person, Files $file, mixed $fileGiven): Files
+    {
+        $fileName = $label.$person->getFirstName().'-'.$person->getLastName().'.'.$fileGiven->guessExtension();
+        $fileHash = hash('sha256', $fileName);
+        $file->setFile($fileHash)
+            ->setLabel($label)
+            ->setPerson($person)
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setRealFileName($fileName);
+        $fileGiven->move(
+            $this->getParameter('kernel.project_dir').'/files/'.$person->getId().'/', $fileName
+        );
+
+        return $file;
+    }
+
+    public function editFile(string $label, Person $person, EntityManagerInterface $entityManager)
+    {
+        $oldFiles = $person->getFiles();
+        foreach ($oldFiles as $file) {
+            if ($label === $file->getLabel()) {
+                $filePath = ($this->getParameter('kernel.project_dir').'/files/'.$person->getId().'/'.$file->getFile());
+                if (file_exists($file->getFile())) {
+                    unlink($filePath);
+
+                }
+                $entityManager->remove($file);
+            }
+        }
+
+        return null;
     }
 }

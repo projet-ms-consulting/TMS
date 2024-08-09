@@ -125,8 +125,16 @@ class ProjectController extends AbstractController
     public function delete(Request $request, Project $project, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$project->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($project->getParticipant());
-            $entityManager->remove($project->getLinks());
+            $participants = $project->getParticipant();
+            $links = $project->getLinks();
+            // Itérer sur la collection et supprimer chaque participant
+            foreach ($participants as $participant) {
+                $entityManager->remove($participant);
+            }
+            // Itérer sur la collection et supprimer chaque lien
+            foreach ($links as $link) {
+                $entityManager->remove($link);
+            }
             $entityManager->remove($project);
             $entityManager->flush();
         }

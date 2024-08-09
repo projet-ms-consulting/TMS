@@ -2,10 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Company;
 use App\Entity\Person;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -50,14 +50,33 @@ class PersonRepository extends ServiceEntityRepository
     }
 
     // Filtre des personnes stagiaires
-    public function filterTraineePersonsPerCompany($companyId): Query
+    public function filterTraineePersonsPerCompany(Company $company): Query
     {
+        $companyId = $company->getId();
+
         return $this->createQueryBuilder('p')
-            ->innerJoin('p.user', 'u')
             ->leftJoin('p.company', 'c')
-            ->where('u.roles LIKE :role')
+            ->where('p.roles LIKE :role')
             ->andWhere('c.id = :companyId')
             ->setParameter('role', '%"ROLE_TRAINEE"%')
+            ->setParameter('companyId', $companyId)
+            ->getQuery();
+    }
+
+    // Filtre des personnes internes à une entreprise
+    public function filterInternshipPerCompany(Company $company): Query
+    {
+        $companyId = $company->getId();
+
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.company', 'c')
+            ->where('p.roles LIKE :role1 OR p.roles LIKE :role2 OR p.roles LIKE :role3')
+            ->andWhere('p.roles NOT LIKE :excludedRole')
+            ->andWhere('c.id = :companyId')
+            ->setParameter('role1', '%"ROLE_COMPANY_INTERNSHIP"%')
+            ->setParameter('role2', '%"ROLE_ADMIN"%')
+            ->setParameter('role3', '%"ROLE_COMPANY_REFERENT"%')
+            ->setParameter('excludedRole', '%"ROLE_TRAINEE"%')
             ->setParameter('companyId', $companyId)
             ->getQuery();
     }
@@ -170,10 +189,6 @@ class PersonRepository extends ServiceEntityRepository
             ]
         );
     }
-
-
-
-
 
     //    /**
     //     * @return Person[] Returns an array of Person objects

@@ -13,7 +13,13 @@
         </tr>
         <tr>
             <th class="table-show">Type d'entreprise</th>
-            <td class="table-show">{{ company.companyType }}</td>
+            <td class="table-show">
+                {% if company.companyType is not null %}
+                    {{ company.companyType }}
+                {% else %}
+                    Pas renseigné
+                {% endif %}
+            </td>
         </tr>
 
         <tr>
@@ -23,19 +29,27 @@
 
         <tr>
             <th class="table-show">Nombre d'employés</th>
-            <td class="table-show">{{ company.employeeNumber }}</td>
+            <td class="table-show">
+                {% if company.employeeNumber is not null %}
+                    {{ company.employeeNumber }}
+                {% else %}
+                    Pas renseigné
+                {% endif %}
+            </td>
         </tr>
-
+        <tr>
+            <th>Créée le</th>
+            <td>{{ company.createdAt|date('Y-m-d H:i:s')}} </td>
+        </tr>
         <tr>
             <th>Dernière modification</th>
             <td>{% if company.updatedAt != null %}
                     {{ company.updatedAt|date('Y-m-d H:i:s') }}
                 {% else %}
-                    créé le{{ company.createdAt|date('Y-m-d H:i:s')}}
+                    Pas de modification
                 {% endif %}
             </td>
         </tr>
-
         </tbody>
     </table>
 

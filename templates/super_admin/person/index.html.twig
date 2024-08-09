@@ -43,12 +43,19 @@
                         {% else %}
                             <td>Non</td>
                         {% endif %}
-                        {% if person.user != null and person.user.canLogin %}
+                        {% if person.user is not null and person.user.canLogin %}
                             <td>Oui</td>
                         {% else %}
                             <td>Non</td>
                         {% endif %}
-                        <td>{{ person.updatedAt ? person.updatedAt|date('d/m/Y') }}</td>
+                        <td>
+                            {% if person.updatedAt is not null %}
+                                {{ person.updatedAt ? person.updatedAt|date('d/m/Y') }}
+                            {% else %}
+                                Pas de modification
+                            {% endif %}
+                        </td>
+
                         <td>
                             <a href="{{ path('super_admin_app_person_show', {'id': person.id}) }}">Détails</a>
                             {% if person.roles[0] == "ROLE_ADMIN" or person.roles[0] == "ROLE_COMPANY_INTERNSHIP" or person.roles[0] == "ROLE_COMPANY_REFERENT" %}
