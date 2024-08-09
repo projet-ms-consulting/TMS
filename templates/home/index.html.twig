@@ -3,21 +3,23 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
+
     <section>
-        <div class="h-screen flex items-center justify-center">
-            <div class="px-8 py-24 mx-auto md:px-12 lg:px-32 max-w-7xl">
                 <div class="text-center">
-                    <h1 class="text-4xl font-semibold tracking-tighter text-gray-900 lg:text-7xl text-balance">
-                        Gérez vos stagiaires avec TMS,
-                        <span class="block text-gray-600">Partout et à tout moment</span>
+                    <h1 class="h2">
+                        Bienvenue sur TMS <br>
+                        <span class="h1">Partout et à tout moment</span>
                     </h1>
-                    <p class="w-1/2 mx-auto mt-4 text-base font-medium text-gray-500 text-balance">
-                        La méthode la plus rapide pour collaborer sur des environnements de stage et temporaires.
-                    </p>
+
+                    <h2 class="h3">
+                        <p> Notre application est conçue pour simplifier <br> la gestion des stagiaires et des entreprises partenaires.</p>
+                        <p>Explorez nos fonctionnalités avancées pour gérer efficacement vos données.</p>
+                    </h2>
+
                     <div class="flex flex-col items-center justify-center gap-2 mx-auto mt-8 md:flex-row">
                         {% if app.user %}
                             <a href="{{ path('app_profil') }}">
-                                <button class="inline-flex items-center justify-center w-full h-12 gap-3 px-5 py-3 font-medium text-white duration-200 bg-gray-900 md:w-auto rounded-xl hover:bg-gray-700 focus:ring-2 focus:ring-offset-2 focus:ring-black" aria-label="Mon Profil">
+                                <button class="inline-flex items-center justify-center w-full h-12 gap-3 px-5 py-3 font-medium text-white duration-200 bg-gold md:w-auto rounded-xl hover:bg-gray-700 focus:ring-2 focus:ring-offset-2 focus:ring-black" aria-label="Mon Profil">
                                     Mon Profil
                                 </button>
                             </a>
@@ -30,7 +32,5 @@
                         {% endif %}
                     </div>
                 </div>
-            </div>
-        </div>
     </section>
 {% endblock %}

@@ -61,8 +61,16 @@ h1 {
 }
 
 h2 {
-  font-size: 30px;
+  font-family: "Apple SD Gothic Neo";
+  font-size: 100px;
   color: whitesmoke;
+}
+
+h3 {
+  font-family: "Apple SD Gothic Neo";
+  font-size: 50px;
+  color: whitesmoke;
+  text-align: center;
 }
 
 button {
@@ -309,4 +317,11 @@ label.required:after {
 
 .pagination .arrow.right {
   border-left: 3px solid #333;
+}
+
+.bg-gold {
+  background-color: goldenrod;
+}
+.bg-gray-900 {
+  background-color: #1a1a1a;
 }
