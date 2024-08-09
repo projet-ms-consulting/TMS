@@ -8,10 +8,8 @@ use App\Form\TraineeType;
 use App\Repository\PersonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('super_admin/trainee', name: 'super_admin_app_trainee_')]
@@ -46,187 +44,75 @@ class TraineeController extends AbstractController
         ]);
     }
 
-
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Person $person, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Person $personne, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-        $personne = $user->getPerson();
+        $person = $user->getPerson();
 
-        $traineeForm = $this->createForm(TraineeType::class, $person);
+        $traineeForm = $this->createForm(TraineeType::class, $personne);
         $traineeForm->handleRequest($request);
 
         if ($traineeForm->isSubmitted() && $traineeForm->isValid()) {
-            $person->setSchoolSupervisor(null)
-                    ->setCompanyReferent(null)
-                    ->setManager(null)
-                    ->setInternshipSupervisor(null);
+            $personne->setSchoolSupervisor(null)
+                ->setCompanyReferent(null)
+                ->setManager(null)
+                ->setInternshipSupervisor(null);
 
-            $person->setUpdatedAt(new \DateTimeImmutable())
-                    ->setStartInternship($traineeForm->getData()->getStartInternship())
-                    ->setEndInternship($traineeForm->getData()->getEndInternship())
-                    ->setCompany($traineeForm->getData()->getCompany())
-                    ->setSchool($traineeForm->getData()->getSchool())
-                    ->setCompanyReferent($traineeForm->get('companyReferent')->getData())
-                    ->setInternshipSupervisor($traineeForm->get('internshipSupervisor')->getData())
-                    ->setSchoolSupervisor($traineeForm->get('schoolSupervisor')->getData())
-                    ->setManager($traineeForm->get('manager')->getData());
+            $personne->setUpdatedAt(new \DateTimeImmutable())
+                ->setStartInternship($traineeForm->getData()->getStartInternship())
+                ->setEndInternship($traineeForm->getData()->getEndInternship())
+                ->setCompany($traineeForm->getData()->getCompany())
+                ->setSchool($traineeForm->getData()->getSchool())
+                ->setCompanyReferent($traineeForm->get('companyReferent')->getData())
+                ->setInternshipSupervisor($traineeForm->get('internshipSupervisor')->getData())
+                ->setSchoolSupervisor($traineeForm->get('schoolSupervisor')->getData())
+                ->setManager($traineeForm->get('manager')->getData());
 
             // CV
             if ($traineeForm->has('cv')) {
-                $cvFile = $traineeForm->get('cv')->getData();
-                if ($cvFile) {
-                    // Récupérer l'ancien CV s'il existe
-                    $existingCv = null;
-                    foreach ($person->getFiles() as $oldFile) {
-                        if ('CV' === $oldFile->getLabel()) {
-                            $existingCv = $oldFile;
-                            break;
-                        }
-                    }
-
-                    if ($existingCv) {
-                        // Supprimer le cv existant
-                        $filePath = $this->getParameter('kernel.project_dir').'/files/'.$existingCv->getFile();
-                        if (file_exists($filePath)) {
-                            unlink($filePath);
-                        }
-
-                        // Update cv
-                        $cvFilename = 'CV.'.$person->getFirstName().'-'.$person->getLastName().'.'.$cvFile->guessExtension();
-                        $cvHash = hash('sha256', $cvFilename);
-                        $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
-                        $cvFile->move($this->getParameter('kernel.project_dir').'/files/', $cvFilename);
-
-                        $existingCv->setFile($cvHashFile)
-                            ->setUpdatedAt(new \DateTimeImmutable())
-                            ->setRealFileName($cvFilename);
-                    } else {
-                        // Ajouter CV s'il n'existe pas
-                        $cvFilename = 'CV.'.$person->getFirstName().'-'.$person->getLastName().'.'.$cvFile->guessExtension();
-                        $cvHash = hash('sha256', $cvFilename);
-                        $cvHashFile = $cvHash.'.'.$cvFile->guessExtension();
-                        $cvFile->move($this->getParameter('kernel.project_dir').'/files/', $cvFilename);
-
-                        $file = new Files();
-                        $file->setLabel('CV')
-                            ->setFile($cvHashFile)
-                            ->setCreatedAt(new \DateTimeImmutable())
-                            ->setUpdatedAt(new \DateTimeImmutable())
-                            ->setPerson($person)
-                            ->setRealFileName($cvFilename);
-
-                        $entityManager->persist($file);
-                    }
+                $label = 'CV';
+                $file = $this->editFile($label, $personne, $entityManager);
+                $fileGiven = $traineeForm->get('cv')->getData();
+                if ($fileGiven) {
+                    $file = new Files();
+                    $file = $this->newFile($label, $personne, $file, $fileGiven);
+                    $entityManager->persist($file);
                 }
             }
-            // LETTRE DE MOTIVATION
+
             if ($traineeForm->has('coverLetter')) {
-                $lmFile = $traineeForm->get('coverLetter')->getData();
-                if ($lmFile) {
-                    // Récupérer l'ancien CV s'il existe
-                    $existingLm = null;
-                    foreach ($person->getFiles() as $oldFile) {
-                        if ('LM' === $oldFile->getLabel()) {
-                            $existingCv = $oldFile;
-                            break;
-                        }
-                    }
-
-                    if ($existingLm) {
-                        // Supprimer la lettre de motivation existante
-                        $filePath = $this->getParameter('kernel.project_dir').'/files/'.$existingLm->getFile();
-                        if (file_exists($filePath)) {
-                            unlink($filePath);
-                        }
-
-                        // Update LM
-                        $lmFilename = 'LM.'.$person->getFirstName().'-'.$person->getLastName().'.'.$lmFile->guessExtension();
-                        $lmHash = hash('sha256', $lmFilename);
-                        $lmHashFile = $lmHash.'.'.$lmFile->guessExtension();
-                        $lmFile->move($this->getParameter('kernel.project_dir').'/files/', $lmFilename);
-
-                        $existingLm->setFile($lmHashFile)
-                            ->setUpdatedAt(new \DateTimeImmutable())
-                            ->setRealFileName($lmFilename);
-                    } else {
-                        // Ajouter LM si elle n'existe pas
-                        $lmFilename = 'LM.'.$person->getFirstName().'-'.$person->getLastName().'.'.$lmFile->guessExtension();
-                        $lmHash = hash('sha256', $lmFilename);
-                        $lmHashFile = $lmHash.'.'.$lmFile->guessExtension();
-                        $lmFile->move($this->getParameter('kernel.project_dir').'/files/', $lmFilename);
-
-                        $file = new Files();
-                        $file->setLabel('LM')
-                            ->setFile($lmHashFile)
-                            ->setCreatedAt(new \DateTimeImmutable())
-                            ->setUpdatedAt(new \DateTimeImmutable())
-                            ->setPerson($person)
-                            ->setRealFileName($lmFilename);
-
-                        $entityManager->persist($file);
-                    }
+                $label = 'LM';
+                $file = $this->editFile($label, $personne, $entityManager);
+                $fileGiven = $traineeForm->get('coverLetter')->getData();
+                if ($fileGiven) {
+                    $file = new Files();
+                    $file = $this->newFile($label, $personne, $file, $fileGiven);
+                    $entityManager->persist($file);
                 }
             }
-            // CONVENTION DE STAGE
+
             if ($traineeForm->has('internshipAgreement')) {
-                $csFile = $traineeForm->get('internshipAgreement')->getData();
-                if ($csFile) {
-                    // Récupérer l'ancienne CS si elle existe
-                    $existingCs = null;
-                    foreach ($person->getFiles() as $oldFile) {
-                        if ('CS' === $oldFile->getLabel()) {
-                            $existingCs = $oldFile;
-                            break;
-                        }
-                    }
-
-                    if ($existingCs) {
-                        // Supprimer la CS existante
-                        $filePath = $this->getParameter('kernel.project_dir').'/files/'.$existingCs->getFile();
-                        if (file_exists($filePath)) {
-                            unlink($filePath);
-                        }
-
-                        // Update CS
-                        $csFilename = 'CS.'.$person->getFirstName().'-'.$person->getLastName().'.'.$csFile->guessExtension();
-                        $csHash = hash('sha256', $csFilename);
-                        $csHashFile = $csHash.'.'.$csFile->guessExtension();
-                        $csFile->move($this->getParameter('kernel.project_dir').'/files/', $csFilename);
-
-                        $existingCs->setFile($csHashFile)
-                            ->setUpdatedAt(new \DateTimeImmutable())
-                            ->setRealFileName($csFilename);
-                    } else {
-                        // Ajouter CS si elle n'existe pas
-                        $csFilename = 'CS.'.$person->getFirstName().'-'.$person->getLastName().'.'.$csFile->guessExtension();
-                        $csHash = hash('sha256', $csFilename);
-                        $csHashFile = $csHash.'.'.$csFile->guessExtension();
-                        $csFile->move($this->getParameter('kernel.project_dir').'/files/', $csFilename);
-
-                        $file = new Files();
-                        $file->setLabel('CS')
-                            ->setFile($csHashFile)
-                            ->setCreatedAt(new \DateTimeImmutable())
-                            ->setUpdatedAt(new \DateTimeImmutable())
-                            ->setPerson($person)
-                            ->setRealFileName($csFilename);
-
-                        $entityManager->persist($file);
-                    }
+                $label = 'CS';
+                $file = $this->editFile($label, $personne, $entityManager);
+                $fileGiven = $traineeForm->get('internshipAgreement')->getData();
+                if ($fileGiven) {
+                    $file = new Files();
+                    $file = $this->newFile($label, $personne, $file, $fileGiven);
+                    $entityManager->persist($file);
                 }
             }
+            $entityManager->persist($personne);
             $entityManager->flush();
-
             $this->addFlash('success', 'Modification réussie !');
 
             return $this->redirectToRoute('super_admin_app_trainee_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('super_admin/trainee/edit.html.twig', [
-            'personne' => $person,
+            'personne' => $personne,
             'traineeForm' => $traineeForm,
-            'connectedPerson' => $personne,
+            'connectedPerson' => $person,
         ]);
     }
 
@@ -268,5 +154,38 @@ class TraineeController extends AbstractController
         $this->addFlash('success', 'Suppression réussie !');
 
         return $this->redirectToRoute('super_admin_app_trainee_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    public function newFile(string $label, Person $personne, Files $file, mixed $fileGiven): Files
+    {
+        $fileName = $label.$personne->getFirstName().'-'.$personne->getLastName().'.'.$fileGiven->guessExtension();
+        $fileHash = hash('sha256', $fileName);
+        $file->setFile($fileHash)
+            ->setLabel($label)
+            ->setPerson($personne)
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setRealFileName($fileName);
+        $fileGiven->move(
+            $this->getParameter('kernel.project_dir').'/files/'.$personne->getId().'/', $fileName
+        );
+
+        return $file;
+    }
+
+    public function editFile(string $label, Person $personne, EntityManagerInterface $entityManager)
+    {
+        $oldFiles = $personne->getFiles();
+        foreach ($oldFiles as $file) {
+            if ($label === $file->getLabel()) {
+                $filePath = ($this->getParameter('kernel.project_dir').'/files/'.$personne->getId().'/'.$file->getFile());
+                if (file_exists($file->getFile())) {
+                    unlink($filePath);
+
+                }
+                $entityManager->remove($file);
+            }
+        }
+
+        return null;
     }
 }
