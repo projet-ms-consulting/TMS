@@ -69,7 +69,7 @@ class TraineeType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new Range([
-                        'min' => (new \DateTimeImmutable())->modify('-3 months'),
+                        'min' => (new \DateTimeImmutable())->modify('-4 year'),
                         'max' => (new \DateTimeImmutable())->modify('+1 year'),
                         'notInRangeMessage' => 'La date doit être entre le {{ min }} et le {{ max }}',
                     ]),
@@ -80,8 +80,8 @@ class TraineeType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new Range([
-                        'min' => (new \DateTimeImmutable()),
-                        'max' => (new \DateTimeImmutable())->modify('+1 year'),
+                        'min' => (new \DateTimeImmutable())->modify('-4 year')->modify('+1 day'),
+                        'max' => (new \DateTimeImmutable())->modify('+1 year')->modify('+1 day'),
                         'notInRangeMessage' => 'La date doit être entre le {{ min }} et le {{ max }}',
                     ]),
                 ],

@@ -104,7 +104,7 @@ class PersonType extends AbstractType
                         'constraints' => [
                             new Range([
                                 'min' => (new \DateTimeImmutable())->modify('-4 year')->modify('+1 day'),
-                                'max' => (new \DateTimeImmutable())->modify('+1 year'),
+                                'max' => (new \DateTimeImmutable())->modify('+1 year')->modify('+1 day'),
                                 'notInRangeMessage' => 'La date doit être entre le {{ min }} et le {{ max }}',
                             ]),
                         ],
