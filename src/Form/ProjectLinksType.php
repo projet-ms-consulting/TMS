@@ -25,6 +25,7 @@ class ProjectLinksType extends AbstractType
                     'Choisissez un lien' => null,
                     'Github' => 'Github',
                     'Trello' => 'Trello',
+                    'Projet' => 'Project',
                     'Autre' => 'Autre',
                 ],
                 'mapped' => false,
@@ -54,6 +55,21 @@ class ProjectLinksType extends AbstractType
                             new Regex([
                                 'pattern' => '/^https:\/\/trello\.com(\/[a-zA-Z0-9\-_]+)+$/',
                                 'message' => 'Le lien trello n\'est pas valide.',
+                            ]),
+                        ],
+                    ]);
+                }
+            })
+            ->addDependent('linkProject', 'labelChoice', function (DependentField $field, ?string $labelChoice) {
+                if ('Project' === $labelChoice) {
+                    $field->add(TextType::class, [
+                        'label' => 'Lien du projet',
+                        'mapped' => false,
+                        'required' => false,
+                        'constraints' => [
+                            new Regex([
+                                'pattern' => '/^https:\/\/[^\s]*\.[^\s]*$/',
+                                'message' => 'Le lien n\'est pas valide.',
                             ]),
                         ],
                     ]);

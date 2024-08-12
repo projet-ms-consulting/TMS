@@ -165,6 +165,13 @@ class ProjectController extends AbstractController
                 $link->setProject($project);
                 $entityManager->persist($link);
             }
+            if ('Project' === $form->get('labelChoice')->getData()) {
+                $link = new Links();
+                $link->setLabel('Projet');
+                $link->setLink($form->get('linkProject')->getData());
+                $link->setProject($project);
+                $entityManager->persist($link);
+            }
             if ('Autre' === $form->get('labelChoice')->getData()) {
                 $link = new Links();
                 $link->setLabel('Autre');

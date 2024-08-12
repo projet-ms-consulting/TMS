@@ -18,6 +18,12 @@
                     <td>{{ form_widget(form.linkTrello) }}</td>
                 </tr>
             {% endif %}
+            {% if form.linkProject is defined %}
+                <tr>
+                    <th>{{ form_label(form.linkProject) }}</th>
+                    <td>{{ form_widget(form.linkProject) }}</td>
+                </tr>
+            {% endif %}
             {% if form.linkOther is defined %}
                 <tr>
                     <th>{{ form_label(form.linkOther) }}</th>

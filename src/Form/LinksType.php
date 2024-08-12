@@ -19,6 +19,7 @@ class LinksType extends AbstractType
                 'choices' => [
                     'Git' => 'git',
                     'Trello' => 'trello',
+                    'Lien projet' => 'project',
                     'Autre' => 'autre',
                 ],
                 'placeholder' => 'Choisissez une option',
