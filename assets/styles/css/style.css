@@ -62,7 +62,7 @@ h1 {
 
 h2 {
   font-family: "Apple SD Gothic Neo";
-  font-size: 100px;
+  font-size: inherit;
   color: whitesmoke;
 }
 
