@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Company;
 use App\Entity\Person;
+use App\Entity\School;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
@@ -70,15 +71,22 @@ class PersonRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('p')
             ->leftJoin('p.company', 'c')
-            ->where('p.roles LIKE :role1 OR p.roles LIKE :role2 OR p.roles LIKE :role3')
-            ->andWhere('p.roles NOT LIKE :excludedRole')
-            ->andWhere('c.id = :companyId')
-            ->setParameter('role1', '%"ROLE_COMPANY_INTERNSHIP"%')
-            ->setParameter('role2', '%"ROLE_ADMIN"%')
-            ->setParameter('role3', '%"ROLE_COMPANY_REFERENT"%')
-            ->setParameter('excludedRole', '%"ROLE_TRAINEE"%')
+            ->Where('c.id = :companyId')
             ->setParameter('companyId', $companyId)
             ->getQuery();
+
+    }
+    // Filtre des personnes internes à une école
+    public function filterInternshipPerSchool(School $school): Query
+    {
+        $schoolId = $school->getId();
+
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.school', 's')
+            ->Where('s.id = :schoolId')
+            ->setParameter('schoolId', $schoolId)
+            ->getQuery();
+
     }
 
     public function paginatePerson(int $page, int $limit): PaginationInterface

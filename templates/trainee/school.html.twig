@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de l'école{% endblock %}
+
+{% block body %}
+    <h1>Détails de l'école</h1>
+
+    <table class="table table-show">
+        <tbody>
+        <tr>
+            <th class="table-show">Nom</th>
+            <td class="table-show">{{ school.name }}</td>
+        </tr>
+        <tr>
+            <th class="table-show">Adresse</th>
+            <td class="table-show">{{ school.address.fullAddress ?? null }}</td>
+        </tr>
+        <tr>
+            <th class="table-show">Les personnes de l'école</th>
+            <td>
+                {% for schoolPerson in schoolPersons %}
+                    {{ schoolPerson.fullName }}
+                    {% if schoolPerson.roles[0] == 'ROLE_SCHOOL_INTERNSHIP' %}
+                        (Référent école) <br>
+                    {% elseif schoolPerson.roles[0] == 'ROLE_TRAINEE' %}
+                        (Stagiaire) <br>
+                    {% else %}
+                        ( ? ) <br>
+                    {% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="center-btn-container">
+        <a href="{{ path('app_accueil') }}" class="btn btn-primary back-btn">Retour</a>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste de mes projets{% endblock %}
+
+{% block body %}
+    <h1>Liste de mes projets</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Description</th>
+            <th>Entreprise</th>
+            <th>Liens</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for project in projects %}
+            <tr>
+                <td>{{ project.name }}</td>
+                <td>{{ project.description }}</td>
+                <td><a href="{{ path('trainee_company', {'id' : project.company.id}) }}">{{ project.company.name }}</a></td>
+                <td>
+                    {% for link in project.links %}
+                        <a href="{{ link.link }}" target="_blank">{{ link.label }}</a>{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="{{ path('trainee_project_show', {'id': project.id}) }}">Détails</a><br>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Aucune mission</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de l'entreprise{% endblock %}
+
+{% block body %}
+    <h1>Détails de l'entreprise</h1>
+
+    <table class="table table-show">
+        <tbody>
+        <tr>
+            <th class="table-show">Nom</th>
+            <td class="table-show">{{ company.name }}</td>
+        </tr>
+        <tr>
+            <th class="table-show">Type d'entreprise</th>
+            <td class="table-show">
+                {% if company.companyType is not null %}
+                    {{ company.companyType }}
+                {% else %}
+                    Pas renseigné
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <th class="table-show">Adresse</th>
+            <td class="table-show">{{ company.address.fullAddress ?? null }}</td>
+        </tr>
+        <tr>
+            <th class="table-show">Les personnes de l'entreprise</th>
+            <td>
+                {% for companyPerson in companyPersons %}
+                    {{ companyPerson.fullName }}
+                    {% if companyPerson.roles[0] == 'ROLE_ADMIN' %}
+                    (Chef d'entreprise) <br>
+                    {% elseif companyPerson.roles[0] == 'ROLE_COMPANY_REFERENT' %}
+                    (Référent entreprise) <br>
+                    {% elseif companyPerson.roles[0] == 'ROLE_COMPANY_INTERNSHIP'%}
+                    (Maître de stage) <br>
+                    {% elseif companyPerson.roles[0] == 'ROLE_TRAINEE' %}
+                    (Stagiaire) <br>
+                    {% else %}
+                    ( ? ) <br>
+                    {% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <th class="table-show">Nombre d'employés</th>
+            <td class="table-show">
+                {% if company.employeeNumber is not null %}
+                    {{ company.employeeNumber }}
+                {% else %}
+                    Pas renseigné
+                {% endif %}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="center-btn-container">
+        <a href="{{ path('app_accueil') }}" class="btn btn-primary back-btn">Retour</a>
+    </div>
+
+{% endblock %}

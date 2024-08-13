@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Person;
 use App\Entity\Project;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -43,6 +45,16 @@ class ProjectRepository extends ServiceEntityRepository
                 'sortFieldWhitelist' => ['p.id', 'p.name', 'p.description', 'pp.lastName', 'c.name', 'p.updatedAt', 'l.label'],
             ]
         );
+    }
+
+    public function filterProjectPerPerson(Person $person): Query
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.participant', 'pp')
+            ->addSelect('pp')
+            ->where('pp.id = :personId')
+            ->setParameter('personId', $person->getId())
+            ->getQuery();
     }
 
     //    /**

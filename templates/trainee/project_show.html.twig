@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du projet{% endblock %}
+
+{% block body %}
+    <h1>Détails du projet {{ project.name }}</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Nom</th>
+            <td>{{ project.name }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ project.description }}</td>
+        </tr>
+        <tr>
+            <th>Participants</th>
+            <td>
+                {% for participant in project.participant %}
+                    {{ participant.fullName }}<br>
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <th>Liens</th>
+            <td>
+                {% for link in project.links %}
+                    {{ link.label }} : <a href="{{ link.link }} " target="_blank">{{ link.link }}</a><br>
+                {% endfor %}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="button-container">
+        <a href="{{ path('trainee_project',{'id':connectedPerson.id}) }}" class="btn btn-primary back-btn">Retour</a>
+    </div>
+{% endblock %}

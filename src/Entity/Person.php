@@ -71,7 +71,7 @@ class Person
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     private ?School $school = null;
 
-    #[ORM\ManyToOne(inversedBy: 'person')]
+    #[ORM\ManyToOne(targetEntity: Company::class, inversedBy: 'person')]
     #[ORM\JoinColumn(name: 'company_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     private ?Company $company = null;
 
