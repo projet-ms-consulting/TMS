@@ -51,7 +51,7 @@ class ProfilController extends AbstractController
 
             if ($form->has('cv')) {
                 $label = 'CV';
-                $file = $this->editFile($label, $person, $entityManager);
+                $file = $this->deleteFile($label, $person, $entityManager);
                 $fileGiven = $form->get('cv')->getData();
                 if ($fileGiven) {
                     $file = new Files();
@@ -61,7 +61,7 @@ class ProfilController extends AbstractController
             }
             if ($form->has('lm')) {
                 $label = 'LM';
-                $file = $this->editFile($label, $person, $entityManager);
+                $file = $this->deleteFile($label, $person, $entityManager);
                 $fileGiven = $form->get('lm')->getData();
                 if ($fileGiven) {
                     $file = new Files();
@@ -71,7 +71,7 @@ class ProfilController extends AbstractController
             }
             if ($form->has('cs')) {
                 $label = 'CS';
-                $file = $this->editFile($label, $person, $entityManager);
+                $file = $this->deleteFile($label, $person, $entityManager);
                 $fileGiven = $form->get('cs')->getData();
                 if ($fileGiven) {
                     $file = new Files();
@@ -81,7 +81,7 @@ class ProfilController extends AbstractController
             }
             if ($form->has('rs')) {
                 $label = 'RS';
-                $file = $this->editFile($label, $person, $entityManager);
+                $this->deleteFile($label, $person, $entityManager);
                 $fileGiven = $form->get('rs')->getData();
                 if ($fileGiven) {
                     $file = new Files();
@@ -91,7 +91,7 @@ class ProfilController extends AbstractController
             }
             if ($form->has('other')) {
                 $label = 'Autre';
-                $file = $this->editFile($label, $person, $entityManager);
+                $file = $this->deleteFile($label, $person, $entityManager);
                 $fileGiven = $form->get('other')->getData();
                 if ($fileGiven) {
                     $file = new Files();
@@ -99,7 +99,7 @@ class ProfilController extends AbstractController
                     $entityManager->persist($file);
                 }
             }
-            $newMail = $form->get('mail')->getData();
+            $newMail = $form->get('email')->getData();
             if($newMail) {
                 $user->setEmail($newMail);
                 $person->setMailContact($newMail);
@@ -120,8 +120,9 @@ class ProfilController extends AbstractController
         }
 
         return $this->render('profil/edit.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form,
             'connectedPerson' => $person,
+            'user' => $user,
         ]);
     }
 
@@ -186,7 +187,7 @@ class ProfilController extends AbstractController
         return $file;
     }
 
-    public function editFile(string $label, Person $person, EntityManagerInterface $entityManager)
+    public function deleteFile(string $label, Person $person, EntityManagerInterface $entityManager)
     {
         $oldFiles = $person->getFiles();
         foreach ($oldFiles as $file) {

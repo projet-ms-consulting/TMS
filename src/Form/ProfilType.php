@@ -20,6 +20,12 @@ class ProfilType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder = new DynamicFormBuilder($builder);
+
+        $user = $options['data'] ?? null;
+
+        $firstName = $user->getPerson()->getFirstName() ?? '';
+        $lastName = $user->getPerson()->getLastName() ?? '';
+
         $builder
             ->add('email', EmailType::class, [
                 'label' => 'Email',
@@ -35,13 +41,13 @@ class ProfilType extends AbstractType
                 'label' => 'Prénom',
                 'mapped' => false,
                 'required' => true,
-                'data' => $options['data']->getPerson()->getFirstName(),
+                'data' => $firstName,
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Nom',
                 'required' => true,
                 'mapped' => false,
-                'data' => $options['data']->getPerson()->getLastName(),
+                'data' => $lastName,
             ])
             ->add('modifFile', ChoiceType::class, [
                 'label' => 'Modifier/Ajouter un fichier : ',
