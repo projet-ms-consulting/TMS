@@ -12,13 +12,18 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfonycasts\DynamicForms\DependentField;
+use Symfonycasts\DynamicForms\DynamicFormBuilder;
 
 class ProfilType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $builder = new DynamicFormBuilder($builder);
         $builder
-            ->add('email', EmailType::class)
+            ->add('email', EmailType::class, [
+                'label' => 'Email',
+            ])
             ->add('password', PasswordType::class, [
                 'label' => 'Mot de passe',
                 'required' => false,
@@ -38,32 +43,108 @@ class ProfilType extends AbstractType
                 'mapped' => false,
                 'data' => $options['data']->getPerson()->getLastName(),
             ])
-            ->add('cv', FileType::class, [
-                'label' => 'Télécharger un fichier (PDF ou JPG)',
+            ->add('modifFile', ChoiceType::class, [
+                'label' => 'Modifier/Ajouter un fichier : ',
+                'choices' => [
+                    'CV' => 'cv',
+                    'Lettre de motivation' => 'lettre_motivation',
+                    'Convention de stage' => 'convention_stage',
+                    'Rapport de stage' => 'rapport_stage',
+                    'Autre document' => 'autre_document',
+                ],
                 'mapped' => false,
                 'required' => false,
-                                'constraints' => [
-                                    new File([
-                                        'maxSize' => '1024k',
-                                        'mimeTypes' => [
-                                             'application/pdf',
-                                             'image/jpeg',
-                                        ],
-                                        'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF ou JPG valide.',
-                                    ])
-                                ],
             ])
-            ->add('cvType', ChoiceType::class, [
-                'label' => 'Type de fichier',
-                'mapped' => false,
-                'choices' => [
-                    'CV' => 'CV',
-                    'Lettre de motivation' => 'Lettre de motivation',
-                    'Convention de stage' => 'Convention de stage',
-                    'Autre document' => 'Autre document',
-                ],
-            ]);
-
+            ->addDependent('cv', 'modifFile', function (DependentField $field, ?string $modifFile) {
+                if ('cv' === $modifFile) {
+                    $field->add(FileType::class, [
+                        'label' => 'CV : ',
+                        'mapped' => false,
+                        'required' => false,
+                        'constraints' => [
+                            new File([
+                                'mimeTypes' => [
+                                    'application/pdf',
+                                    'image/jpeg',
+                                    'image/png', ],
+                                'mimeTypesMessage' => 'Veuillez sélectionner un fichier PDF, JPEG ou PNG valide',
+                            ]),
+                        ],
+                    ]);
+                }
+            })
+            ->addDependent('lm', 'modifFile', function (DependentField $field, ?string $modifFile) {
+                if ('lettre_motivation' === $modifFile) {
+                    $field->add(FileType::class, [
+                        'label' => 'Lettre de motivation : ',
+                        'mapped' => false,
+                        'required' => false,
+                        'constraints' => [
+                            new File([
+                                'mimeTypes' => [
+                                    'application/pdf',
+                                    'image/jpeg',
+                                    'image/png', ],
+                                'mimeTypesMessage' => 'Veuillez sélectionner un fichier PDF, JPEG ou PNG valide',
+                            ]),
+                        ],
+                    ]);
+                }
+            })
+            ->addDependent('cs', 'modifFile', function (DependentField $field, ?string $modifFile) {
+                if ('convention_stage' === $modifFile) {
+                    $field->add(FileType::class, [
+                        'label' => 'Convention de stage : ',
+                        'mapped' => false,
+                        'required' => false,
+                        'constraints' => [
+                            new File([
+                                'mimeTypes' => [
+                                    'application/pdf',
+                                    'image/jpeg',
+                                    'image/png', ],
+                                'mimeTypesMessage' => 'Veuillez sélectionner un fichier PDF, JPEG ou PNG valide',
+                            ]),
+                        ],
+                    ]);
+                }
+            })
+            ->addDependent('rs', 'modifFile', function (DependentField $field, ?string $modifFile) {
+                if ('rapport_stage' === $modifFile) {
+                    $field->add(FileType::class, [
+                        'label' => 'Rapport de stage : ',
+                        'mapped' => false,
+                        'required' => false,
+                        'constraints' => [
+                            new File([
+                                'mimeTypes' => [
+                                    'application/pdf',
+                                    'image/jpeg',
+                                    'image/png', ],
+                                'mimeTypesMessage' => 'Veuillez sélectionner un fichier PDF, JPEG ou PNG valide',
+                            ]),
+                        ],
+                    ]);
+                }
+            })
+            ->addDependent('other', 'modifFile', function (DependentField $field, ?string $modifFile) {
+                if ('autre_document' === $modifFile) {
+                    $field->add(FileType::class, [
+                        'label' => 'Autre fichier : ',
+                        'mapped' => false,
+                        'required' => false,
+                        'constraints' => [
+                            new File([
+                                'mimeTypes' => [
+                                    'application/pdf',
+                                    'image/jpeg',
+                                    'image/png', ],
+                                'mimeTypesMessage' => 'Veuillez sélectionner un fichier PDF, JPEG ou PNG valide',
+                            ]),
+                        ],
+                    ]);
+                }
+            });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

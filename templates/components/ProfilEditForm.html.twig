@@ -1,0 +1,73 @@
+<div{{ attributes }}>
+
+    {{ form_start(form) }}
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>{{ form_label(form.firstName) }}</th>
+            <td>
+                {{ form_widget(form.firstName) }}
+            </td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.lastName) }}</th>
+            <td>
+                {{ form_widget(form.lastName) }}
+            </td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.email) }}</th>
+            <td>{{ form_widget(form.email) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.password) }}</th>
+            <td>{{ form_widget(form.password) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.modifFile) }}</th>
+            <td>
+                {{ form_widget(form.modifFile) }}
+            </td>
+        </tr>
+        {% if form.cv is defined %}
+            <tr>
+                <th>{{ form_label(form.cv) }}</th>
+                <td>
+                    {{ form_widget(form.cv) }}
+                </td>
+            </tr>
+        {% endif %}
+        {% if form.lm is defined %}
+            <tr>
+                <th>{{ form_label(form.lm) }}</th>
+                <td>{{ form_widget(form.lm) }}</td>
+            </tr>
+        {% endif %}
+        {% if form.cs is defined %}
+            <tr>
+                <th>{{ form_label(form.cs) }}</th>
+                <td>{{ form_widget(form.cs) }}</td>
+            </tr>
+        {% endif %}
+        {% if form.rs is defined %}
+            <tr>
+                <th>{{ form_label(form.rs) }}</th>
+                <td>{{ form_widget(form.rs) }}</td>
+            </tr>
+        {% endif %}
+        {% if form.other is defined %}
+            <tr>
+                <th>{{ form_label(form.other) }}</th>
+                <td>{{ form_widget(form.other) }}</td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+    <div class="btnForm">
+        <button id="btn-submit" class="btn btn-primary back-btn">Modifier</button>
+        <a href="{{ path('app_profil') }}" class="btn btn-primary back-btn">Retour</a>
+    </div>
+
+    {{ form_end(form) }}
+
+</div>

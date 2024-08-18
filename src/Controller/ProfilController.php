@@ -40,8 +40,6 @@ class ProfilController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $firstName = $form->get('firstName')->getData();
             $lastName = $form->get('lastName')->getData();
-            $cvFile = $form->get('cv')->getData();
-            $cvType = $form->get('cvType')->getData();
 
             if ($firstName) {
                 $person->setFirstName($firstName);
@@ -51,49 +49,61 @@ class ProfilController extends AbstractController
                 $person->setLastName($lastName);
             }
 
-            if ($cvFile) {
-                if ('CV' == $cvType) {
-                    $label = 'CV';
-                    $file = $this->editFile($label, $person, $entityManager);
-                    $fileGiven = $form->get('cv')->getData();
-                    if ($fileGiven) {
-                        $file = new Files();
-                        $file = $this->newFile($label, $person, $file, $fileGiven);
-                        $entityManager->persist($file);
-                    }
-                } elseif ('Lettre de motivation' == $cvType) {
-                    $label = 'LM';
-                    $file = $this->editFile($label, $person, $entityManager);
-                    $fileGiven = $form->get('cv')->getData();
-                    if ($fileGiven) {
-                        $file = new Files();
-                        $file = $this->newFile($label, $person, $file, $fileGiven);
-                        $entityManager->persist($file);
-                    }
-                } elseif ('Convention de stage' == $cvType) {
-                    $label = 'CS';
-                    $file = $this->editFile($label, $person, $entityManager);
-                    if (null != $file) {
-                        $entityManager->remove($file);
-                    }
-                    $fileGiven = $form->get('cv')->getData();
-                    if ($fileGiven) {
-                        $file = new Files();
-                        $file = $this->newFile($label, $person, $file, $fileGiven);
-                        $entityManager->persist($file);
-                    }
-                } else {
-                    $label = 'Autre';
-                    $file = $this->editFile($label, $person, $entityManager);
-                    $fileGiven = $form->get('cv')->getData();
-                    if ($fileGiven) {
-                        $file = new Files();
-                        $file = $this->newFile($label, $person, $file, $fileGiven);
-                        $entityManager->persist($file);
-                    }
+            if ($form->has('cv')) {
+                $label = 'CV';
+                $file = $this->editFile($label, $person, $entityManager);
+                $fileGiven = $form->get('cv')->getData();
+                if ($fileGiven) {
+                    $file = new Files();
+                    $file = $this->newFile($label, $person, $file, $fileGiven);
+                    $entityManager->persist($file);
                 }
             }
-
+            if ($form->has('lm')) {
+                $label = 'LM';
+                $file = $this->editFile($label, $person, $entityManager);
+                $fileGiven = $form->get('lm')->getData();
+                if ($fileGiven) {
+                    $file = new Files();
+                    $file = $this->newFile($label, $person, $file, $fileGiven);
+                    $entityManager->persist($file);
+                }
+            }
+            if ($form->has('cs')) {
+                $label = 'CS';
+                $file = $this->editFile($label, $person, $entityManager);
+                $fileGiven = $form->get('cs')->getData();
+                if ($fileGiven) {
+                    $file = new Files();
+                    $file = $this->newFile($label, $person, $file, $fileGiven);
+                    $entityManager->persist($file);
+                }
+            }
+            if ($form->has('rs')) {
+                $label = 'RS';
+                $file = $this->editFile($label, $person, $entityManager);
+                $fileGiven = $form->get('rs')->getData();
+                if ($fileGiven) {
+                    $file = new Files();
+                    $file = $this->newFile($label, $person, $file, $fileGiven);
+                    $entityManager->persist($file);
+                }
+            }
+            if ($form->has('other')) {
+                $label = 'Autre';
+                $file = $this->editFile($label, $person, $entityManager);
+                $fileGiven = $form->get('other')->getData();
+                if ($fileGiven) {
+                    $file = new Files();
+                    $file = $this->newFile($label, $person, $file, $fileGiven);
+                    $entityManager->persist($file);
+                }
+            }
+            $newMail = $form->get('mail')->getData();
+            if($newMail) {
+                $user->setEmail($newMail);
+                $person->setMailContact($newMail);
+            }
             $newPassword = $form->get('password')->getData();
             if ($newPassword) {
                 $hashedPassword = $passwordHasher->hashPassword($user, $newPassword);

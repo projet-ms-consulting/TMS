@@ -2,12 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Company;
 use App\Entity\Person;
-use App\Entity\Project;
-use App\Entity\School;
-use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -26,14 +21,14 @@ class CompanyEmployeeType extends AbstractType
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
-                        'message' => 'Le nom ne doit contenir que des lettres.'
+                        'message' => 'Le nom ne doit contenir que des lettres.',
                     ]),
                     new Length([
                         'min' => 2,
                         'max' => 30,
                         'minMessage' => 'Le nom doit contenir au moins {{ limit }} caractères',
                         'maxMessage' => 'Le nom ne doit pas contenir plus de {{ limit }} caractères',
-                    ])
+                    ]),
                 ],
             ])
             ->add('firstName', null, [
@@ -41,14 +36,14 @@ class CompanyEmployeeType extends AbstractType
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
-                        'message' => 'Le nom ne doit contenir que des lettres.'
+                        'message' => 'Le nom ne doit contenir que des lettres.',
                     ]),
                     new Length([
                         'min' => 2,
                         'max' => 30,
                         'minMessage' => 'Le nom doit contenir au moins {{ limit }} caractères',
                         'maxMessage' => 'Le nom ne doit pas contenir plus de {{ limit }} caractères',
-                    ])
+                    ]),
                 ],
             ])
             ->add('mailContact', EmailType::class, [
